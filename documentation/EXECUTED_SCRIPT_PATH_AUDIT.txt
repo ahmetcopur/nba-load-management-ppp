@@ -1,0 +1,49 @@
+scripts/executed/08_nonlinear_multinomial_robustness/finalize_nonlinear_multinomial_v1.py:4:SRC='/mnt/data/nba_continue/run_nonlinear_multinomial_stage.py'
+scripts/executed/08_nonlinear_multinomial_robustness/finalize_nonlinear_multinomial_v1.py:6:OUT=Path('/mnt/data/nba_continue/nonlinear_multinomial_stage_v1_final');OUT.mkdir(parents=True,exist_ok=True)
+scripts/executed/08_nonlinear_multinomial_robustness/finalize_nonlinear_multinomial_v1.py:34:lpm=pd.read_csv('/mnt/data/nba_continue/cadence_harmonized_results/canonical_vs_cadence_model_comparison.csv').to_dict('records')
+scripts/executed/08_nonlinear_multinomial_robustness/finalize_nonlinear_multinomial_v1.py:82:zp=Path('/mnt/data/nba_nonlinear_multinomial_robustness_v1.zip')
+scripts/executed/08_nonlinear_multinomial_robustness/run_nonlinear_multinomial_stage.py:22:ROOT = Path('/mnt/data/nba_continue')
+scripts/executed/08_nonlinear_multinomial_robustness/run_nonlinear_multinomial_stage.py:446:    zpath=Path('/mnt/data/nba_nonlinear_multinomial_robustness_v1.zip')
+scripts/executed/04_tv_audit_continuation/run_identification_checks.py:8:AP='/mnt/data/nba_continue/analysis/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/04_tv_audit_continuation/run_identification_checks.py:9:TP='/mnt/data/nba_continue/tv/nba_announced_tv_six_seasons_v1/announced_tv_six_seasons.csv'
+scripts/executed/04_tv_audit_continuation/run_identification_checks.py:69:out=Path('/mnt/data/nba_continue/tv_audit_results');out.mkdir(exist_ok=True)
+scripts/executed/04_tv_audit_continuation/run_tv_linear_check.py:8:AP='/mnt/data/nba_continue/analysis/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/04_tv_audit_continuation/run_tv_linear_check.py:9:TP='/mnt/data/nba_continue/tv/nba_announced_tv_six_seasons_v1/announced_tv_six_seasons.csv'
+scripts/executed/04_tv_audit_continuation/run_tv_audit_fast.py:8:AP='/mnt/data/nba_continue/analysis/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/04_tv_audit_continuation/run_tv_audit_fast.py:9:TP='/mnt/data/nba_continue/tv/nba_announced_tv_six_seasons_v1/announced_tv_six_seasons.csv'
+scripts/executed/04_tv_audit_continuation/run_tv_audit_fast.py:76:out=Path('/mnt/data/nba_continue/tv_audit_results');out.mkdir(exist_ok=True)
+scripts/executed/06_cadence_harmonized_identification/parse_2025_selected.py:6:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/06_cadence_harmonized_identification/parse_2025_selected.py:7:SEL=ROOT/'cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv'
+scripts/executed/06_cadence_harmonized_identification/parse_2025_selected.py:8:OUT=ROOT/'cadence_work/season_parsed/2025-26'
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:10:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:11:SELROOT=ROOT/'cadence_work/selector/nba_canonical_snapshot_selector_v1'
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:67: '2022-23':ROOT/'cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:68: '2023-24':ROOT/'cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:93: '2020-21':ROOT/'cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:94: '2021-22':ROOT/'cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:95: '2022-23':ROOT/'cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:96: '2023-24':ROOT/'cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:97: '2024-25':ROOT/'cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:98: '2025-26':ROOT/'cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv',
+scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:164:alias_path=ROOT/'cadence_work/player_alias_table.csv'
+scripts/executed/06_cadence_harmonized_identification/run_cadence_models_fast.py:5:ROOT=Path('/mnt/data/nba_continue'); OUT=ROOT/'cadence_harmonized_results'
+scripts/executed/09_heterogeneity_category_stage/run_predeclared_heterogeneity.py:12:ROOT=Path('/mnt/data/nba_heterogeneity_work')
+scripts/executed/09_heterogeneity_category_stage/run_predeclared_heterogeneity.py:14:TP=Path('/mnt/data/nba_continue/nba_announced_tv_six_seasons_v1.zip')
+scripts/executed/09_heterogeneity_category_stage/run_predeclared_heterogeneity.py:15:OUT=Path('/mnt/data/nba_heterogeneity_predeclared_v1')
+scripts/executed/09_heterogeneity_category_stage/run_category_fdr.py:9:ROOT=Path('/mnt/data/nba_heterogeneity_work')
+scripts/executed/09_heterogeneity_category_stage/run_category_fdr.py:12:OUT=Path('/mnt/data/nba_category_decomposition_fdr_v1');OUT.mkdir(exist_ok=True)
+scripts/executed/05_identification_falsification_stage2/run_permutation_harmonized_99.py:11:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/05_identification_falsification_stage2/run_standard_clustering_and_iterative_trends.py:11:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/05_identification_falsification_stage2/run_prior_event_placebo_checks.py:8:AP='/mnt/data/nba_continue/analysis/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/05_identification_falsification_stage2/run_prior_event_placebo_checks.py:9:TP='/mnt/data/nba_continue/tv/nba_announced_tv_six_seasons_v1/announced_tv_six_seasons.csv'
+scripts/executed/05_identification_falsification_stage2/run_prior_event_placebo_checks.py:69:out=Path('/mnt/data/nba_continue/tv_audit_results');out.mkdir(exist_ok=True)
+scripts/executed/05_identification_falsification_stage2/run_player_trends_sparse_exact.py:7:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/05_identification_falsification_stage2/run_permutation_legacy_99.py:11:ROOT=Path('/mnt/data/nba_continue')
+scripts/executed/02_first_pass_models/run_baseline_and_robustness_models.py:10:DATA='/mnt/data/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/02_first_pass_models/run_baseline_and_robustness_models.py:130:out=Path('/mnt/data/_model_run')
+scripts/executed/02_first_pass_models/run_category_decomposition.py:7:D='/mnt/data/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/02_first_pass_models/run_category_decomposition.py:42:out=Path('/mnt/data/_model_run'); out.mkdir(exist_ok=True)
+scripts/executed/02_first_pass_models/run_season_event_study.py:7:D='/mnt/data/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/02_first_pass_models/run_season_event_study.py:35:out=Path('/mnt/data/_model_run');event.to_csv(out/'season_event_study_absence.csv',index=False);tab.to_csv(out/'season_event_study_all_coefficients.csv',index=False)
+scripts/executed/02_first_pass_models/run_teamseason_fixed_effects.py:7:D='/mnt/data/nba_player_game_analysis_ready_v1/player_game_panel_model_at_risk_analysis_ready.csv.gz'
+scripts/executed/02_first_pass_models/run_teamseason_fixed_effects.py:39:out=Path('/mnt/data/_model_run');pd.DataFrame(rows).to_csv(out/'teamseason_fe_focal.csv',index=False);pd.concat(tabs).to_csv(out/'teamseason_fe_coefficients.csv',index=False)
