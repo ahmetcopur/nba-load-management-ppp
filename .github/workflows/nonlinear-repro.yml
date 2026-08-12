@@ -1,0 +1,52 @@
+name: Nonlinear reproducibility check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  nonlinear:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            numpy==2.3.5 \
+            scipy==1.17.0 \
+            scikit-learn==1.8.0 \
+            pandas==2.2.3 \
+            statsmodels==0.14.6
+
+      - name: Extract cadence panel
+        run: |
+          mkdir -p data_intermediate
+          cadfile=$(unzip -Z1 packages/06_cadence_harmonized_identification.zip | grep 'player_team_game_harmonized_cadence.csv.gz$' | head -1)
+          unzip -p packages/06_cadence_harmonized_identification.zip "$cadfile" > data_intermediate/player_team_game_harmonized_cadence.csv.gz
+
+      - name: Verify input hashes
+        run: |
+          sha256sum \
+            data_final/player_game_panel_model_at_risk_analysis_ready.csv.gz \
+            data_intermediate/announced_tv_six_seasons.csv \
+            data_intermediate/player_team_game_harmonized_cadence.csv.gz
+
+      - name: Run nonlinear reproduction
+        run: |
+          python scripts/portable/finalize_nonlinear_multinomial_v1.py
+
+      - name: Show reproduced results
+        run: |
+          cat results/portable_nonlinear_multinomial_final/extensive_nonlinear_primary.csv
+          echo
+          cat results/portable_nonlinear_multinomial_final/classification_nonlinear_primary.csv
+          echo
+          cat results/portable_nonlinear_multinomial_final/multinomial_softmax_ddd.csv
