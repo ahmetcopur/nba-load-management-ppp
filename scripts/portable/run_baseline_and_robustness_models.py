@@ -19,6 +19,7 @@ OUT = REPO_ROOT / "results" / "portable_first_pass"
 OUT.mkdir(parents=True, exist_ok=True)
 
 df = pd.read_csv(DATA)
+df=pd.read_csv(DATA, low_memory=False)
 
 # Coerce booleans robustly.
 def b(s):
@@ -99,58 +100,7 @@ def fit_lpm(data, outcome, tv_col='announced_tv_primary', use_controls=True, lab
     terms2=[t for t,k in zip(terms,keepidx) if k]
     Xt=Xt[:,keepidx]
     res=sm.OLS(yt,Xt).fit()
-
-    if label in {
-        'Extensive baseline',
-        'Extensive primary+NBA TV',
-        'Extensive excl Cup'
-    }:
-        U, s, Vh = np.linalg.svd(Xt, full_matrices=False)
-        rank = np.linalg.matrix_rank(Xt)
-
-        null_vec = Vh[-1]
-        null_vec = null_vec / np.max(np.abs(null_vec))
-
-        null_terms = sorted(
-            zip(terms2, null_vec),
-            key=lambda x: abs(x[1]),
-            reverse=True
-        )
-
-        print(
-            "\nRANK DIAGNOSTIC:", label,
-            "\n  columns =", Xt.shape[1],
-            "\n  rank =", rank,
-            "\n  smallest singular value =", s[-1],
-            "\n  largest singular value =", s[0],
-            "\n  condition =", s[0] / s[-1],
-            "\n  terms =", terms2,
-            "\n  null-space loadings:"
-        )
-
-        for term, loading in null_terms:
-            if abs(loading) > 1e-4:
-                print(f"    {term:35s} {loading:+.8f}")
-
-        print()
-    cov, cov_player, cov_game = cov_cluster_2groups(
-        res,
-        pd.factorize(d['nba_player_id'])[0],
-        pd.factorize(d['game_id'])[0],
-        use_correction=True
-    )
-
-    if label in {'Extensive primary+NBA TV', 'Extensive excl Cup'}:
-        j = terms2.index('triple_m')
-        print(
-            "\nDIAGNOSTIC:", label,
-            "\n  beta =", res.params[j],
-            "\n  var two-way =", cov[j, j],
-            "\n  var player =", cov_player[j, j],
-            "\n  var game =", cov_game[j, j],
-            "\n  condition number =", np.linalg.cond(Xt.T @ Xt),
-            "\n"
-        )
+    cov,_,_=cov_cluster_2groups(res, pd.factorize(d['nba_player_id'])[0], pd.factorize(d['game_id'])[0], use_correction=True)
     se=np.sqrt(np.maximum(np.diag(cov),0))
     beta=res.params
     z=beta/se
@@ -188,7 +138,7 @@ results.append(fit_lpm(inj[inj.season!='2020-21'],'vague_conditional',label='Cla
 results.append(fit_lpm(inj[inj.cup_game==0],'vague_conditional',label='Classification excl Cup'))
 
 # Save tables and concise focal summary
-out= OUT
+out=OUT
 out.mkdir(exist_ok=True)
 alltabs=[]; focal=[]
 for i,r in enumerate(results):
