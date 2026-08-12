@@ -1,0 +1,33 @@
+{
+  "freeze_date": "2026-08-12",
+  "empirical_window": "2020-21 through 2025-26 regular seasons",
+  "main_model": {
+    "estimate_pp": 3.1492562556783144,
+    "ci_95_pp": [
+      0.5705965135968043,
+      5.727915997759824
+    ],
+    "p": 0.016679306818063403,
+    "tv": "legacy_primary",
+    "timing": "latest_pre_tip"
+  },
+  "mandatory_sensitivities": {
+    "harmonized_tv_latest_pre_tip": {
+      "estimate_pp": 1.7746566172121114,
+      "p": 0.1766391580366461
+    },
+    "legacy_tv_harmonized_cadence": {
+      "estimate_pp": 2.6304485901569383,
+      "p": 0.04607646569304667
+    },
+    "harmonized_tv_harmonized_cadence": {
+      "estimate_pp": 1.2389703651133355,
+      "p": 0.3474532856699015
+    }
+  },
+  "classification_mechanism": {
+    "estimate_pp": -8.416720679962863,
+    "p": 0.2884260933964732
+  },
+  "headline_conclusion": "Positive legacy-specification differential absence pattern, materially measurement-sensitive; no evidence of a vague-label disguise mechanism."
+}

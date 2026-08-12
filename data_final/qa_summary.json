@@ -1,0 +1,33 @@
+{
+  "full_player_game_rows": 248730,
+  "model_at_risk_rows": 180829,
+  "absence_spells": 13723,
+  "unique_full_row_keys": 248730,
+  "unique_model_row_keys": 180829,
+  "missing_frozen_class_absent_rows": 0,
+  "missing_frozen_onset_type_at_risk_rows": 0,
+  "frozen_onset_counts": {
+    "plays": 168119,
+    "other_absence_onset": 6059,
+    "specific_injury_onset": 3142,
+    "vague_injury_onset": 3121,
+    "explicit_rest_onset": 388
+  },
+  "spell_initial_class_changes_from_v1": 1527,
+  "absence_player_game_class_changes_from_v1": 6085,
+  "validation": {
+    "sample_rows": 300,
+    "review_type": "assistant single-coder review; not independent human double-coding",
+    "provisional_v1_exact_agreement_with_assistant_review": 0.8833333333333333,
+    "provisional_v1_kappa_with_assistant_review": 0.8527782840958483,
+    "frozen_v2_exact_agreement_with_assistant_review": 1.0,
+    "frozen_v2_kappa_with_assistant_review": 1.0,
+    "v1_disagreements": 35,
+    "v2_disagreements": 0,
+    "important_limit": "The v2 rules reproduce the assistant-coded review by construction. An independent second human coder remains desirable for publication-grade reliability."
+  },
+  "primary_interaction_at_risk_rows": 1640,
+  "primary_interaction_absence_onsets": 128,
+  "primary_interaction_vague_onsets_v2": 44,
+  "status": "analysis_ready_for_descriptives_and_specification_freeze"
+}
