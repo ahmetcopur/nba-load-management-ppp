@@ -93,3 +93,74 @@ maintenance-like observable signature. It must not be called a fake injury or
 intentional disguised rest without independent evidence of intent.
 
 The Stage 1-9 LPM results remain the inferential anchor of the project.
+
+## Frozen implementation details
+
+### Observation key
+
+The analytical unit is player x team x game. `player_team_game_id` is the
+unique row identifier. `player_game_id` is not globally unique because a player
+may have team-specific roster observations for both teams in the same physical
+game after a transaction.
+
+### Repair-hazard primary specification
+
+Primary risk set:
+- absent in the immediately preceding consecutive team game;
+- previous absence spell successfully identified;
+- previous spell is not left-censored;
+- observed spell age is at least one game.
+
+Primary outcome:
+`return_available_today`.
+
+This defines repair as transition from the project-frozen absence state to an
+available state. Actual game participation is not required for the primary
+outcome; `return_played_today` is a sensitivity outcome.
+
+Primary exposure:
+legacy advance-announced national television.
+
+Mandatory sensitivity:
+harmonized-linear national television.
+
+Primary estimand:
+Star x PostPPP x AnnouncedTV.
+
+Fixed effects:
+- player;
+- team x season.
+
+Repair baseline hazard:
+flexible indicators for absence-spell age:
+1, 2, 3, 4-5, 6-10, 11+ games.
+
+Pregame adjustment variables:
+- home;
+- rest days between games, capped at 4;
+- three games in four days;
+- four games in six days;
+- travel distance since previous team game, measured per 1000 km;
+- pregame Elo win probability;
+- Cup-game indicator.
+
+Player workload variables measured after absence onset are deliberately excluded
+from the primary repair model because they can themselves be affected by the
+ongoing absence spell.
+
+Inference:
+two-way clustering by player and physical game.
+
+Secondary repair analyses:
+- `return_played_today`;
+- vague-onset spells only;
+- specific-onset spells only.
+
+### TV-centered event timing
+
+Because +/-3 national-TV windows overlap heavily, the primary timing analysis
+will assign each player-team-game to its uniquely nearest TV anchor within
+three team games. Equal-distance ties are excluded.
+
+Isolated TV anchors and inverse-overlap-weighted stacked windows are
+sensitivities rather than the primary event-time analysis.
