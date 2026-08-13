@@ -13,3 +13,11 @@ data_raw/pdf/
 # Temporary/local files
 *.tmp
 *.log
+
+# Local Python environments
+.venv*/
+venv/
+
+# Re-generated portable analysis outputs
+results/portable_*/
+results/portable_*.zip
