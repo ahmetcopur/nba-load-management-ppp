@@ -164,3 +164,35 @@ three team games. Equal-distance ties are excluded.
 
 Isolated TV anchors and inverse-overlap-weighted stacked windows are
 sensitivities rather than the primary event-time analysis.
+
+### Event-time robustness specifications
+
+The repair event-time pattern is subjected to two pre-specified sensitivity
+analyses.
+
+1. Isolated-anchor analysis:
+   Only TV anchors with no other same-team TV anchor within six team games are
+   retained. Their +/-3 windows therefore do not overlap. The repair model is
+   otherwise identical to the primary nearest-TV specification.
+
+2. Inverse-overlap-weighted stacked analysis:
+   All +/-3 TV-anchor windows are retained. When one underlying
+   player-team-game belongs to multiple TV windows, each stacked representation
+   receives weight 1 / overlap_count, so total weight for an underlying
+   player-team-game equals one. Fixed-effect absorption and estimation use
+   these weights.
+
+Both sensitivities retain:
+- the primary non-left-censored repair risk set;
+- return to availability as the outcome;
+- player and team-season fixed effects;
+- flexible spell-age controls;
+- the frozen pregame schedule controls;
+- two-way clustering by player and physical game;
+- legacy TV and harmonized-linear TV definitions.
+
+Event time 0 remains the reference position. The primary robustness quantity
+of interest is the event-time +3 difference relative to event time 0.
+Within each event-time model, the six nonzero event-time contrasts versus
+event time 0 are additionally reported with Benjamini-Hochberg adjusted
+p-values.
