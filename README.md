@@ -32,6 +32,15 @@ No additional specification should replace the frozen suite merely because it gi
 - `validation/` — taxonomy scoring artifacts.
 - `MANIFEST_SHA256.csv` — hashes for every file in this freeze.
 
+## Quick reproduction
+
+Create a Python 3.12 environment and install the frozen analysis dependencies.
+See `requirements.txt` and `requirements-lock.txt` for the dependency set.
+
+The scripts in `scripts/portable/` use repository-relative paths and rerun the analysis from the bundled analysis-ready inputs. Generated portable outputs are written under `results/portable_*` and are intentionally not version-controlled.
+
+The inferential anchor of the study is the two-way-clustered linear probability model. The penalized nonlinear/logistic and multinomial stage is a functional-form diagnostic. Its qualitative conclusions reproduce across tested environments, but exact floating-point point estimates are computational-environment sensitive. The archived values in `packages/08_nonlinear_multinomial_robustness.zip` remain the frozen reported results. See `documentation/NONLINEAR_REPRODUCIBILITY_NOTE.md`.
+
 ## Reproduction order
 
 1. Analysis-ready panel.
