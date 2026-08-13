@@ -21,3 +21,6 @@ venv/
 # Re-generated portable analysis outputs
 results/portable_*/
 results/portable_*.zip
+
+# Stage 10 rebuildable reliability panels
+data_intermediate/reliability_stage10/
