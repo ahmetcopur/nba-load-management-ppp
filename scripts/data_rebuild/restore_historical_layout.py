@@ -161,12 +161,13 @@ def restore(archives: Path, root: Path, plan):
                 raise RuntimeError(f"Existing original PDF archive differs: {target}")
             state = "unchanged"
         else:
-            try:
-                target.hardlink_to(source)
-                state = "hardlinked"
-            except OSError:
-                shutil.copy2(source, target)
-                state = "copied"
+            # Use an independent copy. Hardlinks to original ZIPs would allow a
+            # write through the replay folder to corrupt the source archive.
+            shutil.copy2(source, target)
+            if sha256(source) != sha256(target):
+                target.unlink()
+                raise RuntimeError(f"Original archive changed during staging: {source}")
+            state = "copied"
         records.append({"source_archive": archive, "source_member": "(entire archive)",
                         "path": str(target), "sha256": sha256(target),
                         "bytes": target.stat().st_size, "state": state})
