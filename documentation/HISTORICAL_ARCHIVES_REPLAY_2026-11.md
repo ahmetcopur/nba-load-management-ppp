@@ -117,3 +117,12 @@ The harmonized checkpoint selector is intentionally **different** from the prima
 
 The updated restoration log records the SHA-256 of each *complete input ZIP* as well as each extracted member, and copies raw ZIPs instead of using hard links, protecting the originals from accidental mutation.
 
+
+
+## PDF parser completeness and platform safety
+
+The historical 2025–26 PDF parser catches individual PDF errors inside its worker pool; a process exit code of zero is therefore **not** sufficient to call the PDF parsing stage successful. The replay wrapper now reconciles every selected (`snapshot_basename`, `published_timestamp_utc`) pair against the historical `s1_parse_log_harmonized_selected.csv`, rejects duplicates, failed/missing logs, and mismatched row totals, and rejects `zero_rows` reports unless separately reviewed. After manual confirmation of legitimate empty PDF results, the standalone `reparse_2025_selected.py --allow-zero-rows` option can be used; the default one-command runner intentionally does not silently bypass this check.
+
+The original historical parser uses top-level `ProcessPoolExecutor` code without a multiprocessing main guard. **Linux is the supported execution target for this historical replay**, as a default macOS spawn context may not execute that original file safely. Do not change the original parser or reinterpret its results merely to obtain a successful run on another OS. Verify the parser's additional PDF library requirements from the original archival package; the pinned analysis lockfile by itself does not establish a fully specified PDF parsing environment.
+
+The public source inventory used by `--metadata-dir` should be pinned to shared repository commit `0bd713d97e8d519df5700ef473da34aba4495223` (the same immutable commit used by CI). This inventory contains `injury_report_inventory.csv.gz`; do not substitute the primary latest-pre-tip report map for a harmonized common-checkpoint selection.
