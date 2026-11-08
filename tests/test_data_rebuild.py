@@ -171,10 +171,12 @@ class Selected2025PdfAuditTests(unittest.TestCase):
         selector = root / parser2025.SELECTOR
         selector.parent.mkdir(parents=True, exist_ok=True)
         with selector.open("w", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=["snapshot_basename", "game_id"])
+            writer = csv.DictWriter(stream, fieldnames=["snapshot_basename", "game_id",
+                                                        "published_timestamp_utc"])
             writer.writeheader()
             for i in range(1230):
-                writer.writerow({"snapshot_basename": "selected.pdf", "game_id": i})
+                writer.writerow({"snapshot_basename": "selected.pdf", "game_id": i,
+                                 "published_timestamp_utc": "2025-11-01T12:00:00Z"})
         for i, name in enumerate(parser2025.RAW_ZIPS):
             target = root / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -239,6 +241,72 @@ class Selected2025PdfAuditTests(unittest.TestCase):
             write_inventory("f" * 64)
             with self.assertRaisesRegex(ValueError, "digest or member mismatch"):
                 parser2025.audit_selected(root, metadata)
+
+    def make_parse_log(self, root, status="ok", extracted_rows=2):
+        folder = root / "cadence_work/season_parsed/2025-26"
+        folder.mkdir(parents=True, exist_ok=True)
+        with (folder / "s1_parse_log_harmonized_selected.csv").open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=[
+                "source_file", "snapshot_timestamp_utc", "status",
+                "extracted_rows", "warning"])
+            writer.writeheader()
+            writer.writerow({
+                "source_file": "selected.pdf",
+                "snapshot_timestamp_utc": "2025-11-01T12:00:00Z",
+                "status": status,
+                "extracted_rows": str(extracted_rows),
+                "warning": ""})
+        with (folder / "s1_snapshot_rows_harmonized_selected.csv").open(
+                "w", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=["player_name"])
+            writer.writeheader()
+            for i in range(extracted_rows):
+                writer.writerow({"player_name": f"P{i}"})
+
+    def test_2025_parser_log_fully_reconciles(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            self.make_parse_log(root)
+            result = parser2025.verify_parse_log(root)
+            self.assertEqual(result["successful_pdf_parses"], 1)
+            self.assertEqual(result["parsed_player_rows"], 2)
+
+    def test_2025_parser_caught_error_blocks_replay(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            self.make_parse_log(root, status="parse_error", extracted_rows=0)
+            with self.assertRaisesRegex(RuntimeError, "failed/unknown statuses"):
+                parser2025.verify_parse_log(root)
+
+    def test_2025_parser_zero_rows_requires_manual_approval(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            self.make_parse_log(root, status="zero_rows", extracted_rows=0)
+            with self.assertRaisesRegex(RuntimeError, "zero rows"):
+                parser2025.verify_parse_log(root)
+            result = parser2025.verify_parse_log(root, allow_zero_rows=True)
+            self.assertTrue(result["zero_rows_explicitly_allowed"])
+
+    def test_2025_parser_missing_selected_log_blocks_replay(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            self.make_parse_log(root)
+            folder = root / "cadence_work/season_parsed/2025-26"
+            with (folder / "s1_parse_log_harmonized_selected.csv").open(
+                    "w", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=[
+                    "source_file", "snapshot_timestamp_utc", "status", "extracted_rows"])
+                writer.writeheader()
+                writer.writerow({
+                    "source_file": "unexpected.pdf",
+                    "snapshot_timestamp_utc": "2025-11-01T12:00:00Z",
+                    "status": "ok", "extracted_rows": 2})
+            with self.assertRaisesRegex(RuntimeError, "does not match selected snapshots"):
+                parser2025.verify_parse_log(root)
 
     def test_conflicting_duplicate_pdf_rejected(self):
         with tempfile.TemporaryDirectory() as d:
