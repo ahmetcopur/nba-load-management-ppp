@@ -1,0 +1,6 @@
+# Independently tested environment for offline historical NBA V2 boxscore repair.
+# Python 3.13.5, November 8, 2026. These are not original acquisition-time versions.
+numpy==2.3.5
+pandas==2.2.3
+scipy==1.17.0
+requests==2.32.5
