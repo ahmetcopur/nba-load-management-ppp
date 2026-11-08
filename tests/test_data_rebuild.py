@@ -195,27 +195,40 @@ class Selected2025PdfAuditTests(unittest.TestCase):
             self.assertEqual(report["selected_games"], 1230)
             self.assertEqual(report["distinct_selected_pdfs"], 1)
 
-    def test_selected_pdf_against_published_inventory_hash(self):
+    def test_selected_pdf_against_full_inventory_not_primary_selector(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             self.make_input(root)
             metadata = root / "inventory"
             metadata.mkdir()
-            path = metadata / "primary_sample_report_map.csv.gz"
+            inventory_path = metadata / "injury_report_inventory.csv.gz"
+            source_zip = Path(parser2025.RAW_ZIPS[0]).name
+
             def write_inventory(digest):
-                with gzip.open(path, "wt", newline="") as stream:
-                    writer = csv.DictWriter(stream,
-                                            fieldnames=["season", "archive_member", "computed_sha256"])
+                with gzip.open(inventory_path, "wt", newline="") as stream:
+                    writer = csv.DictWriter(stream, fieldnames=[
+                        "archive", "archive_member", "pdf_present", "computed_sha256"])
                     writer.writeheader()
-                    for _ in range(1230):
-                        writer.writerow({"season": "2025-26",
-                                         "archive_member": "pdf/selected.pdf",
-                                         "computed_sha256": digest})
+                    writer.writerow({
+                        "archive": source_zip, "archive_member": "old/pdf/selected.pdf",
+                        "pdf_present": "true", "computed_sha256": digest})
+                    writer.writerow({
+                        "archive": source_zip, "archive_member": "other/unselected.pdf",
+                        "pdf_present": "true", "computed_sha256": "0" * 64})
+
+            # The canonical/latest-pre-tip primary selection explicitly differs
+            # from the harmonized selected PDF; audit must NOT read this map.
+            with gzip.open(metadata / "primary_sample_report_map.csv.gz",
+                           "wt", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=["season", "archive_member"])
+                writer.writeheader()
+                writer.writerow({"season": "2025-26", "archive_member": "other/primary_only.pdf"})
+
             write_inventory(hashlib.sha256(b"same").hexdigest())
             self.assertTrue(parser2025.audit_selected(root, metadata)[
                 "source_inventory_sha256_verified"])
             write_inventory("f" * 64)
-            with self.assertRaisesRegex(ValueError, "digest"):
+            with self.assertRaisesRegex(ValueError, "digest or member mismatch"):
                 parser2025.audit_selected(root, metadata)
 
     def test_conflicting_duplicate_pdf_rejected(self):
