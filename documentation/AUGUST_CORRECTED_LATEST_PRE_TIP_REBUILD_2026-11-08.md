@@ -1,5 +1,12 @@
 # August 2026 latest-pre-tip source correction: original core, reviewed taxonomy and regression sensitivity
 
+
+## Subsequent source-TV and category-FDR check
+
+The historical advance-TV fixture table itself still has Bulls at Toronto keyed February 1 and Heat at Toronto keyed February 3. On the corrected 180,831-row August risk set a date/team merge with that unchanged table produces **46 unmatched rows** (24 Chicago, 22 Miami). Updating only the TWO source TV lookup date/UTC-tip keys to the real physical dates, while preserving original as-announced networks and release source lines, restores **180,831 matched** rows, no duplicate keys, no primary-TV disagreements. See [TV-source QA](../validation/august_corrected_latest_pre_tip_2026-11-08/advance_tv_source_date_key_audit.json). This is an advance-announcement assignment check, not a validation of live rescheduled-game broadcasts.
+
+The four August mutually exclusive injury/absence onset categories were rerun for both original national-partner and harmonized linear TV using the historical player+team-season FE model, player/game clustering, and BH/Holm corrections within each four-test exposure family. Legacy explicit-rest corrected coefficient is **+0.61513 pp**, BH q **0.05097** (frozen q 0.05046), both just above 5%; harmonized explicit-rest **+0.69993 pp**, BH q **0.01840** (frozen q 0.01824), both below 5%. Other categories remain BH nonsignificant. Full report: [August category FDR](AUGUST_CATEGORY_FDR_CORRECTED_CHRONOLOGY_2026-11-08.md). The original exact release script has independently passed all eight frozen-model checks in GitHub Actions. Its corrected variant was computed locally with original-equivalent modeling and independently verified game-level TV joins; the new integrated original-executable corrected runner itself still requires one private-archive acceptance run.
+
 **Audit date:** November 8, 2026  
 **Working repository:** https://github.com/ahmetcopur/nba-load-management-ppp  
 **Draft PR:** https://github.com/ahmetcopur/nba-load-management-ppp/pull/4  
