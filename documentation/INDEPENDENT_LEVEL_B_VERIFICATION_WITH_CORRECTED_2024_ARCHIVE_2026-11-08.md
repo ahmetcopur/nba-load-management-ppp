@@ -44,3 +44,15 @@ Original Stage-6 source:
 The attached two-commit patch is **not yet applied by this audit**. Verify its exact code and evidence, then apply it to the open PR branch. Its optional `--reparse-2024-25-from-pdfs` fallback is useful when the corrected archive truly cannot be acquired locally, but **do not use that fallback in the canonical Level-B verification when the original corrected ZIP is available**. Preserve the frozen panel, source archives and the separately labeled exact-clock sensitivity. Review the complete patch's CI and archive-provenance claims before merging.
 
 The original corrected ZIP must remain outside GitHub's public raw-data archive; the user can obtain it from their ChatGPT file library or via an explicitly shared file. The public repo should keep checksums and code, not rehost raw third-party source archives.
+
+
+## Independent bounded exact-clock input check
+
+After the Level-B panel replay, I independently executed the **candidate-selection portion** of the uploaded `exact_clock_sensitivity_2025.py` on the two original 2025–26 NBA PDF ZIPs. It opened all **5,023** archived PDFs, found **one** header with an ambiguous daylight-saving-time clock, and reconciled the harmonized selector for 1,230 games / 355 selected PDFs.
+
+- **21** selected games map to **eight** PDFs whose printed header clocks are **15 minutes later** than their nominal checkpoint timestamps.
+- **No** selected PDF has a printed time at or after the scheduled tip.
+- Re-selecting the latest archived printed-clock PDF at/before each affected nominal checkpoint gives **21 candidate game rows and eight distinct replacement PDFs**, with 75–255 minutes of lead time to tipoff.
+- The newly computed candidate CSV matched **every field and row** in `validation/level_b_replay_2026-11-08/exact_clock_sensitivity/exact_clock_candidates.csv` supplied with Claude's patch, after aligning by game ID. Thus its **candidate selection** is independently verified.
+
+**Boundary:** I did **not** independently execute the entire replacement-report → designation changes → rebuilt panel → refitted-model exact-clock sensitivity. The patch reports zero changes to onsets and model coefficients, but those downstream claims should still be validated after integration and a full end-to-end sensitivity run. Do not conflate the independently verified candidate selection with verification of the entire sensitivity.
