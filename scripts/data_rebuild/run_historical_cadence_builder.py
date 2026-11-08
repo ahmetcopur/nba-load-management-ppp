@@ -20,7 +20,14 @@ NEEDED = [
     "cadence_work/selector/nba_canonical_snapshot_selector_v1",
     "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv",
     "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv",
-    "cadence_work/season_parsed",
+    "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv",
+    "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
+    "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
+    "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
+    "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
+    "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+    "cadence_work/player_alias_table.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
 ]
 
 def main():
@@ -41,7 +48,7 @@ def main():
     if len(re.findall(root_pattern, script, re.M)) != 1 or len(re.findall(out_pattern, script, re.M)) != 1:
         raise RuntimeError("Original paths changed; inspect builder before executing")
     if a.check_only:
-        print("Basic historical input paths found; detailed season files checked by original builder.")
+        print("All historical season parse and basic builder prerequisites found.")
         return
     out = a.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
