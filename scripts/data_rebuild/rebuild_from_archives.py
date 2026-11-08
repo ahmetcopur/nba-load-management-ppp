@@ -28,6 +28,8 @@ def main():
                         help="Separate, ignored directory for rebuilt panel and model outputs")
     parser.add_argument("--reference", type=Path,
                         default=REPO / "data_intermediate/player_team_game_harmonized_cadence.csv.gz")
+    parser.add_argument("--skip-stage6-model-comparison", action="store_true",
+                        help="Explicitly skip historical Stage-6 coefficient validation")
     parser.add_argument("--skip-2025-parse", action="store_true",
                         help="Requires a previously independently verified 2025 parsed-row CSV")
     parser.add_argument("--check-only", action="store_true",
@@ -52,7 +54,15 @@ def main():
     candidate = args.output / "player_team_game_harmonized_cadence.csv.gz"
     call("compare_panels.py", ["--reference", args.reference, "--candidate", candidate,
                               "--output", args.output / "panel_comparison.json"])
-    print("PASS: reconstructed cadence panel matches the frozen reference by key and CSV cell.")
+    call("validate_cadence_panel.py", ["--panel", candidate, "--expect-frozen",
+                                     "--output", args.output / "panel_invariants.json"])
+    if not args.skip_stage6_model_comparison:
+        call("compare_stage6_models.py",
+             ["--candidate", args.output / "cadence_harmonized_model_results.csv",
+              "--output", args.output / "stage6_model_comparison.json"])
+    print("PASS: historical intermediate replay matches frozen panel"
+          + (" (historical Stage-6 model check skipped)." if args.skip_stage6_model_comparison
+             else " and archived Stage-6 coefficients."))
 
 
 if __name__ == "__main__":
