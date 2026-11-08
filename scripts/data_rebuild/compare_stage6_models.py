@@ -17,6 +17,8 @@ ARCHIVE = ROOT / "packages/06_cadence_harmonized_identification.zip"
 KEY = ("definition", "controls")
 EXACT = ("n",)
 NUMERIC = ("estimate_pp", "se_pp", "low_pp", "high_pp", "p")
+EXPECTED = {(definition, controls) for definition in ("legacy_primary", "harmonized_linear")
+            for controls in ("full", "none")}
 
 
 def read_csv(text):
@@ -51,6 +53,9 @@ def index(rows):
 def compare(reference, candidate, pp_tol=0.001, p_tol=0.001):
     a, b = index(reference), index(candidate)
     errors = []
+    if set(a) != EXPECTED or set(b) != EXPECTED:
+        errors.append({"reason": "Stage-6 must contain 4 predefined TV/control variants",
+                       "reference_specs": sorted(a), "rebuilt_specs": sorted(b)})
     if set(a) != set(b):
         errors.append({"reason": "different model specifications",
                        "missing": sorted(set(a) - set(b)),
