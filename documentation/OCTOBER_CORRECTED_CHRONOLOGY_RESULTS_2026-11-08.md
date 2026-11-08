@@ -1,5 +1,7 @@
 # October 2026: corrected-chronology sensitivity and archived-output reproducibility
 
+> **Independently completed, November 8:** GitHub Actions [run 42516634023](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42516634023) executed all ten released October scripts from the pinned shared repository in isolation and passed all **33** archived executable-CSV comparisons, with maximum absolute deviation **1.1457501614131615e-13**. This is a genuine fresh frozen-analysis replay. It is separate from the supplied external corrected-chronology October pass. Details: [independent CI evidence](../validation/october_corrected_chronology_2026-11-08/frozen_ci_independent_replay.json).
+
 **As of November 8, 2026.** This is an *additive sensitivity*, not a rewrite of the original frozen August or October research results.
 
 ## Verification provenance and boundaries
