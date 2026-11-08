@@ -31,6 +31,10 @@ OUTPUTS = {
     "game_boxscore_manifest.csv": ["game_id"],
     "team_game_roster_counts.csv": ["game_id", "team"],
 }
+REPAIR_ARCHIVED_SHA256 = "c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0"
+REPAIR_EXECUTED_SHA256 = "d825588e760482d7720f572cc2b66da48f7e3ce25c2866ecfbee709983cbcf39"
+REPAIR_QA_LINE = '    (output / "qa_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")'
+REPAIR_QA_CAST = '    summary["complete"] = bool(summary["complete"])'
 TEXT_FIELDS = [
     "player_game_id", "season", "source_match_number", "tip_utc",
     "game_date_et", "team_role", "opponent", "nba_player_name", "position",
@@ -122,8 +126,31 @@ def single_archive_member(archive: zipfile.ZipFile, basename: str) -> str:
     return matches[0]
 
 
+def historically_executed_repair_source(repair_zip: Path, optional_local_script: Path | None = None):
+    """Reconstruct and byte-verify the one-line QA serialization fix.
+
+    The historical ZIP has the executable except for a single final numpy-bool
+    serialization fix. Do not permit arbitrary code via --repair-script.
+    """
+    with zipfile.ZipFile(repair_zip) as archive:
+        member = single_archive_member(archive, "repair_boxscore_rosters.py")
+        archived_bytes = archive.read(member)
+    if hashlib.sha256(archived_bytes).hexdigest() != REPAIR_ARCHIVED_SHA256:
+        raise RuntimeError("Unexpected archived V2 repair script bytes; review provenance")
+    archived = archived_bytes.decode("utf-8")
+    if archived.count(REPAIR_QA_LINE) != 1 or REPAIR_QA_CAST in archived:
+        raise RuntimeError("Original repair source does not match the documented one-line fix")
+    executed = archived.replace(REPAIR_QA_LINE,
+                                REPAIR_QA_CAST + "\n" + REPAIR_QA_LINE, 1).encode("utf-8")
+    if hashlib.sha256(executed).hexdigest() != REPAIR_EXECUTED_SHA256:
+        raise RuntimeError("Rebuilt historically executed repair script SHA-256 mismatch")
+    if optional_local_script is not None and optional_local_script.read_bytes() != executed:
+        raise RuntimeError("Supplied --repair-script is not byte-identical to the verified executed script")
+    return executed
+
+
 def run_repair(repair_zip: Path, v1_output: Path, discovery: Path,
-               fixtures: Path, work: Path, partial: bool):
+               fixtures: Path, work: Path, partial: bool, repair_script: Path | None = None):
     project = work / "project"
     (project / "nba_game_covariates_v1").mkdir(parents=True)
     (project / "nba_game_covariates_v1" / "game_level_covariates.csv").symlink_to(fixtures)
@@ -133,10 +160,9 @@ def run_repair(repair_zip: Path, v1_output: Path, discovery: Path,
     output.mkdir()
     (output / "raw_json_discovery").symlink_to(discovery)
     code = work / "source"
-    with zipfile.ZipFile(repair_zip) as archive:
-        member = single_archive_member(archive, "repair_boxscore_rosters.py")
-        code.mkdir()
-        (code / "repair_boxscore_rosters.py").write_bytes(archive.read(member))
+    code.mkdir()
+    executed_bytes = historically_executed_repair_source(repair_zip, repair_script)
+    (code / "repair_boxscore_rosters.py").write_bytes(executed_bytes)
     command = [
         sys.executable, "-I", str(code / "repair_boxscore_rosters.py"),
         "--project-root", str(project),
@@ -305,6 +331,8 @@ def main():
     parser.add_argument("--fixtures", type=Path, required=True,
                         help="nba_game_covariates_v1/game_level_covariates.csv")
     parser.add_argument("--repair-zip", type=Path, required=True)
+    parser.add_argument("--repair-script", type=Path,
+                        help="Optional original Mac script; must match the byte-verified one-line historical variant")
     parser.add_argument("--reference-zip", type=Path, required=True)
     parser.add_argument("--base-panel", type=Path,
                         default=REPO / "data_final/player_game_panel_analysis_ready.csv.gz")
@@ -324,7 +352,8 @@ def main():
         scratch_dir = Path(scratch)
         rebuilt, script_sha, qa, code = run_repair(
             args.repair_zip.resolve(), v1, discovery, args.fixtures.resolve(),
-            scratch_dir, args.allow_partial)
+            scratch_dir, args.allow_partial,
+            args.repair_script.resolve() if args.repair_script else None)
         check_repair_qa(qa, cache, args.allow_partial, code)
         archive = compare_with_archive(rebuilt, args.reference_zip.resolve(), args.allow_partial)
         base = compare_with_base(rebuilt, args.base_panel.resolve())
@@ -341,7 +370,9 @@ def main():
         "scope": "sample" if args.allow_partial else "full 7,230-game cache",
         "matched": match,
         "cache": cache,
+        "archived_repair_script_sha256": REPAIR_ARCHIVED_SHA256,
         "original_repair_script_sha256": script_sha,
+        "repair_source_mode": "SHA-256-verified archived source plus historical one-line QA serialization fix",
         "reference_zip_sha256": sha256(args.reference_zip),
         "fixtures_sha256": sha256(args.fixtures),
         "rebuilt_qa_summary": qa,
