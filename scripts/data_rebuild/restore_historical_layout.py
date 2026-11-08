@@ -145,6 +145,13 @@ def save_member(z: zipfile.ZipFile, member: str, output: Path):
             "sha256": expected.hexdigest(), "state": state}
 
 
+def archive_manifests(archives: Path, plan):
+    """Source ZIP identity, independent of the files extracted from each ZIP."""
+    names = sorted({archive for _, archive, _ in plan} | set(RAW_2025))
+    return [{"archive": name, "bytes": (archives / name).stat().st_size,
+             "sha256": sha256(archives / name)} for name in names]
+
+
 def restore(archives: Path, root: Path, plan):
     records = []
     for dest, archive, member in plan:
@@ -189,10 +196,15 @@ def main():
                                             for dst, arc, mem in plan],
                           "unverified_raw_pdf_archives": list(RAW_2025)}, indent=2))
         return
+    # Hash the complete ZIP inputs, not just copied members, before replay.
+    # These checks identify archive versions; independent historical authenticity
+    # still depends on the original source inventory and provenance records.
+    source_manifest = archive_manifests(archives, plan)
     records = restore(archives, root, plan)
     provenance = root / "restore_provenance.json"
     provenance.parent.mkdir(parents=True, exist_ok=True)
     provenance.write_text(json.dumps({"replay_scope": "historical-intermediate",
+                                      "source_archives": source_manifest,
                                       "records": records}, indent=2) + "\n")
     print(f"Restored or verified {len(records)} files. Provenance: {provenance}")
 
