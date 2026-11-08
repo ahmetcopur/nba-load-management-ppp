@@ -26,7 +26,16 @@ NEEDED = [
     "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
     "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
     "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
-    "cadence_work/player_alias_table.csv",
+    # All selected game-to-PDF mappings, not just the latest season.
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",
+    "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv",
     "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
 ]
 
