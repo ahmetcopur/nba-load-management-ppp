@@ -4,6 +4,8 @@
 **Document purpose:** A self-contained project handoff describing what the NBA research studies, what artifacts exist, what has been demonstrably reproduced, what was implemented on GitHub, what local archives to inspect, and the exact outstanding work.  
 **Status:** Frozen-data → historical Stage-6 regressions independently reproduced; original historical intermediate → cadence panel reconstruction NOT yet run successfully; original raw NBA PDF/boxscore → full analysis dataset NOT yet reproduced.
 
+> **CRITICAL NOVEMBER 8, 2026 STATUS UPDATE:** Independent original-input **Level-B** reconstruction has now succeeded: the original corrected 2024–25 ZIP was recovered, the reconstructed panel is byte-identical to the archived panel after gzip decompression, and all four archived Stage-6 regressions match to rounding error. Full December 2025 exact-clock re-selection/reparse/rebuild/model sensitivity has also been independently executed: 21 affected games, 733 changed timing/designation rows, zero onset/risk/outcome changes. See [independent validation](LEVEL_B_REPLAY_RESULTS_2026-11-08.md). **Level C**, starting with *all* raw NBA JSON and PDF sources, remains open; the newly integrated PR #4 production CLI still needs a fresh full private-archive acceptance run. The older handoff text below preserves the earlier historical state and should not supersede this update.
+
 > **Accuracy rule:** A successful unit test, source-metadata join, file checksum, frozen-panel self-comparison, or model rerun on frozen inputs must never be described as complete raw-data reconstruction. Preserve the archived research results unchanged, report any differences, and distinguish observed source evidence from assumptions.
 
 ---
