@@ -63,23 +63,41 @@ def audit_selected(root: Path, metadata_dir: Path | None = None):
                          f"conflict sample: {list(conflicting)[:10]}")
     inventory_checked = False
     if metadata_dir is not None:
-        source_map = metadata_dir / "primary_sample_report_map.csv.gz"
-        with gzip.open(source_map, "rt", encoding="utf-8-sig", newline="") as stream:
-            archived = [r for r in csv.DictReader(stream)
-                        if r["season"] == "2025-26"]
-        if len(archived) != 1230:
-            raise ValueError(f"Historical 2025-26 inventory should contain 1,230 games, got {len(archived)}")
-        expected_hashes = defaultdict(set)
-        for entry in archived:
-            name = Path(entry["archive_member"]).name
-            expected_hashes[name].add(entry["computed_sha256"])
-        if selected != set(expected_hashes):
-            raise ValueError("2025 selected PDF basenames differ from published source inventory: "
-                             f"missing from inventory={sorted(selected - set(expected_hashes))[:10]}, "
-                             f"extra in inventory={sorted(set(expected_hashes) - selected)[:10]}")
-        for name, hashes in expected_hashes.items():
-            if len(hashes) != 1 or found[name][0]["sha256"] not in hashes:
-                raise ValueError(f"2025 selected PDF digest does not match published source inventory: {name}")
+        # IMPORTANT: the primary_sample_report_map.csv.gz records latest-pre-tip
+        # *canonical* selections, which may differ from the harmonized common-
+        # checkpoint selector used above. Never require the two sets to match.
+        inventory_path = metadata_dir / "injury_report_inventory.csv.gz"
+        inventory = {}
+        expected_by_basename = defaultdict(set)
+        source_archives = {Path(x).name for x in RAW_ZIPS}
+        with gzip.open(inventory_path, "rt", encoding="utf-8-sig", newline="") as stream:
+            for record in csv.DictReader(stream):
+                if record["archive"] not in source_archives:
+                    continue
+                if record["pdf_present"].casefold() != "true":
+                    continue
+                member = record["archive_member"]
+                basename = Path(member).name
+                if basename not in selected:
+                    continue
+                key = (record["archive"], member)
+                digest = record["computed_sha256"]
+                if not digest or len(digest) != 64:
+                    raise ValueError(f"Selected PDF has missing/invalid archived digest: {key}")
+                if key in inventory and inventory[key] != digest:
+                    raise ValueError(f"Conflicting archived inventory digests: {key}")
+                inventory[key] = digest
+                expected_by_basename[basename].add(digest)
+        for name in sorted(selected):
+            if name not in expected_by_basename:
+                raise ValueError(f"Harmonized selected PDF missing from FULL injury inventory: {name}")
+            if len(expected_by_basename[name]) != 1:
+                raise ValueError(f"Conflicting archived digests for selected PDF basename: {name}")
+            expected = next(iter(expected_by_basename[name]))
+            for candidate in found[name]:
+                key = (Path(candidate["archive"]).name, candidate["member"])
+                if inventory.get(key) != candidate["sha256"] or candidate["sha256"] != expected:
+                    raise ValueError(f"PDF digest or member mismatch against FULL inventory: {key}")
         inventory_checked = True
     return {
         "source_inventory_sha256_verified": inventory_checked,
@@ -99,7 +117,7 @@ def main():
     parser.add_argument("--historical-root", required=True, type=Path)
     parser.add_argument("--check-only", action="store_true")
     parser.add_argument("--metadata-dir", type=Path,
-                        help="Optional shared-repo provenance/historical_sources for expected PDF SHA-256s")
+                        help="Optional shared-repo provenance/historical_sources FULL PDF inventory for SHA-256s")
     args = parser.parse_args()
     root = args.historical_root.resolve()
     required = [SELECTOR, PARSER, *RAW_ZIPS]
