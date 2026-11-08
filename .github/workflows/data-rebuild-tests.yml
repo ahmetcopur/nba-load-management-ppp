@@ -7,6 +7,7 @@ on:
       - "tests/test_level_b_replay.py"
       - "tests/test_boxscore_cache.py"
       - "tests/test_fixture_date_swap_covariates.py"
+      - "tests/test_fixture_date_chronology.py"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
       - ".github/workflows/data-rebuild-tests.yml"
@@ -103,6 +104,8 @@ jobs:
           python -m compileall -q scripts/data_rebuild tests
       - name: Test original risk-set guard, archive fallback, and PDF timing logic
         run: python -m unittest discover -s tests -p test_level_b_replay.py -v
+      - name: Test strict report selector swaps and corrected-chronology guards
+        run: python -m unittest discover -s tests -p test_fixture_date_chronology.py -v
   boxscore-json-tests:
     name: Level-C raw JSON verifier fail-closed tests
     runs-on: ubuntu-latest
