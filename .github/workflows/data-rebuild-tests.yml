@@ -10,6 +10,7 @@ on:
       - "tests/test_fixture_date_chronology.py"
       - "tests/test_october_corrected_chronology.py"
       - "tests/test_missing_october_paper_statistics.py"
+      - "tests/test_august_toronto_source_join.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -154,6 +155,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_october_corrected_chronology.py -v
       - name: Test onset-rate and spell-duration boundaries
         run: python -m unittest discover -s tests -p test_missing_october_paper_statistics.py -v
+      - name: Test August source match-number repair refuses unrelated matchups
+        run: python -m unittest discover -s tests -p test_august_toronto_source_join.py -v
   october-release-frozen-replay:
     name: Independently rerun all ten Oct scripts and 33 archived outputs
     runs-on: ubuntu-latest
