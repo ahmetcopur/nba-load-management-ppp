@@ -33,7 +33,11 @@ jobs:
             --candidate data_intermediate/player_team_game_harmonized_cadence.csv.gz
       - name: Validate real published game-source lineage (7,230 games)
         run: |
-          git clone --depth 1 https://github.com/OEKundakcioglu/nba-ppp-star-availability.git "$RUNNER_TEMP/nba_shared"
+          git init "$RUNNER_TEMP/nba_shared"
+          git -C "$RUNNER_TEMP/nba_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_shared" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/nba_shared" rev-parse HEAD)" = "0bd713d97e8d519df5700ef473da34aba4495223"
           python scripts/data_rebuild/build_source_lineage.py \
             --source "$RUNNER_TEMP/nba_shared/provenance/historical_sources"
           python - <<'PY'
