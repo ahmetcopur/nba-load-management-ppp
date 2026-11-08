@@ -62,3 +62,13 @@ jobs:
                   member = resolve_member(z, basename)
                   print(f"PASS {archive} -> {member} ({z.getinfo(member).file_size} bytes)")
           PY
+      - name: Validate historical Stage-6 result archive schema
+        run: |
+          python - <<'PY'
+          from scripts.data_rebuild.compare_stage6_models import archived_rows, index, EXPECTED
+          rows = archived_rows(__import__("pathlib").Path(
+              "packages/06_cadence_harmonized_identification.zip"))
+          found = index(rows)
+          assert set(found) == EXPECTED, f"Unexpected published model variants: {set(found)}"
+          print("PASS: four archived Stage-6 TV/control model specifications")
+          PY
