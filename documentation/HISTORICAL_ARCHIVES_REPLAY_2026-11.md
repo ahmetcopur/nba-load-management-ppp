@@ -1,5 +1,7 @@
 # NBA cadence panel: restored-archives replay (November 2026)
 
+> **Updated November 8, 2026 after independent execution:** The actual 13 historical input ZIPs, including the original corrected 2024–25 archive, reproduced the complete 248,778-row cadence panel byte-for-byte *after decompression* and all four Stage-6 coefficients. A separate full December 2025 printed-clock sensitivity was also independently rerun using the original corrected 2024 input; it changed no onset/risk outcomes or four model results. See [independent results](LEVEL_B_REPLAY_RESULTS_2026-11-08.md). These results establish **Level B** via an independent temporary path-only wrapper, while a fresh clean-root execution of the integrated GitHub CLI remains desirable. **Level C remains unverified**. Historical statements below that describe Level B as unexecuted refer to the earlier stage of this work.
+
 ## Scope
 
 Reconstruct the published cadence-harmonized player-team-game panel from **original historical intermediate ZIP outputs**, while re-parsing the selected 2025–26 NBA injury report PDFs. This is not yet a from-scratch rebuild starting with all raw PDFs/boxscore JSONs; the pre-existing canonical roster/policy/covariate panel is an input.
