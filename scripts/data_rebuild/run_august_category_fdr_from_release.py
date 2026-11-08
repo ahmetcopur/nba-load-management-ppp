@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 
 SHARED_SHA = "0bd713d97e8d519df5700ef473da34aba4495223"
-ORIGINAL_RISK_DECODED_SHA = "ed23db38124e07e48bf8418a1c1935667a424d2e6aa41ea807dcd63e65a894f3"  # checked below in CI; see SHA gate
+ORIGINAL_RISK_DECODED_SHA = "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635"
 CORRECTED_RISK_DECODED_SHA = "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3"
 SCRIPT = Path("scripts/portable/run_category_fdr.py")
 PANEL = Path("data_final/player_game_panel_model_at_risk_analysis_ready.csv.gz")
@@ -113,7 +113,7 @@ def original_source_tv_matches_panel(panel: Path, tv_path: Path):
     return merged
 
 
-def repair_announcement_fixture_keys(source_tv: Path, corrected_panel: Path):
+def repair_announcement_fixture_keys(source_tv: Path, corrected_panel: Path, expected_rows: int = 180831):
     """Rekey exactly two source rows, preserving network and original release metadata."""
     tv = pd.read_csv(source_tv,low_memory=False)
     old_tv = tv.copy(deep=True)
@@ -151,8 +151,8 @@ def repair_announcement_fixture_keys(source_tv: Path, corrected_panel: Path):
     if joined.announced_tv_status.isna().any():
         missing=joined.loc[joined.announced_tv_status.isna(),"game_id"].value_counts().to_dict()
         raise RuntimeError(f"Corrected game cannot join original TV source: {missing}")
-    if len(joined)!=180831:
-        raise RuntimeError("Corrected category input risk sample not 180831")
+    if len(joined)!=expected_rows:
+        raise RuntimeError(f"Corrected category input risk sample not {expected_rows}")
     return details
 
 
@@ -230,6 +230,9 @@ def main():
     verify_shared(shared)
     frozen_root=work/"frozen"
     stage(shared,frozen_root)
+    source_sha=sha(frozen_root/PANEL,decoded=True)
+    if source_sha!=ORIGINAL_RISK_DECODED_SHA:
+        raise RuntimeError(f"Historical August risk panel hash mismatch: {source_sha}")
     original=original_source_tv_matches_panel(frozen_root/PANEL,frozen_root/TV)
     if original.announced_tv_status.isna().any():
         raise RuntimeError("Original frozen game-date TV join already incomplete")
