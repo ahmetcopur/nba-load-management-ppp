@@ -36,10 +36,13 @@ Prepare a folder containing the named ZIPs. From the repository root:
 python3 -m pip install -r requirements-lock.txt
 python3 scripts/data_rebuild/rebuild_from_archives.py \
   --archive-dir /path/to/nba_archives \
-  --historical-root data_rebuild/output/nba_continue
+  --historical-root data_rebuild/output/nba_continue \
+  --metadata-dir ../nba-ppp-star-availability/provenance/historical_sources
 ```
 
-The entrypoint (1) inspects all historical ZIP members by exact basename and rejects missing or duplicate matches *before copying*, (2) copies verified historical intermediate data and records SHA-256 hashes into the original directory structure, (3) audits that each selected 2025–26 PDF exists and is not in conflict between source archives before running the unmodified historical parser via a temporary path-adjusted copy, (4) runs the archived cadence-panel builder via a temporary path-adjusted copy, and (5) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
+The entrypoint (1) inspects all historical ZIP members by exact basename and rejects missing or duplicate matches *before copying*, (2) copies verified historical intermediate data and records SHA-256 hashes into the original directory structure, (3) audits that each selected 2025–26 PDF exists and is not in conflict between source archives before running the unmodified historical parser via a temporary path-adjusted copy, (4) runs the archived cadence-panel builder via a temporary path-adjusted copy, and (5) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. For `--metadata-dir`, first clone `https://github.com/OEKundakcioglu/nba-ppp-star-availability` into the relative folder shown, or supply another exact path to its `provenance/historical_sources` directory. This enables digest comparison of selected 2025–26 PDFs against the published game-to-source map. Without this option, the parser still checks that selected PDFs exist and rejects conflicting duplicate basenames, but does **not** independently verify their hashes against that public inventory.
+
+All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
 
 Read-only archive member inspection (does not copy files or run the historical parser):
 
@@ -88,3 +91,9 @@ If an archive's member basename is missing/ambiguous, stop and inspect the origi
 For the reconstruction, install the historical versions in `requirements-lock.txt` rather than the unpinned `requirements.txt`. This lockfile covers the analysis packages, but the historical PDF parser's additional dependencies must still be verified from its original package before claiming an environment-complete raw-PDF parser replay. Record Python and dependency versions when running.
 
 `python3 scripts/data_rebuild/validate_cadence_panel.py --expect-frozen` independently checks six-season coverage, unique player-team-game keys, the 7,230 game count, 248,778 rows, 180,664 at-risk observations, 12,731 onsets, and the logical condition that every onset is in-risk and currently absent. This is an **invariant check of the published data**, not evidence that the data were independently reconstructed.
+
+## Historical coefficient acceptance check
+
+Once the historical cadence panel is replayed, the orchestrator also checks `cadence_harmonized_model_results.csv` against the four **Stage-6 historical model** specifications in `packages/06_cadence_harmonized_identification.zip`. This compares specification keys, sample sizes, effect/SE/CI values with a 0.001 percentage-point tolerance and p-values with a 0.001 absolute tolerance. An explicit `--skip-stage6-model-comparison` flag bypasses that check, but such a run should not be called full historical analysis replication. The Stage-6 legacy/harmonized labels are **not** identical to the October 25 paper's national-partner TV versus linear-only definitions; do not misreport them as the October manuscript estimates.
+
+All archived coefficients, frozen panels and original scripts remain unchanged; rebuilt values and comparison reports stay under `data_rebuild/output/`.
