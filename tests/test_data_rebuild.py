@@ -165,9 +165,9 @@ class Selected2025PdfAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             self.make_input(root)
-            with (root / parser2025.RAW_ZIPS[0]).open("wb") as f:
-                pass
-            with self.assertRaises(zipfile.BadZipFile):
+            with zipfile.ZipFile(root / parser2025.RAW_ZIPS[0], "w") as z:
+                z.writestr("old/pdf/unselected.pdf", "other")
+            with self.assertRaisesRegex(ValueError, "missing"):
                 parser2025.audit_selected(root)
 
     def test_selected_pdf_present(self):
