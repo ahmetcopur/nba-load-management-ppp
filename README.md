@@ -73,3 +73,12 @@ This validates **panel-to-regression reproducibility**, not the upstream creatio
 ## November 8, 2026 independent Level-B milestone
 
 Using the original corrected 2024–25 ZIP, all 13 historical intermediate inputs plus selected 2025 PDFs were independently replayed to a cadence panel that is **byte-identical after decompression** to the 248,778-row archived panel. All four Stage-6 coefficients matched the reference. The full printed-header exact-clock December 2025 sensitivity was also independently rerun with original corrected inputs; it changes 733 player-game rows, but **zero** absence/onset/risk-set values or Stage-6 models. See [Level-B verification and sensitivity details](documentation/LEVEL_B_REPLAY_RESULTS_2026-11-08.md). A separate builder dependency lock and historical fast-model runner fix are on the open PR #4 branch. This milestone is *not* all-six-season raw PDF/boxscore JSON-to-paper Level C reproducibility.
+
+
+## November 2026 Level-C raw boxscore JSON verifier
+
+An additive offline verifier for original NBA boxscore JSON cache files is available at [verify_boxscore_cache.py](scripts/data_rebuild/verify_boxscore_cache.py), with [runbook and acceptance criteria](documentation/LEVEL_C_BOXSCORE_CACHE_VERIFICATION.md). It invokes the archived historical V2 repair program with --no-download, checks each original JSON game ID/schema/download-log size, hashes raw files, and compares all four regenerated output CSVs against archived V2 tables and the canonical base panel.
+
+**Verified:** The original archived V2 roster's 248,571 boxscore rows agree with the published canonical base-panel rows on all comparable keys and values. Automated negative tests of the new verifier pass in GitHub Actions.
+
+**Not verified:** The original 7,230 raw NBA JSONs have not been supplied here for the complete offline run. The reported 7,185 + 45 cache split is from a separate Mac environment and has not been independently audited. The new verifier does not change the frozen research outputs or establish complete Level-C raw-data reconstruction.
