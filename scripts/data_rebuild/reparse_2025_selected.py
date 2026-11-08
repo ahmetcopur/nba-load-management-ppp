@@ -8,6 +8,7 @@ This does not correct the 21 known PDF-header/manifest timestamp exceptions.
 from collections import defaultdict
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -26,7 +27,7 @@ RAW_ZIPS = ("cadence_2025/audit_2025_26_upload.zip",
             "cadence_2025/audit_2025_26_targeted_upload.zip")
 
 
-def audit_selected(root: Path):
+def audit_selected(root: Path, metadata_dir: Path | None = None):
     with (root / SELECTOR).open("r", newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         if "snapshot_basename" not in (reader.fieldnames or ()):
@@ -60,7 +61,28 @@ def audit_selected(root: Path):
                          f"{len(missing)} missing; {len(conflicting)} conflicting "
                          f"basenames. Missing sample: {missing[:10]}; "
                          f"conflict sample: {list(conflicting)[:10]}")
+    inventory_checked = False
+    if metadata_dir is not None:
+        source_map = metadata_dir / "primary_sample_report_map.csv.gz"
+        with gzip.open(source_map, "rt", encoding="utf-8-sig", newline="") as stream:
+            archived = [r for r in csv.DictReader(stream)
+                        if r["season"] == "2025-26"]
+        if len(archived) != 1230:
+            raise ValueError(f"Historical 2025-26 inventory should contain 1,230 games, got {len(archived)}")
+        expected_hashes = defaultdict(set)
+        for entry in archived:
+            name = Path(entry["archive_member"]).name
+            expected_hashes[name].add(entry["computed_sha256"])
+        if selected != set(expected_hashes):
+            raise ValueError("2025 selected PDF basenames differ from published source inventory: "
+                             f"missing from inventory={sorted(selected - set(expected_hashes))[:10]}, "
+                             f"extra in inventory={sorted(set(expected_hashes) - selected)[:10]}")
+        for name, hashes in expected_hashes.items():
+            if len(hashes) != 1 or found[name][0]["sha256"] not in hashes:
+                raise ValueError(f"2025 selected PDF digest does not match published source inventory: {name}")
+        inventory_checked = True
     return {
+        "source_inventory_sha256_verified": inventory_checked,
         "selected_games": len(rows),
         "distinct_selected_pdfs": len(selected),
         "distinct_pdf_basenames_verified": len(found),
@@ -76,6 +98,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--historical-root", required=True, type=Path)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--metadata-dir", type=Path,
+                        help="Optional shared-repo provenance/historical_sources for expected PDF SHA-256s")
     args = parser.parse_args()
     root = args.historical_root.resolve()
     required = [SELECTOR, PARSER, *RAW_ZIPS]
@@ -86,7 +110,7 @@ def main():
     pattern = r"^ROOT=Path\('/mnt/data/nba_continue'\)$"
     if len(re.findall(pattern, original, flags=re.MULTILINE)) != 1:
         raise RuntimeError("Original 2025 parser ROOT line changed; review before replay")
-    audit = audit_selected(root)
+    audit = audit_selected(root, args.metadata_dir)
     if args.check_only:
         print(json.dumps({k: v for k, v in audit.items()
                           if k != "sha256_by_basename"}, indent=2))
