@@ -69,3 +69,7 @@ python3 scripts/data_rebuild/replay_stage6_from_frozen.py
 ```
 
 This validates **panel-to-regression reproducibility**, not the upstream creation of the canonical dataset from original NBA boxscore JSON and multi-season injury PDFs. A separate archive-to-panel replay runner is documented in [Historical archive replay](documentation/HISTORICAL_ARCHIVES_REPLAY_2026-11.md), including the needed local original ZIPs, PDF-source provenance verification, original-model comparison, and remaining unverified gaps. The archived results and August freeze remain unchanged. All historical intermediate-to-panel replay steps must be executed and checked before claiming full source-data reproducibility.
+
+## November 8, 2026 independent Level-B milestone
+
+Using the original corrected 2024–25 ZIP, all 13 historical intermediate inputs plus selected 2025 PDFs were independently replayed to a cadence panel that is **byte-identical after decompression** to the 248,778-row archived panel. All four Stage-6 coefficients matched the reference. The full printed-header exact-clock December 2025 sensitivity was also independently rerun with original corrected inputs; it changes 733 player-game rows, but **zero** absence/onset/risk-set values or Stage-6 models. See [Level-B verification and sensitivity details](documentation/LEVEL_B_REPLAY_RESULTS_2026-11-08.md). A separate builder dependency lock and historical fast-model runner fix are on the open PR #4 branch. This milestone is *not* all-six-season raw PDF/boxscore JSON-to-paper Level C reproducibility.
