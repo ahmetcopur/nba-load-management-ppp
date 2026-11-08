@@ -11,6 +11,14 @@ spec = importlib.util.spec_from_file_location("nba_fixture_covariate_audit", SCR
 audit = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audit)
 
+# Import the model wrapper via its real location; no full private archives needed.
+import sys
+sys.path.insert(0, str(SCRIPT.parent))
+MODEL_SCRIPT = ROOT / "scripts/data_rebuild/run_fixture_date_control_sensitivity.py"
+model_spec = importlib.util.spec_from_file_location("nba_fixture_control_model", MODEL_SCRIPT)
+model = importlib.util.module_from_spec(model_spec)
+model_spec.loader.exec_module(model)
+
 
 class CovariateDiffTests(unittest.TestCase):
     def make_rows(self):
@@ -69,6 +77,47 @@ class CovariateDiffTests(unittest.TestCase):
         self.assertEqual(set(audit.CORRECTED_TIP_UTC.values()),
                          {"2022-02-04T00:30:00Z", "2022-02-02T00:30:00Z"})
 
+
+
+class FixedOutcomeModelSensitivityTests(unittest.TestCase):
+    def make_panel_and_controls(self):
+        keys = [
+            ("g1", "A", "g1|A|p1", True),
+            ("g2", "A", "g2|A|p1", False),
+            ("g2", "B", "g2|B|p2", True),
+        ]
+        panel = pd.DataFrame([{
+            "game_id": game, "team": team,
+            "player_team_game_id": pid,
+            "absence_onset_harm": onset, "absence_now_harm": onset,
+            "at_risk_for_new_onset_harm": True,
+            "star_PPP_it": True, "announced_tv_primary": False,
+            "tv_harmonized_linear": False, "postPPP": False,
+            "games_played_before_game_harm": 1,
+            "minutes_sum_prior_10_roster_games_harm": 20,
+            "dist_to_65_before_game_harm": 64,
+            "snapshot_basename": "s1.pdf", "snapshot_timestamp_utc": "2022-01-01Z",
+            **{name: 2.0 for name in model.MODEL_COLUMNS_TO_UPDATE},
+        } for game,team,pid,onset in keys])
+        historical = panel[model.KEY + model.MODEL_COLUMNS_TO_UPDATE].drop_duplicates(model.KEY)
+        corrected = historical.copy()
+        corrected.loc[corrected.game_id.eq("g2") & corrected.team.eq("A"), "signed_elo_advantage"] = 15.6
+        return panel,historical,corrected
+
+    def test_control_only_replacement_keeps_every_frozen_outcome_and_key(self):
+        panel, historical, corrected = self.make_panel_and_controls()
+        changed, counts = model.compare_baseline_and_replace(panel,historical,corrected)
+        self.assertEqual(counts["signed_elo_advantage"]["changed_player_game_rows"],1)
+        self.assertEqual(counts["signed_elo_advantage"]["changed_games"],1)
+        self.assertEqual(changed.signed_elo_advantage.tolist(),[2.0,15.6,2.0])
+        self.assertEqual(changed.absence_onset_harm.tolist(),panel.absence_onset_harm.tolist())
+        self.assertEqual(changed.player_team_game_id.tolist(),panel.player_team_game_id.tolist())
+
+    def test_source_disagreement_fails_before_any_control_replacement(self):
+        panel,historical,corrected = self.make_panel_and_controls()
+        historical.loc[0,"back_to_back"] = 3.0
+        with self.assertRaisesRegex(RuntimeError,"differs from frozen panel"):
+            model.compare_baseline_and_replace(panel,historical,corrected)
 
 if __name__ == "__main__":
     unittest.main()
