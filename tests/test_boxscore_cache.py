@@ -1,10 +1,12 @@
 """Negative tests for Level-C cached NBA JSON and historical roster verification."""
+import hashlib
 import importlib.util
 import io
 import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 import pandas as pd
@@ -157,6 +159,69 @@ class ComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "did not match every"):
             verify.check_repair_qa(qa, cache, True, 2)
 
+
+
+class HistoricalExecutionSourceTests(unittest.TestCase):
+    def test_one_line_qa_fix_is_byte_identical_and_checked(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = (
+                'def save(summary, output, json):\n'
+                + '    (output / "qa_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")\n'
+            ).encode()
+            rendered = source.replace(
+                verify.REPAIR_QA_LINE.encode(),
+                (verify.REPAIR_QA_CAST + "\n" + verify.REPAIR_QA_LINE).encode())
+            archive = root / "repair.zip"
+            with zipfile.ZipFile(archive, "w") as z:
+                z.writestr("folder/repair_boxscore_rosters.py", source)
+            exact_copy = root / "original_mac_script.py"
+            exact_copy.write_bytes(rendered)
+            with patch.object(verify, "REPAIR_ARCHIVED_SHA256",
+                              hashlib.sha256(source).hexdigest()), \
+                 patch.object(verify, "REPAIR_EXECUTED_SHA256",
+                              hashlib.sha256(rendered).hexdigest()):
+                self.assertEqual(
+                    verify.historically_executed_repair_source(archive), rendered)
+                self.assertEqual(
+                    verify.historically_executed_repair_source(archive, exact_copy), rendered)
+                exact_copy.write_bytes(b"print('scientifically changed')")
+                with self.assertRaisesRegex(RuntimeError, "not byte-identical"):
+                    verify.historically_executed_repair_source(archive, exact_copy)
+
+    def test_archive_hash_mismatch_is_not_accepted(self):
+        with tempfile.TemporaryDirectory() as d:
+            archive = Path(d) / "repair.zip"
+            with zipfile.ZipFile(archive, "w") as z:
+                z.writestr("folder/repair_boxscore_rosters.py", "not the original")
+            with self.assertRaisesRegex(RuntimeError, "Unexpected archived"):
+                verify.historically_executed_repair_source(archive)
+
+
+class FixtureDateDriftTests(unittest.TestCase):
+    def test_actual_48_hours_is_not_reported_as_2_88_minutes(self):
+        with tempfile.TemporaryDirectory() as d:
+            output = Path(d)
+            rows = [
+                ("0022100430", "2022-02-02T00:30:00Z", "2022-02-04T00:30:00Z"),
+                ("0022100784", "2022-02-04T00:30:00Z", "2022-02-02T00:30:00Z"),
+                ("0022100785", "2022-02-05T00:30:00Z", "2022-02-05T00:30:00Z"),
+            ]
+            frame = pd.DataFrame([{
+                "nba_game_id": name, "game_id": "test:" + name,
+                "fixture_tip_utc": fixture, "boxscore_tip_utc": official,
+                "tip_difference_minutes": "2.88" if name != "0022100785" else "0.0"
+            } for name, fixture, official in rows])
+            frame.to_csv(output / "canonical_game_id_crosswalk.csv", index=False)
+            result = verify.audit_true_tip_time_differences(output, partial=False)
+            self.assertEqual(result["actual_maximum_absolute_tip_difference_minutes"], 2880.0)
+            self.assertEqual(result["historical_reported_maximum_absolute_tip_difference_minutes"], 2.88)
+            self.assertEqual(len(result["records_over_36_hours"]), 2)
+            self.assertTrue(result["known_fixture_swaps_reproduced"])
+            frame.loc[0, "nba_game_id"] = "0022100786"
+            frame.to_csv(output / "canonical_game_id_crosswalk.csv", index=False)
+            with self.assertRaisesRegex(RuntimeError, "Unexpected 36-hour"):
+                verify.audit_true_tip_time_differences(output, partial=False)
 
 if __name__ == "__main__":
     unittest.main()
