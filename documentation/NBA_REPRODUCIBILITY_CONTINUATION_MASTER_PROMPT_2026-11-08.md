@@ -1,5 +1,7 @@
 # COPY-PASTE MASTER PROMPT — NBA LOAD MANAGEMENT DATA REPRODUCIBILITY
 
+> **UPDATED NOVEMBER 8, 2026 — READ BEFORE FOLLOWING THIS PROMPT:** The original corrected 2024–25 ZIP has been recovered from the ChatGPT file library. An independent local replay has **already** reconstructed the frozen 248,778-row cadence panel byte-identically after decompression from the actual 13 historical ZIPs; all 4 Stage-6 coefficients reproduce. The full December 2025 printed-header exact-clock sensitivity also executed independently with the original corrected 2024 input; 21 games and 733 rows have source/timing/designation changes, **zero onset/risk/absence changes**, and the same 4 model results. See [current independently verified results](LEVEL_B_REPLAY_RESULTS_2026-11-08.md) and GitHub PR #4 CI. The immediate next engineering task is a clean-root production CLI acceptance run on those ZIPs and then Level-C raw-source reconstruction; do NOT repeat the older Level-B 'not yet executed' claim below as the current status. This prompt's older sections preserve the earlier timeline for traceability.
+
 **Last verified:** November 8, 2026. This is an instruction prompt for a new AI research/coding session, not evidence that unfinished steps were completed.
 
 ## ROLE AND IMMEDIATE MISSION
