@@ -148,6 +148,12 @@ class SourceArchivePlanTests(unittest.TestCase):
             archive_folder.mkdir()
             self.make_archives(archive_folder)
             plan = restore.build_plan(archive_folder)
+            manifests = restore.archive_manifests(archive_folder, plan)
+            self.assertEqual(len(manifests),
+                             len({name for _, name, _ in plan} | set(restore.RAW_2025)))
+            for record in manifests:
+                self.assertEqual(record["sha256"],
+                                 restore.sha256(archive_folder / record["archive"]))
             first = restore.restore(archive_folder, output, plan)
             self.assertEqual(len(first), len(plan) + len(restore.RAW_2025))
             second = restore.restore(archive_folder, output, plan)
