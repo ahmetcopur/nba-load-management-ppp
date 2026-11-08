@@ -4,6 +4,8 @@ on:
     paths:
       - "scripts/data_rebuild/**"
       - "tests/test_data_rebuild.py"
+      - "tests/test_level_b_replay.py"
+      - "requirements-builder-lock.txt"
       - ".github/workflows/data-rebuild-tests.yml"
   workflow_dispatch:
 permissions:
@@ -76,6 +78,28 @@ jobs:
           assert set(found) == EXPECTED, f"Unexpected published model variants: {set(found)}"
           print("PASS: four archived Stage-6 TV/control model specifications")
           PY
+  builder-tooling-tests:
+    name: Historical pandas-2 builder / exact-clock unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install verified historical builder environment
+        run: python -m pip install -r requirements-builder-lock.txt
+      - name: Confirm builder version and syntax
+        run: |
+          python - <<'PY'
+          import pandas, fitz
+          assert pandas.__version__.startswith('2.'), pandas.__version__
+          print('pandas:', pandas.__version__, 'PyMuPDF:', fitz.VersionBind)
+          PY
+          python -m compileall -q scripts/data_rebuild tests
+      - name: Test original risk-set guard, archive fallback, and PDF timing logic
+        run: python -m unittest discover -s tests -p test_level_b_replay.py -v
   stage6-regression-replay:
     name: Independent Stage-6 model replay from published frozen data
     runs-on: ubuntu-latest
