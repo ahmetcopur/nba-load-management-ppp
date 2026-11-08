@@ -3,6 +3,8 @@
 
 This is NOT raw-boxscore-to-canonical-panel reconstruction. Fail on any
 restoration, parsing, building, or frozen-panel comparison error.
+
+Run under requirements-builder-lock.txt; pandas 3 changes the original risk-set logic.
 """
 import argparse
 from pathlib import Path
@@ -34,16 +36,29 @@ def main():
                         help="Explicitly skip historical Stage-6 coefficient validation")
     parser.add_argument("--skip-2025-parse", action="store_true",
                         help="Requires a previously independently verified 2025 parsed-row CSV")
+    parser.add_argument("--reparse-2024-25-from-pdfs", action="store_true",
+                        help="Explicit fallback only if the original corrected 2024-25 ZIP is unavailable")
     parser.add_argument("--check-only", action="store_true",
                         help="Check ZIP archive member mappings without writing/executing anything")
     args = parser.parse_args()
     restore_args = ["--archive-dir", args.archive_dir,
                     "--historical-root", args.historical_root]
+    if args.reparse_2024_25_from_pdfs:
+        if not args.metadata_dir:
+            raise SystemExit("--reparse-2024-25-from-pdfs requires --metadata-dir")
+        restore_args.append("--skip-2024-25-corrected")
     if args.check_only:
         call("restore_historical_layout.py", [*restore_args, "--check-only"])
         print("Archive layout inspected. No files written, PDFs parsed or models run.")
         return
     call("restore_historical_layout.py", restore_args)
+    if args.reparse_2024_25_from_pdfs:
+        call("reparse_2024_25_from_pdfs.py",
+             ["--historical-root", args.historical_root,
+              "--pdf-zip", args.archive_dir / "audit_2024_25_upload.zip",
+              "--pre-s4-zip", args.archive_dir / "audit_2024_25_pre_s4_outputs.zip",
+              "--selector-zip", args.archive_dir / "nba_canonical_snapshot_selector_v1.zip",
+              "--metadata-dir", args.metadata_dir])
     if args.skip_2025_parse:
         existing = (args.historical_root /
                     "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv")
@@ -62,9 +77,10 @@ def main():
     call("validate_cadence_panel.py", ["--panel", candidate, "--expect-frozen",
                                      "--output", args.output / "panel_invariants.json"])
     if not args.skip_stage6_model_comparison:
-        call("compare_stage6_models.py",
-             ["--candidate", args.output / "cadence_harmonized_model_results.csv",
-              "--output", args.output / "stage6_model_comparison.json"])
+        # The original builder crashes at its model stage; the archived model
+        # table comes from the separate historical fast regression executable.
+        call("replay_stage6_from_frozen.py",
+             ["--panel", candidate, "--output-dir", args.output / "stage6_models"])
     print("PASS: historical intermediate replay matches frozen panel"
           + (" (historical Stage-6 model check skipped)." if args.skip_stage6_model_comparison
              else " and archived Stage-6 coefficients."))
