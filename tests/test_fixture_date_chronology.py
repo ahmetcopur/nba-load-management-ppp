@@ -90,7 +90,9 @@ class BaseUpdateTests(unittest.TestCase):
             path = Path(d) / "base.csv.gz"
             frame = pd.DataFrame({
                 "game_id": ["g1", "g2"], "team": ["A", "A"],
-                "player_team_game_id": ["p1", "p2"], "back_to_back": ["False", "True"],
+                "player_team_game_id": ["p1", "p2"], "season": ["2021-22", "2021-22"],
+                "game_date_et": ["2022-02-01", "2022-02-03"],
+                "back_to_back": ["False", "True"],
                 "signed_elo_advantage": ["20.0", "30.0"],
             })
             frame.to_csv(path, index=False, compression="gzip")
@@ -108,6 +110,22 @@ class BaseUpdateTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "differs from frozen canonical base"):
                 chron.fix_base(path, before, after, {"signed_elo_advantage": 1})
 
+    def test_rejects_duplicate_team_date_after_correction(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            base = pd.DataFrame({
+                "game_id": ["g1", "g2"], "team": ["A", "A"],
+                "player_team_game_id": ["p1", "p2"],
+                "season": ["2021-22", "2021-22"],
+                "game_date_et": ["2022-02-01", "2022-02-01"],
+                "signed_elo_advantage": ["20", "30"],
+            })
+            path = root / "base.csv.gz"
+            base.to_csv(path, index=False, compression="gzip")
+            covariates = base[["game_id", "team"]].assign(signed_elo_advantage=[20.0, 30.0])
+            with self.assertRaisesRegex(RuntimeError, "duplicate team-game dates"):
+                chron.fix_base(path, covariates, covariates, {"signed_elo_advantage": 0})
+
     def test_refuses_writing_through_original_symlink(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
@@ -118,6 +136,33 @@ class BaseUpdateTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "symlink"):
                 chron.fix_base(link, pd.DataFrame(), pd.DataFrame(), {})
             self.assertEqual(original.read_bytes(), b"unaltered")
+
+
+class FrozenOutcomeInvariantTests(unittest.TestCase):
+    def test_tv_change_rejected_even_with_other_differences(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            frame = pd.DataFrame({
+                "player_team_game_id": ["p1"],
+                "game_id": ["g1"],
+                "nba_player_name": ["Sample"],
+                "announced_tv_primary": ["True"],
+                "tv_harmonized_linear": ["1.0"],
+                "postPPP": ["False"],
+                "star_PPP_it": ["True"],
+                "absence_now_harm": ["False"],
+                "from_boxscore_roster": ["True"],
+                "at_risk_for_new_onset_harm": ["True"],
+                "absence_onset_harm": ["False"],
+                "designation_status": ["Not Listed"],
+            })
+            old = root / "old.csv.gz"
+            new = root / "new.csv.gz"
+            frame.to_csv(old, index=False, compression="gzip")
+            frame["announced_tv_primary"] = "False"
+            frame.to_csv(new, index=False, compression="gzip")
+            with self.assertRaisesRegex(RuntimeError, "Unexpected change to frozen field"):
+                chron.compare_panels(old, new, root)
 
 
 class ModelSafetyTests(unittest.TestCase):
