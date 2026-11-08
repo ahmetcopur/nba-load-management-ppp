@@ -92,3 +92,38 @@ Model Ns: **180,530** with full controls, **180,664** without controls. The cond
 **This is NOT a complete corrected-source analysis.** Changing the true game date could also alter the roster's chronological histories, absence-onset spell boundaries and pre-tip report selection. Those were **not** recomputed here. Nor were TV as-announced fields or original game IDs rebuilt. The current controlled model is an additional sensitivity, not a replacement for the published frozen original.
 
 Reproducible script: scripts/data_rebuild/run_fixture_date_control_sensitivity.py; numerical result record: validation/level_c_boxscore_2026-11-08/corrected_fixture_controls_stage6_model_delta.json. The separately executable integrated production runner has passed syntax and synthetic tests but has not itself been rerun from a fresh private-archive root in this GitHub CI environment. The numerical results above come from an independent local equivalent of the original covariate and regression functions.
+
+
+## Additional November 8, 2026 — corrected-chronology Stage-6 sensitivity (separate from control-only refit)
+
+**Independently rerun using the original Level-B historical archive root:** The two misdated 2021–22 games were corrected in a *copy* of the base-panel fixture/covariate data; their 2021–22 selector match numbers and team status IDs were remapped to the appropriate actual-date PDFs, and the original untouched Stage-6 panel-builder and separate fast model executable were invoked with only hardcoded file roots redirected. This is a newly constructed **sensitivity panel**; the original frozen panel is unchanged.
+
+First, independently cross-checking the original parsed 2021–22 report rows:
+- `Injury-Report_2022-02-01_05PM.pdf` contains exactly **10** player listings for **Miami Heat at Toronto Raptors** (Lowry and Birch are both marked **Out**).
+- `Injury-Report_2022-02-03_05PM.pdf` contains exactly **10** player listings for **Chicago Bulls at Toronto Raptors** (Lonzo Ball and Alex Caruso marked **Out**).
+- The two corresponding games have **66** roster rows in the frozen Stage-6 panel, **all marked Not Listed** because the old game-to-report join mixed the date and matchup. Matching the right snapshots changes **20 designation-status cells**. National-partner TV and linear-only TV fields remain unchanged in the actual rebuilt panel.
+
+The independent rebuilt candidate matches the entire **supplied patch evidence** on all changed onset, risk, and designation player-game IDs and every changed-cell count:
+- Same **248,778** player-team-game IDs.
+- **185,547** rows differ in at least one cell, mostly due to propagated very small Elo differences.
+- **10** onset-risk indicator changes; total at-risk rows still **180,664**.
+- **Two** new onsets removed: Kyle Lowry (Miami Heat, star, pre-policy, nationally televised), and Khem Birch (Toronto Raptors), both at the Miami–Toronto game. Their corrected game chronology follows prior absences on January 29/31. Total onsets: **12,729**, previously 12,731.
+- No changes to the underlying `absence_now_harm` cells. Player-game playing history, previous-10-game minutes and distance-to-65 change for a subset of affected teams' observations as expected.
+- The independently rebuilt gzip-decoded CSV contains **122,664,634 bytes**, SHA-256 `2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67`; this is a *new sensitivity variant* and must not be compared for byte equality to the original frozen panel.
+
+| Stage-6 model | Frozen interaction (percentage points) | Corrected chronology (percentage points) | Change (pp) | Corrected p-value |
+|---|---:|---:|---:|---:|
+| National-partner TV, full controls | +2.63044859 | **+2.67423173** | **+0.04378314** | 0.042634 |
+| National-partner TV, no controls | +2.63276878 | **+2.67688550** | **+0.04411672** | 0.043532 |
+| Harmonized linear-only, full controls | +1.23897037 | **+1.28236945** | **+0.04339909** | 0.330868 |
+| Harmonized linear-only, no controls | +1.25111261 | **+1.29485133** | **+0.04373873** | 0.329122 |
+
+With controls the model sample size remains **180,530**, and without controls **180,664**. Independent coefficient differences from the supplied patch are no greater than approximately **1.3 × 10^-14**.
+
+The +0.044 pp change is approximately 16 times the previous control-only +0.0027 pp adjustment but small relative to an approximately 1.32 pp SE. The corrected scenario does **not** reverse the sign or substantive interpretation of the historical Stage-6 TV interaction, but the underlying coding change warrants transparent disclosure. We did not isolate the causal or statistical contribution of Lowry's removed onset alone.
+
+**Implementation safeguard:** The uploaded patch originally suppressed all nonzero model subprocess exit codes by using `replay_stage6_from_frozen.py` in an expected-mismatch context. The integrated [corrected-chronology runner](../scripts/data_rebuild/fixture_date_chronology_sensitivity.py) instead executes the original fast model code directly, verifies its original SHA-256, fails on any nonzero exit, checks all four unique specification keys and model sample sizes, and uses an independent copy of the original archive inputs to prevent source modification. Its per-cell comparison was optimized to avoid parsing 248,778 arbitrary text values as dates repeatedly.
+
+**Scientific boundary:** This variant corrects the two fixture dates and Stage-6 history/report joins but intentionally keeps frozen `game_id` keys (which themselves encode old dates) for row-level comparability. It is not a complete source-to-paper rebuilding of the original fixture ingestion, 2020–26 report selection, TV-as-announced releases, awards, or August latest-pre-tip models. Original final 2026 manuscript tables should not be overwritten solely on the strength of this sensitivity. Further examine other analyses that depend on the original base panel, corrected game chronology and raw-schedule identification.
+
+Reproduction code: [fixture_date_chronology_sensitivity.py](../scripts/data_rebuild/fixture_date_chronology_sensitivity.py), negative tests [test_fixture_date_chronology.py](../tests/test_fixture_date_chronology.py), and exact summary and player-key changes in [validation/fixture_date_chronology_2026-11-08](../validation/fixture_date_chronology_2026-11-08).
