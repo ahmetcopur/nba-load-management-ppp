@@ -19,6 +19,7 @@ def load(name):
 
 compare = load("compare_panels")
 restore = load("restore_historical_layout")
+parser2025 = load("reparse_2025_selected")
 
 
 def csvfile(path, rows):
@@ -138,6 +139,51 @@ class SourceArchivePlanTests(unittest.TestCase):
             target.write_text("modified")
             with self.assertRaisesRegex(RuntimeError, "differs"):
                 restore.restore(archive_folder, output, plan)
+
+
+
+class Selected2025PdfAuditTests(unittest.TestCase):
+    def make_input(self, root, conflicting=False):
+        from pathlib import Path
+        selector = root / parser2025.SELECTOR
+        selector.parent.mkdir(parents=True, exist_ok=True)
+        with selector.open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=["snapshot_basename", "game_id"])
+            writer.writeheader()
+            for i in range(1230):
+                writer.writerow({"snapshot_basename": "selected.pdf", "game_id": i})
+        for i, name in enumerate(parser2025.RAW_ZIPS):
+            target = root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with zipfile.ZipFile(target, "w") as z:
+                if i == 0 or conflicting:
+                    z.writestr("old/pdf/selected.pdf", f"PDF content {i}" if conflicting else "same")
+                else:
+                    z.writestr("old/pdf/unselected.pdf", "different")
+
+    def test_missing_selected_pdf_fails(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            with (root / parser2025.RAW_ZIPS[0]).open("wb") as f:
+                pass
+            with self.assertRaises(zipfile.BadZipFile):
+                parser2025.audit_selected(root)
+
+    def test_selected_pdf_present(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            report = parser2025.audit_selected(root)
+            self.assertEqual(report["selected_games"], 1230)
+            self.assertEqual(report["distinct_selected_pdfs"], 1)
+
+    def test_conflicting_duplicate_pdf_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root, conflicting=True)
+            with self.assertRaisesRegex(ValueError, "conflicting"):
+                parser2025.audit_selected(root)
 
 if __name__ == "__main__":
     unittest.main()
