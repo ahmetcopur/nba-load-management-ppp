@@ -188,25 +188,48 @@ def sensitivity(frozen: Path, corrected: Path) -> pd.DataFrame:
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--shared-repo", type=Path, required=True)
-    p.add_argument("--corrected-panel", type=Path, required=True)
+    p.add_argument("--corrected-panel", type=Path,
+                   help="The already-verified, separate corrected-chronology Stage-6 panel")
+    p.add_argument("--frozen-only", action="store_true",
+                   help="Only rerun public October scripts on pinned frozen panel and audit all 33 archived outputs")
     p.add_argument("--work", type=Path, required=True)
     p.add_argument("--python", default=sys.executable)
     args = p.parse_args()
-    shared, panel, work = args.shared_repo.resolve(), args.corrected_panel.resolve(), args.work.resolve()
-    if not panel.is_file():
+    shared, work = args.shared_repo.resolve(), args.work.resolve()
+    panel = args.corrected_panel.resolve() if args.corrected_panel else None
+    if not args.frozen_only and panel is None:
+        p.error("Supply --corrected-panel or use --frozen-only")
+    if panel is not None and not panel.is_file():
         raise FileNotFoundError(panel)
-    if shared == work or shared in work.parents or work in shared.parents or work == panel.parent or work in panel.parents:
+    if (shared == work or shared in work.parents or work in shared.parents or
+            (panel is not None and (work == panel.parent or work in panel.parents))):
         raise RuntimeError("Replay output overlaps original source repository or corrected panel")
     verify_shared_commit(shared)
-    actual = digest_gzip_payload(panel)
-    if actual != CORRECTED_CSV_SHA256:
+    actual = digest_gzip_payload(panel) if panel else None
+    if not args.frozen_only and actual != CORRECTED_CSV_SHA256:
         raise RuntimeError(f"Corrected chronology decompressed panel hash mismatch: {actual}")
     frozen, corrected = work / "frozen", work / "corrected"
     prepare(shared, frozen, None)
-    prepare(shared, corrected, panel)
     run_all(frozen, args.python)
     reproduced = reproduction(frozen)
     require_reproduction(reproduced)
+    if args.frozen_only:
+        report = {
+            "scope": "Independent frozen October released code and 33 archived output replay",
+            "shared_source_commit": SHARED_COMMIT,
+            "frozen_panel_sha256": FROZEN_SHA256,
+            "reproduction_passed": True,
+            "reproduction_files_compared": len(reproduced),
+            "reproduction_max_abs_numeric_difference":
+                max(result["max_abs_numeric_difference"] for result in reproduced.values()),
+            "reproduction_detail": reproduced,
+            "excluded_archive": "summary_estimates.csv is a hand-authored summary, not script output",
+        }
+        (work / "october_frozen_reproduction.json").write_text(
+            json.dumps(report, indent=2) + "\n")
+        print(json.dumps({k: v for k, v in report.items() if k != "reproduction_detail"}, indent=2))
+        return
+    prepare(shared, corrected, panel)
     run_all(corrected, args.python)
     models = sensitivity(frozen, corrected)
     if len(models) != EXPECTED_SENSITIVITY_ROWS:
