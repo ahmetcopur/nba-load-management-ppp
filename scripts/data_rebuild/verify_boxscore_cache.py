@@ -322,6 +322,48 @@ def check_repair_qa(qa: dict, cache: dict, partial: bool, exit_code: int):
         raise RuntimeError(f"Original repair did not complete all 7,230 fixtures: {qa}")
 
 
+# Documented fixture-date swaps, checked against official NBA game pages:
+# https://www.nba.com/game/CHI-vs-TOR-0022100430/box-score
+# https://www.nba.com/game/mia-vs-tor-0022100784/box-score
+KNOWN_SWAPPED_GAME_IDS = {"0022100430", "0022100784"}
+
+
+def audit_true_tip_time_differences(output: Path, partial: bool):
+    """Measure ACTUAL UTC time drift, not the historical pandas-unit bug."""
+    crosswalk = pd.read_csv(output / "canonical_game_id_crosswalk.csv",
+                            dtype=str, keep_default_na=False)
+    if crosswalk.nba_game_id.duplicated().any():
+        raise ValueError("Rebuilt V2 crosswalk has repeated official game IDs")
+    fixture = pd.to_datetime(crosswalk.fixture_tip_utc, utc=True, errors="coerce")
+    official = pd.to_datetime(crosswalk.boxscore_tip_utc, utc=True, errors="coerce")
+    if fixture.isna().any() or official.isna().any():
+        raise ValueError("Rebuilt V2 crosswalk has invalid fixture or official tip timestamps")
+    absolute_minutes = (official - fixture).dt.total_seconds().abs() / 60
+    reported = pd.to_numeric(crosswalk.tip_difference_minutes, errors="coerce")
+    if reported.isna().any():
+        raise ValueError("Rebuilt V2 crosswalk has invalid historical reported tip gaps")
+    outliers = crosswalk.loc[absolute_minutes.gt(36 * 60)].copy()
+    outliers["actual_absolute_tip_difference_minutes"] = absolute_minutes.loc[outliers.index]
+    outliers["historically_reported_tip_difference_minutes"] = reported.loc[outliers.index]
+    records = outliers[[
+        "nba_game_id", "game_id", "fixture_tip_utc", "boxscore_tip_utc",
+        "actual_absolute_tip_difference_minutes", "historically_reported_tip_difference_minutes"
+    ]].to_dict("records")
+    if not partial and set(outliers.nba_game_id) != KNOWN_SWAPPED_GAME_IDS:
+        raise RuntimeError("Unexpected 36-hour+ fixture-vs-boxscore discrepancy set: "
+                           + str(sorted(set(outliers.nba_game_id))))
+    return {
+        "actual_maximum_absolute_tip_difference_minutes": float(absolute_minutes.max()),
+        "historical_reported_maximum_absolute_tip_difference_minutes": float(reported.max()),
+        "records_over_36_hours": records,
+        "known_fixture_swaps_reproduced": (not partial
+                                           and set(outliers.nba_game_id) == KNOWN_SWAPPED_GAME_IDS),
+        "scientific_warning": "The historical pandas-3 matcher divides microsecond timestamps by a nanosecond divisor; "
+                              "two 48-hour fixture-date errors appear as 2.88 minutes. "
+                              "Matching archived values does NOT validate these game dates or affected covariates.",
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--v1-output", type=Path, required=True,
@@ -357,6 +399,7 @@ def main():
         check_repair_qa(qa, cache, args.allow_partial, code)
         archive = compare_with_archive(rebuilt, args.reference_zip.resolve(), args.allow_partial)
         base = compare_with_base(rebuilt, args.base_panel.resolve())
+        true_times = audit_true_tip_time_differences(rebuilt, args.allow_partial)
         for basename in OUTPUTS:
             (out_dir / basename).write_bytes((rebuilt / basename).read_bytes())
         (out_dir / "repair_stdout.txt").write_text((scratch_dir / "repair_stdout.txt").read_text())
@@ -378,6 +421,7 @@ def main():
         "rebuilt_qa_summary": qa,
         "vs_archived_v2_output": archive,
         "vs_base_panel_boxscore_rows": base,
+        "actual_vs_historical_tip_time_audit": true_times,
         "verification_note": "New SHA-256 manifest records present bytes. It cannot certify the original download hashes, which were not preserved.",
     }
     (out_dir / "boxscore_cache_verification.json").write_text(
