@@ -15,6 +15,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 
 REPO = Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py"
@@ -33,6 +34,36 @@ NEEDED = [
     "cadence_work/player_alias_table.csv",
     "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
 ]
+# Original builder writes these eight files before the historical norm.sf error.
+PRE_MODEL_OUTPUTS = [
+    "harmonized_game_snapshot_map.csv",
+    "harmonized_team_game_report_status.csv",
+    "harmonized_selected_report_rows_all.csv.gz",
+    "harmonized_unmatched_report_players.csv",
+    "harmonized_selected_report_player_rows.csv.gz",
+    "player_team_game_harmonized_cadence.csv.gz",
+    "cadence_panel_counts_by_season.csv",
+    "snapshot_selection_comparison.csv",
+]
+HISTORICAL_MODEL_CRASH = "AttributeError: 'function' object has no attribute 'sf'"
+
+def check_pandas(version):
+    if int(version.split(".")[0]) >= 3:
+        raise SystemExit(f"pandas {version} changes historical object.fillna(False) behavior and corrupts the onset risk set. "
+                         "Use requirements-builder-lock.txt (pandas 2.x)")
+
+def accept_historical_exit(returncode, stderr, out, started):
+    if returncode == 0:
+        return "completed"
+    final_lines = [line for line in stderr.strip().splitlines() if line.strip()][-1:]
+    if final_lines != [HISTORICAL_MODEL_CRASH]:
+        return None
+    invalid = [name for name in PRE_MODEL_OUTPUTS
+               if not (out / name).is_file() or
+               (out / name).stat().st_mtime < started]
+    if invalid:
+        return None
+    return "panel written; model section stopped at known historical norm.sf error"
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
@@ -51,6 +82,7 @@ def main():
     out_pattern = r"^OUT=ROOT/'cadence_harmonized_results'; OUT.mkdir\(exist_ok=True\)$"
     if len(re.findall(root_pattern, script, re.M)) != 1 or len(re.findall(out_pattern, script, re.M)) != 1:
         raise RuntimeError("Original paths changed; inspect builder before executing")
+    check_pandas(metadata.version("pandas"))
     if a.check_only:
         print("All historical season parse and basic builder prerequisites found.")
         return
@@ -77,13 +109,21 @@ def main():
         "thread_settings": {"OPENBLAS_NUM_THREADS": "2", "OMP_NUM_THREADS": "2"},
         "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction."
     }
-    (out / "replay_environment.json").write_text(json.dumps(provenance, indent=2) + "\n")
     env = dict(os.environ, OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
+    started = time.time() - 1
     with tempfile.TemporaryDirectory(prefix="nba_cadence_builder_") as tmp:
         modified = Path(tmp) / SCRIPT.name
         modified.write_text(script)
-        subprocess.run([sys.executable, str(modified)], env=env, check=True, cwd=str(root))
-    print("Historical outputs:", out)
+        run = subprocess.run([sys.executable, str(modified)], env=env,
+                             capture_output=True, text=True, cwd=str(root))
+    print(run.stdout)
+    print(run.stderr, file=sys.stderr)
+    outcome = accept_historical_exit(run.returncode, run.stderr, out, started)
+    if outcome is None:
+        raise SystemExit(f"Historical cadence builder failed (exit {run.returncode}); see stderr above")
+    provenance["builder_outcome"] = outcome
+    (out / "replay_environment.json").write_text(json.dumps(provenance, indent=2) + "\n")
+    print("Historical outputs:", out, "|", outcome)
 
 if __name__ == "__main__":
     main()
