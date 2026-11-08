@@ -35,8 +35,9 @@ def check_inputs(root: Path) -> int:
     if not selected or any("snapshot_basename" not in r or
                            "published_timestamp_utc" not in r for r in selected):
         raise ValueError("Empty or wrong-schema 2025 selected snapshot map")
-    basenames = {r["snapshot_basename"] for r in selected}
-    if "" in basenames:
+    snapshots = {(r["snapshot_basename"], r["published_timestamp_utc"]) for r in selected}
+    basenames = {name for name, timestamp in snapshots}
+    if "" in basenames or any(not timestamp for _, timestamp in snapshots):
         raise ValueError("Blank 2025 snapshot filename")
     found = set()
     for file in (root / required[2], root / required[3]):
@@ -48,10 +49,10 @@ def check_inputs(root: Path) -> int:
         raise FileNotFoundError(
             f"Missing {len(missing_pdfs)} selected PDF snapshots in both archives: "
             + ", ".join(sorted(missing_pdfs)[:10]))
-    return len(basenames)
+    return snapshots
 
 
-def verify_outputs(root: Path, expected_snapshots: int) -> None:
+def verify_outputs(root: Path, expected_snapshots: set[tuple[str, str]]) -> None:
     folder = root / "cadence_work/season_parsed/2025-26"
     log_path = folder / "s1_parse_log_harmonized_selected.csv"
     rows_path = folder / "s1_snapshot_rows_harmonized_selected.csv"
@@ -60,11 +61,10 @@ def verify_outputs(root: Path, expected_snapshots: int) -> None:
             raise RuntimeError(f"2025 parser did not produce a nonempty file: {path}")
     with log_path.open(newline="", encoding="utf-8-sig") as stream:
         logs = list(csv.DictReader(stream))
-    if len(logs) != expected_snapshots:
-        raise RuntimeError(f"Expected {expected_snapshots} per-PDF parse logs; got {len(logs)}")
-    names = [r.get("source_file", "") for r in logs]
-    if len(set(names)) != len(names):
-        raise RuntimeError("Duplicate PDF parse-log entries")
+    actual_snapshots = {(r.get("source_file", ""), r.get("snapshot_timestamp_utc", ""))
+                        for r in logs}
+    if len(logs) != len(expected_snapshots) or actual_snapshots != expected_snapshots:
+        raise RuntimeError("2025 parse logs do not match the exact selected (PDF, timestamp) pairs")
     errors = [r for r in logs if r.get("status") != "ok"]
     if errors:
         raise RuntimeError(
@@ -78,7 +78,7 @@ def verify_outputs(root: Path, expected_snapshots: int) -> None:
         first = next(reader, None)
     if first is None:
         raise RuntimeError("2025 parsed rows CSV has no observations")
-    print(f"Verified {len(logs)} selected report PDFs parsed successfully; output: {rows_path}")
+    print(f"Verified {len(logs)} selected report PDF+timestamp pairs parsed successfully; output: {rows_path}")
 
 
 def main():
@@ -87,13 +87,13 @@ def main():
     p.add_argument("--check-only", action="store_true")
     a = p.parse_args()
     root = a.historical_root.resolve()
-    count = check_inputs(root)
+    snapshots = check_inputs(root)
     original = ORIGINAL.read_text()
     pattern = r"^ROOT=Path\('/mnt/data/nba_continue'\)$"
     if len(re.findall(pattern, original, flags=re.MULTILINE)) != 1:
         raise RuntimeError("Original parser ROOT line changed; inspect before replay")
     if a.check_only:
-        print(f"PASS: {count} selected 2025 PDF snapshots available; parser not executed.")
+        print(f"PASS: {len(snapshots)} selected 2025 PDF+timestamp pairs available; parser not executed.")
         return
     modified = re.sub(pattern, lambda _: f"ROOT=Path({str(root)!r})", original,
                       count=1, flags=re.MULTILINE)
@@ -102,7 +102,7 @@ def main():
         executable.write_text(modified)
         env = dict(os.environ, OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
         subprocess.run([sys.executable, str(executable)], cwd=root, env=env, check=True)
-    verify_outputs(root, count)
+    verify_outputs(root, snapshots)
 
 
 if __name__ == "__main__":
