@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""One-command archive-to-cadence-panel historical replay.
+"""Replay a historical NBA cadence panel from archived intermediate sources.
 
-Rebuilds *from original archived intermediate outputs*, not directly from the
-raw PDF and boxscore payloads. Recomputes the 2025-26 selected report parses
-from PDFs and runs the historical cadence builder; compares with frozen output.
-Exit nonzero on any mismatch. Never modifies frozen reference data.
+This is NOT raw-boxscore-to-canonical-panel reconstruction. Fail on any
+restoration, parsing, building, or frozen-panel comparison error.
 """
 import argparse
 from pathlib import Path
@@ -12,41 +10,50 @@ import subprocess
 import sys
 
 REPO = Path(__file__).resolve().parents[2]
-SCRIPTS = REPO / "scripts/data_rebuild"
+TOOLS = REPO / "scripts/data_rebuild"
+DEFAULT_OUT = REPO / "data_rebuild/output/historical_cadence"
+
 
 def call(name, args):
-    cmd = [sys.executable, str(SCRIPTS / name), *map(str, args)]
-    print("RUN:", " ".join(cmd), flush=True)
-    subprocess.run(cmd, cwd=REPO, check=True)
+    command = [sys.executable, str(TOOLS / name), *map(str, args)]
+    print("RUN:", " ".join(command), flush=True)
+    subprocess.run(command, cwd=REPO, check=True)
+
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--archive-dir", required=True, type=Path,
-                   help="Directory of restored original historical source ZIPs")
-    p.add_argument("--historical-root", required=True, type=Path,
-                   help="Local output folder (e.g. ./data_rebuild/output/nba_continue)")
-    p.add_argument("--skip-2025-parse", action="store_true",
-                   help="Use an existing independently verified 2025 parsed-row CSV")
-    p.add_argument("--check-only", action="store_true",
-                   help="Restore inputs and check parser/builder prerequisites only")
-    p.add_argument("--reference", type=Path,
-                   default=REPO / "data_intermediate/player_team_game_harmonized_cadence.csv.gz")
-    a = p.parse_args()
-    call("restore_historical_layout.py",
-         ["--archive-dir", a.archive_dir, "--historical-root", a.historical_root])
-    if not a.skip_2025_parse:
-        call("reparse_2025_selected.py",
-             ["--historical-root", a.historical_root,
-              *(["--check-only"] if a.check_only else [])])
-    if a.check_only:
-        call("run_historical_cadence_builder.py",
-             ["--historical-root", a.historical_root, "--check-only"])
-        print("Prerequisite checks passed; model and panel not yet rebuilt.")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--archive-dir", type=Path, required=True)
+    parser.add_argument("--historical-root", type=Path, required=True)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUT,
+                        help="Separate, ignored directory for rebuilt panel and model outputs")
+    parser.add_argument("--reference", type=Path,
+                        default=REPO / "data_intermediate/player_team_game_harmonized_cadence.csv.gz")
+    parser.add_argument("--skip-2025-parse", action="store_true",
+                        help="Requires a previously independently verified 2025 parsed-row CSV")
+    parser.add_argument("--check-only", action="store_true",
+                        help="Check ZIP archive member mappings without writing/executing anything")
+    args = parser.parse_args()
+    restore_args = ["--archive-dir", args.archive_dir,
+                    "--historical-root", args.historical_root]
+    if args.check_only:
+        call("restore_historical_layout.py", [*restore_args, "--check-only"])
+        print("Archive layout inspected. No files written, PDFs parsed or models run.")
         return
-    call("run_historical_cadence_builder.py", ["--historical-root", a.historical_root])
-    output = REPO / "data_rebuild/output/historical_cadence/player_team_game_harmonized_cadence.csv.gz"
-    call("compare_panels.py", ["--reference", a.reference, "--candidate", output])
-    print("PASS: reconstructed panel exactly matches the frozen reference CSV.")
+    call("restore_historical_layout.py", restore_args)
+    if args.skip_2025_parse:
+        existing = (args.historical_root /
+                    "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv")
+        if not existing.is_file():
+            raise SystemExit(f"--skip-2025-parse requires a verified existing file: {existing}")
+    else:
+        call("reparse_2025_selected.py", ["--historical-root", args.historical_root])
+    call("run_historical_cadence_builder.py",
+         ["--historical-root", args.historical_root, "--output", args.output])
+    candidate = args.output / "player_team_game_harmonized_cadence.csv.gz"
+    call("compare_panels.py", ["--reference", args.reference, "--candidate", candidate,
+                              "--output", args.output / "panel_comparison.json"])
+    print("PASS: reconstructed cadence panel matches the frozen reference by key and CSV cell.")
+
 
 if __name__ == "__main__":
     main()
