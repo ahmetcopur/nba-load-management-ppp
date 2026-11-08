@@ -5,6 +5,8 @@ on:
       - "scripts/data_rebuild/**"
       - "tests/test_data_rebuild.py"
       - "tests/test_level_b_replay.py"
+      - "tests/test_boxscore_cache.py"
+      - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
       - ".github/workflows/data-rebuild-tests.yml"
   workflow_dispatch:
@@ -100,6 +102,22 @@ jobs:
           python -m compileall -q scripts/data_rebuild tests
       - name: Test original risk-set guard, archive fallback, and PDF timing logic
         run: python -m unittest discover -s tests -p test_level_b_replay.py -v
+  boxscore-json-tests:
+    name: Level-C raw JSON verifier fail-closed tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned offline boxscore analysis dependencies
+        run: python -m pip install -r requirements-boxscore-lock.txt
+      - name: Check verifier syntax
+        run: python -m compileall -q scripts/data_rebuild/verify_boxscore_cache.py tests/test_boxscore_cache.py
+      - name: Run negative JSON / roster join / reference comparison tests
+        run: python -m unittest discover -s tests -p test_boxscore_cache.py -v
   stage6-regression-replay:
     name: Independent Stage-6 model replay from published frozen data
     runs-on: ubuntu-latest
