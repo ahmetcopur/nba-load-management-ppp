@@ -6,7 +6,11 @@ all scientific computation remains in the original executed script.
 """
 from pathlib import Path
 import argparse
+import hashlib
+from importlib import metadata
+import json
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -55,6 +59,25 @@ def main():
     script = re.sub(root_pattern, lambda _: "ROOT=Path(" + repr(str(root)) + ")", script, count=1, flags=re.M)
     script = re.sub(out_pattern, lambda _: "OUT=Path(" + repr(str(out)) + "); OUT.mkdir(parents=True,exist_ok=True)",
                     script, count=1, flags=re.M)
+    packages = ("numpy", "pandas", "scipy", "statsmodels", "scikit-learn",
+                "pdfplumber", "pymupdf")
+    versions = {}
+    for package in packages:
+        try:
+            versions[package] = metadata.version(package)
+        except metadata.PackageNotFoundError:
+            versions[package] = None
+    provenance = {
+        "historical_executed_builder_sha256": hashlib.sha256(SCRIPT.read_bytes()).hexdigest(),
+        "python": sys.version,
+        "platform": platform.platform(),
+        "package_versions": versions,
+        "input_root": str(root),
+        "output": str(out),
+        "thread_settings": {"OPENBLAS_NUM_THREADS": "2", "OMP_NUM_THREADS": "2"},
+        "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction."
+    }
+    (out / "replay_environment.json").write_text(json.dumps(provenance, indent=2) + "\n")
     env = dict(os.environ, OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
     with tempfile.TemporaryDirectory(prefix="nba_cadence_builder_") as tmp:
         modified = Path(tmp) / SCRIPT.name
