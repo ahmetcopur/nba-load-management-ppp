@@ -57,3 +57,15 @@ The milestone ZIPs contain the corresponding executed scripts and outputs.
 ## Scope warning
 
 This is an **analysis reproducibility freeze**, not a complete raw-source mirror. The multi-season raw NBA injury-report PDFs and all raw live-data JSON should remain archived separately. See `documentation/RAW_DATA_AND_REPRODUCIBILITY_SCOPE.md`.
+
+
+## November 2026 reproducibility follow-up (separate from the frozen results)
+
+The historical Stage-6 models have now been **independently recalculated from the already-published frozen cadence panel** using the original executable and pinned Python requirements. All four archived specifications matched within the declared tolerances in [GitHub Actions run #42491869499](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42491869499).
+
+```bash
+python3 -m pip install -r requirements-lock.txt
+python3 scripts/data_rebuild/replay_stage6_from_frozen.py
+```
+
+This validates **panel-to-regression reproducibility**, not the upstream creation of the canonical dataset from original NBA boxscore JSON and multi-season injury PDFs. A separate archive-to-panel replay runner is documented in [Historical archive replay](documentation/HISTORICAL_ARCHIVES_REPLAY_2026-11.md), including the needed local original ZIPs, PDF-source provenance verification, original-model comparison, and remaining unverified gaps. The archived results and August freeze remain unchanged. All historical intermediate-to-panel replay steps must be executed and checked before claiming full source-data reproducibility.
