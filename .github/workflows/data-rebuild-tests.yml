@@ -56,6 +56,7 @@ jobs:
           for archive, basename in (
               ("packages/01_analysis_ready_panel.zip", "player_game_panel_analysis_ready.csv.gz"),
               ("packages/06_cadence_harmonized_identification.zip", "player_team_game_harmonized_cadence.csv.gz"),
+              ("packages/06_cadence_harmonized_identification.zip", "cadence_harmonized_model_results.csv"),
           ):
               with ZipFile(archive) as z:
                   member = resolve_member(z, basename)
