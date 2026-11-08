@@ -97,3 +97,23 @@ For the reconstruction, install the historical versions in `requirements-lock.tx
 Once the historical cadence panel is replayed, the orchestrator also checks `cadence_harmonized_model_results.csv` against the four **Stage-6 historical model** specifications in `packages/06_cadence_harmonized_identification.zip`. This compares specification keys, sample sizes, effect/SE/CI values with a 0.001 percentage-point tolerance and p-values with a 0.001 absolute tolerance. An explicit `--skip-stage6-model-comparison` flag bypasses that check, but such a run should not be called full historical analysis replication. The Stage-6 legacy/harmonized labels are **not** identical to the October 25 paper's national-partner TV versus linear-only definitions; do not misreport them as the October manuscript estimates.
 
 All archived coefficients, frozen panels and original scripts remain unchanged; rebuilt values and comparison reports stay under `data_rebuild/output/`.
+
+## Independently verified model-only replay (GitHub Actions)
+
+The original Stage-6 model source can be rerun **without the private historical archives** using the published frozen cadence panel. This validates model computation, **not creation of the frozen panel**:
+
+```bash
+python3 -m pip install -r requirements-lock.txt
+python3 scripts/data_rebuild/replay_stage6_from_frozen.py
+```
+
+The wrapper checks the unchanged historical `run_cadence_models_fast.py` executable, creates an isolated temporary input root, reruns all four historical Stage-6 specifications, and compares estimates and SEs against `packages/06_cadence_harmonized_identification.zip`. It writes a source/input SHA-256 and environment provenance report under `data_rebuild/output/stage6_replay/`.
+
+**Verified in GitHub CI run 42491869499 (November 8, 2026)**: all four Stage-6 models were recalculated and matched the archived results within the declared 0.001 percentage-point and 0.001 p-value tolerances. Full-control legacy TV = +2.63044859 pp (95% CI +0.04574938 to +5.21514780; n=180,530), harmonized linear TV = +1.23897037 pp (95% CI -1.34567798 to +3.82361871; n=180,530). These are conditional regressions on the already-frozen panel; their replication does not establish original raw NBA data ingestion or a causal policy effect.
+
+## Correct provenance source for 2025 selected PDFs
+
+The harmonized checkpoint selector is intentionally **different** from the primary latest-pre-tip report selector. Do not compare their selected PDF sets or require exact equality of `primary_sample_report_map.csv.gz`. `reparse_2025_selected.py --metadata-dir` instead checks the **full** `injury_report_inventory.csv.gz` to verify selected 2025–26 PDF archive/member identities, stored original-manifest matching SHA-256 digests, and actual recovered ZIP bytes. Duplicate selected PDF basenames with conflicting contents are rejected. This does not resolve the 21 reported PDF-header/manifest clock exceptions.
+
+The updated restoration log records the SHA-256 of each *complete input ZIP* as well as each extracted member, and copies raw ZIPs instead of using hard links, protecting the originals from accidental mutation.
+
