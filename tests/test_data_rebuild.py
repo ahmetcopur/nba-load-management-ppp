@@ -128,6 +128,19 @@ class SourceArchivePlanTests(unittest.TestCase):
             with self.assertRaisesRegex(FileNotFoundError, "Missing archive"):
                 restore.build_plan(archive_folder)
 
+    def test_conflicting_player_alias_archives_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            archive_folder = Path(d)
+            self.make_archives(archive_folder)
+            for name, value in (
+                ("nba_player_crosswalk_final_v1.zip", "player_id=1\n"),
+                ("nba_player_game_at_risk_core_v1.zip", "player_id=2\n")
+            ):
+                with zipfile.ZipFile(archive_folder / name, "a") as z:
+                    z.writestr("metadata/player_alias_table.csv", value)
+            with self.assertRaisesRegex(ValueError, "Conflicting player alias"):
+                restore.build_plan(archive_folder)
+
     def test_repeated_restore_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             folder = Path(d)
