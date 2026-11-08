@@ -20,6 +20,7 @@ def load(name):
 compare = load("compare_panels")
 restore = load("restore_historical_layout")
 parser2025 = load("reparse_2025_selected")
+panelcheck = load("validate_cadence_panel")
 
 
 def csvfile(path, rows):
@@ -184,6 +185,44 @@ class Selected2025PdfAuditTests(unittest.TestCase):
             self.make_input(root, conflicting=True)
             with self.assertRaisesRegex(ValueError, "conflicting"):
                 parser2025.audit_selected(root)
+
+
+
+class CadencePanelInvariantTests(unittest.TestCase):
+    def make_panel(self, path, invalid_onset=False):
+        import pandas as pd
+        seasons = sorted(panelcheck.SEASONS)
+        data = [{
+            "player_team_game_id": f"g{i}|team|p",
+            "game_id": f"g{i}",
+            "season": season,
+            "at_risk_for_new_onset_harm": i == 0 and not invalid_onset,
+            "absence_onset_harm": i == 0,
+            "absence_now_harm": i == 0,
+        } for i, season in enumerate(seasons)]
+        pd.DataFrame(data).to_csv(path, index=False)
+
+    def test_invariant_pass(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "valid.csv"
+            self.make_panel(path)
+            r = panelcheck.inspect_panel(path)
+            self.assertEqual(r["rows"], 6)
+            self.assertEqual(r["onsets"], 1)
+
+    def test_onset_without_risk_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "invalid.csv"
+            self.make_panel(path, invalid_onset=True)
+            with self.assertRaisesRegex(ValueError, "outside the onset risk set"):
+                panelcheck.inspect_panel(path)
+
+    def test_frozen_expected_counts_do_not_accept_fabricated_small_panel(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "small.csv"
+            self.make_panel(path)
+            with self.assertRaisesRegex(ValueError, "counts differ"):
+                panelcheck.inspect_panel(path, expect_frozen=True)
 
 if __name__ == "__main__":
     unittest.main()
