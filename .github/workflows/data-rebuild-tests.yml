@@ -9,6 +9,7 @@ on:
       - "tests/test_fixture_date_swap_covariates.py"
       - "tests/test_fixture_date_chronology.py"
       - "tests/test_october_corrected_chronology.py"
+      - "tests/test_missing_october_paper_statistics.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -148,9 +149,11 @@ jobs:
           assert numpy.__version__ == "2.5.2"
           print(pandas.__version__, numpy.__version__, scipy.__version__, statsmodels.__version__)
           PY
-          python -m compileall -q scripts/data_rebuild/october_corrected_chronology.py tests/test_october_corrected_chronology.py
+          python -m compileall -q scripts/data_rebuild/october_corrected_chronology.py scripts/data_rebuild/rebuild_missing_october_paper_statistics.py tests/test_october_corrected_chronology.py tests/test_missing_october_paper_statistics.py
       - name: Test fail-closed frozen release reproduction and corrected sensitivity comparator
         run: python -m unittest discover -s tests -p test_october_corrected_chronology.py -v
+      - name: Test onset-rate and spell-duration boundaries
+        run: python -m unittest discover -s tests -p test_missing_october_paper_statistics.py -v
   october-release-frozen-replay:
     name: Independently rerun all ten Oct scripts and 33 archived outputs
     runs-on: ubuntu-latest
@@ -176,6 +179,11 @@ jobs:
             --shared-repo "$RUNNER_TEMP/nba_shared" \
             --work "$RUNNER_TEMP/october_work" \
             --frozen-only
+      - name: Independently reproduce missing published duration, raw rates and paired home-contrast
+        run: |
+          python scripts/data_rebuild/rebuild_missing_october_paper_statistics.py \
+            --frozen-panel "$RUNNER_TEMP/nba_shared/data_intermediate/player_team_game_harmonized_cadence.csv.gz" \
+            --output "$RUNNER_TEMP/october_work/missing_manuscript_statistics.json"
       - name: Upload frozen October full run summary and logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -183,6 +191,7 @@ jobs:
           name: october-frozen-release-replay
           path: |
             ${{ runner.temp }}/october_work/october_frozen_reproduction.json
+            ${{ runner.temp }}/october_work/missing_manuscript_statistics.json
             ${{ runner.temp }}/october_work/frozen/*.log
           if-no-files-found: warn
   stage6-regression-replay:
