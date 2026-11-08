@@ -101,3 +101,10 @@ An independent read of the original August panel confirmed **34** incorrectly li
 
 
 **Independently reproduced October release:** [GitHub Actions 42516634023](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42516634023) successfully reran ten original public October scripts and matched all 33 archived output CSVs (max difference 1.15e-13). The corrected October sensitivity was run externally and its source/summary audited; its full corrected pass was not independently rerun inside public CI.
+
+
+## November 8, 2026 — manuscript descriptives and August source-join audit
+
+The previously missing October cadence-paper raw TV triple difference, onset/prevalence rate cells, one-game home/road rates, censor-safe completed-spell duration table, and paired one-game-minus-longer home/road regression have now been independently rebuilt from original frozen and corrected-chronology panels. The frozen figures match the October manuscript to recorded precision; corrected raw triple is **+1.9665 pp** (frozen +1.9199 pp) and corrected paired contrast is **+1.6378 pp**, p=.1602 (frozen +1.6640 pp, p=.1536). See [reproduction code](scripts/data_rebuild/rebuild_missing_october_paper_statistics.py), [scientific write-up](documentation/OCTOBER_MISSING_PAPER_STATISTICS_2026-11-08.md) and [comparison evidence](validation/october_missing_paper_statistics_2026-11-08/paper_statistic_deltas.json).
+
+A separate [original August source-level audit](documentation/AUGUST_TORONTO_SOURCE_REPORT_JOIN_AUDIT_2026-11-08.md) discovered **17 misassigned selected-report rows** from October 2021 and April 2022 caused by a season-wide CHI@TOR/MIA@TOR matchup override. Repair must use **source match numbers** and fix only February source games 430 and 784, then rebuild downstream latest-pre-tip/taxonomy. The **17 upstream report rows** are not the same population as the **34 downstream player-game timing anomalies**. This is a confirmed audit, not a completed August panel rebuild. PR #4 remains a draft, original frozen research files unchanged.
