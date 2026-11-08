@@ -82,6 +82,9 @@ def audit_selected(root: Path, metadata_dir: Path | None = None):
                     continue
                 key = (record["archive"], member)
                 digest = record["computed_sha256"]
+                if (record.get("hash_status") != "match" or
+                        record.get("manifest_sha256") != digest):
+                    raise ValueError(f"Archived PDF lacks manifest hash verification: {key}")
                 if not digest or len(digest) != 64:
                     raise ValueError(f"Selected PDF has missing/invalid archived digest: {key}")
                 if key in inventory and inventory[key] != digest:
