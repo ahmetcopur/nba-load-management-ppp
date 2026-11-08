@@ -72,3 +72,25 @@ jobs:
           assert set(found) == EXPECTED, f"Unexpected published model variants: {set(found)}"
           print("PASS: four archived Stage-6 TV/control model specifications")
           PY
+  stage6-regression-replay:
+    name: Independent Stage-6 model replay from published frozen data
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install exact historical analysis dependencies
+        run: python -m pip install -r requirements-lock.txt
+      - name: Run original Stage-6 regression executable on frozen panel
+        run: |
+          python scripts/data_rebuild/replay_stage6_from_frozen.py --timeout 1080
+      - name: Upload regression verification (not raw NBA data)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage6-frozen-panel-replay
+          path: data_rebuild/output/stage6_replay/
+          if-no-files-found: warn
