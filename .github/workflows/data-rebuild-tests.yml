@@ -45,3 +45,17 @@ jobs:
           assert len(set(r["nba_game_id"] for r in rows)) == 7230
           print("PASS: 7,230 unique report-to-boxscore game joins")
           PY
+      - name: Check actual archived analysis package members
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from scripts.data_rebuild.restore_historical_layout import resolve_member
+          for archive, basename in (
+              ("packages/01_analysis_ready_panel.zip", "player_game_panel_analysis_ready.csv.gz"),
+              ("packages/06_cadence_harmonized_identification.zip", "player_team_game_harmonized_cadence.csv.gz"),
+          ):
+              with ZipFile(archive) as z:
+                  member = resolve_member(z, basename)
+                  print(f"PASS {archive} -> {member} ({z.getinfo(member).file_size} bytes)")
+          PY
