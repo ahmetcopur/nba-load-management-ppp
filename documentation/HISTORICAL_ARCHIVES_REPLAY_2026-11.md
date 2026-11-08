@@ -33,7 +33,7 @@ Additional season audits (`audit_2020_21_s4_join_results_rechecked.zip`, `audit_
 Prepare a folder containing the named ZIPs. From the repository root:
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-lock.txt
 python3 scripts/data_rebuild/rebuild_from_archives.py \
   --archive-dir /path/to/nba_archives \
   --historical-root data_rebuild/output/nba_continue
@@ -82,3 +82,9 @@ What an actual end-to-end historical **intermediate-to-panel replay** would need
 5. **Full raw-to-final reproduction.** This is a **different, larger milestone**, requiring re-creation of canonical NBA rosters/boxscore JSON ingestion, 2020–21 through 2024–25 injury-report parsing and cadence selection, broadcast schedules, star/award histories, game covariates, and taxonomy construction. None of those should be described as regenerated when simply restored as existing intermediate CSVs.
 
 If an archive's member basename is missing/ambiguous, stop and inspect the original ZIP contents. Do not automatically select a different data file with a similar name.
+
+## Dependency and acceptance status
+
+For the reconstruction, install the historical versions in `requirements-lock.txt` rather than the unpinned `requirements.txt`. This lockfile covers the analysis packages, but the historical PDF parser's additional dependencies must still be verified from its original package before claiming an environment-complete raw-PDF parser replay. Record Python and dependency versions when running.
+
+`python3 scripts/data_rebuild/validate_cadence_panel.py --expect-frozen` independently checks six-season coverage, unique player-team-game keys, the 7,230 game count, 248,778 rows, 180,664 at-risk observations, 12,731 onsets, and the logical condition that every onset is in-risk and currently absent. This is an **invariant check of the published data**, not evidence that the data were independently reconstructed.
