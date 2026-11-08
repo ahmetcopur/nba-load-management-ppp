@@ -8,6 +8,8 @@ on:
       - "tests/test_boxscore_cache.py"
       - "tests/test_fixture_date_swap_covariates.py"
       - "tests/test_fixture_date_chronology.py"
+      - "tests/test_october_corrected_chronology.py"
+      - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
       - ".github/workflows/data-rebuild-tests.yml"
@@ -124,6 +126,29 @@ jobs:
         run: python -m unittest discover -s tests -p test_boxscore_cache.py -v
       - name: Run original-covariate date-swap fixture tests
         run: python -m unittest discover -s tests -p test_fixture_date_swap_covariates.py -v
+  october-release-tests:
+    name: October 2026 release replay comparison tests (pandas 3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install exact October release dependency versions
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Assert October runtime and script syntax
+        run: |
+          python - <<'PY'
+          import pandas, numpy, scipy, statsmodels
+          assert pandas.__version__ == "3.0.5"
+          assert numpy.__version__ == "2.5.2"
+          print(pandas.__version__, numpy.__version__, scipy.__version__, statsmodels.__version__)
+          PY
+          python -m compileall -q scripts/data_rebuild/october_corrected_chronology.py tests/test_october_corrected_chronology.py
+      - name: Test fail-closed frozen release reproduction and corrected sensitivity comparator
+        run: python -m unittest discover -s tests -p test_october_corrected_chronology.py -v
   stage6-regression-replay:
     name: Independent Stage-6 model replay from published frozen data
     runs-on: ubuntu-latest
