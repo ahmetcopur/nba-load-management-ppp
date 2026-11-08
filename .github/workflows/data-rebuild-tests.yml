@@ -116,7 +116,7 @@ jobs:
       - name: Install pinned offline boxscore analysis dependencies
         run: python -m pip install -r requirements-boxscore-lock.txt
       - name: Check verifier syntax
-        run: python -m compileall -q scripts/data_rebuild/verify_boxscore_cache.py scripts/data_rebuild/audit_fixture_date_swap_covariates.py tests/test_boxscore_cache.py tests/test_fixture_date_swap_covariates.py
+        run: python -m compileall -q scripts/data_rebuild/verify_boxscore_cache.py scripts/data_rebuild/audit_fixture_date_swap_covariates.py scripts/data_rebuild/run_fixture_date_control_sensitivity.py tests/test_boxscore_cache.py tests/test_fixture_date_swap_covariates.py
       - name: Run negative JSON / roster join / reference comparison tests
         run: python -m unittest discover -s tests -p test_boxscore_cache.py -v
       - name: Run original-covariate date-swap fixture tests
