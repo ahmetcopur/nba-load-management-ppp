@@ -19,12 +19,14 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install dependencies
-        run: python -m pip install -r requirements.txt
+        run: python -m pip install -r requirements-lock.txt
       - name: Syntax-check rebuild tools
         run: python -m compileall -q scripts/data_rebuild tests/test_data_rebuild.py
       - name: Unit tests with synthetic panels/archives
         run: python -m unittest discover -s tests -p test_data_rebuild.py -v
-      - name: Frozen panel self-check
+      - name: Validate frozen panel scientific invariants
+        run: python scripts/data_rebuild/validate_cadence_panel.py --expect-frozen
+      - name: CSV comparator smoke test (same-file identity only)
         run: |
           python scripts/data_rebuild/compare_panels.py \
             --reference data_intermediate/player_team_game_harmonized_cadence.csv.gz \
