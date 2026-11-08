@@ -1,5 +1,7 @@
 """Offline smoke tests for reproducibility tooling; no private NBA data required."""
 import csv
+import gzip
+import hashlib
 import importlib.util
 import tempfile
 import unittest
@@ -179,6 +181,29 @@ class Selected2025PdfAuditTests(unittest.TestCase):
             report = parser2025.audit_selected(root)
             self.assertEqual(report["selected_games"], 1230)
             self.assertEqual(report["distinct_selected_pdfs"], 1)
+
+    def test_selected_pdf_against_published_inventory_hash(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.make_input(root)
+            metadata = root / "inventory"
+            metadata.mkdir()
+            path = metadata / "primary_sample_report_map.csv.gz"
+            def write_inventory(digest):
+                with gzip.open(path, "wt", newline="") as stream:
+                    writer = csv.DictWriter(stream,
+                                            fieldnames=["season", "archive_member", "computed_sha256"])
+                    writer.writeheader()
+                    for _ in range(1230):
+                        writer.writerow({"season": "2025-26",
+                                         "archive_member": "pdf/selected.pdf",
+                                         "computed_sha256": digest})
+            write_inventory(hashlib.sha256(b"same").hexdigest())
+            self.assertTrue(parser2025.audit_selected(root, metadata)[
+                "source_inventory_sha256_verified"])
+            write_inventory("f" * 64)
+            with self.assertRaisesRegex(ValueError, "digest"):
+                parser2025.audit_selected(root, metadata)
 
     def test_conflicting_duplicate_pdf_rejected(self):
         with tempfile.TemporaryDirectory() as d:
