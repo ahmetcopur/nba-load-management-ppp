@@ -21,6 +21,7 @@ compare = load("compare_panels")
 restore = load("restore_historical_layout")
 parser2025 = load("reparse_2025_selected")
 panelcheck = load("validate_cadence_panel")
+modelcheck = load("compare_stage6_models")
 
 
 def csvfile(path, rows):
@@ -223,6 +224,30 @@ class CadencePanelInvariantTests(unittest.TestCase):
             self.make_panel(path)
             with self.assertRaisesRegex(ValueError, "counts differ"):
                 panelcheck.inspect_panel(path, expect_frozen=True)
+
+
+
+class Stage6ModelComparisonTests(unittest.TestCase):
+    def make_models(self):
+        return [
+            {"definition": definition, "controls": controls, "n": "180530",
+             "estimate_pp": "1.2345", "se_pp": "0.123", "low_pp": "0.993",
+             "high_pp": "1.476", "p": "0.02"}
+            for definition, controls in sorted(modelcheck.EXPECTED)
+        ]
+
+    def test_stage6_exact_replay(self):
+        rows = self.make_models()
+        self.assertTrue(modelcheck.compare(rows, rows)["matched"])
+
+    def test_stage6_changed_effect_fails(self):
+        before, after = self.make_models(), self.make_models()
+        after[0]["estimate_pp"] = "1.5"
+        self.assertFalse(modelcheck.compare(before, after)["matched"])
+
+    def test_stage6_missing_specification_fails(self):
+        rows = self.make_models()
+        self.assertFalse(modelcheck.compare(rows, rows[:-1])["matched"])
 
 if __name__ == "__main__":
     unittest.main()
