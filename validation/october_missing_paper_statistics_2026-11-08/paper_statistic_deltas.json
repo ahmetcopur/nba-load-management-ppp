@@ -1,0 +1,177 @@
+{
+  "scope": "Independent missing October manuscript descriptive/paired/duration reproduction from original frozen cadence panel and separately reconstructed corrected-chronology cadence panel. Published manuscript and frozen panels unchanged.",
+  "date": "2026-11-08",
+  "frozen_csv_uncompressed_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
+  "corrected_csv_uncompressed_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+  "reconstruction_script": "scripts/data_rebuild/rebuild_missing_october_paper_statistics.py",
+  "frozen_manuscript_cells_reproduced": true,
+  "risk_and_onsets": {
+    "frozen": {
+      "risk": 180664,
+      "onsets": 12731,
+      "star_pre_onsets": 826,
+      "nonstar_pre_onsets": 4791
+    },
+    "corrected": {
+      "risk": 180664,
+      "onsets": 12729,
+      "star_pre_onsets": 825,
+      "nonstar_pre_onsets": 4790
+    }
+  },
+  "tv_raw_triple_pp": {
+    "frozen": 1.9199065788012044,
+    "corrected": 1.9665236128641546,
+    "delta": 0.0466170340629502
+  },
+  "national_partner_tv_pre_policy_onsets": {
+    "star": {
+      "frozen": {
+        "risk": 1447,
+        "onsets": 104,
+        "rate_pct": 7.18728403593642
+      },
+      "corrected": {
+        "risk": 1445,
+        "onsets": 103,
+        "rate_pct": 7.1280276816609
+      }
+    },
+    "nonstar": {
+      "frozen": {
+        "risk": 10366,
+        "onsets": 547,
+        "rate_pct": 5.27686667952923
+      },
+      "corrected": {
+        "risk": 10365,
+        "onsets": 546,
+        "rate_pct": 5.267727930535456
+      }
+    }
+  },
+  "absence_prevalence_unchanged": {
+    "star_pre": {
+      "observed": 10925,
+      "absent": 3093,
+      "rate_pct": 28.31121281464531
+    },
+    "star_post": {
+      "observed": 12194,
+      "absent": 3350,
+      "rate_pct": 27.47252747252747
+    },
+    "nonstar_pre": {
+      "observed": 106888,
+      "absent": 25522,
+      "rate_pct": 23.877329541202005
+    },
+    "nonstar_post": {
+      "observed": 117660,
+      "absent": 32437,
+      "rate_pct": 27.56841747407785
+    }
+  },
+  "paired_onegame_minus_longer_home": {
+    "frozen": {
+      "n": 180087,
+      "estimate_pp": 1.6640489534898748,
+      "se_pp": 1.1661649666433418,
+      "low_pp": -0.621634381131075,
+      "high_pp": 3.949732288110824,
+      "p": 0.1535968151325646,
+      "iterations": 81,
+      "converged": true
+    },
+    "corrected": {
+      "n": 180087,
+      "estimate_pp": 1.6378139042000905,
+      "se_pp": 1.1662354115158489,
+      "low_pp": -0.648007502370973,
+      "high_pp": 3.923635310771154,
+      "p": 0.16021179271739094,
+      "iterations": 81,
+      "converged": true
+    }
+  },
+  "completed_spell_summary": [
+    {
+      "star": true,
+      "post": false,
+      "frozen": {
+        "onsets": 826,
+        "completed": 713,
+        "mean": 2.6297335203366057,
+        "median": 1,
+        "onegame_pct": 63.5343618513324
+      },
+      "corrected": {
+        "onsets": 825,
+        "completed": 712,
+        "mean": 2.633426966292135,
+        "median": 1,
+        "onegame_pct": 63.48314606741573
+      }
+    },
+    {
+      "star": true,
+      "post": true,
+      "frozen": {
+        "onsets": 809,
+        "completed": 702,
+        "mean": 2.7037037037037037,
+        "median": 1,
+        "onegame_pct": 64.67236467236467
+      },
+      "corrected": {
+        "onsets": 809,
+        "completed": 702,
+        "mean": 2.7037037037037037,
+        "median": 1,
+        "onegame_pct": 64.67236467236467
+      }
+    },
+    {
+      "star": false,
+      "post": false,
+      "frozen": {
+        "onsets": 4791,
+        "completed": 4119,
+        "mean": 3.742413207089099,
+        "median": 2,
+        "onegame_pct": 42.43748482641418
+      },
+      "corrected": {
+        "onsets": 4790,
+        "completed": 4118,
+        "mean": 3.7433220009713453,
+        "median": 2,
+        "onegame_pct": 42.42350655658086
+      }
+    },
+    {
+      "star": false,
+      "post": true,
+      "frozen": {
+        "onsets": 6305,
+        "completed": 5590,
+        "mean": 3.616994633273703,
+        "median": 2,
+        "onegame_pct": 46.61896243291592
+      },
+      "corrected": {
+        "onsets": 6305,
+        "completed": 5590,
+        "mean": 3.616994633273703,
+        "median": 2,
+        "onegame_pct": 46.61896243291592
+      }
+    }
+  ],
+  "methodology": {
+    "raw_tv_triple": "(Star minus Nonstar TV-minus-non-TV gap in post) minus same in pre, on onset risk rows",
+    "duration": "From known onset, count consecutive observed absent team-games; completed only after consecutive observed available; otherwise right censored. Only completed spells enter mean/median/one-game shares.",
+    "paired": "Onegame-minus-longer on identical N=180087 eligible player-game rows; original player, teamseason, physical-game fixed effects; original 9 home controls; two-way cluster player+game. Matches frozen published 1.66 pp and p=.154.",
+    "boundary": "Stage-6 corrected-chronology sensitivity only. Does not correct August latest-pre-tip taxonomy or full Level-C raw-source paper reproduction."
+  }
+}
