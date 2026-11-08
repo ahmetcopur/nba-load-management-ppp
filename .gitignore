@@ -24,3 +24,6 @@ results/portable_*.zip
 
 # Stage 10 rebuildable reliability panels
 data_intermediate/reliability_stage10/
+
+# Raw-data rebuild scratch outputs (never commit raw NBA PDFs/JSON here)
+data_rebuild/output/
