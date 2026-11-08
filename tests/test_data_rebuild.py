@@ -76,5 +76,68 @@ class ArchiveTests(unittest.TestCase):
                     restore.save_member(z, "data/test.csv", output)
 
 
+
+
+class SourceArchivePlanTests(unittest.TestCase):
+    def make_archives(self, folder):
+        """Synthetic stand-ins for the complete historical ZIP list."""
+        spec = {}
+        for _, archive, basename in restore.FILES:
+            spec.setdefault(archive, []).append(f"old_project/final/{basename}")
+        spec[restore.SELECTOR_ZIP] = [
+            f"nested/selector/{basename}" for basename in restore.SELECTOR_NAMES
+        ]
+        for archive in restore.RAW_2025:
+            spec[archive] = ["pdf/Injury-Report_2025-12-20_05PM.pdf"]
+        for archive, members in spec.items():
+            with zipfile.ZipFile(folder / archive, "w") as z:
+                for member in members:
+                    z.writestr(member, "test fixture\n")
+        return spec
+
+    def test_nested_zip_names_are_resolved_without_assuming_prefix(self):
+        with tempfile.TemporaryDirectory() as d:
+            archive_folder = Path(d)
+            self.make_archives(archive_folder)
+            plan = restore.build_plan(archive_folder)
+            self.assertEqual(len(plan), len(restore.FILES) + len(restore.SELECTOR_NAMES))
+            self.assertEqual(len({dest for dest, _, _ in plan}), len(plan))
+            self.assertTrue(any(member.startswith("old_project/final/")
+                                for _, _, member in plan))
+
+    def test_ambiguous_basename_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            archive_folder = Path(d)
+            self.make_archives(archive_folder)
+            archive = archive_folder / restore.FILES[0][1]
+            with zipfile.ZipFile(archive, "a") as z:
+                z.writestr("another/location/" + restore.FILES[0][2], "other")
+            with self.assertRaisesRegex(ValueError, "found 2"):
+                restore.build_plan(archive_folder)
+
+    def test_missing_archive_is_rejected_before_copy(self):
+        with tempfile.TemporaryDirectory() as d:
+            archive_folder = Path(d)
+            self.make_archives(archive_folder)
+            (archive_folder / restore.SELECTOR_ZIP).unlink()
+            with self.assertRaisesRegex(FileNotFoundError, "Missing archive"):
+                restore.build_plan(archive_folder)
+
+    def test_repeated_restore_detects_tampering(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder = Path(d)
+            archive_folder, output = folder / "archives", folder / "output"
+            archive_folder.mkdir()
+            self.make_archives(archive_folder)
+            plan = restore.build_plan(archive_folder)
+            first = restore.restore(archive_folder, output, plan)
+            self.assertEqual(len(first), len(plan) + len(restore.RAW_2025))
+            second = restore.restore(archive_folder, output, plan)
+            self.assertTrue(all(item["state"] == "unchanged" for item in second))
+            target = output / restore.FILES[0][0]
+            target.write_text("modified")
+            with self.assertRaisesRegex(RuntimeError, "differs"):
+                restore.restore(archive_folder, output, plan)
+
 if __name__ == "__main__":
     unittest.main()
