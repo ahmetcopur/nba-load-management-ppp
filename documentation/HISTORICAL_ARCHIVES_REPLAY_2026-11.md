@@ -39,9 +39,9 @@ python3 scripts/data_rebuild/rebuild_from_archives.py \
   --historical-root data_rebuild/output/nba_continue
 ```
 
-The entrypoint (1) copies and SHA-256 logs historical source files into the original directory structure, (2) uses the unmodified archived 2025–26 PDF parser via a temporary path-adjusted copy, (3) uses the unmodified archived cadence-panel builder via a temporary path-adjusted copy, (4) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
+The entrypoint (1) inspects all historical ZIP members by exact basename and rejects missing or duplicate matches *before copying*, (2) copies verified historical intermediate data and records SHA-256 hashes into the original directory structure, (3) audits that each selected 2025–26 PDF exists and is not in conflict between source archives before running the unmodified historical parser via a temporary path-adjusted copy, (4) runs the archived cadence-panel builder via a temporary path-adjusted copy, and (5) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
 
-Prerequisites-only check:
+Read-only archive member inspection (does not copy files or run the historical parser):
 
 ```bash
 python3 scripts/data_rebuild/rebuild_from_archives.py \
@@ -53,7 +53,7 @@ Pre-verified parsed 2025 CSV can be reused with `--skip-2025-parse` to avoid rep
 
 ## QA
 
-GitHub Actions `data-rebuild-tests.yml` runs Python syntax compilation, synthetic CSV panel-difference tests, archive-copy/hash tampering detection, and a self-compare of the frozen cadence panel. These are tooling tests, not evidence of historical reconstruction. The full rebuild must pass an actual independent run before declaring raw-source replication.
+GitHub Actions `data-rebuild-tests.yml` runs Python syntax compilation, synthetic CSV panel-difference tests, archive-copy/hash tampering detection, and a self-compare of the frozen cadence panel. These are tooling tests and archived public package layout checks, **not** evidence of a successful historical reconstruction using the 13 original source archives. The full rebuild must pass an actual independent run before declaring raw-source replication.
 
 Expected frozen cadence panel from the October manuscript: **248,778 player-team-game rows, 180,664 onset-risk records, and 12,731 new onsets**. Any divergent counts, identity join failures, or strict comparison mismatches are blocking issues. Report them; never force them to the expected count.
 
@@ -68,3 +68,17 @@ Expected frozen cadence panel from the October manuscript: **248,778 player-team
 ## GitHub state
 
 This is an additive development branch. Do not overwrite frozen datasets, original research scripts or historical manifests. Preserve any reconstruction logs outside the public Git history unless source licensing and privacy have been reviewed.
+
+## November 8 audit and verification boundary
+
+PR #2 passed five synthetic tests and a real published 7,230-game *metadata join*. Those checks were not proof of the 248,778-row panel's independent construction: self-comparing a frozen CSV is tautological. The earlier ZIP restoration script also assumed unverified internal paths and could write output during a supposedly read-only check. PR #4 corrects these limitations.
+
+What an actual end-to-end historical **intermediate-to-panel replay** would need to establish:
+
+1. **Source authenticity and integrity.** Preserve a full manifest mapping each of the 13 real archive names, archive SHA-256 digests, resolved input members and member digests. The newly recorded SHA-256 of a copy establishes copy integrity, not independent trust in the source archive.
+2. **Exact source replay.** Run the original 2025–26 selected-PDF parser on the restored original two 2025–26 ZIPs. Audit duplicate/missing PDF basenames. Independently review the 21 clock exceptions; that is a separate sensitivity.
+3. **Dataset identity.** Run the historical cadence builder and compare the generated CSV against the frozen October panel by row keys and values, including 248,778 player–team–games, 180,664 onset-risk observations and 12,731 onsets. A strict mismatch is a failed replay, not a request to patch values until they match.
+4. **Analysis reproducibility.** Only after #3 passes, rerun the published October models against the rebuilt panel and compare estimates with scientific numeric tolerances. Source/analysis reconciliation cannot be inferred from green unit tests.
+5. **Full raw-to-final reproduction.** This is a **different, larger milestone**, requiring re-creation of canonical NBA rosters/boxscore JSON ingestion, 2020–21 through 2024–25 injury-report parsing and cadence selection, broadcast schedules, star/award histories, game covariates, and taxonomy construction. None of those should be described as regenerated when simply restored as existing intermediate CSVs.
+
+If an archive's member basename is missing/ambiguous, stop and inspect the original ZIP contents. Do not automatically select a different data file with a similar name.
