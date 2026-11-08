@@ -24,6 +24,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive-dir", type=Path, required=True)
     parser.add_argument("--historical-root", type=Path, required=True)
+    parser.add_argument("--metadata-dir", type=Path,
+                        help="Historical source inventory from the shared GitHub repository")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUT,
                         help="Separate, ignored directory for rebuilt panel and model outputs")
     parser.add_argument("--reference", type=Path,
@@ -48,7 +50,10 @@ def main():
         if not existing.is_file():
             raise SystemExit(f"--skip-2025-parse requires a verified existing file: {existing}")
     else:
-        call("reparse_2025_selected.py", ["--historical-root", args.historical_root])
+        parse_args = ["--historical-root", args.historical_root]
+        if args.metadata_dir:
+            parse_args.extend(["--metadata-dir", args.metadata_dir])
+        call("reparse_2025_selected.py", parse_args)
     call("run_historical_cadence_builder.py",
          ["--historical-root", args.historical_root, "--output", args.output])
     candidate = args.output / "player_team_game_harmonized_cadence.csv.gz"
