@@ -1,46 +1,46 @@
-# Rebuilding NBA research datasets: source provenance and replay
+# Rebuilding NBA datasets: provenance and historical replay
 
-**Status: partial pipeline, not yet an end-to-end raw-PDF/JSON-to-paper replication.**
-The published August freeze, October analyses, and original executed scripts remain unmodified.
+**Status: partial source-to-panel pipeline, not full raw-PDF/JSON-to-paper replication.** No frozen datasets or original executed scripts are modified.
 
-## Already reproducible
+## Repository split
 
-The repository includes the original executed cadence-panel builder, October regression reruns, and frozen analysis-ready datasets. Historical provenance metadata covers 7,230 games and identifies 2,054 selected injury-report PDF objects from 27,755 archived PDFs. Metadata and checksums are not the original raw PDF or boxscore bytes.
+- Your repository, ahmetcopur/nba-load-management-ppp, holds the original executed cadence builder, frozen datasets and these new scripts.
+- The shared repository, OEKundakcioglu/nba-ppp-star-availability, additionally holds the rich provenance/historical_sources/ metadata, including the 7,230 selected game-to-report and boxscore mappings. Clone the shared repository separately for these metadata inputs.
+- Original official NBA PDF and boxscore JSON archives, and several historical intermediate inputs, are not present in either checkout.
 
-## Commands (from repository root)
+## Setup
 
-Build the deterministic 7,230-game report-to-boxscore lineage CSV:
-
-    python3 scripts/data_rebuild/build_source_lineage.py
-
-Audit recovered injury PDFs and boxscore JSON objects (paths are illustrative):
-
-    python3 scripts/data_rebuild/audit_raw_inputs.py --archive-dir /path/to/seven_archives --boxscore-root /path/to/boxscore_cache --scope selected --verify-archive-sha256
-
-Pass --scope all to verify all 27,755 archived PDFs instead of the 2,054 selected objects. This audit validates JSON game IDs and structure, not original unrecorded JSON byte checksums. The archive SHA-256 comparison verifies original ZIP bytes when enabled.
-
-Check whether restored historical intermediate files are present, then replay the original builder unchanged (except on-the-fly path substitution in a temporary copy):
-
+    git clone https://github.com/OEKundakcioglu/nba-ppp-star-availability.git ../nba-ppp-star-availability
     python3 -m pip install -r requirements.txt
+
+From your repository's root, construct an auditable 7,230-game report-to-boxscore lineage CSV:
+
+    python3 scripts/data_rebuild/build_source_lineage.py --source ../nba-ppp-star-availability/provenance/historical_sources
+
+Verify the original seven injury PDF archives and historical JSON cache when recovered (selected checks 2,054 PDFs; --scope all checks 27,755):
+
+    python3 scripts/data_rebuild/audit_raw_inputs.py --metadata-dir ../nba-ppp-star-availability/provenance/historical_sources --archive-dir /path/to/seven_archives --boxscore-root /path/to/boxscore_cache --scope selected --verify-archive-sha256
+
+The audit checks PDF hashes against the historical inventory. It checks JSON structure and matching official game IDs but cannot prove original JSON byte identity because source checksums are unavailable.
+
+With the original upstream season parses, canonical panel, cadence selector, crosswalk and team status inputs restored under one nba_continue folder, check paths and run the unchanged historical builder through a temporary path-adjusted copy:
+
     python3 scripts/data_rebuild/run_historical_cadence_builder.py --historical-root /path/to/nba_continue --check-only
     python3 scripts/data_rebuild/run_historical_cadence_builder.py --historical-root /path/to/nba_continue
 
-Compare the resulting panel against the frozen dataset:
+Compare against the original frozen panel without mutating it:
 
     python3 scripts/data_rebuild/compare_panels.py --reference data_intermediate/player_team_game_harmonized_cadence.csv.gz --candidate data_rebuild/output/historical_cadence/player_team_game_harmonized_cadence.csv.gz
 
-Results are written under data_rebuild/output/ and excluded from Git. The panel comparator deliberately reports every differing column/key instead of silently normalizing values.
+Generated outputs go under data_rebuild/output/ and are Git-ignored. A nonzero exit from an audit or panel comparison denotes missing/differing inputs or values, not successful replication.
 
-## Inputs not yet recovered or reconstructed
+## Gaps requiring follow-up
 
-- Seven season-specific original NBA injury-report ZIP archives and 7,230 original official boxscore JSON payloads are not mirrored in this Git repository.
-- The original cadence builder depends on the historical canonical panel, per-season parsed report rows, checkpoint selector, team-game status outputs, player crosswalk, alias tables, schedule/TV assembly and covariates. The public source inventory cannot replace these intermediate stages.
-- Historical schedule inputs include six FixtureDownload-format season CSVs; national-TV reconstruction includes five official 2021–26 NBA schedule PDFs and 2020–21 broadcast announcement HTML archives.
-- Twenty-one selected games share eight December 2025 reports with a 15-minute discrepancy between manifest and PDF-header timestamps; report selection requires a corrected exact-clock audit before claiming complete reproducibility.
-- Original collection times are unavailable. Do not substitute file archive dates or publication dates for actual download times.
+- Restore the seven season-specific original NBA injury report archives and 7,230 original official NBA boxscore JSON payloads.
+- Restore the original canonical base panel, per-season parsed injury reports, checkpoint selection, team-game report status, player crosswalk and alias resolution, schedule/TV assembly and covariate files; metadata cannot substitute for executed transforms.
+- Preserve national-TV sources (five original NBA 2021-26 schedule PDFs and 2020-21 broadcaster HTML), six historical fixture CSVs, and star recognition sources.
+- Revisit 21 selected December 2025 games involving eight PDFs with a 15-minute manifest/header timestamp discrepancy before claiming the exact cadence selector has been independently reproduced.
+- Preserve the distinction between October advance national-partner TV including 2025-26 streaming-only games and the linear-TV sensitivity. Historical August estimates do not replace October paper estimates.
+- Original acquisition timestamps were not recorded; do not infer them from archive/file times.
 
-## Scientific scope
-
-October's primary national partner TV measure includes streaming-only games in 2025–26; the linear-only TV exposure is a sensitivity. The historical August and October models estimate different variants of reporting cadence and TV exposure. These scripts do not relabel, overwrite, or claim to causally identify the PPP effect.
-
-Read documentation/OCTOBER_2026_REPRODUCIBILITY.md, documentation/RAW_DATA_AND_REPRODUCIBILITY_SCOPE.md and provenance/historical_sources/README.md for the historical audit.
+These scripts add **provenance, integrity checking, a portable historical replay entrypoint, and strict frozen-output comparison**. They do not yet reproduce the combined data directly from raw sources.
