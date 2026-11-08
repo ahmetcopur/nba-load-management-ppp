@@ -49,6 +49,11 @@ SELECTOR_NAMES = tuple(f"{s}_game_snapshot_join_harmonized_canonical.csv" for s 
 SELECTOR_ZIP = "nba_canonical_snapshot_selector_v1.zip"
 SELECTOR_DEST = "cadence_work/selector/nba_canonical_snapshot_selector_v1"
 RAW_2025 = ("audit_2025_26_upload.zip", "audit_2025_26_targeted_upload.zip")
+CORRECTED_2024 = "audit_2024_25_pre_s4_outputs_corrected.zip"
+
+def without_corrected_2024(files):
+    """Explicit alternative for documented source-PDF reparse only."""
+    return [entry for entry in files if entry[1] != CORRECTED_2024]
 
 
 def sha256(path: Path) -> str:
@@ -78,14 +83,15 @@ def resolve_member(z: zipfile.ZipFile, basename: str) -> str:
     return member
 
 
-def build_plan(archives: Path):
+def build_plan(archives: Path, files=None):
     """Fully preflight required ZIPs and ZIP-internal paths without writing."""
-    required = {archive for _, archive, _ in FILES} | {SELECTOR_ZIP, *RAW_2025}
+    files = FILES if files is None else files
+    required = {archive for _, archive, _ in files} | {SELECTOR_ZIP, *RAW_2025}
     missing = sorted(a for a in required if not (archives / a).is_file())
     if missing:
         raise FileNotFoundError("Missing archive(s): " + ", ".join(missing))
     plan = []
-    for dest, archive, basename in FILES:
+    for dest, archive, basename in files:
         with zipfile.ZipFile(archives / archive) as z:
             member = resolve_member(z, basename)
         plan.append((dest, archive, member))
@@ -187,13 +193,17 @@ def main():
     parser.add_argument("--historical-root", type=Path, required=True)
     parser.add_argument("--check-only", action="store_true",
                         help="Validate archive members without writing files")
+    parser.add_argument("--skip-2024-25-corrected", action="store_true",
+                        help="Requires reparse_2024_25_from_pdfs.py to supply the missing source input")
     args = parser.parse_args()
     archives, root = args.archive_dir.resolve(), args.historical_root.resolve()
-    plan = build_plan(archives)
+    files = without_corrected_2024(FILES) if args.skip_2024_25_corrected else FILES
+    plan = build_plan(archives, files)
     if args.check_only:
         print(json.dumps({"status": "source-member-plan-only",
                           "input_members": [{"destination": dst, "archive": arc, "member": mem}
                                             for dst, arc, mem in plan],
+                          "skipped_2024_25_corrected": args.skip_2024_25_corrected,
                           "unverified_raw_pdf_archives": list(RAW_2025)}, indent=2))
         return
     # Hash the complete ZIP inputs, not just copied members, before replay.
@@ -204,6 +214,7 @@ def main():
     provenance = root / "restore_provenance.json"
     provenance.parent.mkdir(parents=True, exist_ok=True)
     provenance.write_text(json.dumps({"replay_scope": "historical-intermediate",
+                                      "skipped_2024_25_corrected": args.skip_2024_25_corrected,
                                       "source_archives": source_manifest,
                                       "records": records}, indent=2) + "\n")
     print(f"Restored or verified {len(records)} files. Provenance: {provenance}")
