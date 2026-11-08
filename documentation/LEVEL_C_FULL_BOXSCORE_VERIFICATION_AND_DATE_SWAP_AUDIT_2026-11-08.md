@@ -74,3 +74,21 @@ Reproduction script: scripts/data_rebuild/audit_fixture_date_swap_covariates.py.
 5. Keep PR #4 in draft pending production-run evidence and scientific review.
 
 The raw NBA JSONs and official NBA injury PDFs are not uploaded publicly; this repository contains code, permissible hashes, and aggregate verification summaries.
+
+
+## Additional independently executed frozen-outcome model-control sensitivity
+
+After checking that all 11 original regression control columns in the frozen 248,778-row player-game panel matched the archived team-game covariates, I replaced only those 11 controls with the corrected-date output of the *original* historical Elo/travel/rest builder. Every player-game ID, risk/onset outcome, star status, preannounced TV, report timestamp and prior playing-history measure was kept fixed. I then ran all four archived Stage-6 regression specifications. All model sample sizes stayed unchanged.
+
+| Historical Stage-6 model | Frozen estimate (pp) | Corrected-controls estimate (pp) | Change (pp) | Frozen p | Corrected p |
+|---|---:|---:|---:|---:|---:|
+| Legacy primary TV, full controls | 2.630448590 | 2.633180456 | **+0.002731865** | 0.046076466 | 0.045772941 |
+| Legacy primary TV, no controls | 2.632768780 | 2.632768780 | 0 | 0.047040734 | 0.047040734 |
+| Harmonized linear TV, full controls | 1.238970365 | 1.241672773 | **+0.002702408** | 0.347453286 | 0.346242395 |
+| Harmonized linear TV, no controls | 1.251112606 | 1.251112606 | 0 | 0.345693676 | 0.345693676 |
+
+Model Ns: **180,530** with full controls, **180,664** without controls. The conditional full-control coefficients move by only about **0.0027 percentage points**, much less than their sampling SEs (approximately 1.318 pp). This is evidence that correcting these *controls* alone has a small impact on these historical estimates.
+
+**This is NOT a complete corrected-source analysis.** Changing the true game date could also alter the roster's chronological histories, absence-onset spell boundaries and pre-tip report selection. Those were **not** recomputed here. Nor were TV as-announced fields or original game IDs rebuilt. The current controlled model is an additional sensitivity, not a replacement for the published frozen original.
+
+Reproducible script: scripts/data_rebuild/run_fixture_date_control_sensitivity.py; numerical result record: validation/level_c_boxscore_2026-11-08/corrected_fixture_controls_stage6_model_delta.json. The separately executable integrated production runner has passed syntax and synthetic tests but has not itself been rerun from a fresh private-archive root in this GitHub CI environment. The numerical results above come from an independent local equivalent of the original covariate and regression functions.
