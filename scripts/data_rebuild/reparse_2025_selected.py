@@ -115,10 +115,71 @@ def audit_selected(root: Path, metadata_dir: Path | None = None):
     }
 
 
+
+def verify_parse_log(root: Path, allow_zero_rows: bool = False):
+    """Ensure every selected PDF+snapshot timestamp has one successful parse log.
+
+    The original historical parser catches per-PDF exceptions and exits 0, so
+    subprocess success alone is not evidence that all reports were parsed.
+    """
+    with (root / SELECTOR).open("r", newline="", encoding="utf-8-sig") as f:
+        selector = list(csv.DictReader(f))
+    if len(selector) != 1230:
+        raise ValueError(f"Expected 1,230 2025-26 games, got {len(selector)}")
+    expected = {(r["snapshot_basename"], r["published_timestamp_utc"])
+                for r in selector}
+    folder = root / "cadence_work/season_parsed/2025-26"
+    log_path = folder / "s1_parse_log_harmonized_selected.csv"
+    rows_path = folder / "s1_snapshot_rows_harmonized_selected.csv"
+    if not log_path.is_file() or not rows_path.is_file():
+        raise RuntimeError(f"Selected PDF parser did not produce both files: {log_path}, {rows_path}")
+    with log_path.open("r", newline="", encoding="utf-8-sig") as f:
+        logs = list(csv.DictReader(f))
+    if not logs:
+        raise RuntimeError("Historical 2025 selected-PDF parse log is empty")
+    observed = [(r["source_file"], r["snapshot_timestamp_utc"]) for r in logs]
+    if len(observed) != len(set(observed)) or set(observed) != expected:
+        missing = sorted(expected - set(observed))
+        unexpected = sorted(set(observed) - expected)
+        raise RuntimeError(f"2025 PDF parser log does not match selected snapshots; "
+                           f"duplicated={len(observed) - len(set(observed))}; "
+                           f"missing={missing[:5]}, unexpected={unexpected[:5]}")
+    invalid = [r for r in logs if r["status"] not in ("ok", "zero_rows")]
+    if invalid:
+        raise RuntimeError(f"Historical PDF parser reported {len(invalid)} failed/unknown statuses; "
+                           f"examples: {invalid[:3]}")
+    zero = [r for r in logs if r["status"] == "zero_rows"]
+    if zero and not allow_zero_rows:
+        raise RuntimeError(f"{len(zero)} selected PDFs parsed with zero rows. "
+                           "Review them manually before rerunning with --allow-zero-rows.")
+    total = 0
+    for r in logs:
+        n = int(r["extracted_rows"])
+        if (r["status"] == "ok" and n <= 0) or \
+           (r["status"] == "zero_rows" and n != 0):
+            raise RuntimeError(f"Inconsistent parse status and row count: {r}")
+        total += n
+    with rows_path.open("r", newline="", encoding="utf-8-sig") as f:
+        parsed_count = sum(1 for _ in csv.DictReader(f))
+    if parsed_count != total:
+        raise RuntimeError(f"2025 parser row-count mismatch: CSV has {parsed_count}, "
+                           f"parse log has {total}")
+    return {"selected_game_records": len(selector),
+            "distinct_snapshot_timestamp_pairs": len(expected),
+            "successful_pdf_parses": len(logs) - len(zero),
+            "zero_row_parses": len(zero),
+            "parse_errors": 0,
+            "parsed_player_rows": total,
+            "zero_rows_manual_review_required": bool(zero),
+            "zero_rows_explicitly_allowed": bool(zero and allow_zero_rows)}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--historical-root", required=True, type=Path)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--allow-zero-rows", action="store_true",
+                        help="Only after manually confirming that zero-row selected PDFs are valid")
     parser.add_argument("--metadata-dir", type=Path,
                         help="Optional shared-repo provenance/historical_sources FULL PDF inventory for SHA-256s")
     args = parser.parse_args()
@@ -146,9 +207,11 @@ def main():
     result = root / "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv"
     if not result.is_file() or result.stat().st_size == 0:
         raise RuntimeError("Historical parser did not produce selected 2025-26 rows")
+    parse_audit = verify_parse_log(root, args.allow_zero_rows)
     log = root / "cadence_work/season_parsed/2025-26/selected_pdf_sha256_audit.json"
-    log.write_text(json.dumps(audit, indent=2) + "\n")
+    log.write_text(json.dumps({**audit, "historical_parse_log": parse_audit}, indent=2) + "\n")
     print("2025-26 parsed rows generated:", result)
+    print("2025-26 selected-PDF parse validation:", json.dumps(parse_audit, indent=2))
     print("Selected PDF hash audit:", log)
 
 
