@@ -130,6 +130,15 @@ def fix_base(base_path: Path, before: pd.DataFrame, after: pd.DataFrame, changed
             for previous, new in zip(base.loc[mask, col], updated.loc[mask, col])
         ]
         record[col] = {"rows": int(mask.sum()), "games": int(base.loc[mask, "game_id"].nunique())}
+    # Both formerly duplicated team-date game records must disappear, and no
+    # other team may have two distinct games on the same local calendar date.
+    fixtures = base[["season", "game_id", "team", "game_date_et"]].drop_duplicates(
+        ["game_id", "team"])
+    duplicate_dates = fixtures.groupby(
+        ["season", "team", "game_date_et"]).game_id.nunique()
+    if (duplicate_dates > 1).any():
+        raise RuntimeError("Corrected chronology still has duplicate team-game dates: "
+                           + str(duplicate_dates[duplicate_dates > 1].to_dict()))
     base.to_csv(base_path, index=False, compression="gzip")
     return record
 
@@ -170,6 +179,13 @@ def compare_panels(frozen_path: Path, candidate_path: Path, output: Path):
     new = new.loc[frozen.index, frozen.columns]
     mismatch = frozen.ne(new)
     changed = mismatch.any(axis=1)
+    # The sensitivity changes report selection and player chronology, not
+    # national-TV exposure, star status or the official boxscore played flags.
+    for immutable in ("announced_tv_primary", "tv_harmonized_linear",
+                      "postPPP", "star_PPP_it", "absence_now_harm",
+                      "from_boxscore_roster"):
+        if immutable in mismatch and mismatch[immutable].any():
+            raise RuntimeError(f"Unexpected change to frozen field: {immutable}")
     affected = frozen.game_id.isin(cov.CORRECTED_TIP_UTC)
     report = {
         "reference_rows": len(frozen), "rebuilt_rows": len(new),
@@ -184,6 +200,22 @@ def compare_panels(frozen_path: Path, candidate_path: Path, output: Path):
         "risk_rows": int(new.at_risk_for_new_onset_harm.eq("True").sum()),
         "onsets": int(new.absence_onset_harm.eq("True").sum()),
     }
+    expected = {
+        "reference_rows": 248778, "rebuilt_rows": 248778,
+        "risk_rows": 180664, "onsets": 12729,
+    }
+    for metric, value in expected.items():
+        if report[metric] != value:
+            raise RuntimeError(f"Unexpected corrected chronology {metric}: {report[metric]} != {value}")
+    field_changes = report["changed_cells_by_column"]
+    for name, value in {
+        "designation_status": 20,
+        "at_risk_for_new_onset_harm": 10,
+        "absence_onset_harm": 2,
+    }.items():
+        if field_changes.get(name, 0) != value:
+            raise RuntimeError(f"Unexpected corrected {name} changes: "
+                               f"{field_changes.get(name, 0)} != {value}")
     for field in ("absence_now_harm", "at_risk_for_new_onset_harm",
                   "absence_onset_harm", "designation_status"):
         indices = frozen.index[mismatch[field]]
