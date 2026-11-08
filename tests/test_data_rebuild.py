@@ -213,14 +213,17 @@ class Selected2025PdfAuditTests(unittest.TestCase):
             def write_inventory(digest):
                 with gzip.open(inventory_path, "wt", newline="") as stream:
                     writer = csv.DictWriter(stream, fieldnames=[
-                        "archive", "archive_member", "pdf_present", "computed_sha256"])
+                        "archive", "archive_member", "pdf_present",
+                        "computed_sha256", "manifest_sha256", "hash_status"])
                     writer.writeheader()
                     writer.writerow({
                         "archive": source_zip, "archive_member": "old/pdf/selected.pdf",
-                        "pdf_present": "true", "computed_sha256": digest})
+                        "pdf_present": "true", "computed_sha256": digest,
+                        "manifest_sha256": digest, "hash_status": "match"})
                     writer.writerow({
                         "archive": source_zip, "archive_member": "other/unselected.pdf",
-                        "pdf_present": "true", "computed_sha256": "0" * 64})
+                        "pdf_present": "true", "computed_sha256": "0" * 64,
+                        "manifest_sha256": "0" * 64, "hash_status": "match"})
 
             # The canonical/latest-pre-tip primary selection explicitly differs
             # from the harmonized selected PDF; audit must NOT read this map.
