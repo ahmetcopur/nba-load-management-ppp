@@ -93,8 +93,9 @@ def build_plan(archives: Path):
         for basename in SELECTOR_NAMES:
             member = resolve_member(z, basename)
             plan.append((f"{SELECTOR_DEST}/{basename}", SELECTOR_ZIP, member))
-    # Historical alias matching is optional. Do not assert it exists in a
-    # guessed archive; original builder can use its own identity fallbacks.
+    # Alias table is optional. If it occurs in both historical packages, its
+    # bytes must agree; quietly choosing one could change player identities.
+    alias_candidates = []
     for archive in ("nba_player_crosswalk_final_v1.zip",
                     "nba_player_game_at_risk_core_v1.zip"):
         with zipfile.ZipFile(archives / archive) as z:
@@ -102,9 +103,17 @@ def build_plan(archives: Path):
             if len(matches) > 1:
                 raise ValueError(f"Ambiguous optional aliases in {archive}: {matches}")
             if matches:
-                plan.append(("cadence_work/player_alias_table.csv", archive,
-                             resolve_member(z, "player_alias_table.csv")))
-                break
+                member = resolve_member(z, "player_alias_table.csv")
+                digest = hashlib.sha256()
+                with z.open(member) as stream:
+                    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                        digest.update(chunk)
+                alias_candidates.append((archive, member, digest.hexdigest()))
+    if len({sha for _, _, sha in alias_candidates}) > 1:
+        raise ValueError("Conflicting player alias tables across historical archives")
+    if alias_candidates:
+        archive, member, _ = alias_candidates[0]
+        plan.append(("cadence_work/player_alias_table.csv", archive, member))
     destinations = [item[0] for item in plan]
     if len(destinations) != len(set(destinations)):
         raise ValueError("Output destination collision in archive restoration plan")
