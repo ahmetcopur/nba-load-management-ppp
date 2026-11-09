@@ -96,17 +96,23 @@ def official_reason_classes(df: pd.DataFrame, dictionary: dict):
     return cls, onset
 
 
+def same_text(left: pd.Series, right: pd.Series):
+    """Exact order and value match. pandas 3 reads dtype=str as 'str', not object."""
+    return (left.index.equals(right.index)
+            and left.astype(object).equals(right.astype(object)))
+
+
 def baseline_taxonomy_gate(original: pd.DataFrame, archived: pd.DataFrame, labels: dict):
     if set(original.index) != set(archived.index):
         raise RuntimeError("Original core is not the exact archived player-game ID set")
     expected_class, expected_onset = official_reason_classes(original, labels)
-    if not expected_class.equals(archived.designation_class_frozen):
+    if not same_text(expected_class, archived.designation_class_frozen):
         raise RuntimeError("Cannot reproduce historical reviewed taxonomy classes")
-    if not expected_onset.equals(archived.onset_type_frozen):
+    if not same_text(expected_onset, archived.onset_type_frozen):
         raise RuntimeError("Cannot reproduce historical frozen onset types")
     for field, target in FLAGS.items():
         expected = expected_onset.eq(target).astype(str)
-        if not expected.equals(archived[field]):
+        if not same_text(expected, archived[field]):
             raise RuntimeError(f"Historical taxonomy flag baseline differs: {field}")
 
 

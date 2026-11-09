@@ -1,5 +1,7 @@
 # August 2026 latest-pre-tip source correction: original core, reviewed taxonomy and regression sensitivity
 
+> **November 9 update:** the three-script production chain has now been executed end to end from fresh source archives and reproduces the corrected risk panel exactly (decoded SHA-256 `5a5d286b…`). This required one fix to the taxonomy gate, which failed under pandas 3 on dtype alone. The remaining August suite has also been rerun frozen and corrected. See [AUGUST_CORRECTED_REPLAYS_2026-11-09.md](AUGUST_CORRECTED_REPLAYS_2026-11-09.md).
+
 
 ## Subsequent source-TV and category-FDR check
 

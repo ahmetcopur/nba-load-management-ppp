@@ -1,5 +1,7 @@
 # Run the private corrected August panel directly from its uploaded CSV ZIP
 
+> **Executed later on November 9:** the corrected panel was rebuilt from the original source ZIPs (decoded SHA-256 `5a5d286b…`, 180,831 rows, unique IDs) and passed this runner after one fix, since `at_risk_for_new_onset` is not a column of the model risk panel. Both corrected analyses then ran. Results are in [AUGUST_CORRECTED_REPLAYS_2026-11-09.md](AUGUST_CORRECTED_REPLAYS_2026-11-09.md).
+
 **Updated November 9, 2026.** This is an operational handoff, NOT a claim that the user's latest uploaded ZIP has passed SHA inspection or that corrected heterogeneity/placebo models were run in this session.
 
 The user supplied the conversation attachment:

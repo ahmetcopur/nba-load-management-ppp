@@ -34,10 +34,11 @@ EXPECTED_ROWS = 180831
 SOURCE_NAME = "player_game_panel_model_at_risk_analysis_ready.csv"
 MAX_UNCOMPRESSED = 1024 * 1024 * 1024
 CHUNK = 1024 * 1024
+# The model risk subset has no at_risk_for_new_onset column: every row is at risk.
 REQUIRED = {
     "player_team_game_id", "season", "game_date_et", "team", "opponent",
     "game_id", "is_home", "star_PPP_it", "postPPP",
-    "announced_tv_primary", "absence_onset", "at_risk_for_new_onset",
+    "announced_tv_primary", "absence_onset",
 }
 PIPELINES = (
     ("heterogeneity", "run_august_heterogeneity_from_release.py"),
@@ -138,11 +139,19 @@ def extract_and_verify(source_zip: Path, destination: Path,
             missing = REQUIRED.difference(header)
             if missing:
                 raise ValueError(f"Missing required panel columns: {sorted(missing)}")
-            rows = sum(1 for _ in reader)
+            key = header.index("player_team_game_id")
+            seen = set()
+            rows = 0
+            for record in reader:
+                rows += 1
+                if record[key] in seen:
+                    raise ValueError(f"Duplicate player_team_game_id: {record[key]}")
+                seen.add(record[key])
         if rows != expected_rows:
             raise ValueError(f"Unexpected August at-risk row count: {rows} != {expected_rows}")
         info.update({
             "rows": rows,
+            "unique_player_team_game_ids": len(seen),
             "columns": len(header),
             "expected_source_identity_passed": True,
             "compressed_output_sha256": sha_of_file(destination),

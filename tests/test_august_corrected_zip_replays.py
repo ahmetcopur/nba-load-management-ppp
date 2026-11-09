@@ -126,6 +126,51 @@ class CorrectedAugustZipTests(unittest.TestCase):
                     expected_rows=1,
                 )
 
+    def test_required_columns_exist_in_real_released_model_risk_header(self):
+        # Header of data_final/player_game_panel_model_at_risk_analysis_ready.csv.gz
+        # at shared commit 0bd713d (the corrected panel has the same 72 columns).
+        released = set(
+            "player_game_id,game_id,season,game_date_et,team,opponent,nba_player_id,"
+            "nba_player_name,onset_type,absence_onset,vague_onset,"
+            "designation_class_provisional,minutes_sum_prior_5_roster_games,"
+            "minutes_sum_prior_10_roster_games,games_played_before_game,"
+            "dist_to_65_before_game,regime,postPPP,cup_game_pending,"
+            "announced_tv_primary,announced_nba_tv,is_home,back_to_back,"
+            "rest_days_between_games,three_games_in_four_days,four_games_in_six_days,"
+            "five_games_in_seven_days,travel_km_since_previous_game,"
+            "absolute_timezone_shift_hours,road_trip_game_number,signed_elo_advantage,"
+            "team_win_probability_elo,opponent_bottom_quartile_pre,"
+            "opponent_back_to_back,rest_advantage_days,travel_disadvantage_km,"
+            "covid_season_2020_21,star_prior_all_star_3yr,star_prior_all_nba_3yr,"
+            "star_at_opening_night,current_season_all_star,all_star_game_date,"
+            "current_all_star_effective_date,current_season_all_star_post_game,"
+            "star_current_all_star_added,star_status_basis,star_PPP_it,"
+            "star_status_pending,cup_stage,cup_game,cup_group_play,cup_quarterfinal,"
+            "cup_semifinal,cup_knockout,cup_round_order,cup_flag_version,"
+            "player_team_game_id,star_postPPP,star_postPPP_announcedTV,star_cup_game,"
+            "star_postPPP_cup_game,designation_class_provisional_v1,"
+            "onset_type_provisional_v1,vague_onset_provisional_v1,"
+            "designation_class_frozen,onset_type_frozen,vague_onset_frozen,"
+            "specific_onset_frozen,explicit_rest_onset_frozen,"
+            "other_absence_onset_frozen,taxonomy_version,taxonomy_review_source"
+            .split(","))
+        self.assertEqual(len(released), 72)
+        self.assertLessEqual(m.REQUIRED, released)
+
+    def test_duplicate_player_team_game_id_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            lines = source_bytes().decode().splitlines()
+            raw = ("\n".join([lines[0], lines[1], lines[1]]) + "\n").encode()
+            z = zip_with(root, m.SOURCE_NAME, raw)
+            dest = root / "dup.csv.gz"
+            with self.assertRaisesRegex(ValueError, "Duplicate player_team_game_id"):
+                m.extract_and_verify(
+                    z, dest, expected_sha=hashlib.sha256(raw).hexdigest(),
+                    expected_rows=2,
+                )
+            self.assertFalse(dest.exists())
+
     def test_fail_before_any_model_execution_if_source_identity_is_unknown(self):
         # The accepted real production hash remains pinned, never weakened by tests.
         self.assertEqual(

@@ -70,6 +70,20 @@ class LabelTransferTests(unittest.TestCase):
         result = mod.index_core(data)
         self.assertEqual(result.player_team_game_id.nunique(), 2)
 
+    def test_text_comparison_ignores_dtype_but_not_values_or_order(self):
+        left = pd.Series(["vague", "plays"], index=["a", "b"], dtype=object)
+        self.assertTrue(mod.same_text(left, left.astype("string")))
+        self.assertFalse(mod.same_text(left, pd.Series(["vague", "specific"], index=["a", "b"])))
+        self.assertFalse(mod.same_text(left, left.iloc[::-1]))
+
+    def test_baseline_class_mismatch_rejected(self):
+        frozen = self.frozen()
+        incorrect = frozen.copy()
+        incorrect.loc["g2|A|1", "designation_class_frozen"] = "specific"
+        with self.assertRaisesRegex(RuntimeError, "reviewed taxonomy classes"):
+            mod.baseline_taxonomy_gate(
+                frozen, incorrect, mod.reviewed_reason_lookup(frozen))
+
     def test_original_reviewer_baseline_checks_onset_flags(self):
         frozen = self.frozen()
         incorrect = frozen.copy()
