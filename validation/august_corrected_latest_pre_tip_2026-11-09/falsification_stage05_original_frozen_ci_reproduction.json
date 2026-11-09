@@ -1,0 +1,67 @@
+{
+  "audit_date": "2026-11-09",
+  "source": "Immutable original Stage-05 August research ZIP and unchanged portable source script",
+  "source_repository": "OEKundakcioglu/nba-ppp-star-availability",
+  "original_shared_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "original_executable": "scripts/portable/run_prior_event_placebo_checks.py",
+  "original_archived_reference_zip": "packages/05_identification_falsification_stage2.zip",
+  "reference_subdirectory": "nba_identification_falsification_stage2_v1/prior_tv_audit/",
+  "original_risk_panel_decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+  "github_actions_url": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42566394732",
+  "independent_frozen_original_reproduction_passed": true,
+  "expected_result_tables": {
+    "event_study_tv_definitions.csv": {
+      "rows": 10,
+      "unique_key": [
+        "definition",
+        "season"
+      ],
+      "max_abs_differences": {
+        "estimate_pp": 1.7763568394002505e-14,
+        "se_pp": 0.000006173249766927569,
+        "low_pp": 0.000012099569535184429,
+        "high_pp": 0.000012099569544510302,
+        "p": 0.0000013361870278005838
+      }
+    },
+    "joint_pretrend_tests.csv": {
+      "rows": 2,
+      "unique_key": [
+        "definition"
+      ],
+      "exact_fields": [
+        "n",
+        "df"
+      ],
+      "max_abs_differences": {
+        "joint_pretrend_chi2": 0.00000927891354729482,
+        "p": 0.0000020065685283898738
+      }
+    },
+    "preperiod_placebo_policy_dates.csv": {
+      "rows": 4,
+      "unique_key": [
+        "definition",
+        "fake_start"
+      ],
+      "exact_fields": [
+        "n"
+      ],
+      "max_abs_differences": {
+        "estimate_pp": 5.578870698741412e-15,
+        "se_pp": 0.000010425415302828256,
+        "low_pp": 0.000020433813988418592,
+        "high_pp": 0.000020433813998188555,
+        "p": 0.000002691462774206954
+      }
+    }
+  },
+  "corrected_variant_run_executed": false,
+  "corrected_variant_source_input_decoded_sha256_required": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+  "scientific_qualifications": [
+    "Frozen original executed from unchanged source and compared with original reference CSVs inside original published ZIP.",
+    "Corrected-panel mode is implemented but unavailable locally because verified private corrected August panel is absent; do not invent corrected event/pretrend or placebo results.",
+    "Original 2021–22 Toronto two game-date errors require rekeying only two original advance-TV lookup rows in corrected mode, preserving original published as-announced network classification.",
+    "Prepolicy fake dates are falsification-style diagnostics on observational TV data, not policy causal identification."
+  ]
+}
