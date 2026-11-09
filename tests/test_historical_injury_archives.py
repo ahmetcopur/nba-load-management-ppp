@@ -2,13 +2,13 @@
 import csv
 import gzip
 import hashlib
-import io
+from unittest.mock import patch
 import tempfile
 import unittest
 from pathlib import Path
 from zipfile import ZipFile
 
-from scripts.data_rebuild.verify_historical_injury_archives import verify
+from scripts.data_rebuild.verify_historical_injury_archives import (verify, git_blob_sha1, PINNED_SOURCE_BLOBS, PINNED_ARCHIVES)
 
 
 def sha(data):
@@ -57,7 +57,7 @@ class HistoricalPdfArchiveVerifierTests(unittest.TestCase):
                              "hash_status": hash_status})
 
     def call(self):
-        return verify(self.src, self.meta, (self.NAME,))
+        return verify(self.src, self.meta, (self.NAME,), require_pinned_sources=False)
 
     def test_exact_archive_and_pdf_hashes_pass(self):
         self.write_meta()
@@ -99,6 +99,49 @@ class HistoricalPdfArchiveVerifierTests(unittest.TestCase):
         self.write_meta()
         with self.assertRaisesRegex(ValueError, "Unsafe ZIP member"):
             self.call()
+
+
+    def pinned_fixture(self):
+        return {
+            "injury_archive_summary.csv":
+                git_blob_sha1(self.meta / "injury_archive_summary.csv"),
+            "injury_report_inventory.csv.gz":
+                git_blob_sha1(self.meta / "injury_report_inventory.csv.gz"),
+        }
+
+    def test_pinned_source_accepts_exact_known_metadata_and_archive(self):
+        self.write_meta()
+        pinned_zip = sha((self.src / self.NAME).read_bytes())
+        with patch.dict(PINNED_SOURCE_BLOBS, self.pinned_fixture()):
+            with patch.dict(PINNED_ARCHIVES, {self.NAME: (pinned_zip, 1)}):
+                result = verify(self.src, self.meta, (self.NAME,))
+        self.assertTrue(result["pinned_provenance_verified"])
+        self.assertEqual(result["pinned_provenance_git_blob_sha1"],
+                         self.pinned_fixture())
+
+    def test_pinned_inventory_prevents_silent_metadata_change(self):
+        self.write_meta()
+        pinned = self.pinned_fixture()
+        with (self.meta / "injury_archive_summary.csv").open("ab") as stream:
+            stream.write(b"\\n")
+        with patch.dict(PINNED_SOURCE_BLOBS, pinned):
+            with self.assertRaisesRegex(ValueError, "Original provenance file changed"):
+                verify(self.src, self.meta, (self.NAME,))
+
+    def test_pinned_archive_sha_rejects_rewritten_summary(self):
+        self.write_meta()
+        with patch.dict(PINNED_SOURCE_BLOBS, self.pinned_fixture()):
+            with patch.dict(PINNED_ARCHIVES, {self.NAME: ("0" * 64, 1)}):
+                with self.assertRaisesRegex(ValueError, "Archive SHA differs"):
+                    verify(self.src, self.meta, (self.NAME,))
+
+    def test_pinned_pdf_count_must_match(self):
+        self.write_meta()
+        pinned_zip = sha((self.src / self.NAME).read_bytes())
+        with patch.dict(PINNED_SOURCE_BLOBS, self.pinned_fixture()):
+            with patch.dict(PINNED_ARCHIVES, {self.NAME: (pinned_zip, 2)}):
+                with self.assertRaisesRegex(ValueError, "Inventory PDF count"):
+                    verify(self.src, self.meta, (self.NAME,))
 
 
 if __name__ == "__main__":
