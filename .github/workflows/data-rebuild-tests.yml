@@ -21,6 +21,7 @@ on:
       - "tests/test_august_released_suite_replay.py"
       - "tests/test_corrected_chronology_consistency.py"
       - "tests/test_tv_release_pdfs.py"
+      - "tests/test_historical_injury_archives.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -46,6 +47,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_data_rebuild.py -v
       - name: Test safe uploaded ZIP ingestion, CSV and gzip content hashes
         run: python -m unittest discover -s tests -p test_august_corrected_zip_replays.py -v
+      - name: Test raw historical injury-PDF archive and provenance hashes fail closed
+        run: python -m unittest discover -s tests -p test_historical_injury_archives.py -v
       - name: Independently screen August report-to-tip linkage for two misdated games
         run: python scripts/data_rebuild/audit_august_base_report_links.py
       - name: Inventory original August falsification-stage archive for public reproduction
