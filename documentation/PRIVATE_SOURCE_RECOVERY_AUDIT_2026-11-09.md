@@ -22,12 +22,21 @@ The real ZIP passed `ZipFile.testzip()`, contains exactly one CSV and an ignorab
 
 The user's file library also contains these files, previously not accessible to the completion-report session:
 
-| Source archive filename | Library object bytes | Present in library | Internal PDFs / hash verification |
-|---|---:|---|---|
-| `audit_2020_21_upload.zip` | 11,098,653 | yes | not inspected |
-| `audit_2021_22_upload.zip` | 95,811,520 | yes | not inspected |
-| `audit_2022_23_upload.zip` | 133,659,142 | yes | not inspected |
-| `audit_2023_24_upload.zip` | 375,865,765 | yes | not inspected |
+| Source archive filename | Library object bytes | Expected indexed PDFs (pinned public inventory) | Internal PDF/hash verification |
+|---|---:|---:|---|
+| `audit_2020_21_upload.zip` | 11,098,653 | 617 | not inspected |
+| `audit_2021_22_upload.zip` | 95,811,520 | 5,567 | not inspected |
+| `audit_2022_23_upload.zip` | 133,659,142 | 5,541 | not inspected |
+| `audit_2023_24_upload.zip` | 375,865,765 | 5,441 | not inspected |
+
+The original shared research repository at pinned commit `0bd713d97e8d519df5700ef473da34aba4495223` records these exact archive SHA-256 values in `provenance/historical_sources/injury_archive_summary.csv`:
+
+- 2020–21: `e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c`
+- 2021–22: `1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339`
+- 2022–23: `bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0`
+- 2023–24: `9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba`
+
+These are **expected inventory values**, not locally computed confirmation. Note also that the inventory contains substantially fewer raw PDFs for 2020–21; archive identity alone cannot establish complete league coverage.
 
 All four original archive objects were successfully materialized into the temporary model environment. Subsequent container and Python invocations failed with `ClientError`, including trivial commands. **There is currently no evidence from this session that these four ZIPs contain the expected PDFs, have valid CRC, match the recorded SHA-256 fingerprints or reparse to archived data.** Treat this as source-file discovery only, not completion of Level C.
 
