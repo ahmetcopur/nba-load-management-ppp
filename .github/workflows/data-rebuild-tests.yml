@@ -15,6 +15,7 @@ on:
       - "tests/test_august_preferred_model_sensitivity.py"
       - "tests/test_august_descriptive_sensitivity.py"
       - "tests/test_august_category_release_replay.py"
+      - "tests/test_august_heterogeneity_release_replay.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -169,6 +170,10 @@ jobs:
         run: |
           python -m compileall -q scripts/data_rebuild/run_august_category_fdr_from_release.py tests/test_august_category_release_replay.py
           python -m unittest discover -s tests -p test_august_category_release_replay.py -v
+      - name: Test original predeclared subgroup definition, sample and FDR gates
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_heterogeneity_from_release.py tests/test_august_heterogeneity_release_replay.py
+          python -m unittest discover -s tests -p test_august_heterogeneity_release_replay.py -v
       - name: Test August source match-number repair refuses unrelated matchups
         run: python -m unittest discover -s tests -p test_august_toronto_source_join.py -v
   october-release-frozen-replay:
@@ -273,6 +278,40 @@ jobs:
           path: |
             ${{ runner.temp }}/nba_august_category_replay/august_category_fdr_replay.json
             ${{ runner.temp }}/nba_august_category_replay/frozen/category_script.log
+          if-no-files-found: warn
+  august-heterogeneity-frozen-replay:
+    name: Rerun unchanged August four-predeclared-group 8-model heterogeneity release
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install original August analysis dependencies
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch exact immutable shared original release
+        run: |
+          git init "$RUNNER_TEMP/nba_heterogeneity_shared"
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" checkout --detach FETCH_HEAD
+      - name: Independently execute eight frozen predeclared heterogeneity models and verify archive
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_heterogeneity_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_heterogeneity_shared" \
+            --work "$RUNNER_TEMP/nba_heterogeneity_frozen" \
+            --frozen-only
+      - name: Preserve original frozen source numerical benchmark and script logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-predeclared-heterogeneity-original-frozen
+          path: |
+            ${{ runner.temp }}/nba_heterogeneity_frozen/august_heterogeneity_replay.json
+            ${{ runner.temp }}/nba_heterogeneity_frozen/frozen/heterogeneity_run.log
           if-no-files-found: warn
   stage6-regression-replay:
     name: Independent Stage-6 model replay from published frozen data
