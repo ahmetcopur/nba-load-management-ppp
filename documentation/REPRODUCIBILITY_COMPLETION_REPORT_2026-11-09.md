@@ -73,9 +73,9 @@ Retained as explicit limitations. Award lists (All-Star, All-NBA), PPP star stat
 | A, frozen data to published estimates | complete for every released August and October script, plus the paper statistics |
 | B, archived intermediates to frozen panel | complete for the October cadence panel (byte-identical) and the August core (byte-identical) |
 | C, raw sources to panel | boxscore JSON to roster frame: exact for all 7,230 games. Raw tips: 7,226 exact. Release-PDF TV 2021-22 to 2025-26: exact. Injury-report PDFs 2024-25: reparsed and matching (Nov 8). December 2025 exact-clock PDFs: checked |
-| C, still open | injury-report PDFs for 2020-21 to 2023-24 are not in the available archives (only parsed outputs), and 2025-26 was not reparsed in full. 2020-21 TV web pages were not rechecked. Award and Cup source tables are not in the archives |
+| C, still open | 2020–21 through 2023–24 *raw upload ZIP filenames* were subsequently recovered in the user's Library, but ZIP members, PDF hashes and source reparses remain unverified. The complete 2025–26 raw PDF set was not reparsed here. 2020–21 TV web pages and primary award/Cup source tables were not independently reconstructed |
 
-To close Level C, the exact inputs needed are the original official NBA injury-report PDF sets for 2020-21, 2021-22, 2022-23 and 2023-24 (the same form as the 2024-25 set in `audit_2024_25_upload.zip`), and the award and Cup source files used to build the August star and Cup flags.
+The subsequent [private-source recovery audit](PRIVATE_SOURCE_RECOVERY_AUDIT_2026-11-09.md) located four named 2020–21 through 2023–24 upload ZIPs in the file library. Their **content and hashes are not yet verified**; the next step is to inspect those actual archives using the original public provenance inventory and then perform source-PDF reparses. The original primary award and Cup source files are still required to independently reconstruct August star and Cup flags.
 
 ## 6. Code defects found and fixed
 
@@ -91,16 +91,13 @@ To close Level C, the exact inputs needed are the original official NBA injury-r
 
 No published conclusion changes. National-partner TV stays just inside 5% under both report constructions, linear-only stays insignificant, the home/road one-game shift stays uncertain (p .093 → .101), the paired contrast stays uncertain, pretrends and placebos stay null, and no heterogeneity or wording mechanism appears. Proposed corrected text is in the [reconciliation](MANUSCRIPT_RECONCILIATION_CORRECTED_CHRONOLOGY_2026-11-09.md), which also lists the manuscript numbers not verified here: the NBA TV common-sample check, two archived latest-pre-tip side estimates, the season-level wording tables and the figures.
 
-## 8. GitHub status
+## 8. GitHub status (updated after this report's original local run)
 
-GitHub is not linked to this session, so no push, PR update or Actions run happened from here. The work is delivered as one commit in `level_c_august_corrected_completion.patch`, made against branch head `b898fe5`. It adds the scripts, tests, documentation, sanitized evidence, new CI test steps and one new public CI job (executed stage 02/04/05 scripts and the release-PDF check). PR #4 should stay a draft. Nothing should be merged without your approval.
+The paragraph below replaces an obsolete snapshot that said GitHub was inaccessible. The original correction patch **was committed and pushed** to `audit-rebuild-reliability-2026-11` (commits `0a7f49d`, `7ac75bd`, `334277e`). [Draft PR #4](https://github.com/ahmetcopur/nba-load-management-ppp/pull/4) remains open and **unmerged**. [GitHub Actions run 42582389410](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42582389410) completed with **11/11 jobs successful**, including the first public independently executed August original-stage suites; it did not run the corrected private risk dataset.
 
-Apply from a clean checkout of the branch:
+A subsequent November 9 continuation recovered and opened the user's real `player_game_panel_model_at_risk_analysis_ready.csv.zip` and established that it contains **180,829** rows and decoded SHA-256 `d6e82ba6…`, not the earlier reported corrected 180,831-row panel `5a5d286b…`. The same continuation discovered four named 2020–24 raw upload archives but could not inspect their members because the local execution environment stopped responding. See the linked [source recovery audit](PRIVATE_SOURCE_RECOVERY_AUDIT_2026-11-09.md).
 
-    git checkout audit-rebuild-reliability-2026-11
-    git am /path/to/level_c_august_corrected_completion.patch
-
-All new and changed unit tests pass locally under pandas 3.0.5, and the taxonomy and ZIP tests also pass under pandas 2.2.3. The new CI job has not run yet. Corrected panels, raw JSON, PDFs and source ZIPs are not in the patch.
+New raw-archive SHA/inventory verification code and synthetic tests were added to the draft PR. Green synthetic checks, whether historical or new, must **never** be described as successful private-source Level-C acceptance. Do not merge before scientific review and remaining source acceptance.
 
 ## 9. Scientific assessment
 
