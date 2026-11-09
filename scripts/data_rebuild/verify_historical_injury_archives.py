@@ -46,7 +46,7 @@ PINNED_ARCHIVES = {
 def git_blob_sha1(path: Path) -> str:
     """Compute Git's SHA-1 for a file, including the 'blob SIZE\\0' prefix."""
     digest = hashlib.sha1()
-    digest.update(f"blob {path.stat().st_size}\\0".encode("ascii"))
+    digest.update(f"blob {path.stat().st_size}\0".encode("ascii"))
     with path.open("rb") as stream:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
