@@ -91,6 +91,23 @@ jobs:
           assert len(set(r["nba_game_id"] for r in rows)) == 7230
           print("PASS: 7,230 unique report-to-boxscore game joins")
           PY
+      - name: Verify pinned original public injury inventory blob identities and season PDF counts
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from scripts.data_rebuild.verify_historical_injury_archives import (
+              PINNED_ARCHIVES, read_source_inventory, verify_pinned_inventory)
+          metadata = Path(os.environ["RUNNER_TEMP"]) / "nba_shared/provenance/historical_sources"
+          observed = verify_pinned_inventory(metadata)
+          archives, pdfs = read_source_inventory(metadata, tuple(PINNED_ARCHIVES))
+          for name, (expected_sha, expected_count) in PINNED_ARCHIVES.items():
+              assert archives[name] == expected_sha, name
+              assert len(pdfs[name]) == expected_count, (name, len(pdfs[name]), expected_count)
+              print(f"PINNED_PUBLIC_PROVENANCE {name}: {expected_count} indexed original PDF hashes")
+          print("PINNED_PUBLIC_PROVENANCE_GIT_BLOBS", observed)
+          print("No private archive opened or uploaded in this CI step")
+          PY
       - name: Check actual archived analysis package members
         run: |
           python - <<'PY'
