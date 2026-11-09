@@ -16,6 +16,7 @@ on:
       - "tests/test_august_descriptive_sensitivity.py"
       - "tests/test_august_category_release_replay.py"
       - "tests/test_august_heterogeneity_release_replay.py"
+      - "tests/test_august_prior_event_placebos_replay.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -187,6 +188,10 @@ jobs:
         run: |
           python -m compileall -q scripts/data_rebuild/run_august_heterogeneity_from_release.py tests/test_august_heterogeneity_release_replay.py
           python -m unittest discover -s tests -p test_august_heterogeneity_release_replay.py -v
+      - name: Test archived August Stage-05 pretrend and fake-policy placebo specification gates
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_prior_event_placebos_from_release.py tests/test_august_prior_event_placebos_replay.py
+          python -m unittest discover -s tests -p test_august_prior_event_placebos_replay.py -v
       - name: Test August source match-number repair refuses unrelated matchups
         run: python -m unittest discover -s tests -p test_august_toronto_source_join.py -v
   october-release-frozen-replay:
@@ -325,6 +330,40 @@ jobs:
           path: |
             ${{ runner.temp }}/nba_heterogeneity_frozen/august_heterogeneity_replay.json
             ${{ runner.temp }}/nba_heterogeneity_frozen/frozen/heterogeneity_run.log
+          if-no-files-found: warn
+  august-pretrend-placebo-frozen-replay:
+    name: Independently rerun original August 10 event coefficients, 2 pretrend tests and 4 fake-policy placebos
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned August published analysis environment
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch immutable original research source and Stage05 archive
+        run: |
+          git init "$RUNNER_TEMP/nba_prior_event_shared"
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" checkout --detach FETCH_HEAD
+      - name: Replay released event study and fake PPP policy dates against original ZIP outputs
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_prior_event_placebos_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_prior_event_shared" \
+            --work "$RUNNER_TEMP/nba_prior_event_replay" \
+            --frozen-only
+      - name: Retain published falsification-output comparison and original executable log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-original-frozen-event-pretrend-placebo
+          path: |
+            ${{ runner.temp }}/nba_prior_event_replay/august_prior_event_placebo_replay.json
+            ${{ runner.temp }}/nba_prior_event_replay/frozen/prior_event_placebo.log
           if-no-files-found: warn
   stage6-regression-replay:
     name: Independent Stage-6 model replay from published frozen data
