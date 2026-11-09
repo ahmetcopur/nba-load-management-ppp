@@ -17,6 +17,7 @@ on:
       - "tests/test_august_category_release_replay.py"
       - "tests/test_august_heterogeneity_release_replay.py"
       - "tests/test_august_prior_event_placebos_replay.py"
+      - "tests/test_august_corrected_zip_replays.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -40,6 +41,8 @@ jobs:
         run: python -m compileall -q scripts/data_rebuild tests/test_data_rebuild.py
       - name: Unit tests with synthetic panels/archives
         run: python -m unittest discover -s tests -p test_data_rebuild.py -v
+      - name: Test safe uploaded ZIP ingestion, CSV and gzip content hashes
+        run: python -m unittest discover -s tests -p test_august_corrected_zip_replays.py -v
       - name: Independently screen August report-to-tip linkage for two misdated games
         run: python scripts/data_rebuild/audit_august_base_report_links.py
       - name: Inventory original August falsification-stage archive for public reproduction
