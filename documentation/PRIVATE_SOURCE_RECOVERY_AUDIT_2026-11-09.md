@@ -74,3 +74,29 @@ The output remains Git-ignored; do not commit original PDFs or private source ZI
 ## 5. Current GitHub verification boundary
 
 The last full replay CI run **42582389410** on commit `334277e` passed all 11 jobs. It validates published source-algorithm replay and synthetic checks, not the private four raw ZIPs. A new CI run for the raw-archive verifier tests was triggered by the subsequent code changes; its outcome must be checked separately before claiming the new script is CI-accepted.
+
+## 6. Follow-on verification: immutable public source-inventory gates
+
+The historical archive verifier now also checks the **exact original provenance-file Git blob SHA-1 IDs** from pinned source commit `0bd713d97e8d519df5700ef473da34aba4495223` before reading any supplied archive checksum. It independently requires the originally published ZIP SHA-256 for each of these four seasons and the published PDF inventory counts (617, 5,567, 5,541, 5,441; combined 17,166). A self-consistent but modified inventory is rejected. These pinning rules are enforced by default in the CLI; synthetic fixtures use an explicit Python-only test bypass.
+
+The [new GitHub Actions public reference gate](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42587846467) successfully fetched the exact immutable source commit, verified both original inventory blob IDs, compared all four published ZIP hashes, and counted all 17,166 indexed present PDF rows. The [machine-readable public reference evidence](../validation/level_c_injury_archive_source_inventory_2026-11-09.json) reports the reference identities and explicitly marks every **private source ZIP as not yet verified**.
+
+This does **not** establish that the recovered private ZIP bytes match. The local Python/container runtime still raises `ClientError` even for a trivial probe. Original archive hash and member acceptance remains blocked in the current execution environment; no pass/fail claim is made for any actual private ZIP.
+
+### Exact private-input acceptance command
+
+In a clean local checkout of PR #4, keep the original raw ZIPs in a private folder outside the git working tree (e.g. `$HOME/nba_original_archives`). Prepare the source provenance from the pinned original research commit (not moving `main`):
+
+```bash
+git clone https://github.com/OEKundakcioglu/nba-ppp-star-availability.git nba_pinned_source
+git -C nba_pinned_source checkout 0bd713d97e8d519df5700ef473da34aba4495223
+
+python3 scripts/data_rebuild/verify_historical_injury_archives.py \
+  --archive-dir "$HOME/nba_original_archives" \
+  --metadata-dir nba_pinned_source/provenance/historical_sources \
+  --output data_rebuild/output/private_injury_archives_2020_24.json
+```
+
+The command is read-only with respect to the original ZIPs and never extracts files. Treat a successful result as a **raw archive/hash identity gate only**, not a PDF reparse or manuscript reproduction. If the command reports an unindexed extra PDF, retain that count and review the difference rather than silently modifying source files.
+
+Remaining work is tracked in [Issue #5](https://github.com/ahmetcopur/nba-load-management-ppp/issues/5). PR #4 stays **draft and unmerged**.
