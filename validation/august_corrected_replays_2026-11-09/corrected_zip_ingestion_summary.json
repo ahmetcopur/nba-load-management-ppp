@@ -1,0 +1,28 @@
+{
+  "source_zip": "PRIVATE_INPUT/player_game_panel_model_at_risk_analysis_ready.csv.zip",
+  "source_zip_sha256": "72cf35000af88f9dd6b28aab2ea5202590eb9d4b69c5ba44634ed12ec5d0c11f",
+  "scientific_input": {
+    "zip_payload_member": "player_game_panel_model_at_risk_analysis_ready.csv",
+    "zip_payload_bytes": 150058845,
+    "decoded_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+    "decoded_bytes": 150058845,
+    "rows": 180831,
+    "unique_player_team_game_ids": 180831,
+    "columns": 72,
+    "expected_source_identity_passed": true,
+    "compressed_output_sha256": "6d595d9df7b90ca8fea2e835d863e0919ae3d8f3efc960376ef96043870515ab"
+  },
+  "private_zip_never_uploaded": true,
+  "analyses": {
+    "heterogeneity": {
+      "report": "data_rebuild/output/august_zip_full_replay/heterogeneity/august_heterogeneity_replay.json",
+      "source_reproduction_passed": true,
+      "corrected_result": "corrected_predeclared_models"
+    },
+    "pretrend-placebo": {
+      "report": "data_rebuild/output/august_zip_full_replay/pretrend-placebo/august_prior_event_placebo_replay.json",
+      "source_reproduction_passed": true,
+      "corrected_result": "corrected_tables"
+    }
+  }
+}

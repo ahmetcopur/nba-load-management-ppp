@@ -1,0 +1,564 @@
+{
+  "scope": "August latest-pre-tip, not October cadence",
+  "original_decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+  "frozen_manuscript_identity_checked": true,
+  "frozen": {
+    "rows": 248730,
+    "risk_rows": 180829,
+    "new_onsets": 12710,
+    "eight_tv_onset_cells": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "announced_tv_primary": false,
+        "n": 69714,
+        "onsets": 4226,
+        "rate_pct": 6.06191008979545
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "announced_tv_primary": true,
+        "n": 10372,
+        "onsets": 555,
+        "rate_pct": 5.350944851523332
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "announced_tv_primary": false,
+        "n": 71794,
+        "onsets": 5415,
+        "rate_pct": 7.542413015015183
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "announced_tv_primary": true,
+        "n": 12363,
+        "onsets": 886,
+        "rate_pct": 7.16654533689234
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "announced_tv_primary": false,
+        "n": 6338,
+        "onsets": 719,
+        "rate_pct": 11.344272641211738
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "announced_tv_primary": true,
+        "n": 1441,
+        "onsets": 99,
+        "rate_pct": 6.870229007633588
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "announced_tv_primary": false,
+        "n": 7167,
+        "onsets": 682,
+        "rate_pct": 9.5158364727222
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "announced_tv_primary": true,
+        "n": 1640,
+        "onsets": 128,
+        "rate_pct": 7.804878048780488
+      }
+    ],
+    "pooled_onset": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "at_risk": 80086,
+        "onsets": 4781,
+        "rate_pct": 5.969832430137602
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "at_risk": 84157,
+        "onsets": 6301,
+        "rate_pct": 7.4871965493066535
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "at_risk": 7779,
+        "onsets": 818,
+        "rate_pct": 10.515490422933539
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "at_risk": 8807,
+        "onsets": 810,
+        "rate_pct": 9.197229476552742
+      }
+    ],
+    "pooled_prevalence": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "observed": 106892,
+        "absent": 25515,
+        "rate_pct": 23.86988736294578
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "observed": 117912,
+        "absent": 32533,
+        "rate_pct": 27.5909152588371
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "observed": 10899,
+        "absent": 3070,
+        "rate_pct": 28.167721809340307
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "observed": 12195,
+        "absent": 3336,
+        "rate_pct": 27.355473554735546
+      }
+    ],
+    "reviewed_onset_classes": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "explicit_rest",
+        "n": 85
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "illness",
+        "n": 720
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "other_non_injury",
+        "n": 1113
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "specific",
+        "n": 1029
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "unknown",
+        "n": 699
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "vague",
+        "n": 1135
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "explicit_rest",
+        "n": 189
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "illness",
+        "n": 477
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "other_non_injury",
+        "n": 1805
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "specific",
+        "n": 1550
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "unknown",
+        "n": 977
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "vague",
+        "n": 1303
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "explicit_rest",
+        "n": 73
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "illness",
+        "n": 77
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "other_non_injury",
+        "n": 35
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "specific",
+        "n": 220
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "unknown",
+        "n": 43
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "vague",
+        "n": 370
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "explicit_rest",
+        "n": 41
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "illness",
+        "n": 47
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "other_non_injury",
+        "n": 40
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "specific",
+        "n": 343
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "unknown",
+        "n": 26
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "vague",
+        "n": 313
+      }
+    ],
+    "unadjusted_tv_triple_difference_pp": 2.4279876494871626
+  },
+  "interpretation_warning": "Raw eight-cell TV triple difference is unadjusted, not the August fixed-effect interaction and not a causal PPP effect.",
+  "corrected_decoded_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+  "corrected": {
+    "rows": 248728,
+    "risk_rows": 180831,
+    "new_onsets": 12707,
+    "eight_tv_onset_cells": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "announced_tv_primary": false,
+        "n": 69716,
+        "onsets": 4225,
+        "rate_pct": 6.0603017958574785
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "announced_tv_primary": true,
+        "n": 10372,
+        "onsets": 554,
+        "rate_pct": 5.341303509448515
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "announced_tv_primary": false,
+        "n": 71794,
+        "onsets": 5415,
+        "rate_pct": 7.542413015015183
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "announced_tv_primary": true,
+        "n": 12363,
+        "onsets": 886,
+        "rate_pct": 7.16654533689234
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "announced_tv_primary": false,
+        "n": 6340,
+        "onsets": 719,
+        "rate_pct": 11.340694006309148
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "announced_tv_primary": true,
+        "n": 1439,
+        "onsets": 98,
+        "rate_pct": 6.810284920083391
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "announced_tv_primary": false,
+        "n": 7167,
+        "onsets": 682,
+        "rate_pct": 9.5158364727222
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "announced_tv_primary": true,
+        "n": 1640,
+        "onsets": 128,
+        "rate_pct": 7.804878048780488
+      }
+    ],
+    "pooled_onset": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "at_risk": 80088,
+        "onsets": 4779,
+        "rate_pct": 5.967186095295175
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "at_risk": 84157,
+        "onsets": 6301,
+        "rate_pct": 7.4871965493066535
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "at_risk": 7779,
+        "onsets": 817,
+        "rate_pct": 10.502635300167116
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "at_risk": 8807,
+        "onsets": 810,
+        "rate_pct": 9.197229476552742
+      }
+    ],
+    "pooled_prevalence": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "observed": 106890,
+        "absent": 25511,
+        "rate_pct": 23.86659182336982
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "observed": 117912,
+        "absent": 32533,
+        "rate_pct": 27.5909152588371
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "observed": 10899,
+        "absent": 3070,
+        "rate_pct": 28.167721809340307
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "observed": 12195,
+        "absent": 3336,
+        "rate_pct": 27.355473554735546
+      }
+    ],
+    "reviewed_onset_classes": [
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "explicit_rest",
+        "n": 85
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "illness",
+        "n": 720
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "other_non_injury",
+        "n": 1114
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "specific",
+        "n": 1030
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "unknown",
+        "n": 694
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": false,
+        "designation_class_frozen": "vague",
+        "n": 1136
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "explicit_rest",
+        "n": 189
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "illness",
+        "n": 477
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "other_non_injury",
+        "n": 1805
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "specific",
+        "n": 1550
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "unknown",
+        "n": 977
+      },
+      {
+        "star_PPP_it": false,
+        "postPPP": true,
+        "designation_class_frozen": "vague",
+        "n": 1303
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "explicit_rest",
+        "n": 73
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "illness",
+        "n": 77
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "other_non_injury",
+        "n": 34
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "specific",
+        "n": 220
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "unknown",
+        "n": 42
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": false,
+        "designation_class_frozen": "vague",
+        "n": 371
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "explicit_rest",
+        "n": 41
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "illness",
+        "n": 47
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "other_non_injury",
+        "n": 40
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "specific",
+        "n": 343
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "unknown",
+        "n": 26
+      },
+      {
+        "star_PPP_it": true,
+        "postPPP": true,
+        "designation_class_frozen": "vague",
+        "n": 313
+      }
+    ],
+    "unadjusted_tv_triple_difference_pp": 2.4763200539979247
+  },
+  "raw_triple_delta_pp": 0.04833240451076204
+}

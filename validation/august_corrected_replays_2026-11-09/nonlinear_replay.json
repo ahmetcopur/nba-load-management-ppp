@@ -1,0 +1,161 @@
+{
+  "archived_frozen_max_abs_difference_pp": {
+    "extensive_nonlinear_primary.csv": 0.0,
+    "classification_nonlinear_primary.csv": 0.0,
+    "multinomial_softmax_ddd.csv": 0.0
+  },
+  "archived_frozen_reproduced": true,
+  "difference_from_documented_ci_rerun_pp": {
+    "legacy_primary": -0.06599999999999984,
+    "harmonized_linear": -0.4556
+  },
+  "tv_rekeys": [
+    {
+      "away_team": "Chicago Bulls",
+      "home_team": "Toronto Raptors",
+      "old_date": "2022-02-01",
+      "new_date": "2022-02-03",
+      "original_network": null,
+      "original_primary_tv": false,
+      "historical_fixture_row": 759
+    },
+    {
+      "away_team": "Miami Heat",
+      "home_team": "Toronto Raptors",
+      "old_date": "2022-02-03",
+      "new_date": "2022-02-01",
+      "original_network": "TNT",
+      "original_primary_tv": true,
+      "historical_fixture_row": 777
+    }
+  ],
+  "status": "corrected result accepted",
+  "paired": [
+    {
+      "table": "extensive_nonlinear_primary.csv",
+      "row": "legacy_primary",
+      "frozen_rerun_pp": 2.440028376624094,
+      "corrected_pp": 2.0329668992521985,
+      "delta_pp": -0.40706147737189546,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "extensive_nonlinear_primary.csv",
+      "row": "harmonized_linear",
+      "frozen_rerun_pp": 0.8271277966067004,
+      "corrected_pp": 1.2794461452353918,
+      "delta_pp": 0.45231834862869136,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "classification_nonlinear_primary.csv",
+      "row": "legacy_primary",
+      "frozen_rerun_pp": -5.417689535691139,
+      "corrected_pp": -5.180499633823055,
+      "delta_pp": 0.23718990186808409,
+      "n_frozen": 6256,
+      "n_corrected": 6259
+    },
+    {
+      "table": "classification_nonlinear_primary.csv",
+      "row": "harmonized_linear",
+      "frozen_rerun_pp": -4.432835828041859,
+      "corrected_pp": -3.596629960685549,
+      "delta_pp": 0.83620586735631,
+      "n_frozen": 6256,
+      "n_corrected": 6259
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "legacy_primary | other",
+      "frozen_rerun_pp": 0.6832157221583017,
+      "corrected_pp": 0.6985264729937678,
+      "delta_pp": 0.01531075083546607,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "legacy_primary | plays",
+      "frozen_rerun_pp": -1.8400251732339723,
+      "corrected_pp": -2.008034993618024,
+      "delta_pp": -0.16800982038405188,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "legacy_primary | rest",
+      "frozen_rerun_pp": 0.3901860936885439,
+      "corrected_pp": 0.3029648405179362,
+      "delta_pp": -0.0872212531706077,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "legacy_primary | specific",
+      "frozen_rerun_pp": 0.388570429641194,
+      "corrected_pp": 0.5373428537172487,
+      "delta_pp": 0.14877242407605468,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "legacy_primary | vague",
+      "frozen_rerun_pp": 0.3780529277420497,
+      "corrected_pp": 0.4692008263866468,
+      "delta_pp": 0.0911478986445971,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "harmonized_linear | other",
+      "frozen_rerun_pp": 0.2177331267847367,
+      "corrected_pp": 0.3128748517771857,
+      "delta_pp": 0.09514172499244902,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "harmonized_linear | plays",
+      "frozen_rerun_pp": -0.93232578744743,
+      "corrected_pp": -1.0246148392802024,
+      "delta_pp": -0.09228905183277236,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "harmonized_linear | rest",
+      "frozen_rerun_pp": 0.4121779555520906,
+      "corrected_pp": 0.3931923289917106,
+      "delta_pp": -0.018985626560379998,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "harmonized_linear | specific",
+      "frozen_rerun_pp": 0.1479531508835866,
+      "corrected_pp": 0.2105777640495822,
+      "delta_pp": 0.0626246131659956,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    },
+    {
+      "table": "multinomial_softmax_ddd.csv",
+      "row": "harmonized_linear | vague",
+      "frozen_rerun_pp": 0.1544615542260154,
+      "corrected_pp": 0.1079698944582928,
+      "delta_pp": -0.0464916597677226,
+      "n_frozen": 180695,
+      "n_corrected": 180697
+    }
+  ]
+}

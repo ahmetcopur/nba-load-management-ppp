@@ -1,0 +1,86 @@
+{
+  "scope": "Original August core finalizer, source-corrected two Toronto physical games; review-star/Cup and taxonomy downstream not yet rebuilt",
+  "source_zip_sha256": {
+    "core": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "covariates": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "roster": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561"
+  },
+  "historical_finalizer_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "frozen_original_csv_reproduced_exactly_uncompressed_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+  "baseline_qa": {
+    "fixture_games": 7230,
+    "team_game_status_rows": 14460,
+    "boxscore_roster_rows": 248571,
+    "report_only_roster_additions": 159,
+    "final_player_game_rows": 248730,
+    "unique_players": 1125,
+    "selected_report_player_rows": 73438,
+    "unmatched_report_player_rows": 0,
+    "unusable_team_games": 51,
+    "rows_with_observed_report_outcome": 247898,
+    "at_risk_rows": 180829,
+    "absence_onsets": 12710,
+    "observed_absence_spells": 13723,
+    "left_censored_spells": 992,
+    "missing_game_covariate_rows": 0,
+    "missing_player_id_rows": 0,
+    "duplicate_player_game_keys": 0,
+    "taxonomy_status": "provisional keyword taxonomy; 300-spell review sample included",
+    "remaining_major_inputs": [
+      "star_PPP_it award history",
+      "NBA Cup game flag",
+      "age / biographical controls",
+      "comparison-group inputs"
+    ]
+  },
+  "corrected_qa": {
+    "fixture_games": 7230,
+    "team_game_status_rows": 14460,
+    "boxscore_roster_rows": 248571,
+    "report_only_roster_additions": 157,
+    "final_player_game_rows": 248728,
+    "unique_players": 1125,
+    "selected_report_player_rows": 73438,
+    "unmatched_report_player_rows": 0,
+    "unusable_team_games": 51,
+    "rows_with_observed_report_outcome": 247896,
+    "at_risk_rows": 180831,
+    "absence_onsets": 12707,
+    "observed_absence_spells": 13718,
+    "left_censored_spells": 990,
+    "missing_game_covariate_rows": 0,
+    "missing_player_id_rows": 0,
+    "duplicate_player_game_keys": 0,
+    "taxonomy_status": "provisional keyword taxonomy; 300-spell review sample included",
+    "remaining_major_inputs": [
+      "star_PPP_it award history",
+      "NBA Cup game flag",
+      "age / biographical controls",
+      "comparison-group inputs"
+    ]
+  },
+  "changed_core": {
+    "removed_names": [
+      "Devon Dotson",
+      "Javonte Smart"
+    ],
+    "changed_fields": {
+      "absence_now": 2,
+      "absence_onset": 3,
+      "at_risk_for_new_onset": 12,
+      "designation_status": 32
+    }
+  },
+  "official_true_tip_utc": {
+    "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": "2022-02-04T00:30:00Z",
+    "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": "2022-02-02T00:30:00Z"
+  },
+  "source_match_to_retained_frozen_key": {
+    "46": "2021-22|20211025T2330Z|Chicago Bulls@Toronto Raptors",
+    "430": "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors",
+    "784": "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors",
+    "1172": "2021-22|20220403T2300Z|Miami Heat@Toronto Raptors"
+  },
+  "unresolved_key_warning": "Two retained frozen game_id strings still encode the original incorrect date, for stable key comparisons. source_match_number and actual tip/date have been corrected.",
+  "limitations": "Does NOT independently rebuild award/Cup flags, reviewed taxonomy or full August regressions."
+}
