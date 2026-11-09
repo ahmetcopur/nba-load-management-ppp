@@ -41,6 +41,19 @@ jobs:
         run: python -m unittest discover -s tests -p test_data_rebuild.py -v
       - name: Independently screen August report-to-tip linkage for two misdated games
         run: python scripts/data_rebuild/audit_august_base_report_links.py
+      - name: Inventory original August falsification-stage archive for public reproduction
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          path=Path("packages/05_identification_falsification_stage2.zip")
+          with ZipFile(path) as z:
+              bad=z.testzip()
+              assert bad is None, bad
+              for member in z.namelist():
+                  if not member.endswith("/"):
+                      print("STAGE05_MEMBER",member)
+          PY
       - name: Validate frozen panel scientific invariants
         run: python scripts/data_rebuild/validate_cadence_panel.py --expect-frozen
       - name: CSV comparator smoke test (same-file identity only)
