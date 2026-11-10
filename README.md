@@ -45,6 +45,22 @@ From the audit branch, with the five required original ZIPs staged together
       --archive-dir "$HOME/nba-original-zips" \
       --output-dir "$HOME/nba-private-rebuild/core-and-stars"
 
+For an optional **2025–26 original NBA PDF input** (instead of
+inheriting that season's selected-report rows), also include
+`audit_2025_26_upload.zip` and `audit_2025_26_targeted_upload.zip`
+in your private source directory, and add `--from-original-2025-pdfs`
+to the command (alongside `--with-cup`). This now rebuilds all
+13,968 selected 2025–26 source rows from **729 original PDFs**,
+requires an exact comparison across **all 22 original fields**, and
+runs the fresh records through the connected core/star/Cup stages.
+
+The independently executed source-substitution run reproduced
+**10/10 core, 12/12 star and 3/3 Cup outputs exactly**. The other
+five seasons' selected rows are still archived inputs, and the
+newly packaged single-command eight-ZIP variant requires its own
+direct clean-checkout private-input acceptance. See the
+[raw-2025 source report](validation/level_c_injury_pdf_real_2026-11-10/fresh_2025_pdfs_to_connected_core_stars_cup.json).
+
 For the now-executed **Cup-lookup enrichment** as well, include
 nba_player_game_at_risk_star_cup_v1.zip in the private directory and add
 the --with-cup switch to the same command. The new Cup builder produces the
