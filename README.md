@@ -45,6 +45,28 @@ From the audit branch, with the five required original ZIPs staged together
       --archive-dir "$HOME/nba-original-zips" \
       --output-dir "$HOME/nba-private-rebuild/core-and-stars"
 
+The latest source-to-core extension now supports **five original NBA injury-PDF
+seasons (2021–22 through 2025–26)**. With the four 2021–24
+original raw ZIPs added to the previous eight original inputs, use:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2021-2025-core-stars-cup" \
+      --from-original-2021-2025-pdfs --with-cup
+
+**3,020 authentic original selected PDFs generated 64,956 complete player-report
+records, all 22 fields exact.** Those five seasons' PDF-derived rows
+were then consumed by the reconstructed original identity/core and
+award/star builders and Cup lookup transformation; **25/25 frozen output
+files reproduced exactly**. Only the 8,591 records from 2020–21
+remain archived source inputs because of its unresolved reason-field
+extraction differences. The newly packaged umbrella command still
+requires its own fresh 12-ZIP acceptance; the corresponding original
+source stages were executed and compared in the private work area.
+
+[Five-season actual source evidence](validation/level_c_injury_pdf_real_2026-11-10/five_seasons_real_pdfs_to_25_exact_core_star_cup_outputs.json)
+and [full original-PDF runbook](documentation/CONNECTED_CORE_REPRODUCTION_2026-11-10.md).
+
 For an optional **2025–26 original NBA PDF input** (instead of
 inheriting that season's selected-report rows), also include
 `audit_2025_26_upload.zip` and `audit_2025_26_targeted_upload.zip`
