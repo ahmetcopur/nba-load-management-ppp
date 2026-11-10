@@ -56,6 +56,11 @@ class OriginalSelectorReplayTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'missing scientific'):
             self.compare(candidate)
 
+    def test_missing_non_scientific_reference_column_fails(self):
+        candidate=self.orig.drop(columns=['listed_teams'])
+        with self.assertRaisesRegex(ValueError,'output schema differs'):
+            self.compare(candidate)
+
     def test_row_count_drift_fails(self):
         with self.assertRaisesRegex(ValueError,'Unexpected'):
             self.compare(self.orig.head(1))
