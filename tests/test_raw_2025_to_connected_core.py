@@ -78,7 +78,7 @@ class OriginalPDF2025InputTests(unittest.TestCase):
         candidate = original.copy()
         candidate.loc[1, "current_status"] = "Available"
         with patch.object(source, "EXPECTED_REPORT_ROWS", 2):
-            with self.assertRaisesRegex(ValueError, "original 2025 raw-PDF selected rows differ"):
+            with self.assertRaisesRegex(ValueError, "Original 2025 raw-PDF selected rows differ"):
                 source.verify_original_row_equality(candidate, original)
 
     def test_missing_original_column_blocks_source_acceptance(self):
@@ -146,8 +146,10 @@ class OriginalPDF2025InputTests(unittest.TestCase):
         for sourcezip in source.SOURCE_ZIPS:
             with ZipFile(self.archives / sourcezip, "w") as archive:
                 archive.writestr("audit/pdf/" + basename, b"pdf")
+        scratch = self.root / "staged"
+        scratch.mkdir()
         with self.assertRaisesRegex(ValueError, "Ambiguous duplicate"):
-            source.stage_pdfs(self.archives, {basename}, self.root / "staged")
+            source.stage_pdfs(self.archives, {basename}, scratch)
 
     def test_core_rejects_non_2025_replacement_before_using_it(self):
         replacement = self.root / "candidate.csv"
