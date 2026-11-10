@@ -173,3 +173,95 @@ does NOT independently recreate or prove the lookup's official NBA
 task. The complete raw-PDF and manuscript regression path is likewise
 still not one continuous executed dependency graph. No original/frozen
 data or private PDFs were modified or pushed to GitHub.
+
+
+## First original-PDF entrypoint: 2025–26 source rows
+
+An independently executed next-stage run replaced the **entire original
+2025–26 selected-report CSV input** with player-report records **generated
+directly from the saved original NBA injury-report PDFs**. The two original
+2025 private raw ZIPs passed the pinned original archive SHA-256 checks and
+the unmodified historical parser had original source SHA-256
+197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06.
+
+- Reparsed **729 original 2025–26 league PDF reports** from the initial plus
+  later targeted archives.
+- Reproduced **13,968 2025–26 selected player-report rows**, including every
+  one of the **22 original CSV fields** with **zero missing or extra complete
+  records**. This comparison was an order-independent complete-record
+  multiset, NOT only a row count.
+- Replaced only the 2025–26 selected rows inside the 73,547-row historical
+  report input; the other **59,579 selected source rows from 2020–21
+  through 2024–25** remain explicitly archived historical inputs.
+- Independently regenerated the **73,438 player-ID table** from this mixed
+  source, then ran the unchanged original core and star scripts and the
+  source Cup-lookup reimplementation in a **fresh output directory**.
+- All **10 core, 12 star and three Cup full decoded CSV outputs matched**
+  their exact frozen references. No core, onset, absence, star or Cup
+  model field changed.
+
+The original **source-selected PDF identity and published timestamp**
+choices remain inputs from the original canonical game map in this
+specific run. Those choices have been independently reconstructed from
+the saved initial/targeted report manifests in the earlier
+[2025 selector audit](../validation/level_c_injury_pdf_real_2026-11-10/independent_2025_manifest_selection.json),
+but this particular 2025 PDF-to-row entrypoint does not rerun the
+manifest selector algorithm.
+
+### One-command entrypoint (original 2025 PDFs included)
+
+Place the same original six core/star/Cup ZIPs alongside **two
+additional original raw report ZIPs** in the private source folder:
+
+- audit_2025_26_upload.zip
+- audit_2025_26_targeted_upload.zip
+
+With eight immutable original ZIPs in the private folder, from a clean
+checkout of audit-rebuild-reliability-2026-11:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2025-core-stars-cup" \
+      --from-original-2025-pdfs \
+      --pdf-workers 4 \
+      --with-cup
+
+This newly packaged invocation performs the original 2025 PDF parse
+and **full 22-field frozen-row acceptance** in a disposable private
+scratch directory before feeding the generated rows into the original
+source-pinned identity resolver/finalizer, the historical star builder
+and the Cup lookup stage. It fails closed on altered raw ZIPs,
+missing/ambiguous PDFs, parser mismatch, altered 2025 complete records,
+changed player-ID allocations and changed final outputs.
+
+The equivalent exact-input **constituent transformations were
+independently executed** in the model's local private environment and
+their combined output validated, but the *newly committed umbrella CLI*
+has **not yet separately been run with all eight real private ZIPs from
+a clean checkout**. Its synthetic CI tests cover source metadata
+matching, original-row schema/values, safety and the optional CLI.
+Do not mistake synthetic CI alone for execution of this full private
+pipeline. The already executed empirical evidence is preserved in
+[2025 original PDFs to 25 exact downstream outputs](../validation/level_c_injury_pdf_real_2026-11-10/fresh_2025_pdfs_to_connected_core_stars_cup.json).
+
+Standalone selected-report parser, which emits private source rows
+without changing original archives:
+
+    python scripts/data_rebuild/rebuild_2025_selected_from_pdfs.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/parsed-2025-selected" \
+      --workers 4
+
+Its generated CSV can also be injected into the standalone core
+runner with --reparsed-2025-selected-csv. Both private output directories
+must be new and outside any Git checkout.
+
+**Still not full six-season raw-source reproduction:** this 2025
+entrypoint fixes one season's raw source input; it retains the other
+five seasons' selected player-report rows and inherited official
+award/Cup/TV/covariate source assumptions. The 2020–21 fixed-width
+extractor still has **93 reason-text differences**, of which **25**
+occur in 12 selected games. Do not replace those source reasons with
+the current diagnostic reparse. The end-to-end manuscript model
+calculation and original TV/award/Cup release provenance checks remain
+separate steps. PR #4 stays draft.
