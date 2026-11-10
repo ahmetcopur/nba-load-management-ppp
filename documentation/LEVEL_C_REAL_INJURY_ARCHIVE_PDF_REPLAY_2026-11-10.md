@@ -136,3 +136,19 @@ Using a fresh 617-PDF `x_density=5.0` diagnostic reparse and the **actual** orig
 This bounds potential reason-taxonomy impact; it **does not** validate the 25 free-text reasons or imply that the main manuscript estimates were rerun. Do **not** silently adopt the diagnostic strings in a frozen release.
 
 [Sanitized 2024–26 machine-readable evidence](../validation/level_c_injury_pdf_real_2026-11-10/extended_2024_26_source_and_replay.json). The actual source ZIPs, PDFs, and per-player reasons remain private and uncommitted. PR #4 stays draft until scientific review.
+
+## 9. Original canonical selection algorithm: 2020–21 and 2024–25 exact re-execution
+
+The archived `nba_canonical_snapshot_selector_v1.zip` includes its actual historical `build_canonical_snapshot_selector_v1.py`. The original `build_season` function was extracted and re-executed **without changing the selector algorithm** with original archived schedules, verified PDF report manifests, and historical parsed row inputs. For 2020–21, the S4 normalized schedule's lowercase `away_team/home_team/location/result` fields were mapped to the capitalized equivalent schedule headers present in the frozen canonical output; this is a source-schedule schema harmonization, not a change to the pre-tip rule. For 2024–25, the original schedule column names were already aligned.
+
+| Season | Rerun of original full selector | Rerun of original harmonized selector | Result |
+|---|---:|---:|---|
+| 2020–21 | **1,080 / 1,080** exact game records | **1,080 / 1,080** exact game records | All compared fields match |
+| 2024–25 | **1,230 / 1,230** exact game records | **1,230 / 1,230** exact game records | All compared fields match |
+| **Across panel records** | | **4,620 / 4,620** | **PASS** |
+
+The original code's `pd.merge_asof(..., direction="backward", allow_exact_matches=False)` selection was rerun rather than merely checking whether previously selected PDFs existed. Every field in the frozen canonical game selection output compared equal, with a `1e-9` numeric tolerance for floating-point serialization only. The 2024–25 run uses **418,059 rows independently reparsed from original PDFs**, as established in the preceding section. For 2020–21, selection was built from **archived parsed rows** because the current `pdfplumber` environment still cannot reproduce all reason strings; this does not affect the selection algorithm's team-status inputs, which were separately shown equal across the compatibility reparse.
+
+The initial local comparison code reported spurious failures from schedule label aliases and a bug comparing a pandas Index directly with a whole DataFrame. Both were corrected in the **validation harness**, not in the original selector. The corrected full-column comparison passed all four panels. This is reproduction of the **original selector implementation**, not a second independently designed selector implementation, and not a full downstream player-game/award/model reconstruction.
+
+[Sanitized machine-readable original-selector replay](../validation/level_c_injury_pdf_real_2026-11-10/original_canonical_selector_2020_2024_replay.json). Both original ZIP packages remain private, and the frozen released data were not changed.
