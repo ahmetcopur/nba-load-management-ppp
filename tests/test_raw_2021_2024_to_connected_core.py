@@ -173,7 +173,7 @@ class HistoricalOriginalPDFConnectorTests(unittest.TestCase):
         # 2020–21 is now accepted only after its independently regenerated
         # original-PDF source rows pass the new exact full-field check.
         original = pd.DataFrame([{"season": "2020-21"}])
-        with self.assertRaisesRegex(FileNotFoundError, "source CSV missing"):
+        with self.assertRaisesRegex(FileNotFoundError, "selected-report CSV missing"):
             inject_reparsed_seasons(
                 original, {"2020-21": self.root / "not_existing.csv"}
             )
