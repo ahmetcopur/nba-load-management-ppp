@@ -391,3 +391,78 @@ Cup announcement, TV source, roster-name adjudication and
 manuscript model refitting are also still pending. Do not
 mark the original frozen paper end-to-end reproducible or merge
 draft PR #4 solely because this stage passes.
+
+
+## Five raw source seasons to reviewed analysis-ready modeling tables
+
+The original-PDF source chain has now been **executed one step farther**:
+after independent original source parsing for five seasons, the original
+player-ID resolution, original core finalizer, source-coded All-Star
+builder and Cup lookup, the newly generated **248,730-row core** was
+used to *recompute* the reviewed official injury reason classes and
+absence-onset classifications.
+
+The relevant historical analysis-reviewed ZIP is
+nba_player_game_analysis_ready_v1.zip (original full ZIP SHA-256:
+a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155).
+The source historical release contains 2,182 unique reviewed
+normalized reason-to-category mappings. The existing
+[build_analysis_ready_from_generated_core.py](../scripts/data_rebuild/build_analysis_ready_from_generated_core.py)
+derives the frozen taxonomy classes and multiple onset indicators
+from the **newly generated** official source reason/status records
+and the existing reviewed reason dictionary, and proves each
+recomputed reviewed field agrees with the historical release.
+
+| Newly generated analysis-ready output | Original player-game rows | Exact decoded full CSV |
+|---|---:|---|
+| player_game_panel_analysis_ready.csv.gz | 248,730 | Yes |
+| player_game_panel_model_at_risk_analysis_ready.csv.gz | 180,829 | Yes |
+
+Original decoded SHA-256s are
+5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77
+and d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635
+respectively. The complete 313,710,704 and 150,056,294
+underlying bytes agree with the historical source files, not
+merely their row counts. The original full 2020–21 report rows
+and historically reviewed reason-to-class judgments are
+inherited; these are explicitly *not* independently rebuilt
+from 2020 PDFs or human second-coder raw evidence.
+
+### Reproduction command including the modeling inputs
+
+Add the **13th original ZIP**, nba_player_game_analysis_ready_v1.zip,
+to the 12 original source ZIPs documented above. Then run:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2021-to-2025-analysis-ready" \
+      --from-original-2021-2025-pdfs \
+      --with-cup \
+      --with-analysis-ready
+
+The --with-analysis-ready flag invokes the original reviewed-taxonomy
+builder on the freshly generated player-game core and checks both
+full decoded analysis-ready CSV outputs against the immutable
+reviewed source ZIP. It refuses a changed source ZIP hash or
+an output directory already containing a prior run. The new
+combined flag path has fail-closed public CI tests. This 13-ZIP
+master command has **not yet been separately executed from a
+fresh checkout on every original private ZIP**, but the equivalent
+original-source and reviewed-taxonomy stages were run locally
+and independently accepted as full original-byte outputs.
+
+[Original five-PDF-season to reviewed analysis-ready evidence](../validation/level_c_injury_pdf_real_2026-11-10/five_raw_seasons_to_exact_reviewed_analysis_ready.json)
+|
+[Five-season integrated new CLI](../scripts/data_rebuild/reproduce_core_and_stars.py)
+|
+[Safety/source tests](../tests/test_connected_five_raw_seasons_analysis_ready.py)
+
+**Remaining research boundary:** An exact decoded analysis-ready panel
+is a genuine reproducibility milestone; it does not independently
+validate the *human-reviewed* 2,182-label original taxonomy,
+star/Cup/TV published announcements, full game covariates, or
+the original 2020–21 PDF reason fields. It is also distinct
+from executing the headline manuscript models on the freshly
+regenerated modeling file, which remains the next downstream
+acceptance task. See Issue #5 before considering the paper
+end-to-end reproducible.
