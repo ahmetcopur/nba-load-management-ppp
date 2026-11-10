@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-10",
+  "original_selector_source": "nba_canonical_snapshot_selector_v1.zip/nba_canonical_snapshot_selector_v1/build_canonical_snapshot_selector_v1.py",
+  "execution": "Original build_season function executed against archived season-specific normalized schedules, verified report manifests, and historical parsed rows. For 2020–21 the S4 schedule lowercase labels were mapped to the canonical archived schedule's equivalent uppercase field names; no timestamp/record selector algorithm changed. Parsed 2020–21 reason text remains original archived reference, and the separate 93 reason-only reparse exception remains unresolved.",
+  "reference": "nba_canonical_snapshot_selector_v1.zip/canonical game_snapshot_join CSV",
+  "comparison_method": "season + panel + game_id exact equality of each named column, with numeric tolerance 1e-9 for float serialization only and missing values normalized; no mismatched columns or game IDs",
+  "season_panels": [
+    {
+      "season": "2020-21",
+      "panel": "full",
+      "rows": 1080,
+      "changed_columns": {},
+      "exact": true
+    },
+    {
+      "season": "2020-21",
+      "panel": "harmonized",
+      "rows": 1080,
+      "changed_columns": {},
+      "exact": true
+    },
+    {
+      "season": "2024-25",
+      "panel": "full",
+      "rows": 1230,
+      "changed_columns": {},
+      "exact": true
+    },
+    {
+      "season": "2024-25",
+      "panel": "harmonized",
+      "rows": 1230,
+      "changed_columns": {},
+      "exact": true
+    }
+  ],
+  "total_games_across_panels": 4620,
+  "all_exact": true,
+  "boundaries": {
+    "independently_reimplemented_selector": false,
+    "source_parser_2020_reason_exact": false,
+    "frozen_data_modified": false,
+    "downstream_regressions_rerun_from_rebuilt_panel": false
+  }
+}
