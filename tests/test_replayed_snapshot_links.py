@@ -169,6 +169,17 @@ class ReparsedSnapshotLinkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "canonical game sets differ"):
             self.run_audit()
 
+    def test_real_2022_23_selector_schema_without_listed_teams_is_valid(self):
+        # Inspected original 2022–23 frozen ZIP: unlike 2021–22 and 2023–24,
+        # neither canonical panel provides a listed_teams column.
+        fields = [f for f in SELECTOR_FIELDS if f != "listed_teams"]
+        with ZipFile(self.archive, "w") as z:
+            for panel, records in (("full", self.full), ("harmonized", self.harmonized)):
+                name = f"nba_canonical_snapshot_selector_v1/{self.season}_game_snapshot_join_{panel}_canonical.csv"
+                z.writestr(name, csv_text(fields,
+                            [{k: v for k, v in row.items() if k in fields} for row in records]))
+        self.assertTrue(self.run_audit()["passed"])
+
     def test_duplicate_selector_archive_members_fail(self):
         self.write(duplicate_member=True)
         with self.assertRaisesRegex(ValueError, "Expected one canonical selector ZIP member"):
