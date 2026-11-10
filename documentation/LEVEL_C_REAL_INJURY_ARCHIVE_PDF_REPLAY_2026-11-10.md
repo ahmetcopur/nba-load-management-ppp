@@ -243,3 +243,45 @@ python3 scripts/data_rebuild/verify_2025_manifest_selector.py \
 [Executable original-manifest checker](../scripts/data_rebuild/verify_2025_manifest_selector.py) · [Sanitized real-input report](../validation/level_c_injury_pdf_real_2026-11-10/independent_2025_manifest_selection.json) · [synthetic fail-closed tests](../tests/test_2025_manifest_selector.py).
 
 **Interpretation boundary:** this reconstructs the canonical selection decisions from the **saved 5,023 PDFs** and original schedule. It cannot prove an absent NBA report was unavailable on the NBA server when the game occurred, and it does not independently reconstruct PDF reason/status data for reports beyond the previously tested selected 729 original PDFs. The downstream player/award/Cup/TV covariate and manuscript model chain still requires separate acceptance. No private PDFs or original frozen datasets were committed or changed.
+
+## 11. Independent complete 2021–23 canonical selector and team-status reconstruction (six panels)
+
+A new November 10 execution recovered all original season-specific inputs for **2021–22, 2022–23, and 2023–24**, including the three private S4 output packages that the original canonical package had *copied through* rather than regenerated. This latest attempt **independently generated every source report choice, both team submission statuses for every game, the per-game linked-snapshot counts, and all 13 season-level metrics**, and compared them against the original frozen canonicals and S4 team-status tables.
+
+### Full source PDF parsing for 2021–22
+
+The original `nba_injury_fitz_parser_v3.py` was retrieved unchanged from the private historical cadence package (SHA-256 `321d9c8d807325209fbcb6174ec6d82df4ba845c156d7d52158f0ea44714ab3e`) and **freshly rerun over all 5,567 saved original hourly PDF files** using the original raw manifest. It generated **398,715 rows**, with **5,567 successful PDF parser logs**, zero parse errors. Its independently selected 696 harmonized PDFs yielded exactly the **58,631 complete original CSV rows and all 696 original parser-log records**, compared as order-independent full-record multisets. The full hourly 398,715-row archived reference CSV is unavailable, so this portion remains a **successful independent parse without full-hourly exact-reference comparison**. The harmonized subset, however, is exact.
+
+### Six canonical game/team panels reconstructed
+
+The immutable original canonical source function, SHA-256 `3e2c3f975a9d6f0828655cfade2a11a8418c0a3b3af3789a307949780666031f`, was independently invoked against these original manifests/parsed rows/schedules. **Important historical qualification:** that code's original author used the function to rebuild 2020–21 and 2024–25; the canonical source ZIP **copied** the already computed 2021–23 S4 results. Thus this new exercise is a **source-driven compatibility reconstruction of 2021–23**, with one explicitly documented legacy submission rule, not a claim that their originally published pipeline executed the 2020/2024 builder unchanged.
+
+The original 2020/2024 function incorrectly marks two otherwise submitted teams as not submitted when a PDF contains both real submitted player rows and a stray `not_yet_submitted` placeholder. Inspecting the 2021–23 original historical S4 join rules and outcomes shows that actual submitted rows take precedence. The reconstruction applies this rule *only when independently parsed submitted rows actually exist for the exact selected PDF/matchup/team*. It resolves 3 games / 6 team rows per panel in 2021–22; 5 games / 10 team rows per panel in 2022–23; and 2 games / 4 team rows per panel in 2023–24. No placeholder-only team is blindly promoted.
+
+To prevent repeated matchup contamination, all linked-snapshot counts are computed from distinct PDF identities indexed by **both matchup and the actual scheduled game date**. Harmonized panels additionally restrict original report slots to `01PM/05PM/08PM`. The one independently identified source-empty game `FD2023_5` (BOS@NYK, October 25, 2023) retains the documented **inferred-clean** team classification: although the selected PDFs list neither team, the historical S4 records 31 total / 26 pre-tip full snapshots and 5 / 4 harmonized snapshots. Those numbers are independently recoverable from the genuine October 24–25 source manifest (7 available reports on the first day, 24 on the second). This is an explicit source-derived *case-specific* fallback and **not evidence that every original S4 fallback rule has been reimplemented generally**.
+
+| Season and panel | Game/report selections compared | Original archived game columns | Archived S4 team-status rows and columns | Season metrics | Discrepancies |
+|---|---:|---|---|---|---|
+| 2021–22 full | 1,230 | 25/25 | 2,460 rows × 15 fields | 13/13 | 0 |
+| 2021–22 harmonized | 1,230 | 25/25 | 2,460 × 15 | 13/13 | 0 |
+| 2022–23 full | 1,230 | 25/25 | 2,460 × 15 | 13/13 | 0 |
+| 2022–23 harmonized | 1,230 | 25/25 | 2,460 × 15 | 13/13 | 0 |
+| 2023–24 full | 1,230 | 25/25 | 2,460 × 15 | 13/13 | 0 |
+| 2023–24 harmonized | 1,230 | 25/25 | 2,460 × 15 | 13/13 | 0 |
+| **Total** | **7,380** | **all 25 fields/panel** | **14,760 team-status rows** | **78/78** | **0 unexplained** |
+
+The source-backed source package checksums, the exact six output comparisons, the identified 10 unique mixed-placeholder games, and the 2023 clean-game exception are preserved in [sanitized reproducibility evidence](../validation/level_c_injury_pdf_real_2026-11-10/independent_2021_2023_selector_source_replay.json).
+
+A reusable [strict original-input replay tool](../scripts/data_rebuild/verify_2021_2023_selector_rebuild.py) and [synthetic failure-case tests](../tests/test_2021_2023_selector_rebuild.py) were added on the draft audit branch. Example local command with the genuine original ZIPs privately staged and the freshly reconstructed full 2021 source CSV/log in a non-Git scratch area:
+
+```bash
+python3 scripts/data_rebuild/verify_2021_2023_selector_rebuild.py \
+  --archive-dir /private/original_archives \
+  --reparsed-2021-rows /private/2021/full_parsed_rows.csv \
+  --reparsed-2021-log /private/2021/full_parser_log.csv \
+  --output data_rebuild/output/2021_2023_source_selector_replay.json
+```
+
+The strict CLI pins all original ZIP SHA-256 digests, checks the immutable original selection code and original 2021 PDF-parser bytes, compares every frozen game column and every historical S4 team-status field, requires all 13 frozen metrics per panel, fails on duplicate or changed identities, and refuses to overwrite previous evidence. Synthetic CI **does not** contain these private ZIPs and is not evidence of a private-input acceptance run.
+
+**Remaining publication boundary:** the six season-selector joins and historical team submission classifications now have independent replays. The full player-game matching/onset/absence taxonomy/awards/Cup/TV and manuscript chain has not been reconstructed end to end from all raw inputs. The 2020–21 `pdfplumber` reason-only mismatch (93 source rows across 44 PDFs, 25 selected player rows across 12 games) also remains unresolved. Preserve the frozen data/manuscript, keep PR #4 draft and Issue #5 open.
