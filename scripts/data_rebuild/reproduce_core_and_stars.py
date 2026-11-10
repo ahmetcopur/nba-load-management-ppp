@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import sys
 
 if __package__ in (None, ""):
@@ -24,10 +25,15 @@ from scripts.data_rebuild.run_connected_cup_enrichment import (
     CUP_ARCHIVE, CUP_ARCHIVE_SHA256, run_cup,
 )
 from scripts.data_rebuild.run_connected_player_game_core import sha256_file
+from scripts.data_rebuild.rebuild_2025_selected_from_pdfs import (
+    run as rebuild_selected_2025_from_pdfs,
+    OUTPUT_NAME as PDF_SELECTED_2025_OUTPUT,
+)
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
-              timeout_seconds: int = 900, include_cup: bool = False) -> dict:
+              timeout_seconds: int = 900, include_cup: bool = False,
+              from_original_2025_pdfs: bool = False, pdf_workers: int = 4) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -36,9 +42,23 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         path = archive_dir / CUP_ARCHIVE
         if sha256_file(path) != CUP_ARCHIVE_SHA256:
             raise ValueError("Original NBA Cup lookup package SHA-256 changed")
-    core = execute(archive_dir, output_dir, timeout_seconds=timeout_seconds)
-    star = run_star(archive_dir, output_dir, timeout_seconds=timeout_seconds)
-    cup = run_cup(archive_dir, output_dir, timeout_seconds=timeout_seconds) if include_cup else None
+    # The parser stages its original PDF bytes only in a temporary private
+    # directory. After full 22-field acceptance, pass the newly produced CSV
+    # directly into the historical source-pinned identity and core finalizer.
+    # Other five seasons retain their archived selected inputs (not full-PDF).
+    with TemporaryDirectory(prefix="nba_private_pdf_2025_rebuild_") as temporary:
+        pdf_result = None
+        fresh_csv = None
+        if from_original_2025_pdfs:
+            selected_dir = Path(temporary) / "selected_2025"
+            pdf_result = rebuild_selected_2025_from_pdfs(
+                archive_dir, selected_dir, workers=pdf_workers,
+            )
+            fresh_csv = selected_dir / PDF_SELECTED_2025_OUTPUT
+        core = execute(archive_dir, output_dir, timeout_seconds=timeout_seconds,
+                       reparsed_2025_selected=fresh_csv)
+        star = run_star(archive_dir, output_dir, timeout_seconds=timeout_seconds)
+        cup = run_cup(archive_dir, output_dir, timeout_seconds=timeout_seconds) if include_cup else None
     result = {
         "status": "pass",
         "scope": "Original archived selected-report inputs -> independently rebuilt player IDs -> original finalizer -> source-pinned award/star enrichment.",
@@ -49,7 +69,10 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         "star_exact_output_files": len(star["outputs"]),
         "cup_exact_primary_output_files": len(cup["exact_decoded_outputs"]) if cup else 0,
         "cup_lookup_stage_completed": bool(cup),
+        "fresh_2025_pdf_source_replay": pdf_result,
         "full_pipeline_starts_at_raw_injury_pdfs": False,
+        "original_2025_source_PDF_records_rebuilt": bool(pdf_result),
+        "other_five_seasons_source_rows_archived": True,
         "official_award_history_independently_verified": False,
         "nba_cup_lookup_applied_to_rebuilt_star_outputs": bool(cup),
         "original_cup_lookup_independently_verified": False,
@@ -72,10 +95,16 @@ def main():
                    help="Per-stage subprocess timeout, seconds")
     p.add_argument("--with-cup", action="store_true",
                    help="Also rebuild NBA Cup flags from the original archived game-level lookup")
+    p.add_argument("--from-original-2025-pdfs", action="store_true",
+                   help="Parse 729 actual original 2025–26 PDFs into 13,968 selected report rows before identity/core; requires two extra original raw ZIPs")
+    p.add_argument("--pdf-workers", type=int, default=4,
+                   help="Parallel original 2025 PDF parsers when --from-original-2025-pdfs is set")
     args = p.parse_args()
     print(json.dumps(
         reproduce(args.archive_dir, args.output_dir, timeout_seconds=args.timeout_seconds,
-                  include_cup=args.with_cup),
+                  include_cup=args.with_cup,
+                  from_original_2025_pdfs=args.from_original_2025_pdfs,
+                  pdf_workers=args.pdf_workers),
         indent=2
     ))
 
