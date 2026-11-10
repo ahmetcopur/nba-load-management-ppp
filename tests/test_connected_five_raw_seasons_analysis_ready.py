@@ -33,6 +33,7 @@ class FiveRawSeasonsToAnalysisReadyIntegrationTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("--from-original-2021-2025-pdfs", completed.stdout)
         self.assertIn("--with-analysis-ready", completed.stdout)
+        self.assertIn("--with-original-teamseason-models", completed.stdout)
         self.assertIn("--with-cup", completed.stdout)
 
     def test_raw_2025_only_and_full_five_season_flags_are_mutually_exclusive(self):
@@ -55,6 +56,16 @@ class FiveRawSeasonsToAnalysisReadyIntegrationTests(unittest.TestCase):
                     self.archives, self.dest,
                     from_original_2021_2025_pdfs=True,
                     include_analysis_ready=True,
+                )
+        self.assertFalse(self.dest.exists())
+
+    def test_original_models_must_use_new_reviewed_analysis_ready_panel(self):
+        with patch.object(runner, "immutable_original_star_source"):
+            with self.assertRaisesRegex(ValueError, "requires --with-analysis-ready"):
+                runner.reproduce(
+                    self.archives, self.dest,
+                    from_original_2021_2025_pdfs=True,
+                    include_original_teamseason_models=True,
                 )
         self.assertFalse(self.dest.exists())
 
