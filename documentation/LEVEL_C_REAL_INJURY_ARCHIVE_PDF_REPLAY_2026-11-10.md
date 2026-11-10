@@ -185,3 +185,35 @@ python scripts/data_rebuild/replay_recent_historical_injury_pdfs.py \
 Both commands intentionally fail on source/row/log mismatch and refuse to overwrite any existing output JSON. Install the project's pinned historical builder/PyMuPDF dependencies first. Source ZIPs, original parser ZIPs and individual PDFs must **not** be committed to GitHub.
 
 **Evidence boundary:** the results above were already verified using separate direct temporary Python replay scripts; until this packaged CLI is itself executed against the private originals and accepted, do not label the new CLI specifically as a green private-input run. Green CI synthetic tests validate failure behavior, not access to private ZIPs. The report and the original frozen artifacts are unchanged.
+
+## 9. Executed *original algorithm* replay for 2020–21 and 2024–25 canonical selectors
+
+A separate November 10 continuation **opened the authentic private historical input ZIPs** and executed the exact `build_season` function, not just the frozen selector outputs. The original `build_canonical_snapshot_selector_v1.py` was extracted from `nba_canonical_snapshot_selector_v1.zip` and SHA-256-checked as `3e2c3f975a9d6f0828655cfade2a11a8418c0a3b3af3789a307949780666031f`. Only its original imports and function definitions were run to avoid its obsolete hard-coded input paths. Input schedules, the indexed source manifest and **the original historical parsed injury-report rows** came from the authenticated private archived packages, not the canonical output being compared.
+
+Four *independent* original-algorithm invocations were made: full and harmonized 1PM/5PM/8PM for each of 2020–21 and 2024–25. The `merge_asof` selection uses the original strict-before-tip rule, and the original function independently recalculates listed players, team submission classes, inferred-clean teams, missing statuses, and report timestamps.
+
+| Season | Canonical panel | Games independently rebuilt | Team-game statuses independently rebuilt | Game fields compared | Team fields compared | Exact frozen match |
+|---|---|---:|---:|---:|---:|---|
+| 2020–21 | full | 1,080 | 2,160 | 23/23 | 21/21 | **Yes** |
+| 2020–21 | harmonized | 1,080 | 2,160 | 23/23 | 21/21 | **Yes** |
+| 2024–25 | full | 1,230 | 2,460 | 23/23 | 21/21 | **Yes** |
+| 2024–25 | harmonized | 1,230 | 2,460 | 23/23 | 21/21 | **Yes** |
+| **Total** | four executed selections | **4,620** | **9,240** | all | all | **Zero field differences** |
+
+All **13** published canonical season metrics matched in each of the four panels (52/52 values). Key summary statistics independently recovered include 2020–21 usable team-games **2,109/2,160**, with 51 explicit not-yet-submitted statuses and 41 inferred-clean team-games; for 2024–25, full selector usable **2,442/2,460** (18 not submitted) and harmonized **2,444/2,460** (16 not submitted).
+
+A harmless historical schedule header distinction was resolved *after* running the original function: the recovered 2020–21 normalized schedule contains `away_team`, `home_team`, `location` and `result`, whereas the frozen selector CSV uses `Away Team`, `Home Team`, `Location` and `Result`. Exactly those four output metadata columns were renamed and their values compared, producing **23/23 complete game-field matches**, without changing source values or report selection logic.
+
+This is stronger than source-to-existing-selector linkage. The original selection **algorithm itself reproduces all game choices and all team status classifications** in both corrected seasons. It does not establish exact reproduction of all 2020–21 PDF-derived `reason` strings, since its input for that season was the **archived original corrected parsed CSV** rather than the currently failing diagnostic parser output. It does not independently rebuild the canonical selection code for seasons that the historic package simply copied through, nor does it rebuild the 2025–26 selection-rule motivation.
+
+**Reproduction command**, with all original ZIPs held privately under `/private/original_archives/` (no extraction or private-source upload required):
+
+```bash
+python3 scripts/data_rebuild/verify_canonical_selector_replay.py \
+  --archive-dir /private/original_archives \
+  --output data_rebuild/output/canonical_original_selector_replay.json
+```
+
+The verifier rejects any changed original selector source SHA-256, missing ZIP members, missing or duplicate game/team IDs, unexpected row counts, field mismatches, or changed model-relevant metrics. Its ten synthetic positive/negative checks are included in GitHub CI, **which does not have access to the private source ZIPs**. Private-output acceptance was completed locally; CI only tests the checking tool.
+
+The [sanitized machine-readable execution evidence](../validation/level_c_injury_pdf_real_2026-11-10/independent_canonical_selector_algorithm_replay.json) records original inputs' ZIP SHA-256 values, field counts, canonical metrics and scientific limitations. **No original archives, private source PDFs, frozen panels or manuscript were modified or pushed.** Keep PR #4 as a draft pending remaining source gates.
