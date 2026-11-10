@@ -175,6 +175,11 @@ def validate_archive(path: Path, expected_sha: str, expected_members: dict[str, 
             observed = sha256_member(archive, member)
             if observed != expected:
                 raise ValueError(f"{path.name}::{member}: PDF SHA mismatch {observed} != {expected}")
+        # Check every ZIP member, including ancillary metadata, not only PDFs
+        # indexed in the public historical inventory.
+        crc_failure = archive.testzip()
+        if crc_failure is not None:
+            raise ValueError(f"{path.name}: ZIP member CRC check failed: {crc_failure}")
         return {
             "archive": path.name,
             "zip_size_bytes": path.stat().st_size,
@@ -183,6 +188,7 @@ def validate_archive(path: Path, expected_sha: str, expected_members: dict[str, 
             "total_pdf_members": len(actual_pdfs),
             "unindexed_pdf_members": len(actual_pdfs - set(expected_members)),
             "pdf_content_hashes_match_inventory": True,
+            "all_zip_member_crc_checks_passed": True,
         }
 
 
