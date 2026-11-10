@@ -285,3 +285,45 @@ python3 scripts/data_rebuild/verify_2021_2023_selector_rebuild.py \
 The strict CLI pins all original ZIP SHA-256 digests, checks the immutable original selection code and original 2021 PDF-parser bytes, compares every frozen game column and every historical S4 team-status field, requires all 13 frozen metrics per panel, fails on duplicate or changed identities, and refuses to overwrite previous evidence. Synthetic CI **does not** contain these private ZIPs and is not evidence of a private-input acceptance run.
 
 **Remaining publication boundary:** the six season-selector joins and historical team submission classifications now have independent replays. The full player-game matching/onset/absence taxonomy/awards/Cup/TV and manuscript chain has not been reconstructed end to end from all raw inputs. The 2020–21 `pdfplumber` reason-only mismatch (93 source rows across 44 PDFs, 25 selected player rows across 12 games) also remains unresolved. Preserve the frozen data/manuscript, keep PR #4 draft and Issue #5 open.
+
+## 12. Original crosswalk/alias/roster player-ID resolution independently re-executed
+
+Following the six season-selector replays, the next required **player identity** source packages were recovered from the user's private library and independently opened:
+
+| Original recovered package | Exact compressed bytes | SHA-256 |
+|---|---:|---|
+| `nba_game_covariates_v1.zip` | 4,394,310 | `4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224` |
+| `nba_boxscore_roster_frame_v2_output_upload.zip` | 9,727,277 | `45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561` |
+| `nba_player_crosswalk_final_v1.zip` | 162,722 | `6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def` |
+| `nba_player_game_at_risk_core_v1.zip` | 94,527,101 | `a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6` |
+
+The source-key preflight confirmed **7,230 unique NBA games** with zero duplicate IDs, **248,571 unique official box-score player-games**, no orphaned box-score game IDs, **3,712 reviewed season/team/report-player crosswalk keys** with no duplicate keys (3,560 automatically accepted and 152 manually resolved), and 1,108 source alias entries.
+
+The **original source implementation** `build_selected_report_and_identity_stage.py` was read from its authentic historical ZIP (SHA-256 `738b78fa9fd9f3cdd9f4b4eb6756b424680959cacb85cfc354a6d6affa915fef`). Its actual `clean`, name/team normalizers and identity-resolution sequence were replayed against the *original archived* `selected_report_rows_all.csv` (not the published resolved IDs): direct reviewed season/team/name crosswalk, only unambiguous reviewed aliases, and only unique season/team official box-score names. The original five-level status-severity ordering was then used to deduplicate the resulting player-game-team identities.
+
+| Source-backed identity stage | Record count |
+|---|---:|
+| Selected input records after original source-key deduplication | 73,547 |
+| Named-player report rows before final identity/status deduplication | 73,440 |
+| Crosswalk resolved at first stage | **72,819** |
+| Reviewed alias fallback | **606** |
+| Unique official roster-name fallback | **15** |
+| Unresolved before final status deduplication | **0** |
+| Independently reconstructed final player-report rows | **73,438** |
+| Frozen historical `selected_report_player_rows.csv` rows | **73,438** |
+
+**Independent exact 33-field comparison:** after sorting the *independently recomputed* result and frozen reference by `(game_id, team_norm, nba_player_id)`, **every one of the 33 output columns** matched on every row. There were zero differences in player IDs, team/game IDs, player names, designation statuses, injury reasons, resolution methods, alias/roster fallback provenance, or other original output fields; no duplicate final player-game-team keys. The original source input and published reference were never modified.
+
+**Scientific limit:** this validates **the player-ID resolver and status-priority/deduplication stage starting from the already archived selected-report rows**. It does *not* yet regenerate all 73,547 input report rows from the fresh raw PDFs in one continuous pipeline, nor the subsequent **report-only roster additions / finalized player-game core panel / onset/absence variables**. It also cannot independently verify that the underlying manual crosswalk reviewers made the optimal identity assignments; it proves the published mappings follow the archived reviewed crosswalk/alias/roster inputs.
+
+[Sanitized real-input resolution audit](../validation/level_c_injury_pdf_real_2026-11-10/independent_player_id_resolution_replay.json) · [source-input readiness and key audit](../validation/level_c_injury_pdf_real_2026-11-10/player_game_identity_input_preflight.json) · [repeatable original-source checker](../scripts/data_rebuild/verify_player_identity_replay.py) · [synthetic failure-mode tests](../tests/test_player_identity_replay.py).
+
+With the four original private packages in one private archive directory:
+
+```bash
+python3 scripts/data_rebuild/verify_player_identity_replay.py \
+  --archive-dir /private/original_archives \
+  --output data_rebuild/output/independent_original_player_identity_replay.json
+```
+
+The CLI verifies original ZIP SHA-256s and the immutable historical identity source code (including a safety boundary that prevents executing its top-level destructive output-directory reset), compares **all 33 final fields**, and rejects changed original cardinalities, duplicate identities, ambiguous aliases and output drift. No private raw PDF, original ZIP or per-player rows have been committed to the GitHub repository. Keep PR #4 draft and Issue #5 open until full panel/model and manuscript acceptance.
