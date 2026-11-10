@@ -178,7 +178,8 @@ def stage_script(shared: Path, root: Path, stage_dir: str, script: str):
             "root_substitutions": count}
 
 
-def prepare(shared: Path, root: Path, stage_dir: str, scripts, panel: Path | None):
+def prepare(shared: Path, root: Path, stage_dir: str, scripts, panel: Path | None,
+            *, rekey_corrected_tv: bool = False):
     if root.exists():
         raise FileExistsError(f"Fresh replay directory required: {root}")
     sandbox = root / SANDBOX
@@ -191,7 +192,9 @@ def prepare(shared: Path, root: Path, stage_dir: str, scripts, panel: Path | Non
         (sandbox / rel).mkdir(parents=True, exist_ok=True)
     provenance = [stage_script(shared, root, stage_dir, s) for s in scripts]
     rekeys = None
-    if panel is not None:
+    if rekey_corrected_tv:
+        if panel is None:
+            raise ValueError("TV rekeying is permitted only with a corrected risk panel")
         rekeys = repair_announcement_fixture_keys(sandbox / TV_LOCATION,
                                                   sandbox / PANEL_LOCATIONS[0])
     return provenance, rekeys
@@ -206,13 +209,17 @@ def execute(root: Path, scripts, python: str):
                            timeout=7200, check=True)
 
 
-def run_stage(shared: Path, root: Path, spec: dict, panel: Path | None, python: str):
-    provenance, rekeys = prepare(shared, root, spec["executed"], spec["scripts"], panel)
+def run_stage(shared: Path, root: Path, spec: dict, panel: Path | None,
+              python: str, *, rekey_corrected_tv: bool = False):
+    provenance, rekeys = prepare(
+        shared, root, spec["executed"], spec["scripts"], panel,
+        rekey_corrected_tv=rekey_corrected_tv)
     execute(root, spec["scripts"], python)
     pieces = []
     for script in spec.get("separate", []):
         sub = root.parent / f"{root.name}__{Path(script).stem}"
-        more, _ = prepare(shared, sub, spec["executed"], [script], panel)
+        more, _ = prepare(shared, sub, spec["executed"], [script], panel,
+                          rekey_corrected_tv=rekey_corrected_tv)
         provenance += more
         execute(sub, [script], python)
         out = sub / I
@@ -374,6 +381,9 @@ def main():
     ap.add_argument("--shared-repo", type=Path, required=True)
     ap.add_argument("--work", type=Path, required=True)
     ap.add_argument("--corrected-panel", type=Path)
+    ap.add_argument("--baseline-panel", type=Path,
+                    help="Independently rebuilt analysis-ready at-risk model CSV; "
+                         "must have the exact decoded frozen release SHA-256")
     ap.add_argument("--frozen-only", action="store_true")
     ap.add_argument("--stages", nargs="+", default=list(STAGES), choices=list(STAGES))
     ap.add_argument("--python", default=sys.executable)
@@ -385,15 +395,23 @@ def main():
         raise RuntimeError("Use a new output root outside the shared repository")
     verify_shared(shared)
     corrected = args.corrected_panel.resolve() if args.corrected_panel else None
+    baseline = args.baseline_panel.resolve(strict=True) if args.baseline_panel else None
+    if baseline is not None and sha(baseline, decoded=True) != ORIGINAL_RISK_SHA:
+        raise RuntimeError("Independently built baseline risk CSV differs from released analysis-ready input")
     if corrected is not None and sha(corrected, decoded=True) != CORRECTED_RISK_SHA:
         raise RuntimeError("Corrected August risk panel hash differs")
 
     summary = {"shared_commit": SHARED_SHA, "original_risk_sha256": ORIGINAL_RISK_SHA,
+               "baseline_input": "independently_generated_analysis_ready_panel"
+                   if baseline is not None else "historical_frozen_release",
+               "independently_generated_baseline_checked_decoded_sha256":
+                   ORIGINAL_RISK_SHA if baseline is not None else None,
                "stages": {}}
     for name in args.stages:
         spec = STAGES[name]
         frozen_root = work / name / "frozen"
-        provenance, _ = run_stage(shared, frozen_root, spec, None, args.python)
+        provenance, _ = run_stage(shared, frozen_root, spec, baseline, args.python,
+                                  rekey_corrected_tv=False)
         gate, failed = frozen_gate(shared, frozen_root, spec)
         record = {"package": spec["package"],
                   "package_sha256": sha(shared / spec["package"]),
@@ -406,7 +424,7 @@ def main():
         if corrected is not None:
             corrected_root = work / name / "corrected"
             _, record["tv_rekeys"] = run_stage(shared, corrected_root, spec, corrected,
-                                               args.python)
+                                               args.python, rekey_corrected_tv=True)
             table = deltas(frozen_root, corrected_root, spec)
             path = work / f"{name}_corrected_vs_frozen.csv"
             table.to_csv(path, index=False)
