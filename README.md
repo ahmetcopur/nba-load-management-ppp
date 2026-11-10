@@ -45,6 +45,23 @@ From the audit branch, with the five required original ZIPs staged together
       --archive-dir "$HOME/nba-original-zips" \
       --output-dir "$HOME/nba-private-rebuild/core-and-stars"
 
+The original **player/team-season fixed-effects model** has also been
+rerun on the newly generated five-PDF-season analysis-ready input.
+The original absence-onset triple-interaction coefficient is
+**+3.1493 percentage points (p = 0.01668)**; all 44
+original coefficient rows match to floating-point precision.
+To reproduce this further stage, also include the original private
+reviewed `nba_player_game_analysis_ready_v1.zip` and add
+`--with-analysis-ready --with-original-teamseason-models`
+to the five-season command below. The released model source
+and reference results are already pinned inside the repository's
+`packages/02_first_pass_models.zip`.
+
+[Real source-derived model execution evidence](validation/level_c_injury_pdf_real_2026-11-10/five_raw_seasons_to_original_teamseason_fe_models.json).
+This is the August latest-pre-tip original model, not the entire
+October harmonized manuscript suite; the 2020–21 original PDF
+reason parsing and official award/Cup/TV provenance remain open.
+
 The latest source-to-core extension now supports **five original NBA injury-PDF
 seasons (2021–22 through 2025–26)**. With the four 2021–24
 original raw ZIPs added to the previous eight original inputs, use:
