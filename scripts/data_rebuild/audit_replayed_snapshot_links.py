@@ -26,7 +26,7 @@ REQUIRED_ROWS = {"source_file", "snapshot_timestamp_utc", "matchup_norm"}
 REQUIRED_SELECTOR = {
     "game_id", "snapshot_basename", "published_timestamp_utc", "matchup_norm",
     "tip_timestamp_utc", "minutes_before_tip", "inferred_clean_teams",
-    "listed_teams", "both_teams_usable",
+    "both_teams_usable",
 }
 
 
@@ -76,7 +76,8 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
             member = f"nba_canonical_snapshot_selector_v1/{season}_game_snapshot_join_{panel}_canonical.csv"
             if member_names.count(member) != 1:
                 raise ValueError(f"Expected one canonical selector ZIP member {member}, got {member_names.count(member)}")
-            selected = list(zip_csv(archive, member, REQUIRED_SELECTOR))
+            required = REQUIRED_SELECTOR | ({"listed_teams"} if season == "2023-24" else set())
+            selected = list(zip_csv(archive, member, required))
             problems = Counter()
             selected_games = set()
             clean_inferences = []
@@ -102,7 +103,7 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
                 if (basename, timestamp, matchup) not in matchups:
                     if (game_id in KNOWN_CLEAN_INFERENCES[season]
                             and record["inferred_clean_teams"] == "2"
-                            and record["listed_teams"] == "0"
+                            and record.get("listed_teams") == "0"
                             and record["both_teams_usable"] == "True"):
                         clean_inferences.append(game_id)
                     else:
