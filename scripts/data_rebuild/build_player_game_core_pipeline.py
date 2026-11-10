@@ -25,10 +25,16 @@ import subprocess
 import sys
 from zipfile import ZipFile
 
-from verify_player_identity_replay import (
-    EXPECTED as IDENTITY_ZIPS, immutable_original_helpers, resolve,
-    compare_exact, csv_from_zip, sha256_file,
-)
+if __package__:
+    from .verify_player_identity_replay import (
+        EXPECTED as IDENTITY_ZIPS, immutable_original_helpers, resolve,
+        compare_exact, csv_from_zip, sha256_file,
+    )
+else:
+    from verify_player_identity_replay import (
+        EXPECTED as IDENTITY_ZIPS, immutable_original_helpers, resolve,
+        compare_exact, csv_from_zip, sha256_file,
+    )
 
 CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 GAME_ZIP = "nba_game_covariates_v1.zip"
