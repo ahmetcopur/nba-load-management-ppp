@@ -40,6 +40,12 @@ PINNED_ARCHIVES = {
         "bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0", 5541),
     "audit_2023_24_upload.zip": (
         "9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba", 5441),
+    "audit_2024_25_upload.zip": (
+        "a10cc660a45f0c3fa6ac279d540a29eae04804dc03eb16a86a1d0c6a7f363e3b", 5566),
+    "audit_2025_26_upload.zip": (
+        "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70", 1497),
+    "audit_2025_26_targeted_upload.zip": (
+        "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea", 3526),
 }
 
 
@@ -192,7 +198,7 @@ def verify(archive_dir: Path, metadata_dir: Path,
     if require_pinned_sources:
         for name in archives:
             if name not in PINNED_ARCHIVES:
-                raise ValueError(f"Archive not in pinned 2020-24 research input set: {name}")
+                raise ValueError(f"Archive not in pinned 2020-26 research input set: {name}")
             fixed_sha, fixed_pdf_count = PINNED_ARCHIVES[name]
             if expected_archives[name] != fixed_sha:
                 raise ValueError(f"Archive SHA differs from pinned source commit: {name}")
