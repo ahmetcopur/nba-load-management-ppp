@@ -169,10 +169,13 @@ class HistoricalOriginalPDFConnectorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "inside Git checkout"):
             mod.safe_private_directory(self.archives, git / "private")
 
-    def test_2020_source_replacement_is_deliberately_rejected(self):
-        with self.assertRaisesRegex(ValueError, "Only 2021"):
+    def test_2020_source_replacement_now_requires_a_real_private_source_csv(self):
+        # 2020–21 is now accepted only after its independently regenerated
+        # original-PDF source rows pass the new exact full-field check.
+        original = pd.DataFrame([{"season": "2020-21"}])
+        with self.assertRaisesRegex(FileNotFoundError, "source CSV missing"):
             inject_reparsed_seasons(
-                pd.DataFrame(), {"2020-21": self.root / "not_existing.csv"}
+                original, {"2020-21": self.root / "not_existing.csv"}
             )
 
     def test_original_source_filename_and_season_choices_strict(self):
