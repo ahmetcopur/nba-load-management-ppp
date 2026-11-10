@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-10",
+  "execution": "Actual newly generated six-season player-game core CSV -> independently generated reviewed analysis-ready full/model CSVs in a private workspace",
+  "source_generated_core_decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+  "source_reviewed_analysis_ready_zip_sha256": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+  "algorithm_description": "Read newly written player-game core and a previously frozen reviewed analysis-ready package in matching record chunks. Require identical immutable player-team-game IDs and exact semantic equivalence for original core fields except four explicitly enriched later. Canonicalize numeric strings only after numeric equivalence within 1e-8. Re-derive reviewed designation categories, onset types, four category flags and three provisional aliases from official report reasons and generated core; copy separately reviewed award/star/Cup/biographical metadata with explicit inherited provenance. Preserve original output ordering and complete schema.",
+  "actual_input_shapes": {
+    "new_core_rows": 248730,
+    "original_core_cols": 92,
+    "original_analysis_ready_cols": 125
+  },
+  "reviewed_official_report_reason_keys": 2182,
+  "changed_semantics_at_reviewed_stage": [
+    "taxonomy_version",
+    "star_PPP_it",
+    "star_status_pending",
+    "cup_game_pending"
+  ],
+  "numeric_only_representation_differences": [
+    "nba_game_id",
+    "minutes_played",
+    "points",
+    "minutes_sum_prior_5_roster_games",
+    "minutes_sum_prior_10_roster_games",
+    "minutes_avg_prior_5_roster_games",
+    "minutes_avg_prior_10_roster_games",
+    "travel_km_last_7_days",
+    "signed_elo_advantage",
+    "signed_elo_advantage_with_location",
+    "travel_disadvantage_km",
+    "travel_km_since_previous_game"
+  ],
+  "independent_taxonomy_fields": [
+    "designation_class_frozen",
+    "onset_type_frozen",
+    "vague_onset_frozen",
+    "specific_onset_frozen",
+    "explicit_rest_onset_frozen",
+    "other_absence_onset_frozen",
+    "designation_class_provisional_v1",
+    "onset_type_provisional_v1",
+    "vague_onset_provisional_v1"
+  ],
+  "source_analysis_only_fields_inherited": 24,
+  "verified_outputs": {
+    "player_game_panel_analysis_ready.csv.gz": {
+      "rows": 248730,
+      "decoded_csv_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+      "decoded_csv_bytes": 313710704,
+      "exact_decoded_csv_match": true
+    },
+    "player_game_panel_model_at_risk_analysis_ready.csv.gz": {
+      "rows": 180829,
+      "decoded_csv_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+      "decoded_csv_bytes": 150056294,
+      "exact_decoded_csv_match": true
+    }
+  },
+  "execution_notes": "Processed source and reference in sequential bounded row chunks (140,000 + 108,730); generated gzip parts were concatenated as independent valid gzip members. Comparison was on the fully decompressed CSV byte streams. No incomplete partial output was counted as accepted.",
+  "scope_limits": {
+    "reviewed_label_mapping_inherited_from_original_assistant_coded_review": true,
+    "manual_player_crosswalk_inherited_as_resolved_source_inputs": true,
+    "star_allstar_allnba_and_cup_covariates_not_independently_regenerated_from_primary_sources": true,
+    "uncollected_original_pdfs_remain_missing": true,
+    "original_2020_21_pdf_reason_parsing_exception_remains": true,
+    "original_published_regressions_not_run_on_new_analysis_ready_model_in_this_execution": true,
+    "original_private_sources_or_frozen_outputs_modified": false,
+    "original_private_records_uploaded_to_github": false
+  }
+}
