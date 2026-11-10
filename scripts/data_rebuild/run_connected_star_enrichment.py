@@ -23,6 +23,9 @@ import sys
 from zipfile import ZipFile
 import gzip
 
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from scripts.data_rebuild.run_connected_player_game_core import (
     SOURCE_CORE_ZIP, compare_frozen_core_outputs, compare_streams,
     sha256_file,
