@@ -92,6 +92,8 @@ def compare_records(candidate:pd.DataFrame,ref:pd.DataFrame, keys:list[str],requ
         raise ValueError(f'Candidate missing scientific fields: {sorted((set(keys)|required)-set(candidate.columns))}')
     if not set(keys)|required<=set(ref.columns):
         raise ValueError(f'Original published output missing scientific fields: {sorted((set(keys)|required)-set(ref.columns))}')
+    if set(candidate.columns) != set(ref.columns):
+        raise ValueError(f'Original canonical output schema differs: missing={sorted(set(ref.columns)-set(candidate.columns))}, extra={sorted(set(candidate.columns)-set(ref.columns))}')
     if len(candidate)!=expected_rows or len(ref)!=expected_rows:
         raise ValueError(f'Unexpected reconstructed/reference rows: {len(candidate)} / {len(ref)}; expected {expected_rows}')
     if candidate.duplicated(keys).any() or ref.duplicated(keys).any():
