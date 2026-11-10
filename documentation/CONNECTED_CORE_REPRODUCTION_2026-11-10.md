@@ -706,3 +706,97 @@ The new GitHub standalone/umbrella CLI has not separately been
 accepted by a clean-checkout full real-private-ZIP execution; the
 equivalent original individual stages were executed locally and
 their full outputs checked. Keep PR #4 draft/unmerged and Issue #5 open.
+
+
+## All ten October scripts against the source-generated panel
+
+**New integration step (November 10, 2026).** Earlier independent GitHub
+Actions replay established that the original source commit's ten October
+2026 scripts reproduce **33/33** archived model, event-study, timing,
+home/road, and cluster-audit outputs when run against the archived
+historical cadence panel. Separately, the authentic source-derived October
+panel produced from the five NBA PDF seasons and historical source packages
+has been rebuilt and verified **byte-for-byte identical after gzip
+decoding** to that original panel.
+
+The new
+[run_full_october_suite_from_generated_panel.py](../scripts/data_rebuild/run_full_october_suite_from_generated_panel.py)
+**connects those two formerly separate acceptance gates**: it requires
+the original October source-build's private
+\`october_cadence_reproduction_report.json\` with a passing stage,
+**355 freshly parsed original 2025–26 harmonized PDFs**, four original
+Stage-6 models matched, and the independently checked full decoded SHA-256
+of the generated cadence panel:
+
+    3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac
+
+Only then does it substitute the new panel into an isolated copy of the
+pinned, clean original October research checkout and execute *all ten
+original public October scripts unchanged*. It compares 33 archived
+output tables using the existing verified comparator: every text/
+missing/boolean field must match, with numerical cells matching
+within the predeclared 1e-9 tolerance (runtime-seconds fields excluded).
+
+### Two distinct Python environments are essential
+
+The upstream official-PDF and Stage-6 builder uses **pandas 2.2.3**.
+The ten separate original October research scripts require **Python
+3.12, pandas 3.0.5, NumPy 2.5.2, SciPy 1.18.0 and statsmodels 0.14.6**,
+as specified in \`requirements-october-lock.txt\`. Running both in
+the same environment would silently change original source semantics,
+so the new runner requires \`--october-python\` explicitly and verifies
+these versions before execution.
+
+First obtain the clean historical source repository as a *separate*
+read-only detached checkout pinned at
+\`0bd713d97e8d519df5700ef473da34aba4495223\`
+(\`OEKundakcioglu/nba-ppp-star-availability\`). Create an independent
+October runtime:
+
+    python3.12 -m venv "$HOME/venvs/nba-october-original"
+    "$HOME/venvs/nba-october-original/bin/python" -m pip install \
+      -r requirements-october-lock.txt
+
+Then, after a successfully accepted original-source harmonized builder
+in a **new private output directory**, run:
+
+    python scripts/data_rebuild/run_full_october_suite_from_generated_panel.py \
+      --shared-repo "$HOME/src/nba-ppp-star-availability" \
+      --generated-october-panel "$HOME/nba-private-rebuild/october-from-sources/cadence_harmonized_results/player_team_game_harmonized_cadence.csv.gz" \
+      --output-dir "$HOME/nba-private-rebuild/all-ten-october-from-source" \
+      --october-python "$HOME/venvs/nba-october-original/bin/python"
+
+Alternatively, the existing original-PDF master pipeline can now pass
+the new generated panel directly to the ten-script suite by including
+the following arguments, **in addition to** the original raw-PDF,
+reviewed-analysis and original-October flags:
+
+    --from-original-2021-2025-pdfs \
+    --with-analysis-ready \
+    --with-october-cadence \
+    --with-full-october-suite \
+    --october-shared-repo "$HOME/src/nba-ppp-star-availability" \
+    --october-python "$HOME/venvs/nba-october-original/bin/python"
+
+The original historical checkout **must be clean** and match the
+pinned commit, and the destination **must not already exist** or reside
+inside a Git checkout. The private source reports, player data and
+generated statistical results remain outside Git. An interrupted
+stage is never marked as accepted.
+
+**Verified so far:** the generated October panel's full decoded SHA was
+rechecked independently against the actual private output; the
+public CI has already executed the original ten scripts and reproduced
+33 archived outputs on the *frozen* panel; the new handoff runner's
+synthetic tests enforce input provenance, pinned October runtime,
+full 33-table comparisons and output isolation.
+
+**Still to execute:** a direct single-run real-private-input acceptance
+using this newly committed ten-script handoff on the source-generated
+panel and original detached October checkout. Reproducing 33
+outputs independently from that panel is scientifically expected
+because its bytes exactly match the original frozen panel, but it is
+not reported as a *newly executed* 33-output source-derived run
+until that independent direct invocation completes. The original
+2020–21 reason text, human-reviewed mappings and provenance of
+external awards/Cup/TV records remain separate scientific work.
