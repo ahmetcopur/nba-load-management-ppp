@@ -466,3 +466,97 @@ from executing the headline manuscript models on the freshly
 regenerated modeling file, which remains the next downstream
 acceptance task. See Issue #5 before considering the paper
 end-to-end reproducible.
+
+
+## Original player/team-season fixed-effects model from the regenerated panel
+
+**Actual original research model source rerun, November 10.** The reviewed
+analysis-ready table reconstructed from the five original-PDF seasons
+(plus the archived 2020–21 selected source) was provided directly as
+input to the historically released August 2026 player and team-season
+fixed-effects model script.
+
+The input original-PDF-derived at-risk analysis-ready file
+contains **180,829** player-game rows. Its full decoded CSV SHA-256
+is d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635.
+The original published script removes rows without all the
+predeclared regression controls, leaving **180,695 complete-case
+observations** in the absence-onset model; this is not a
+discrepancy in the reconstructed risk set.
+
+The historical original model source is
+nba_policy_models_first_pass_v1/scripts/run_teamseason_fixed_effects.py
+from the **unchanged** repository package
+packages/02_first_pass_models.zip (binary SHA-256:
+79682a44dab8f00e448a40772f11c2ed6d29f95ab893b1492068d8853a184ac2,
+identical to the original final August freeze).
+The original Python model-script SHA-256 is
+7fd6983fb1ce58469ae175a6702cf7ef667c57afa4583a32073bb7f7469d65d3.
+The private local rerun changed **only** the original hard-coded
+input and output filesystem paths. Its fixed effects,
+two-way player/game-clustered standard errors, model terms and
+other statistical rules were not changed.
+
+| Original August model | Recomputed triple coefficient | Standard error | p-value |
+|---|---:|---:|---:|
+| New absence onset, Star × Post-PPP × national TV | +0.0314925626 (+3.1493 pp) | 0.0131564273 | 0.0166793 |
+| Conditional vague vs specific injury onset | −0.0718122944 | 0.0830678707 | 0.3873125 |
+
+**All 44 original coefficient rows** in the full archived
+teamseason_fe_coefficients.csv reproduce. Maximum absolute
+estimate difference is 2.1e-16, maximum standard-error
+difference is 5.0e-16, and maximum p-value difference is
+1.4e-14. Both focal summary rows also reproduce to
+floating-point precision. These are actual model
+fittings from the newly generated analysis-ready panel,
+not simulated model scores or a comparison of two copies
+of the archived regression table.
+
+### One complete data-generation/model run
+
+With the same **13 immutable original ZIPs** documented above
+outside the Git checkout, use:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2021-to-2025-with-original-models" \
+      --from-original-2021-2025-pdfs \
+      --with-cup \
+      --with-analysis-ready \
+      --with-original-teamseason-models
+
+The original model code and archived coefficient references are
+already available in the committed
+packages/02_first_pass_models.zip, so no additional private
+model archive is needed. The independent [model
+reproduction tool](../scripts/data_rebuild/run_original_teamseason_models_from_generated_panel.py)
+checks the original model ZIP and Python source SHA-256s,
+requires the exact source-rebuilt modeling input CSV digest,
+executes unchanged statistical code with only two path
+substitutions, and compares both archived model output
+tables, including estimates, standard errors, confidence
+intervals, p-values, complete-case counts and fixed-effect
+iteration diagnostics (tolerance 1e-10).
+
+For an existing generated reviewed input, run:
+
+    python scripts/data_rebuild/run_original_teamseason_models_from_generated_panel.py \
+      --generated-model-panel "$HOME/nba-private-rebuild/raw2021-to-2025-analysis-ready/analysis_ready_from_generated_core/player_game_panel_model_at_risk_analysis_ready.csv.gz" \
+      --output-dir "$HOME/nba-private-rebuild/original-teamseason-model"
+
+[Real original-PDF-to-model accepted results](../validation/level_c_injury_pdf_real_2026-11-10/five_raw_seasons_to_original_teamseason_fe_models.json)
+|
+[Source-unchanged original regression runner](../scripts/data_rebuild/run_original_teamseason_models_from_generated_panel.py)
+|
+[Model tamper/numerical acceptance tests](../tests/test_original_teamseason_models_generated_panel.py)
+
+**Scientific boundary:** This is the archived August latest-pre-tip
+player + team-season fixed effects stage, **not the full October
+cadence-harmonized manuscript model suite**. The original
+manual taxonomy labels, awards, Cup/TV source fields and
+2020–21 reason strings remain inherited. The individual
+original-model source run was executed on genuinely generated
+analysis-ready data; the newly combined multi-stage
+one-command script still needs a clean-checkout acceptance run
+with all private packages. Preserve the historical frozen
+source and keep PR #4 draft pending independent review.
