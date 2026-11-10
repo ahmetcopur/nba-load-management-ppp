@@ -32,6 +32,39 @@ No additional specification should replace the frozen suite merely because it gi
 - `validation/` — taxonomy scoring artifacts.
 - `MANIFEST_SHA256.csv` — hashes for every file in this freeze.
 
+## Connected private-source reconstruction (November 2026)
+
+An additional executable pipeline now rebuilds historical player IDs, the full
+player-game core and the dynamic All-Star/All-NBA star labels from the **private
+original source packages**, rather than only rerunning regressions on frozen CSVs.
+
+From the audit branch, with the five required original ZIPs staged together
+**outside Git**, use this command with a new private output directory:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/core-and-stars"
+
+In a separate real-input execution, the independently rebuilt player-ID table
+was consumed by the original unchanged core finalizer, producing **248,730**
+player-games, **180,829** at-risk rows and **12,710** absence onsets; all
+**10 core outputs** matched the frozen source. The original historical
+All-Star/All-NBA source-coded builder was then run on this new core and all
+**12 substantive star outputs** matched their frozen references.
+
+The single-command wrapper and standalone scripts have public CI regression
+tests, but **CI cannot access the private original ZIPs**; the real-input
+acceptance was run locally using the same underlying stages.
+
+Full runbook: [Connected core-and-star reproduction](documentation/CONNECTED_CORE_REPRODUCTION_2026-11-10.md).
+Source evidence: [exact connected core](validation/level_c_injury_pdf_real_2026-11-10/connected_identity_to_core_exact_2026-11-10.json)
+and [exact connected star enrichment](validation/level_c_injury_pdf_real_2026-11-10/connected_core_and_star_exact_2026-11-10.json).
+
+**Not yet raw-PDF-to-manuscript reproducibility:** the input selected-report
+rows, reviewed award lists, game covariates and subsequent Cup/taxonomy/TV/model
+stages remain distinct source dependencies. The frozen originals are not
+modified and PR #4 remains draft.
+
 ## Quick reproduction
 
 Create a Python 3.12 environment and install the frozen analysis dependencies.
