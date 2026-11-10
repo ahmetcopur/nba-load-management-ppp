@@ -30,6 +30,7 @@ on:
       - "tests/test_player_identity_replay.py"
       - "tests/test_connected_player_game_core.py"
       - "tests/test_connected_star_enrichment.py"
+      - "tests/test_connected_cup_enrichment.py"
       - "tests/test_build_player_game_core_pipeline.py"
       - "tests/test_analysis_ready_from_generated_core.py"
       - "tests/test_rebuild_core_to_analysis_ready.py"
@@ -78,6 +79,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_connected_player_game_core.py -v
       - name: Test connected star builder original-source safeguards and twelve decoded outputs
         run: python -m unittest discover -s tests -p test_connected_star_enrichment.py -v
+      - name: Test original-Cup-lookup reconstruction of full, at-risk and spell stages
+        run: python -m unittest discover -s tests -p test_connected_cup_enrichment.py -v
       - name: Test executable identity-to-core source pipeline with tamper/overwrite failures
         run: python -m unittest discover -s tests -p test_build_player_game_core_pipeline.py -v
       - name: Test newly generated core to reviewed analysis-ready bridge
