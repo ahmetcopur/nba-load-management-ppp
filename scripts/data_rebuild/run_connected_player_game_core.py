@@ -41,6 +41,10 @@ from scripts.data_rebuild.rebuild_2021_2024_selected_from_pdfs import (
     SEASONS as ORIGINAL_2021_2024_SOURCE_SEASONS,
     compare_original_22_fields,
 )
+from scripts.data_rebuild.rebuild_2020_selected_from_pdfs import (
+    assert_full_original_equality as compare_original_2020_report_rows,
+    EXPECTED_SELECTED_ROWS as ORIGINAL_2020_SELECTED_ROWS,
+)
 
 SOURCE_CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 SOURCE_COVARIATE_ZIP = "nba_game_covariates_v1.zip"
@@ -234,13 +238,13 @@ def inject_reparsed_seasons(original: pd.DataFrame,
                              original_pdf_csvs: dict[str, Path]) -> tuple[pd.DataFrame, dict]:
     """Replace each specified original-PDF season, preserving all unchosen ones.
 
-    Do not accept references as raw inputs without exact source-specific full
-    22-column comparisons. The 2020–21 reason-only parsing exception must
-    remain archived until independently resolved.
+    Do not accept any replacement without exact season-specific 22-column
+    comparisons. The 2020–21 source requires original-PDF reason-wrap
+    reconstruction and full source-to-canonical acceptance upstream.
     """
-    allowed = set(ORIGINAL_2021_2024_SOURCE_SEASONS) | {"2025-26"}
+    allowed = set(ORIGINAL_2021_2024_SOURCE_SEASONS) | {"2020-21", "2025-26"}
     if not original_pdf_csvs or not set(original_pdf_csvs) <= allowed:
-        raise ValueError("Only 2021–22 through 2025–26 may be replaced by original PDF rows")
+        raise ValueError("Only original source 2020–21 through 2025–26 may be substituted")
     if len(original_pdf_csvs) != len(set(original_pdf_csvs)):
         raise ValueError("Duplicate original PDF source seasons")
     original_columns = list(original.columns)
@@ -263,6 +267,11 @@ def inject_reparsed_seasons(original: pd.DataFrame,
             raise ValueError("Original selected report CSV column order or schema changed")
         if season == "2025-26":
             outcome = verify_original_row_equality(rebuilt, original_season)
+        elif season == "2020-21":
+            outcome = compare_original_2020_report_rows(
+                rebuilt, original_season, ORIGINAL_2020_SELECTED_ROWS,
+                "2020–21 original PDF source selected reports",
+            )
         else:
             outcome = compare_original_22_fields(rebuilt, original_season, season)
         if len(rebuilt) != len(original_season):
@@ -368,9 +377,10 @@ def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900,
         "all_ten_outputs_identical_after_gzip_decoding": True,
         "fresh_2025_selected_source_rows_substituted": "2025-26" in source_rows_substituted,
         "original_pdf_seasons_substituted": source_rows_substituted,
-        "2020_21_selected_source_rows_inherited": True,
+        "2020_21_selected_source_rows_inherited": "2020-21" not in source_rows_substituted,
+        "2020_21_original_PDF_reason_source_reconstructed": "2020-21" in source_rows_substituted,
         "raw_original_PDF_seasons_connected": sorted(source_rows_substituted),
-        "all_six_original_PDF_seasons_connected": False,
+        "all_six_original_PDF_seasons_connected": len(source_rows_substituted) == 6,
         "private_source_pdfs_committed": False,
         "raw_report_selection_recomputed_here": False,
         "reviewed_awards_cup_tv_and_manuscript_rebuilt_here": False,
