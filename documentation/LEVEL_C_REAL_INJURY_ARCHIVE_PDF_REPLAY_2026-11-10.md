@@ -97,3 +97,42 @@ The 2020–21 **actual original source PDF reparse was also repeated** using the
 
 **CI acceptance of the new tool code:** [GitHub Actions run 42835911782](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42835911782) completed with 11/11 successful jobs, including synthetic positive/negative tests for the selector and 2020 reason-drift validators. These green code tests are distinct from, and not a substitute for, real private-input acceptance. The 2020 reason-text mismatch and downstream independent selector reconstruction remain open.
 
+
+## 8. Independently recovered 2024–26 originals and executed complete reference stage replays
+
+A follow-up local run **opened the actual private** `audit_2024_25_upload.zip`, `audit_2025_26_upload.zip`, and `audit_2025_26_targeted_upload.zip` source archives. It first checked that the two original metadata blobs still have immutable git identities `ca5188baf047e8154003b0daad1cb319af1ff3d4` and `a3273b97035c63f9e34b68bac0dddf863588adc4`, then independently streamed complete ZIP SHA-256, all member PDF SHA-256, and full ZIP CRC without uploading or altering the originals.
+
+| Original archive | Exact pinned ZIP SHA-256 | Indexed saved PDF SHA matches | ZIP CRC | Missing/extra PDFs |
+|---|---|---:|---|---|
+| 2024–25, `audit_2024_25_upload.zip` | `a10cc660a45f0c3fa6ac279d540a29eae04804dc03eb16a86a1d0c6a7f363e3b` | 5,566 / 5,566 | Pass | 0 / 0 |
+| 2025–26 initial, `audit_2025_26_upload.zip` | `a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70` | 1,497 / 1,497 | Pass | 0 / 0 |
+| 2025–26 targeted, `audit_2025_26_targeted_upload.zip` | `8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea` | 3,526 / 3,526 | Pass | 0 / 0 |
+
+**All seven** recovered original injury-report ZIPs now have **27,755 of 27,755 saved PDF hashes independently checked** against the original provenance. Do not confuse this with 27,755 unique league-report timestamps or complete hourly reporting coverage. The 2024–25 archive has 290 missing candidate requests, and the initial 2025–26 archive has 4,167 missing candidate requests. The 2025–26 targeted collection is an additional restricted sampling design.
+
+### 2024–25: actual regular-season original PDF → full archived CSV reparse — EXACT
+
+Using the original unchanged `parser_2023plus.py` recovered from the private `nba_player_game_at_risk_core_v1.zip` (SHA-256 `197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06`), the run reparsed **all 4,078 verified original regular-season PDFs** recorded in `audit_2024_25_pre_s4_outputs_corrected.zip`'s original manifest. It independently compared **complete 15-field CSV record multisets grouped by source PDF**, not just summary counts.
+
+- **418,059/418,059** original reference rows independently reproduced.
+- Zero missing or extra rows, zero differing per-PDF complete-record multisets.
+- **4,078/4,078** reference parser logs (pages, extracted rows, status and warnings) reproduced exactly.
+- Original reference ZIP and complete frozen data were not modified.
+
+### 2025–26: original selected PDFs → frozen core row and parser-log reparse — EXACT
+
+The run opened the frozen core `canonical_game_snapshot_map.csv`, selected-report CSV and selected-snapshot parser log inside `nba_player_game_at_risk_core_v1.zip`. It determined which saved PDFs the **1,230** regular-season games had actually selected, independently staged the **729 distinct selected original PDFs** from the two private 2025–26 archives, and ran the same original unchanged parser. Each source PDF was parsed once and the chosen matchups were filtered to the **archived selection set** before comparing full original 15-field row tuples.
+
+- **13,968/13,968** archived selected player/report records reconstructed exactly.
+- **729/729** selected PDF parser logs reproduced (counts, pages, status and warnings).
+- Zero mismatches, missing reference files, or duplicated source basenames across the two original archives.
+
+This **does not independently generate the 2025–26 selected-report choices**, nor does it verify all 5,023 available 2025–26 PDF parse outputs against a full archived hourly reference; the current acceptance is restricted to the 729 reports selected by the frozen historical model input. Full end-to-end star/awards/Cup/TV and model reassembly remain separate.
+
+### 2020–21: quantify remaining reason-only differences in game-selected sources
+
+Using a fresh 617-PDF `x_density=5.0` diagnostic reparse and the **actual** original `nba_canonical_snapshot_selector_v1.zip` full and harmonized 2020–21 game map, all 93 existing `reason` field differences were joined by exact `(source PDF basename, publication timestamp, matchup)`. The source corpus has 93 differing player rows in 44 PDFs, but **only 25 of these record differences are in selected game/report matchups, affecting 12 of 1,080 games** in either full or harmonized panel. Both panels give the same numbers: 25 records / 12 games. Among selected discrepant rows, statuses are **21 Out, 3 Questionable, 1 Available**. Every non-reason field, including the injury status, matches the archived CSV.
+
+This bounds potential reason-taxonomy impact; it **does not** validate the 25 free-text reasons or imply that the main manuscript estimates were rerun. Do **not** silently adopt the diagnostic strings in a frozen release.
+
+[Sanitized 2024–26 machine-readable evidence](../validation/level_c_injury_pdf_real_2026-11-10/extended_2024_26_source_and_replay.json). The actual source ZIPs, PDFs, and per-player reasons remain private and uncommitted. PR #4 stays draft until scientific review.
