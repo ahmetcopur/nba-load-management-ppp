@@ -31,7 +31,7 @@ class ConnectedRebuildPlanTests(unittest.TestCase):
     def test_original_archive_missing_fails_before_creation(self):
         (self.archives / REQUIRED_PRIVATE_ZIPS[-1]).unlink()
         out = self.base / "no_run"
-        with self.assertRaisesRegex(FileNotFoundError, "required original private ZIP packages absent"):
+        with self.assertRaisesRegex(FileNotFoundError, "Required original private ZIP packages absent"):
             plan(self.archives, out)
         self.assertFalse(out.exists())
 
@@ -47,8 +47,8 @@ class ConnectedRebuildPlanTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "separate directory"):
             plan(self.archives, self.archives / "new_run")
 
-    def test_output_ancestor_of_input_rejected(self):
-        with self.assertRaisesRegex(ValueError, "separate directory"):
+    def test_existing_ancestor_of_input_is_not_used_as_output(self):
+        with self.assertRaises(FileExistsError):
             plan(self.archives, self.base)
 
     def test_invalid_timeout_rejected(self):
