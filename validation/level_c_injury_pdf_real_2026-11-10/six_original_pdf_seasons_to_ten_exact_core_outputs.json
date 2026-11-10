@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-10",
+  "status": "pass_six_original_PDF_season_source_to_core",
+  "original_NBA_PDF_reports_reparsed": 3637,
+  "source_2020_reports_reparsed_in_prior_complete_original_PDF_diagnostic": 617,
+  "source_2021_2025_original_reports_reparsed": 3020,
+  "source_2020_reason_wrap": {
+    "printed_overflow_fragments_transferred": 44,
+    "earlier_reason_rows_completed": 49,
+    "prior_reason_differences": 93,
+    "remaining_full_original_reason_differences": 0
+  },
+  "selected_six_season_report_records": 73547,
+  "selected_full_22_field_record_multiset_exact": true,
+  "raw_2020_original_source_records": 41780,
+  "raw_2020_full_15_field_record_multiset_exact": true,
+  "selected_2020_source_records": 8591,
+  "selected_2020_full_22_field_record_multiset_exact": true,
+  "original_player_ID_resolved_rows": 73438,
+  "original_ID_full_33_fields_exact": true,
+  "original_finalizer_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "finalizer_completed_exit_code": 0,
+  "final_player_game_rows": 248730,
+  "at_risk_rows": 180829,
+  "absence_onsets": 12710,
+  "absence_spells": 13723,
+  "report_only_additions": 159,
+  "files": [
+    {
+      "filename": "selected_report_player_rows.csv",
+      "decoded_bytes": 38422733,
+      "decoded_sha256": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a",
+      "exact": true
+    },
+    {
+      "filename": "player_game_panel_core.csv.gz",
+      "decoded_bytes": 224984363,
+      "decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+      "exact": true
+    },
+    {
+      "filename": "player_game_panel_model_at_risk.csv.gz",
+      "decoded_bytes": 80970694,
+      "decoded_sha256": "a1eb4a4b9cc85e9948a8d7207cdc437fc817b3d355a9b9da296147eb413a51de",
+      "exact": true
+    },
+    {
+      "filename": "absence_spells_provisional.csv.gz",
+      "decoded_bytes": 4892818,
+      "decoded_sha256": "5cb6996b4ae726f545c9dd39f893c51e30d02fd1b8c8132f6e7f275b6cf4b0a1",
+      "exact": true
+    },
+    {
+      "filename": "report_only_roster_additions.csv",
+      "decoded_bytes": 45904,
+      "decoded_sha256": "0a3551a176be78837168e7dab81d766ff8d33abdff0296aa9981b869682e3a6c",
+      "exact": true
+    },
+    {
+      "filename": "summary_by_season.csv",
+      "decoded_bytes": 338,
+      "decoded_sha256": "7194d5ca2f1bdb8c26272836a8c3e3c1965095c444007a2572d461a49b8b1f89",
+      "exact": true
+    },
+    {
+      "filename": "onset_type_by_season.csv",
+      "decoded_bytes": 916,
+      "decoded_sha256": "e225b70e441873ca0bd5e2fb5c2a459eabe6c6c092d3be1e5ba6a413d740ae46",
+      "exact": true
+    },
+    {
+      "filename": "designation_status_by_season.csv",
+      "decoded_bytes": 830,
+      "decoded_sha256": "d6e901426d80dd3b6284bf0f08fdf13adbae981b426a0222148877697326f0a5",
+      "exact": true
+    },
+    {
+      "filename": "taxonomy_validation_sample_300.csv",
+      "decoded_bytes": 108920,
+      "decoded_sha256": "a7dfad2e1aa2442b231a303939685bf71ff5b387a82662dec34b0ddd1c391a9",
+      "exact": true
+    },
+    {
+      "filename": "qa_summary.json",
+      "decoded_bytes": 816,
+      "decoded_sha256": "b54ce9f6c347a3f680daa6ca3c139a4f167ca0aae2116aeffa3b2636798c31d5",
+      "exact": true
+    }
+  ],
+  "all_ten_core_outputs_decoded_byte_exact": true,
+  "execution": "The initial six-season private original finalizer run timed out. A fresh private rerun of unchanged source-hash-pinned finalizer completed (exit 0), and all ten complete output files were compared to pinned historical original archive after gzip decompression.",
+  "scientific_limits": {
+    "original_2020_full_617_PDF_source_had_been_reparsed_in_previous_real_execution": true,
+    "new_standalone_original_2020_617_PDF_invocation_completed_this_turn": false,
+    "new_standalone_original_2020_617_PDF_invocation_timed_out": true,
+    "all_six_original_source_selected_rows_and_original_ID_stage_rerun_this_turn": true,
+    "original_2020_report_selector_metadata_inherited": true,
+    "human_reviewed_alias_taxonomy_award_Cup_TV_sources_independently_verified": false,
+    "GitHub_new_six_season_one_command_direct_private_run_complete": false,
+    "original_data_or_manuscript_changed": false,
+    "private_original_PDFs_or_player_records_committed": false
+  }
+}
