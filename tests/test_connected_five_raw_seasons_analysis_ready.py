@@ -68,7 +68,7 @@ class FiveRawSeasonsToAnalysisReadyIntegrationTests(unittest.TestCase):
     def test_raw_2025_only_and_full_five_season_flags_are_mutually_exclusive(self):
         with patch.object(runner, "immutable_original_star_source"), \
              patch.object(runner, "sha256_file", return_value=runner.REVIEWED_ZIP_SHA256):
-            with self.assertRaisesRegex(ValueError, "Choose one raw PDF scope"):
+            with self.assertRaisesRegex(ValueError, "Choose one original PDF scope"):
                 runner.reproduce(
                     self.archives, self.dest,
                     from_original_2025_pdfs=True,
