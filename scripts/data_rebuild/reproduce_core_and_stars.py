@@ -38,6 +38,9 @@ from scripts.data_rebuild.build_analysis_ready_from_generated_core import (
     build as build_analysis_ready_from_generated_core,
     REVIEWED_ZIP_SHA256,
 )
+from scripts.data_rebuild.run_original_teamseason_models_from_generated_panel import (
+    run as run_original_teamseason_models,
+)
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
@@ -45,7 +48,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
               from_original_2025_pdfs: bool = False,
               from_original_2021_2025_pdfs: bool = False,
               pdf_workers: int = 4,
-              include_analysis_ready: bool = False) -> dict:
+              include_analysis_ready: bool = False,
+              include_original_teamseason_models: bool = False) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -54,6 +58,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         path = archive_dir / CUP_ARCHIVE
         if sha256_file(path) != CUP_ARCHIVE_SHA256:
             raise ValueError("Original NBA Cup lookup package SHA-256 changed")
+    if include_original_teamseason_models and not include_analysis_ready:
+        raise ValueError("Original team-season model replay requires --with-analysis-ready")
     if include_analysis_ready:
         reviewed_path = archive_dir / "nba_player_game_analysis_ready_v1.zip"
         if sha256_file(reviewed_path) != REVIEWED_ZIP_SHA256:
@@ -91,6 +97,10 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
             archive_dir / "nba_player_game_analysis_ready_v1.zip",
             output_dir / "analysis_ready_from_generated_core",
         ) if include_analysis_ready else None
+        models = run_original_teamseason_models(
+            output_dir / "analysis_ready_from_generated_core/player_game_panel_model_at_risk_analysis_ready.csv.gz",
+            output_dir / "original_teamseason_models_from_source",
+        ) if include_original_teamseason_models else None
     result = {
         "status": "pass",
         "scope": "Original archived selected-report inputs -> independently rebuilt player IDs -> original finalizer -> source-pinned award/star enrichment.",
@@ -104,6 +114,13 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         "reviewed_analysis_ready_built_from_generated_core": bool(reviewed),
         "analysis_ready_complete_original_output_matches": (
             len(reviewed["outputs"]) if reviewed else 0
+        ),
+        "original_teamseason_model_reproduced": bool(models),
+        "original_teamseason_model_outputs_exact": (
+            len(models["models"]) if models else 0
+        ),
+        "original_teamseason_model_focal_results": (
+            models["focal"] if models else None
         ),
         "reviewed_reason_dictionary_size": (
             reviewed["reviewed_official_reason_dictionary_size"] if reviewed else None
@@ -123,7 +140,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         "official_award_history_independently_verified": False,
         "nba_cup_lookup_applied_to_rebuilt_star_outputs": bool(cup),
         "original_cup_lookup_independently_verified": False,
-        "model_regressions_rebuilt_from_outputs": False,
+        "model_regressions_rebuilt_from_outputs": bool(models),
+        "all_manuscript_regressions_rebuilt": False,
         "original_archives_or_frozen_published_data_modified": False,
     }
     (output_dir / "connected_core_plus_star_report.json").write_text(
@@ -148,6 +166,8 @@ def main():
                    help="Reparse 2,291 authentic 2021–24 PDFs plus 729 original 2025 PDFs, connecting five seasons' selected source rows (64,956) before the core")
     p.add_argument("--with-analysis-ready", action="store_true",
                    help="Rebuild the reviewed reason taxonomy and both analysis-ready tables from the new original player-game core; requires historical reviewed source ZIP")
+    p.add_argument("--with-original-teamseason-models", action="store_true",
+                   help="After the reviewed analysis-ready bridge, rerun the original August player/team-season fixed effects and compare all 44 original coefficient rows")
     p.add_argument("--pdf-workers", type=int, default=4,
                    help="Parallel original PDF parsers when either raw-source option is set")
     args = p.parse_args()
@@ -157,7 +177,8 @@ def main():
                   from_original_2025_pdfs=args.from_original_2025_pdfs,
                   from_original_2021_2025_pdfs=args.from_original_2021_2025_pdfs,
                   pdf_workers=args.pdf_workers,
-                  include_analysis_ready=args.with_analysis_ready),
+                  include_analysis_ready=args.with_analysis_ready,
+                  include_original_teamseason_models=args.with_original_teamseason_models),
         indent=2
     ))
 
