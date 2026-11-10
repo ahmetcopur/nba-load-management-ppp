@@ -33,9 +33,14 @@ import zipfile
 import numpy as np
 import pandas as pd
 
-from run_august_category_fdr_from_release import (
-    SHARED_SHA, PANEL, TV, sha, repair_announcement_fixture_keys,
-)
+if __package__:
+    from .run_august_category_fdr_from_release import (
+        SHARED_SHA, PANEL, TV, sha, repair_announcement_fixture_keys,
+    )
+else:
+    from run_august_category_fdr_from_release import (
+        SHARED_SHA, PANEL, TV, sha, repair_announcement_fixture_keys,
+    )
 
 ORIGINAL_RISK_SHA = "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635"
 CORRECTED_RISK_SHA = "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3"
