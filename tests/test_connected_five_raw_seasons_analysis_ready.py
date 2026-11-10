@@ -34,7 +34,14 @@ class FiveRawSeasonsToAnalysisReadyIntegrationTests(unittest.TestCase):
         self.assertIn("--from-original-2021-2025-pdfs", completed.stdout)
         self.assertIn("--with-analysis-ready", completed.stdout)
         self.assertIn("--with-original-teamseason-models", completed.stdout)
+        self.assertIn("--with-october-cadence", completed.stdout)
         self.assertIn("--with-cup", completed.stdout)
+
+    def test_october_source_models_require_new_reviewed_core(self):
+        with patch.object(runner, "immutable_original_star_source"):
+            with self.assertRaisesRegex(ValueError, "October cadence reconstruction requires"):
+                runner.reproduce(self.archives, self.dest, include_october_cadence=True)
+        self.assertFalse(self.dest.exists())
 
     def test_raw_2025_only_and_full_five_season_flags_are_mutually_exclusive(self):
         with patch.object(runner, "immutable_original_star_source"), \
