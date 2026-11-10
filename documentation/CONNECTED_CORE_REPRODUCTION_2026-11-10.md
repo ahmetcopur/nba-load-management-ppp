@@ -66,3 +66,42 @@ The 2020–21 PDF layout issue remains: **93** free-text reason fields differ in
 The next stage is to connect the PDF-derived selected report rows into this executable core, then reconstruct reviewed analysis-ready variables from their actual upstream award/taxonomy/TV files instead of copying final labels from a frozen output. Only then refit the manuscript specifications.
 
 See [Issue #5](https://github.com/ahmetcopur/nba-load-management-ppp/issues/5) for remaining scientific gates. Preserve the frozen research and keep PR #4 **draft and unmerged**.
+
+
+## Extension: one-command core plus source-coded All-Star/All-NBA history
+
+The previous core-stage run was extended in a real private execution to the historical **star award enrichment**. The source-coded original All-Star/All-NBA builder from the authentic nba_player_game_at_risk_star_v1.zip was checked for the exact source SHA-256, relocated to the new private output root by changing **only four hard-coded /mnt/data/ path prefixes**, and executed against the newly rebuilt core panel.
+
+All **12** original non-manifest star package files reproduced exactly, including the original embedded award lists, source builder code, 248,730-row full star panel, 180,829-row at-risk star panel, complete season-level star calendar, and QA metrics.
+
+### Preferred combined command
+
+Put a **fifth original ZIP**, nba_player_game_at_risk_star_v1.zip, in the same private archive directory as the four core-stage ZIPs. Then run:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/core-and-stars-run"
+
+This is a **new, separate output directory** that must not yet exist. The umbrella command verifies availability and SHA-256 of the star archive **before** executing the initial core stage; it then runs source-pinned identity resolution, the original core finalizer, all ten core byte comparisons, the original source-coded star builder, and all twelve star output comparisons.
+
+For an already accepted connected core result, run only the star extension:
+
+    python scripts/data_rebuild/run_connected_star_enrichment.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --core-run-dir "$HOME/nba-private-rebuild/connected-core-2026-11-10"
+
+The star-only command requires a valid **connected_core_reproduction_report.json** with the exact ten-file acceptance marker, and rechecks that generated core outputs still match the immutable original. It rejects an already existing star-output directory or star ZIP because the archived star builder contains historical directory-deletion and ZIP-unlink operations; neither destructive path can be pointed at any prior run or original source.
+
+| Independently run star stage | Result |
+|---|---:|
+| Original All-Star/All-NBA award input rows | 358 |
+| Player-game core rows | 248,730 |
+| At-risk star panel rows | 180,829 |
+| Star-designated player-game observations | 23,166 |
+| Midseason current-All-Star transition rows | 1,019 |
+| Missing star-status labels | 0 |
+| Full comparison to the frozen star package | **12/12 substantive original files exact** |
+
+[Original-star replay evidence and decoded-byte SHA values](../validation/level_c_injury_pdf_real_2026-11-10/connected_core_and_star_exact_2026-11-10.json) | [Standalone original star runner](../scripts/data_rebuild/run_connected_star_enrichment.py) | [One-command core+star runner](../scripts/data_rebuild/reproduce_core_and_stars.py) | [Synthetic safety/regression tests](../tests/test_connected_star_enrichment.py)
+
+**Scientific qualification:** the original award lists are embedded in the historically archived source code. This reproduces their application exactly but **does not independently verify all 358 awards/replacements from the cited official NBA announcements**. Similarly, the NBA Cup lookup and original full analysis-ready taxonomy/regression sources are further dependencies; Cup/TV/manuscript results are not automatically certified by this stage. The original star archive's file_manifest_sha256.csv describes compressed gzip members, whose headers may have different timestamps; the twelve substantive source/output files were compared over their *entire decoded contents* instead.
