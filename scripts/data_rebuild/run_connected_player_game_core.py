@@ -37,6 +37,10 @@ from scripts.data_rebuild.verify_player_identity_replay import (
     read_member, resolve, sha256_file,
 )
 from scripts.data_rebuild.rebuild_2025_selected_from_pdfs import verify_original_row_equality
+from scripts.data_rebuild.rebuild_2021_2024_selected_from_pdfs import (
+    SEASONS as ORIGINAL_2021_2024_SOURCE_SEASONS,
+    compare_original_22_fields,
+)
 
 SOURCE_CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 SOURCE_COVARIATE_ZIP = "nba_game_covariates_v1.zip"
@@ -226,8 +230,58 @@ def inject_fresh_2025_selected_rows(original: pd.DataFrame,
     return combined
 
 
+def inject_reparsed_seasons(original: pd.DataFrame,
+                             original_pdf_csvs: dict[str, Path]) -> tuple[pd.DataFrame, dict]:
+    """Replace each specified original-PDF season, preserving all unchosen ones.
+
+    Do not accept references as raw inputs without exact source-specific full
+    22-column comparisons. The 2020–21 reason-only parsing exception must
+    remain archived until independently resolved.
+    """
+    allowed = set(ORIGINAL_2021_2024_SOURCE_SEASONS) | {"2025-26"}
+    if not original_pdf_csvs or not set(original_pdf_csvs) <= allowed:
+        raise ValueError("Only 2021–22 through 2025–26 may be replaced by original PDF rows")
+    if len(original_pdf_csvs) != len(set(original_pdf_csvs)):
+        raise ValueError("Duplicate original PDF source seasons")
+    original_columns = list(original.columns)
+    result = []
+    substituted = {}
+    for season in sorted(original.season.dropna().unique()):
+        original_season = original.loc[original.season.eq(season)].copy()
+        if season not in original_pdf_csvs:
+            result.append(original_season)
+            continue
+        file = Path(original_pdf_csvs[season]).resolve()
+        if not file.is_file():
+            raise FileNotFoundError(f"Original PDF selected-report CSV missing: {file}")
+        if any((parent / ".git").exists() for parent in file.parents):
+            raise ValueError("Original player-level report rows cannot be read from a Git checkout")
+        rebuilt = pd.read_csv(file, low_memory=False)
+        if not rebuilt.season.eq(season).all():
+            raise ValueError(f"{season}: source CSV contains foreign season reports")
+        if list(rebuilt.columns) != original_columns:
+            raise ValueError("Original selected report CSV column order or schema changed")
+        if season == "2025-26":
+            outcome = verify_original_row_equality(rebuilt, original_season)
+        else:
+            outcome = compare_original_22_fields(rebuilt, original_season, season)
+        if len(rebuilt) != len(original_season):
+            raise ValueError(f"{season}: incomplete selected-report source rows")
+        result.append(rebuilt)
+        substituted[season] = len(rebuilt)
+    if set(substituted) != set(original_pdf_csvs):
+        raise ValueError("Missing original season during PDF-selected input substitution")
+    merged = pd.concat(result, ignore_index=True)
+    if len(merged) != len(original) or len(merged) != 73547:
+        raise ValueError("Original six-season source row count changed")
+    if sorted(merged.season.unique()) != sorted(original.season.unique()):
+        raise ValueError("Source row seasons changed during integration")
+    return merged, substituted
+
+
 def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900,
-            reparsed_2025_selected: Path | None = None) -> dict:
+            reparsed_2025_selected: Path | None = None,
+            reparsed_season_csvs: dict[str, Path] | None = None) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     check_private_output_path(archive_dir, output_dir)
     if timeout_seconds <= 0:
@@ -239,8 +293,15 @@ def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900,
 
     selected = csv_from_zip(archive_dir, SOURCE_CORE_ZIP,
         "nba_player_game_at_risk_core_v1/selected_report_rows_all.csv")
+    replacements = dict(reparsed_season_csvs or {})
     if reparsed_2025_selected is not None:
-        selected = inject_fresh_2025_selected_rows(selected, reparsed_2025_selected)
+        if "2025-26" in replacements:
+            raise ValueError("Duplicate 2025–26 raw PDF replacement sources")
+        replacements["2025-26"] = reparsed_2025_selected
+    if replacements:
+        selected, source_rows_substituted = inject_reparsed_seasons(selected, replacements)
+    else:
+        source_rows_substituted = {}
     crosswalk = csv_from_zip(archive_dir, "nba_player_crosswalk_final_v1.zip",
         "nba_player_crosswalk_final_v1/player_crosswalk_final.csv")
     aliases = csv_from_zip(archive_dir, "nba_player_crosswalk_final_v1.zip",
@@ -305,8 +366,11 @@ def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900,
         },
         "compared_original_outputs": outputs,
         "all_ten_outputs_identical_after_gzip_decoding": True,
-        "fresh_2025_selected_source_rows_substituted": reparsed_2025_selected is not None,
-        "other_five_seasons_selected_source_rows_inherited": True,
+        "fresh_2025_selected_source_rows_substituted": "2025-26" in source_rows_substituted,
+        "original_pdf_seasons_substituted": source_rows_substituted,
+        "2020_21_selected_source_rows_inherited": True,
+        "raw_original_PDF_seasons_connected": sorted(source_rows_substituted),
+        "all_six_original_PDF_seasons_connected": False,
         "private_source_pdfs_committed": False,
         "raw_report_selection_recomputed_here": False,
         "reviewed_awards_cup_tv_and_manuscript_rebuilt_here": False,
