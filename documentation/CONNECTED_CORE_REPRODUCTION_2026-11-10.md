@@ -800,3 +800,45 @@ not reported as a *newly executed* 33-output source-derived run
 until that independent direct invocation completes. The original
 2020–21 reason text, human-reviewed mappings and provenance of
 external awards/Cup/TV records remain separate scientific work.
+
+
+## October CI: source-generated panel provenance certificate
+
+The **full original October 10-script, 33-output GitHub Actions job**
+now has a strict *source-derived input equivalence preflight*.
+Following a clean detached checkout of the immutable original
+October repository, it runs
+[verify_source_generated_october_panel_provenance.py](../scripts/data_rebuild/verify_source_generated_october_panel_provenance.py)
+**before** any of the ten historical scripts.
+
+That command consumes the source-generated private execution's
+sanitized, committed original-PDF evidence:
+[source_generated_october_cadence_panel_and_four_models.json](../validation/level_c_injury_pdf_real_2026-11-10/source_generated_october_cadence_panel_and_four_models.json).
+It requires documented real 355 selected 2025 cadence NBA PDFs,
+13,762 extracted source records, the original source stage's
+248,778-player-game panel, four exact original Stage-6 models,
+the original historical Stage-6 package hash, and explicit
+disclosure that 2020–21 reason strings and other selected
+historical sources remain inherited. It then streams the **entire
+122,661,378-byte decoded public October panel** through SHA-256.
+
+A pass means the **exact input contents** to the ten unchanged
+October scripts are identical, byte-for-byte after decompression,
+to the independently source-rebuilt historical panel
+(`3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac`).
+A published original panel with different data now fails CI
+**before** the released models execute. The certificate is uploaded
+to the original October job's GitHub Actions artifacts alongside
+the independently checked 33-output historical model report.
+
+This is a *public CI provenance/equivalence check*, not a claim
+that private PDFs are uploaded or reread by GitHub Actions.
+Because the model-input CSV is provably the same full decoded
+byte sequence, the published run's original input values equal
+the private original-PDF-generated input values; nonetheless
+the separately committed direct ten-script private handoff
+[run_full_october_suite_from_generated_panel.py](../scripts/data_rebuild/run_full_october_suite_from_generated_panel.py)
+is a separate acceptance test and remains to be executed
+from a clean Python 3.12/pandas 3.0.5 environment.
+Synthetic unit tests enforce source evidence completeness,
+tamper rejection and the full decoded-byte equality gate.
