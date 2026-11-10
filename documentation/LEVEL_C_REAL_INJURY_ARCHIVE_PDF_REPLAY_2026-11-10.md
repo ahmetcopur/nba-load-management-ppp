@@ -152,3 +152,36 @@ The original code's `pd.merge_asof(..., direction="backward", allow_exact_matche
 The initial local comparison code reported spurious failures from schedule label aliases and a bug comparing a pandas Index directly with a whole DataFrame. Both were corrected in the **validation harness**, not in the original selector. The corrected full-column comparison passed all four panels. This is reproduction of the **original selector implementation**, not a second independently designed selector implementation, and not a full downstream player-game/award/model reconstruction.
 
 [Sanitized machine-readable original-selector replay](../validation/level_c_injury_pdf_real_2026-11-10/original_canonical_selector_2020_2024_replay.json). Both original ZIP packages remain private, and the frozen released data were not changed.
+
+## 10. Durable replay command for 2024–26 private original sources
+
+The actual 2024–25 and selected 2025–26 source-reparse results above were executed directly against the private original ZIPs in the model's isolated Python environment. For repeatability beyond that temporary environment, the PR now includes [replay_recent_historical_injury_pdfs.py](../scripts/data_rebuild/replay_recent_historical_injury_pdfs.py) and [strict synthetic input tests](../tests/test_recent_injury_pdf_replays.py).
+
+This replay CLI checks the full original ZIP SHA-256 and every indexed original PDF SHA-256 against the **pinned public source metadata**, validates all ZIP CRCs, refuses to import a parser unless its original source-code SHA-256 matches, opens only needed original PDFs in a temporary private scratch directory, and compares complete source-PDF record multisets and parser logs against the frozen reference. It outputs sanitized aggregate JSON with no player names or reasons. The command **does not independently reconstruct the report selector**.
+
+From an active checkout of PR #4, with all original source ZIPs saved privately in one directory and an original pinned public metadata checkout:
+
+\`\`\`bash
+# 2024–25: all 4,078 original regular-season PDF parses (418,059 rows)
+python scripts/data_rebuild/replay_recent_historical_injury_pdfs.py \
+  --mode 2024-25 \
+  --archive-dir /private/original_injury_zips \
+  --metadata-dir /private/nba_pinned_source/provenance/historical_sources \
+  --core-zip /private/nba_player_game_at_risk_core_v1.zip \
+  --reference-2024-zip /private/audit_2024_25_pre_s4_outputs_corrected.zip \
+  --workers 4 \
+  --output data_rebuild/output/2024_25_original_pdf_replay.json
+
+# 2025–26: all 729 actually selected originals (13,968 model-input rows)
+python scripts/data_rebuild/replay_recent_historical_injury_pdfs.py \
+  --mode 2025-26 \
+  --archive-dir /private/original_injury_zips \
+  --metadata-dir /private/nba_pinned_source/provenance/historical_sources \
+  --core-zip /private/nba_player_game_at_risk_core_v1.zip \
+  --workers 4 \
+  --output data_rebuild/output/2025_26_selected_original_pdf_replay.json
+\`\`\`
+
+Both commands intentionally fail on source/row/log mismatch and refuse to overwrite any existing output JSON. Install the project's pinned historical builder/PyMuPDF dependencies first. Source ZIPs, original parser ZIPs and individual PDFs must **not** be committed to GitHub.
+
+**Evidence boundary:** the results above were already verified using separate direct temporary Python replay scripts; until this packaged CLI is itself executed against the private originals and accepted, do not label the new CLI specifically as a green private-input run. Green CI synthetic tests validate failure behavior, not access to private ZIPs. The report and the original frozen artifacts are unchanged.
