@@ -100,8 +100,15 @@ def reconcile_one_chunk(core: pd.DataFrame, frozen: pd.DataFrame,
     if not required <= set(core) or "player_team_game_id" not in frozen:
         raise ValueError("Required core/report identity fields missing")
     keys = core.game_id + "|" + core.team + "|" + core.nba_player_id
-    if not keys.equals(frozen.player_team_game_id):
+    if not keys.astype(str).equals(frozen.player_team_game_id.astype(str)):
         raise ValueError("Rebuilt core row ID/order differs from original reviewed analysis input")
+
+    # Check unknown official reasons before the general source-field equality
+    # gate so the error is actionable and never silently guesses a new label.
+    absent = core.absence_now.eq("True")
+    chosen = reason_key(core.loc[absent, "designation_reason"])
+    if not chosen.isin(labels).all():
+        raise ValueError("New official injury-report reason requires independent taxonomy review")
 
     result = frozen.copy()
     for field in core.columns:
@@ -122,12 +129,8 @@ def reconcile_one_chunk(core: pd.DataFrame, frozen: pd.DataFrame,
         result[field] = left
         result.loc[mask, field] = right.loc[mask]
 
-    absent = core.absence_now.eq("True")
     risk = core.at_risk_for_new_onset.eq("True")
     classes = pd.Series("not_absent", index=core.index, dtype=object)
-    chosen = reason_key(core.loc[absent, "designation_reason"])
-    if not chosen.isin(labels).all():
-        raise ValueError("New official injury-report reason requires independent taxonomy review")
     classes.loc[absent] = chosen.map(labels)
     onset = pd.Series("", index=core.index, dtype=object)
     onset.loc[risk & ~absent] = "plays"
@@ -149,7 +152,7 @@ def reconcile_one_chunk(core: pd.DataFrame, frozen: pd.DataFrame,
 
     for field in ("designation_class_frozen", "onset_type_frozen",
                   *PROVISIONAL_ALIASES, *FROZEN_ONSET_FLAGS):
-        if not result[field].equals(frozen[field]):
+        if not result[field].astype(object).equals(frozen[field].astype(object)):
             raise ValueError(f"Recomputed official-report taxonomy differs: {field}")
     return result.loc[:, frozen.columns], risk
 
