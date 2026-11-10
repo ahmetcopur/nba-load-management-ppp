@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-10",
+  "scope": "Original 2021–25 NBA injury PDFs (2020–21 selected source inherited) -> independent selected report rows -> resolved players -> historical core -> reviewed analysis-ready model input -> original exact historical player-and-team-season FE estimator.",
+  "original_selected_PDFs_reparsed": 3020,
+  "fresh_selected_report_rows_from_original_PDFs": 64956,
+  "archived_2020_21_selected_rows": 8591,
+  "full_analysis_ready_rows": 248730,
+  "original_at_risk_panel_rows": 180829,
+  "original_model_complete_case_rows": 180695,
+  "original_model_source": "nba_policy_models_first_pass_v1/scripts/run_teamseason_fixed_effects.py",
+  "original_model_executed_source_sha256": "7fd6983fb1ce58469ae175a6702cf7ef667c57afa4583a32073bb7f7469d65d3",
+  "original_model_package": "packages/02_first_pass_models.zip",
+  "original_model_package_sha256": "79682a44dab8f00e448a40772f11c2ed6d29f95ab893b1492068d8853a184ac2",
+  "original_model_package_git_blob_sha1": "ad9d041004aa1fe975a6f6c2a5fecae446aa7b69",
+  "new_analysis_ready_model_input_decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+  "method": "Original archived statistical source code executed on freshly generated full-reviewed at-risk model table; only two original hard-coded filesystem paths changed, no estimator/data/specification/scaling/inference changes. Compare both full archived original CSV tables by original outcome/term identifiers and all coefficient/inference columns.",
+  "focal_results": [
+    {
+      "outcome": "absence_onset",
+      "sample_n": 180695,
+      "estimate": 0.0314925625567829,
+      "se": 0.0131564272555179,
+      "p_value": 0.0166793068180642,
+      "confidence_interval": [
+        0.0057059651359678,
+        0.0572791599775981
+      ],
+      "reported_in_percentage_points": 3.14925625567829,
+      "exact_original_coefficient_match_to_numeric_precision": true
+    },
+    {
+      "outcome": "vague_conditional",
+      "sample_n": 6256,
+      "estimate": -0.0718122944236611,
+      "se": 0.0830678706941059,
+      "p_value": 0.3873124857208641,
+      "confidence_interval": [
+        -0.2346253209841087,
+        0.0910007321367864
+      ],
+      "exact_original_coefficient_match_to_numeric_precision": true
+    }
+  ],
+  "model_output_comparisons": {
+    "teamseason_fe_focal.csv": {
+      "rows": 2,
+      "original_outcome_matches": true,
+      "max_absolute_coefficient_difference": 2.0122792321330962e-16,
+      "max_absolute_standard_error_difference": 4.996003610813204e-16,
+      "max_absolute_p_value_difference": 2.275957200481571e-15
+    },
+    "teamseason_fe_coefficients.csv": {
+      "rows": 44,
+      "original_outcome_term_matches": true,
+      "max_absolute_coefficient_difference": 2.0816681711721685e-16,
+      "max_absolute_standard_error_difference": 4.996003610813204e-16,
+      "max_absolute_p_value_difference": 1.3322676295501878e-14
+    }
+  },
+  "original_data_model_code_changed_only_absolute_paths": true,
+  "all_focal_and_44_coefficient_rows_reproduced": true,
+  "scientific_limits": {
+    "original_2020_21_reason_text_not_fully_reparsed": true,
+    "released_game_covariates_inherited": true,
+    "original_official_award_Cup_TV_announcements_not_all_independently_rebuilt": true,
+    "original_2182_reviewed_taxonomy_human_labels_inherited": true,
+    "this_is_august_latest_pre_tip_teamseason_fe_not_all_october_harmonized_models": true,
+    "frozen_manuscript_tables_and_original_data_modified": false,
+    "new_model_runner_on_13_ZIP_master_CLI_separately_acceptance_tested": false
+  }
+}
