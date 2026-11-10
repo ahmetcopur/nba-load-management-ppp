@@ -29,11 +29,18 @@ from scripts.data_rebuild.rebuild_2025_selected_from_pdfs import (
     run as rebuild_selected_2025_from_pdfs,
     OUTPUT_NAME as PDF_SELECTED_2025_OUTPUT,
 )
+from scripts.data_rebuild.rebuild_2021_2024_selected_from_pdfs import (
+    rebuild as rebuild_selected_2021_2024_from_pdfs,
+    accepted_source_filename,
+    SEASONS as ORIGINAL_2021_2024_SEASONS,
+)
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
               timeout_seconds: int = 900, include_cup: bool = False,
-              from_original_2025_pdfs: bool = False, pdf_workers: int = 4) -> dict:
+              from_original_2025_pdfs: bool = False,
+              from_original_2021_2025_pdfs: bool = False,
+              pdf_workers: int = 4) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -42,21 +49,32 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         path = archive_dir / CUP_ARCHIVE
         if sha256_file(path) != CUP_ARCHIVE_SHA256:
             raise ValueError("Original NBA Cup lookup package SHA-256 changed")
-    # The parser stages its original PDF bytes only in a temporary private
-    # directory. After full 22-field acceptance, pass the newly produced CSV
-    # directly into the historical source-pinned identity and core finalizer.
-    # Other five seasons retain their archived selected inputs (not full-PDF).
-    with TemporaryDirectory(prefix="nba_private_pdf_2025_rebuild_") as temporary:
+    if from_original_2025_pdfs and from_original_2021_2025_pdfs:
+        raise ValueError("Choose one raw PDF scope: 2025 only, or all 2021–25 seasons")
+    # All original PDF player-level source records are generated exclusively in
+    # a disposable, private temporary folder, outside Git, and are injected
+    # only after complete 22-field full-record frozen comparison.
+    with TemporaryDirectory(prefix="nba_private_pdf_selected_rebuild_") as temporary:
         pdf_result = None
-        fresh_csv = None
-        if from_original_2025_pdfs:
-            selected_dir = Path(temporary) / "selected_2025"
-            pdf_result = rebuild_selected_2025_from_pdfs(
-                archive_dir, selected_dir, workers=pdf_workers,
+        early_pdf_result = None
+        replacements = {}
+        if from_original_2021_2025_pdfs:
+            early_dir = Path(temporary) / "selected_2021_2024"
+            early_pdf_result = rebuild_selected_2021_2024_from_pdfs(
+                archive_dir, early_dir, workers=pdf_workers,
             )
-            fresh_csv = selected_dir / PDF_SELECTED_2025_OUTPUT
-        core = execute(archive_dir, output_dir, timeout_seconds=timeout_seconds,
-                       reparsed_2025_selected=fresh_csv)
+            for season in ORIGINAL_2021_2024_SEASONS:
+                replacements[season] = early_dir / accepted_source_filename(season)
+        if from_original_2025_pdfs or from_original_2021_2025_pdfs:
+            late_dir = Path(temporary) / "selected_2025"
+            pdf_result = rebuild_selected_2025_from_pdfs(
+                archive_dir, late_dir, workers=pdf_workers,
+            )
+            replacements["2025-26"] = late_dir / PDF_SELECTED_2025_OUTPUT
+        core = execute(
+            archive_dir, output_dir, timeout_seconds=timeout_seconds,
+            reparsed_season_csvs=replacements or None,
+        )
         star = run_star(archive_dir, output_dir, timeout_seconds=timeout_seconds)
         cup = run_cup(archive_dir, output_dir, timeout_seconds=timeout_seconds) if include_cup else None
     result = {
@@ -70,9 +88,17 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         "cup_exact_primary_output_files": len(cup["exact_decoded_outputs"]) if cup else 0,
         "cup_lookup_stage_completed": bool(cup),
         "fresh_2025_pdf_source_replay": pdf_result,
+        "fresh_2021_2024_pdf_source_replay": early_pdf_result,
+        "complete_original_PDF_source_seasons": sorted(replacements),
+        "fresh_selected_rows_from_original_PDFs": sum({
+            "2021-22": 12527, "2022-23": 11499,
+            "2023-24": 12897, "2024-25": 14065,
+            "2025-26": 13968,
+        }[season] for season in replacements),
         "full_pipeline_starts_at_raw_injury_pdfs": False,
-        "original_2025_source_PDF_records_rebuilt": bool(pdf_result),
-        "other_five_seasons_source_rows_archived": True,
+        "2020_21_selected_source_rows_inherited": True,
+        "2021_2025_original_PDF_rows_rebuilt": bool(from_original_2021_2025_pdfs),
+        "other_five_seasons_source_rows_archived": not bool(from_original_2021_2025_pdfs),
         "official_award_history_independently_verified": False,
         "nba_cup_lookup_applied_to_rebuilt_star_outputs": bool(cup),
         "original_cup_lookup_independently_verified": False,
@@ -97,13 +123,16 @@ def main():
                    help="Also rebuild NBA Cup flags from the original archived game-level lookup")
     p.add_argument("--from-original-2025-pdfs", action="store_true",
                    help="Parse 729 actual original 2025–26 PDFs into 13,968 selected report rows before identity/core; requires two extra original raw ZIPs")
+    p.add_argument("--from-original-2021-2025-pdfs", action="store_true",
+                   help="Reparse 2,291 authentic 2021–24 PDFs plus 729 original 2025 PDFs, connecting five seasons' selected source rows (64,956) before the core")
     p.add_argument("--pdf-workers", type=int, default=4,
-                   help="Parallel original 2025 PDF parsers when --from-original-2025-pdfs is set")
+                   help="Parallel original PDF parsers when either raw-source option is set")
     args = p.parse_args()
     print(json.dumps(
         reproduce(args.archive_dir, args.output_dir, timeout_seconds=args.timeout_seconds,
                   include_cup=args.with_cup,
                   from_original_2025_pdfs=args.from_original_2025_pdfs,
+                  from_original_2021_2025_pdfs=args.from_original_2021_2025_pdfs,
                   pdf_workers=args.pdf_workers),
         indent=2
     ))
