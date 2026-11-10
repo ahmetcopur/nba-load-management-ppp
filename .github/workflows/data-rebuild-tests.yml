@@ -24,6 +24,7 @@ on:
       - "tests/test_historical_injury_archives.py"
       - "tests/test_replayed_snapshot_links.py"
       - "tests/test_2020_reason_layout_drift.py"
+      - "tests/test_recent_injury_pdf_replays.py"
       - "requirements-october-lock.txt"
       - "requirements-boxscore-lock.txt"
       - "requirements-builder-lock.txt"
@@ -55,6 +56,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_replayed_snapshot_links.py -v
       - name: Test that 2020 PDF reason-only drift remains a blocking exception
         run: python -m unittest discover -s tests -p test_2020_reason_layout_drift.py -v
+      - name: Test strict 2024/2025 original PDF replay runner
+        run: python -m unittest discover -s tests -p test_recent_injury_pdf_replays.py -v
       - name: Independently screen August report-to-tip linkage for two misdated games
         run: python scripts/data_rebuild/audit_august_base_report_links.py
       - name: Inventory original August falsification-stage archive for public reproduction
