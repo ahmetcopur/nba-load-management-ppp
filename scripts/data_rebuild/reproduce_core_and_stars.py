@@ -34,6 +34,10 @@ from scripts.data_rebuild.rebuild_2021_2024_selected_from_pdfs import (
     accepted_source_filename,
     SEASONS as ORIGINAL_2021_2024_SEASONS,
 )
+from scripts.data_rebuild.rebuild_2020_selected_from_pdfs import (
+    rebuild as rebuild_selected_2020_from_pdfs,
+    SELECTED_FILE as PDF_SELECTED_2020_OUTPUT,
+)
 from scripts.data_rebuild.build_analysis_ready_from_generated_core import (
     build as build_analysis_ready_from_generated_core,
     REVIEWED_ZIP_SHA256,
@@ -55,6 +59,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
               timeout_seconds: int = 900, include_cup: bool = False,
               from_original_2025_pdfs: bool = False,
               from_original_2021_2025_pdfs: bool = False,
+              from_original_2020_2025_pdfs: bool = False,
+              previous_2020_reparse_csv: Path | None = None,
               pdf_workers: int = 4,
               include_analysis_ready: bool = False,
               include_original_teamseason_models: bool = False,
@@ -86,8 +92,15 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         reviewed_path = archive_dir / "nba_player_game_analysis_ready_v1.zip"
         if sha256_file(reviewed_path) != REVIEWED_ZIP_SHA256:
             raise ValueError("Historical reviewed official-reason source ZIP SHA-256 changed")
-    if from_original_2025_pdfs and from_original_2021_2025_pdfs:
-        raise ValueError("Choose one raw PDF scope: 2025 only, or all 2021–25 seasons")
+    raw_scopes = [
+        from_original_2025_pdfs,
+        from_original_2021_2025_pdfs,
+        from_original_2020_2025_pdfs,
+    ]
+    if sum(bool(x) for x in raw_scopes) > 1:
+        raise ValueError("Choose one original PDF scope: 2025 only, 2021–25 or all 2020–25 seasons")
+    if previous_2020_reparse_csv is not None and not from_original_2020_2025_pdfs:
+        raise ValueError("An earlier 2020 PDF source CSV requires --from-original-2020-2025-pdfs")
     # All original PDF player-level source records are generated exclusively in
     # a disposable, private temporary folder, outside Git, and are injected
     # only after complete 22-field full-record frozen comparison.
@@ -95,14 +108,22 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         pdf_result = None
         early_pdf_result = None
         replacements = {}
-        if from_original_2021_2025_pdfs:
+        original_2020_result = None
+        if from_original_2020_2025_pdfs:
+            old_dir = Path(temporary) / "selected_2020"
+            original_2020_result = rebuild_selected_2020_from_pdfs(
+                archive_dir, old_dir, workers=pdf_workers,
+                previous_reparse_csv=previous_2020_reparse_csv,
+            )
+            replacements["2020-21"] = old_dir / PDF_SELECTED_2020_OUTPUT
+        if from_original_2021_2025_pdfs or from_original_2020_2025_pdfs:
             early_dir = Path(temporary) / "selected_2021_2024"
             early_pdf_result = rebuild_selected_2021_2024_from_pdfs(
                 archive_dir, early_dir, workers=pdf_workers,
             )
             for season in ORIGINAL_2021_2024_SEASONS:
                 replacements[season] = early_dir / accepted_source_filename(season)
-        if from_original_2025_pdfs or from_original_2021_2025_pdfs:
+        if any(raw_scopes):
             late_dir = Path(temporary) / "selected_2025"
             pdf_result = rebuild_selected_2025_from_pdfs(
                 archive_dir, late_dir, workers=pdf_workers,
@@ -178,14 +199,20 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         ),
         "fresh_2025_pdf_source_replay": pdf_result,
         "fresh_2021_2024_pdf_source_replay": early_pdf_result,
+        "source_2020_pdf_reason_wrap_replay": original_2020_result,
+        "2020_original_PDFs_reparsed_in_this_invocation": (
+            bool(original_2020_result and
+                original_2020_result["fresh_original_617_PDF_execution_in_this_invocation"])
+        ),
+        "all_six_original_PDF_selected_seasons_connected": len(replacements) == 6,
         "complete_original_PDF_source_seasons": sorted(replacements),
         "fresh_selected_rows_from_original_PDFs": sum({
-            "2021-22": 12527, "2022-23": 11499,
+            "2020-21": 8591, "2021-22": 12527, "2022-23": 11499,
             "2023-24": 12897, "2024-25": 14065,
             "2025-26": 13968,
         }[season] for season in replacements),
         "full_pipeline_starts_at_raw_injury_pdfs": False,
-        "2020_21_selected_source_rows_inherited": True,
+        "2020_21_selected_source_rows_inherited": "2020-21" not in replacements,
         "2021_2025_original_PDF_rows_rebuilt": bool(from_original_2021_2025_pdfs),
         "other_five_seasons_source_rows_archived": not bool(from_original_2021_2025_pdfs),
         "official_award_history_independently_verified": False,
@@ -215,6 +242,10 @@ def main():
                    help="Parse 729 actual original 2025–26 PDFs into 13,968 selected report rows before identity/core; requires two extra original raw ZIPs")
     p.add_argument("--from-original-2021-2025-pdfs", action="store_true",
                    help="Reparse 2,291 authentic 2021–24 PDFs plus 729 original 2025 PDFs, connecting five seasons' selected source rows (64,956) before the core")
+    p.add_argument("--from-original-2020-2025-pdfs", action="store_true",
+                   help="Rebuild all six original 2020–25 selected report seasons (73,547 rows), including 617 authentic 2020–21 PDFs with reason-line continuation repair")
+    p.add_argument("--previous-2020-reparse-csv", type=Path,
+                   help="For six-season replay only: use a prior complete, private, original-617-PDF diagnostic source CSV (verified before repair) rather than re-parsing all 617 in this invocation")
     p.add_argument("--with-analysis-ready", action="store_true",
                    help="Rebuild the reviewed reason taxonomy and both analysis-ready tables from the new original player-game core; requires historical reviewed source ZIP")
     p.add_argument("--with-original-teamseason-models", action="store_true",
@@ -235,6 +266,8 @@ def main():
                   include_cup=args.with_cup,
                   from_original_2025_pdfs=args.from_original_2025_pdfs,
                   from_original_2021_2025_pdfs=args.from_original_2021_2025_pdfs,
+                  from_original_2020_2025_pdfs=args.from_original_2020_2025_pdfs,
+                  previous_2020_reparse_csv=args.previous_2020_reparse_csv,
                   pdf_workers=args.pdf_workers,
                   include_analysis_ready=args.with_analysis_ready,
                   include_original_teamseason_models=args.with_original_teamseason_models,
