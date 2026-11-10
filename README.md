@@ -45,6 +45,14 @@ From the audit branch, with the five required original ZIPs staged together
       --archive-dir "$HOME/nba-original-zips" \
       --output-dir "$HOME/nba-private-rebuild/core-and-stars"
 
+For the now-executed **Cup-lookup enrichment** as well, include
+nba_player_game_at_risk_star_cup_v1.zip in the private directory and add
+the --with-cup switch to the same command. The new Cup builder produces the
+248,730-row full, 180,829-row at-risk and 13,723-spell Cup-enriched CSVs;
+all three match the frozen package after decompression. **The Cup lookup itself
+is inherited from the original archive**, not independently regenerated
+from NBA schedule announcements.
+
 In a separate real-input execution, the independently rebuilt player-ID table
 was consumed by the original unchanged core finalizer, producing **248,730**
 player-games, **180,829** at-risk rows and **12,710** absence onsets; all
