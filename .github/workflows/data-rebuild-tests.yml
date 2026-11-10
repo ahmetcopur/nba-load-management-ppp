@@ -33,6 +33,7 @@ on:
       - "tests/test_connected_cup_enrichment.py"
       - "tests/test_raw_2025_to_connected_core.py"
       - "tests/test_raw_2021_2024_to_connected_core.py"
+      - "tests/test_2020_original_pdf_reason_overflow.py"
       - "tests/test_connected_five_raw_seasons_analysis_ready.py"
       - "tests/test_original_teamseason_models_generated_panel.py"
       - "tests/test_october_cadence_from_generated_core.py"
@@ -92,6 +93,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_raw_2025_to_connected_core.py -v
       - name: Test four historical original PDF parser generations and exact 2021–24 source-to-core reconstruction
         run: python -m unittest discover -s tests -p test_raw_2021_2024_to_connected_core.py -v
+      - name: Test exact 2020 original NBA PDF reason-wrap reconstruction and six-season pipeline guards
+        run: python -m unittest discover -s tests -p test_2020_original_pdf_reason_overflow.py -v
       - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
         run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
       - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
