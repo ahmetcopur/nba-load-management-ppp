@@ -60,3 +60,29 @@ A further source-linked audit matched the **actual PDF-reparsed outputs and pars
 The single expected exception is **FD2023_5, BOS@NYK (October 25, 2023)**: the selected 5PM/6PM PDFs contain no matchup rows, and the original frozen selector explicitly records `inferred_clean_teams=2`, `listed_teams=0`, and `both_teams_usable=True`. This is an *explicit historical clean-team inference*, not a missing PDF or failed source join. No other selected matchup is missing.
 
 [Machine-readable 7,380-link check](../validation/level_c_injury_pdf_real_2026-11-10/canonical_snapshot_selector_links.json). **Scope limitation:** this checks the existing historical selector **against independent source PDF reparses**; it does not independently regenerate the selector's choice of latest eligible report, player-ID matches, report-status propagation or final panel. That full upstream reconstruction remains in Issue #5.
+
+## 6. Deterministic verification tools added after the first real-source audit
+
+The underlying private PDF reparses and reference data **have not been rerun** by this later code-only improvement. The previous 7,380-link result remains recorded as source-run evidence, while the GitHub branch now has a fail-closed, standalone implementation:
+
+- [`audit_replayed_snapshot_links.py`](../scripts/data_rebuild/audit_replayed_snapshot_links.py): read-only verifier of a recovered historical selector ZIP against reparsed CSV and parser-log files for each of the three 2021–24 seasons. It requires 1,230 distinct game IDs in each full/harmonized panel, one unambiguous ZIP member per panel, a successful parser log for each selected PDF and timestamp, matching matchup rows, strictly pre-tip timestamps, and identical game sets between the two panels. Missing-matchup clean-team inference is accepted **only** for the explicitly documented 2023–24 `FD2023_5` record with both teams recorded clean; all other missing matchups fail.
+- [`audit_2020_reason_layout_drift.py`](../scripts/data_rebuild/audit_2020_reason_layout_drift.py): read-only order-independent record-multiset comparator for archived versus candidate 2020–21 parser outputs. It refuses differences in **any non-`reason` field**, counts free-text-only disagreements grouped by source PDF, and outputs **sanitized aggregate counts** without exposing player identifiers or medical-reason values. It never substitutes, normalizes, or copies candidate reason strings into the frozen dataset. A non-exact run exits nonzero, including the earlier 93-record diagnostic.
+- [Synthetic failure tests for the selector validator](../tests/test_replayed_snapshot_links.py) and [for 2020 reason drift](../tests/test_2020_reason_layout_drift.py) are registered with GitHub Actions. **These synthetic tests cannot replace running the real archive inputs against the new CLI.**
+
+To run the two actual acceptance checks from a local private scratch directory, after producing historical reparsed CSV and logs with the original season-specific parser:
+
+```bash
+python scripts/data_rebuild/audit_replayed_snapshot_links.py \
+  --selector-zip /private/nba_canonical_snapshot_selector_v1.zip \
+  --season 2023-24 \
+  --reparsed-rows /private/2023-24/reparsed_rows.csv \
+  --reparsed-log /private/2023-24/reparsed_log.csv \
+  --output data_rebuild/output/2023_24_selector_link_check.json
+
+python scripts/data_rebuild/audit_2020_reason_layout_drift.py \
+  --reference /private/2020-21/archived_rows.csv \
+  --candidate /private/2020-21/reparsed_rows.csv \
+  --output data_rebuild/output/2020_21_reason_drift_diagnostic.json
+```
+
+The paths above are **examples**, not claims those files were materialized in the new session. The second command intentionally returns nonzero until all 2020–21 archived `reason` fields reproduce exactly. Preserve the original reference and source bytes throughout.
