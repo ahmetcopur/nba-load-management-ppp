@@ -105,3 +105,71 @@ The star-only command requires a valid **connected_core_reproduction_report.json
 [Original-star replay evidence and decoded-byte SHA values](../validation/level_c_injury_pdf_real_2026-11-10/connected_core_and_star_exact_2026-11-10.json) | [Standalone original star runner](../scripts/data_rebuild/run_connected_star_enrichment.py) | [One-command core+star runner](../scripts/data_rebuild/reproduce_core_and_stars.py) | [Synthetic safety/regression tests](../tests/test_connected_star_enrichment.py)
 
 **Scientific qualification:** the original award lists are embedded in the historically archived source code. This reproduces their application exactly but **does not independently verify all 358 awards/replacements from the cited official NBA announcements**. Similarly, the NBA Cup lookup and original full analysis-ready taxonomy/regression sources are further dependencies; Cup/TV/manuscript results are not automatically certified by this stage. The original star archive's file_manifest_sha256.csv describes compressed gzip members, whose headers may have different timestamps; the twelve substantive source/output files were compared over their *entire decoded contents* instead.
+
+
+## Extension: NBA Cup lookup-based enrichment (new source implementation)
+
+The real-input connected reproduction was extended by **one further generated
+stage**: source-coded All-Star panels were enriched with game-level 2023–26
+NBA Cup flags and interactions from the immutable historical
+nba_player_game_at_risk_star_cup_v1.zip lookup. The original archived
+build_cup_flags_v1.py file is only a short explanatory **stub**, so this
+stage is an explicitly **new implementation** of the historical lookup
+transformation, not a claim that the original Cup Python code was rerun.
+
+The new code joins all 7,230 games in the immutable lookup, carries
+the source-identified 198 regular-season Cup fixtures (60 group,
+four quarterfinal, two semifinal games per Cup season), generates the 13
+additional model columns, clears the historical cup_game_pending flag, and
+retains the unique player-team-game key across trade-team transitions.
+
+### Run core + original stars + Cup in one command
+
+Include a **sixth private ZIP**, nba_player_game_at_risk_star_cup_v1.zip,
+alongside the other original core/star archives, then:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/core-stars-cup" \
+      --with-cup
+
+This command constructs and validates the original identity/core and
+source-coded All-Star/All-NBA stages, then creates the Cup panels and spells
+from the source game-level lookup. The output directory must be NEW and
+outside the Git repository. The standalone final step is also available
+for an already accepted core+star run:
+
+    python scripts/data_rebuild/run_connected_cup_enrichment.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --work-dir "$HOME/nba-private-rebuild/core-and-stars-run"
+
+The standalone stage checks both prior success reports, both original
+star/Cup source ZIP hashes and original Cup game-stage counts. Each large
+panel is generated in a distinct subprocess to avoid memory carryover
+between the full panel, onset-risk subset, and spell table. The stage
+then compares the entire DECODED output CSV against the original
+immutable source archive; any difference is a hard failure.
+
+### Real original-input generated results
+
+| Freshly generated Cup-stage table | Rows | Fields | Exact frozen comparison |
+|---|---:|---:|---|
+| Full Cup player-game panel | 248,730 | 115 | Yes, all decoded CSV bytes |
+| At-risk Cup panel | 180,829 | 61 | Yes, all decoded CSV bytes |
+| Cup-enriched absence-spell panel | 13,723 | 37 | Yes, all decoded CSV bytes |
+
+The original lookup itself has 7,230 unique game IDs and 198 Cup
+regular-season fixtures. The full three-panel equality is recorded,
+including exact decoded SHA-256 values, in the
+[sanitized connected Cup evidence](../validation/level_c_injury_pdf_real_2026-11-10/connected_cup_lookup_exact_2026-11-10.json).
+New implementation: [Cup lookup-to-panel builder](../scripts/data_rebuild/run_connected_cup_enrichment.py);
+[synthetic failure tests](../tests/test_connected_cup_enrichment.py).
+
+**Scope limitation:** Cup schedules and dates in cup_game_lookup.csv
+are INHERITED from the original research package. The new generator
+independently performs the merge/interaction/spell construction, but
+does NOT independently recreate or prove the lookup's official NBA
+2023–26 release-time evidence. That is a separate upstream validation
+task. The complete raw-PDF and manuscript regression path is likewise
+still not one continuous executed dependency graph. No original/frozen
+data or private PDFs were modified or pushed to GitHub.
