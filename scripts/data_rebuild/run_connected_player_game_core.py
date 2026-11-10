@@ -25,6 +25,8 @@ import subprocess
 import sys
 from zipfile import ZipFile
 
+import pandas as pd
+
 # Support both "python scripts/data_rebuild/..." and package imports in tests.
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -34,6 +36,7 @@ from scripts.data_rebuild.verify_player_identity_replay import (
     csv_from_zip, compare_exact, immutable_original_helpers,
     read_member, resolve, sha256_file,
 )
+from scripts.data_rebuild.rebuild_2025_selected_from_pdfs import verify_original_row_equality
 
 SOURCE_CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 SOURCE_COVARIATE_ZIP = "nba_game_covariates_v1.zip"
@@ -197,7 +200,34 @@ def write_relocated_finalizer(original: bytes, output_dir: Path) -> Path:
     return path
 
 
-def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900) -> dict:
+def inject_fresh_2025_selected_rows(original: pd.DataFrame,
+                                    pdf_selected_csv: Path) -> pd.DataFrame:
+    """Replace ONLY 2025 records with externally regenerated original PDF rows.
+
+    Fail closed unless all 22 original fields and 13,968 complete records match
+    the original frozen reference, independent of output ordering.
+    """
+    selected_path = pdf_selected_csv.resolve()
+    if not selected_path.is_file():
+        raise FileNotFoundError(f"Raw-2025 generated selected-report rows not found: {selected_path}")
+    if any((directory / ".git").exists() for directory in selected_path.parents):
+        raise ValueError("Original NBA player-report rows cannot be stored inside a Git checkout")
+    fresh = pd.read_csv(selected_path, low_memory=False)
+    if "season" not in fresh or not fresh.season.eq("2025-26").all():
+        raise ValueError("PDF-generated source replacement must contain ONLY 2025-26 rows")
+    historical = original.loc[original.season.eq("2025-26")].copy()
+    verify_original_row_equality(fresh, historical)
+    combined = pd.concat(
+        [original.loc[~original.season.eq("2025-26")], fresh],
+        ignore_index=True,
+    )
+    if len(combined) != 73547 or len(fresh) != 13968:
+        raise ValueError("Original full selected-report row cardinalities changed")
+    return combined
+
+
+def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900,
+            reparsed_2025_selected: Path | None = None) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     check_private_output_path(archive_dir, output_dir)
     if timeout_seconds <= 0:
@@ -209,6 +239,8 @@ def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900) 
 
     selected = csv_from_zip(archive_dir, SOURCE_CORE_ZIP,
         "nba_player_game_at_risk_core_v1/selected_report_rows_all.csv")
+    if reparsed_2025_selected is not None:
+        selected = inject_fresh_2025_selected_rows(selected, reparsed_2025_selected)
     crosswalk = csv_from_zip(archive_dir, "nba_player_crosswalk_final_v1.zip",
         "nba_player_crosswalk_final_v1/player_crosswalk_final.csv")
     aliases = csv_from_zip(archive_dir, "nba_player_crosswalk_final_v1.zip",
@@ -273,6 +305,8 @@ def execute(archive_dir: Path, output_dir: Path, *, timeout_seconds: int = 900) 
         },
         "compared_original_outputs": outputs,
         "all_ten_outputs_identical_after_gzip_decoding": True,
+        "fresh_2025_selected_source_rows_substituted": reparsed_2025_selected is not None,
+        "other_five_seasons_selected_source_rows_inherited": True,
         "private_source_pdfs_committed": False,
         "raw_report_selection_recomputed_here": False,
         "reviewed_awards_cup_tv_and_manuscript_rebuilt_here": False,
@@ -290,8 +324,11 @@ def main():
     parser.add_argument("--output-dir", type=Path, required=True,
                         help="New private directory OUTSIDE every Git checkout; may not already exist")
     parser.add_argument("--timeout-seconds", type=int, default=900)
+    parser.add_argument("--reparsed-2025-selected-csv", type=Path,
+                        help="Optional private CSV generated from 729 original 2025–26 PDFs; exact 22-field acceptance required")
     args = parser.parse_args()
-    result = execute(args.archive_dir, args.output_dir, timeout_seconds=args.timeout_seconds)
+    result = execute(args.archive_dir, args.output_dir, timeout_seconds=args.timeout_seconds,
+                     reparsed_2025_selected=args.reparsed_2025_selected_csv)
     print(json.dumps(result, indent=2))
 
 
