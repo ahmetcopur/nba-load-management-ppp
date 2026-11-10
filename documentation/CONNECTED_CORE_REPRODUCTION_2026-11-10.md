@@ -265,3 +265,129 @@ occur in 12 selected games. Do not replace those source reasons with
 the current diagnostic reparse. The end-to-end manuscript model
 calculation and original TV/award/Cup release provenance checks remain
 separate steps. PR #4 stays draft.
+
+
+## Five-season original NBA PDF entrypoint: 2021–22 through 2025–26
+
+A further real original-source execution has now progressed beyond 2025-only.
+We recovered the authentic 2021–22, 2022–23, 2023–24 and 2024–25
+raw NBA injury-report ZIPs, verified their immutable complete ZIP SHA-256s
+against the original inventory, and independently reparsed **every
+saved selected original PDF** using the correct unchanged original
+season-layout parser.
+
+| Season | Authentic saved selected NBA PDFs parsed | Complete selected player-report rows | Exact matches among 22 frozen fields |
+|---|---:|---:|---|
+| 2021–22 | 570 | 12,527 | All |
+| 2022–23 | 584 | 11,499 | All |
+| 2023–24 | 564 | 12,897 | All |
+| 2024–25 | 573 | 14,065 | All |
+| 2025–26 (already executed previously) | 729 | 13,968 | All |
+| **Five-season total** | **3,020** | **64,956** | **0 complete-record differences** |
+
+The two **early-layout** seasons (2021–22 and 2022–23) require the
+original immutable parser_2021_2022.py, SHA-256
+321d9c8d807325209fbcb6174ec6d82df4ba845c156d7d52158f0ea44714ab3e.
+The three **later-layout** seasons require the immutable
+parser_2023plus.py, SHA-256
+197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06.
+Using the later parser on 2022 original PDFs yields zero extracted
+rows; using the correct earlier parser reproduces 11,499 exact
+selected rows. The original older parser produced 40 nonfatal
+warnings for selected 2021 PDFs and 42 for selected 2022 PDFs;
+the later parser produced zero warnings in selected 2023 and two
+in selected 2024 PDFs. Despite these warnings every reconstructed
+selected player-record field matches the archived source. One
+duplicate 2021 selected report record is eliminated with the
+original exact key-based duplicate rule.
+
+The legacy original 2021–22 fixture joins include two corrected
+Toronto game assignments. The source-coded literal matchup
+map for CHI@TOR and MIA@TOR is retained in the new generator,
+and all 12,527 complete 2021 selected records match the historical
+reference. This is an **original source rule**, not an output-field
+patch based on a reference player row.
+
+The private source-input integration then replaced **all 64,956
+archived selected rows** from those five seasons with newly extracted
+original-PDF records, retaining only the 8,591 2020–21 selected
+report rows from the frozen source. The 73,547-row six-season
+source table was passed into the independently rerun original
+crosswalk/alias/official roster identity resolver, then the unchanged
+historical core finalizer and source-coded All-Star/All-NBA builder,
+and the original Cup lookup reimplementation.
+
+**Actual connected generated result:** all **10 core, 12 star, and
+three Cup outputs reproduce exactly**, including all 73,438 final
+resolved player-report rows, 248,730 player-game rows, 180,829 at-risk
+rows, 12,710 absence onsets, 13,723 spells and 159 report-only
+roster additions. The acceptance checks compare entire CSV
+byte streams after gzip decompression where necessary; they do
+not merely compare summary counts. All original ZIPs, source
+PDFs and original frozen datasets were left unchanged.
+
+### Preferred five-season raw-source command
+
+Add four original raw ZIPs to the previous eight-ZIP source directory:
+
+- audit_2021_22_upload.zip
+- audit_2022_23_upload.zip
+- audit_2023_24_upload.zip
+- audit_2024_25_upload.zip
+
+With **12 immutable original ZIPs** in the private directory, use
+the newly committed five-season source generator and integrated command:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2021-to-2025-core-stars-cup" \
+      --from-original-2021-2025-pdfs \
+      --pdf-workers 8 \
+      --with-cup
+
+The command regenerates selected PDF records for 2021–24 and
+2025 separately in disposable private scratch areas; it
+checks every season's complete frozen 22-field row multiset
+before inserting it into the original identity resolver,
+runs the original core finalizer, original award/star builder
+and source-Cup enrichment, and fails closed on any final
+decoded byte difference. It refuses original ZIP SHA drift,
+missing/ambiguous original PDF names, unsupported 2020
+raw replacement, missing source fields and an already existing
+private output directory. It never writes player-level
+data into the Git repository.
+
+You can also run the upstream raw 2021–24 generator alone:
+
+    python scripts/data_rebuild/rebuild_2021_2024_selected_from_pdfs.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/raw2021-to-2024-selected" \
+      --workers 8
+
+[2021–24 authentic-PDF parser and original report choice connector](../scripts/data_rebuild/rebuild_2021_2024_selected_from_pdfs.py) |
+[Multi-season source-to-core input guard](../scripts/data_rebuild/run_connected_player_game_core.py) |
+[Five-season real private output acceptance evidence](../validation/level_c_injury_pdf_real_2026-11-10/five_seasons_real_pdfs_to_25_exact_core_star_cup_outputs.json) |
+[Fail-closed synthetic tests](../tests/test_raw_2021_2024_to_connected_core.py)
+
+**Reproduction status qualification:** all five-season original-PDF
+source and successive identity/core/star/Cup transformations were
+executed on a private working environment with genuine original
+input archives. The *new GitHub 12-ZIP one-command wrapper* has
+not separately been accepted end to end from a fresh checkout
+with those original ZIPs; its synthetic CI tests exercise its
+interface, source comparators and failure modes, but CI has
+no raw ZIPs. Do not substitute synthetic CI for true raw-source
+acceptance evidence.
+
+**Remaining critical gap:** 2020–21 still uses the authoritative
+original selected rows because a current 617-PDF diagnostic parser
+run leaves **93 free-text reason mismatches**, of which **25
+selected player records across 12 games** are affected.
+The original report-choice metadata for 2021–25 remains
+an inherited source input to the five-season PDF connector,
+although it has been independently reconstructed and checked
+in separate audits. Complete independent award announcement,
+Cup announcement, TV source, roster-name adjudication and
+manuscript model refitting are also still pending. Do not
+mark the original frozen paper end-to-end reproducible or merge
+draft PR #4 solely because this stage passes.
