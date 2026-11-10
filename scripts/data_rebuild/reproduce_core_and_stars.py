@@ -34,13 +34,18 @@ from scripts.data_rebuild.rebuild_2021_2024_selected_from_pdfs import (
     accepted_source_filename,
     SEASONS as ORIGINAL_2021_2024_SEASONS,
 )
+from scripts.data_rebuild.build_analysis_ready_from_generated_core import (
+    build as build_analysis_ready_from_generated_core,
+    REVIEWED_ZIP_SHA256,
+)
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
               timeout_seconds: int = 900, include_cup: bool = False,
               from_original_2025_pdfs: bool = False,
               from_original_2021_2025_pdfs: bool = False,
-              pdf_workers: int = 4) -> dict:
+              pdf_workers: int = 4,
+              include_analysis_ready: bool = False) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -49,6 +54,10 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         path = archive_dir / CUP_ARCHIVE
         if sha256_file(path) != CUP_ARCHIVE_SHA256:
             raise ValueError("Original NBA Cup lookup package SHA-256 changed")
+    if include_analysis_ready:
+        reviewed_path = archive_dir / "nba_player_game_analysis_ready_v1.zip"
+        if sha256_file(reviewed_path) != REVIEWED_ZIP_SHA256:
+            raise ValueError("Historical reviewed official-reason source ZIP SHA-256 changed")
     if from_original_2025_pdfs and from_original_2021_2025_pdfs:
         raise ValueError("Choose one raw PDF scope: 2025 only, or all 2021–25 seasons")
     # All original PDF player-level source records are generated exclusively in
@@ -77,6 +86,11 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         )
         star = run_star(archive_dir, output_dir, timeout_seconds=timeout_seconds)
         cup = run_cup(archive_dir, output_dir, timeout_seconds=timeout_seconds) if include_cup else None
+        reviewed = build_analysis_ready_from_generated_core(
+            output_dir / "nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
+            archive_dir / "nba_player_game_analysis_ready_v1.zip",
+            output_dir / "analysis_ready_from_generated_core",
+        ) if include_analysis_ready else None
     result = {
         "status": "pass",
         "scope": "Original archived selected-report inputs -> independently rebuilt player IDs -> original finalizer -> source-pinned award/star enrichment.",
@@ -87,6 +101,13 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         "star_exact_output_files": len(star["outputs"]),
         "cup_exact_primary_output_files": len(cup["exact_decoded_outputs"]) if cup else 0,
         "cup_lookup_stage_completed": bool(cup),
+        "reviewed_analysis_ready_built_from_generated_core": bool(reviewed),
+        "analysis_ready_complete_original_output_matches": (
+            len(reviewed["outputs"]) if reviewed else 0
+        ),
+        "reviewed_reason_dictionary_size": (
+            reviewed["reviewed_official_reason_dictionary_size"] if reviewed else None
+        ),
         "fresh_2025_pdf_source_replay": pdf_result,
         "fresh_2021_2024_pdf_source_replay": early_pdf_result,
         "complete_original_PDF_source_seasons": sorted(replacements),
@@ -125,6 +146,8 @@ def main():
                    help="Parse 729 actual original 2025–26 PDFs into 13,968 selected report rows before identity/core; requires two extra original raw ZIPs")
     p.add_argument("--from-original-2021-2025-pdfs", action="store_true",
                    help="Reparse 2,291 authentic 2021–24 PDFs plus 729 original 2025 PDFs, connecting five seasons' selected source rows (64,956) before the core")
+    p.add_argument("--with-analysis-ready", action="store_true",
+                   help="Rebuild the reviewed reason taxonomy and both analysis-ready tables from the new original player-game core; requires historical reviewed source ZIP")
     p.add_argument("--pdf-workers", type=int, default=4,
                    help="Parallel original PDF parsers when either raw-source option is set")
     args = p.parse_args()
@@ -133,7 +156,8 @@ def main():
                   include_cup=args.with_cup,
                   from_original_2025_pdfs=args.from_original_2025_pdfs,
                   from_original_2021_2025_pdfs=args.from_original_2021_2025_pdfs,
-                  pdf_workers=args.pdf_workers),
+                  pdf_workers=args.pdf_workers,
+                  include_analysis_ready=args.with_analysis_ready),
         indent=2
     ))
 
