@@ -38,7 +38,7 @@ class ManifestSelectorTests(unittest.TestCase):
             select_from_inventory(self.source,games)
 
     def test_report_only_at_tip_is_not_pre_tip(self):
-        with self.assertRaisesRegex(ValueError,'no selected original PDF'):
+        with self.assertRaisesRegex(ValueError,'no saved source PDF'):
             select_from_inventory(self.source.iloc[[1]],self.schedule)
 
     def test_manifest_filters_missing_pdfs(self):
