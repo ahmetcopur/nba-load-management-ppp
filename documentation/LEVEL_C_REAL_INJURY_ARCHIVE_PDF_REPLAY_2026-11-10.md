@@ -217,3 +217,29 @@ python3 scripts/data_rebuild/verify_canonical_selector_replay.py \
 The verifier rejects any changed original selector source SHA-256, missing ZIP members, missing or duplicate game/team IDs, unexpected row counts, field mismatches, or changed model-relevant metrics. Its ten synthetic positive/negative checks are included in GitHub CI, **which does not have access to the private source ZIPs**. Private-output acceptance was completed locally; CI only tests the checking tool.
 
 The [sanitized machine-readable execution evidence](../validation/level_c_injury_pdf_real_2026-11-10/independent_canonical_selector_algorithm_replay.json) records original inputs' ZIP SHA-256 values, field counts, canonical metrics and scientific limitations. **No original archives, private source PDFs, frozen panels or manuscript were modified or pushed.** Keep PR #4 as a draft pending remaining source gates.
+
+## 10. Independent original 2025–26 source-manifest selector reconstruction — EXACT for saved PDFs
+
+The originally saved 2025–26 files cover two distinct acquisition periods and use **different manifest schemas**. A fresh local run opened the **actual original** `audit_2025_26_upload.zip` and `audit_2025_26_targeted_upload.zip`, verified both complete ZIP SHA-256 fingerprints, and independently read **1,497** present initial hourly PDF entries plus **3,526** present targeted PDF entries. The union contained **5,023** unique, nonduplicated PDF filenames and publication UTC timestamps. The suffix-defined harmonized candidate universe contained **507** available reports.
+
+A new independent timestamp-only implementation performs the actual source-to-game report choice: sort the original schedule's 1,230 game tip timestamps; select the **latest saved source PDF strictly before tip**, independent of whether the matchup appears in that document; compare chosen PDF basename, publication UTC timestamp, and minutes-before-tip against the frozen 2025–26 canonical selector. The full panel uses all 5,023 saved reports; the harmonized panel filters hourly 01PM/05PM/08PM and the later targeted 01_30PM/05_30PM/08_30PM reports.
+
+| 2025–26 selected panel | Games rebuilt | Exact chosen PDF identities | Exact publication timestamps | Exact report ages | Source initial / targeted |
+|---|---:|---:|---:|---:|---:|
+| Full | 1,230 | **1,230** | **1,230** | **1,230** | 422 / 808 |
+| Harmonized | 1,230 | **1,230** | **1,230** | **1,230** | 422 / 808 |
+| **Total** | **2,460** | **2,460** | **2,460** | **2,460** | |
+
+Every selected game had an available pre-tip source PDF in the saved archives. No duplicate names/timestamps, mismatched game IDs, inconsistent report ages or unexplained selection discrepancies appeared. The verifier also fails closed if the original raw ZIP hashes, source counts, required manifest fields or original canonical selection rows differ.
+
+**Reproduction command** (requires the two private 2025 ZIPs and the frozen canonical selector and 2025 schedule ZIP in the same private archive directory):
+
+```bash
+python3 scripts/data_rebuild/verify_2025_manifest_selector.py \
+  --archive-dir /private/original_archives \
+  --output data_rebuild/output/independent_2025_original_manifest_selector.json
+```
+
+[Executable original-manifest checker](../scripts/data_rebuild/verify_2025_manifest_selector.py) · [Sanitized real-input report](../validation/level_c_injury_pdf_real_2026-11-10/independent_2025_manifest_selection.json) · [synthetic fail-closed tests](../tests/test_2025_manifest_selector.py).
+
+**Interpretation boundary:** this reconstructs the canonical selection decisions from the **saved 5,023 PDFs** and original schedule. It cannot prove an absent NBA report was unavailable on the NBA server when the game occurred, and it does not independently reconstruct PDF reason/status data for reports beyond the previously tested selected 729 original PDFs. The downstream player/award/Cup/TV covariate and manuscript model chain still requires separate acceptance. No private PDFs or original frozen datasets were committed or changed.
