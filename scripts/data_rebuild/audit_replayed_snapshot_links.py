@@ -133,12 +133,12 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
                 "problems": dict(problems),
             }
             game_sets[panel] = selected_games
-    if game_sets["full"] != game_sets["harmonized"]:
-        raise ValueError(f"{season}: full and harmonized canonical game sets differ")
     bad = {panel: outcome["problems"] for panel, outcome in findings["panels"].items()
            if outcome["problems"]}
     if bad:
         raise ValueError(f"Reparsed historical selector source links failed: {bad}")
+    if game_sets["full"] != game_sets["harmonized"]:
+        raise ValueError(f"{season}: full and harmonized canonical game sets differ")
     findings["passed"] = True
     return findings
 
