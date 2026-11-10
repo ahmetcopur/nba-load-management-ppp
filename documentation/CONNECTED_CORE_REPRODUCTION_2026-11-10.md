@@ -560,3 +560,149 @@ analysis-ready data; the newly combined multi-stage
 one-command script still needs a clean-checkout acceptance run
 with all private packages. Preserve the historical frozen
 source and keep PR #4 draft pending independent review.
+
+
+## Original October cadence-harmonized panel and four Stage-6 models from source-derived data
+
+**New original-input execution, November 10.** The original October 2026
+Stage-6 cadence-harmonized panel is now independently regenerated from
+the five-season source-PDF-derived core and original historical
+selected-report sources, and **all four original October Stage-6
+statistical models** have been rerun on the newly generated panel.
+
+This is distinct from the existing verification of the model script
+against the old frozen October panel: in the new run, the October
+**248,778-row full harmonized player-game panel itself was generated
+again** by the historical author’s original Python builder.
+
+### Upstream input provenance and selected original PDFs
+
+- The original full analysis-ready panel input was independently
+  generated using **3,020 original 2021–25 selected NBA PDFs**,
+  reviewed crosswalk, original core finalizer, and reviewed taxonomy.
+  Its **248,730 rows** have an exact full-decoded-data SHA-256 match
+  against the frozen original.
+- The different October **harmonized 2025–26 report choices** were
+  reconstructed from **355 real original 2025–26 NBA injury PDFs**,
+  selected using the historical immutable 1,230-game cadence selector
+  and the original SHA-256-pinned PDF parser. The new harmonized parse
+  produced **13,762 original player-report source rows** with one
+  nonfatal parser warning. It was not copied from the frozen October
+  player-game or selected-report output.
+- The original 2020–21 corrected, 2021–22 harmonized and 2022–24
+  regular-season parser CSVs were staged from their immutable,
+  SHA-256-pinned historical ZIPs. Those older source-parser stages
+  were independently checked against real original NBA PDFs in
+  earlier Level-C runs, **but not freshly reparsed again in this
+  specific October builder execution**.
+- The immutable six-season harmonized selection metadata, original
+  2022–23 and 2023–24 team-submission status inputs and original
+  manually reviewed crosswalk/alias tables were staged from genuine
+  private original archive ZIPs. They were not inferred from the
+  final frozen harmonized panel.
+
+### Exact original October panel equality
+
+The original \`build_harmonized_panel_and_models.py\`, SHA-256
+\`81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272\`,
+executed with **only its historical filesystem ROOT redirected** for
+the complete panel-generation and QA portion. The historical
+report-to-player resolver reports **72,695 selected player report rows,
+zero unresolved player identities, and 207 report-only roster
+additions**.
+
+| Rebuilt October panel quantity | Actual fresh output |
+|---|---:|
+| Harmonized player-game rows | **248,778** |
+| Harmonized at-risk player-game rows | 180,664 |
+| Harmonized onset observations | 12,731 |
+| Decoded complete CSV bytes | 122,661,378 |
+| **Frozen-vs-regenerated decoded-byte differences** | **0** |
+
+The newly generated and archived October complete panel CSV both
+have decoded SHA-256
+\`3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac\`.
+This is a **full decoded byte equality** check, not a comparison of
+only counts, selected models or source checksums.
+
+### Historical combined-script bug, safely isolated
+
+The frozen all-in-one October builder defines \`norm(v)\` as a string
+normalization helper, shadowing \`scipy.stats.norm\`. Its final model
+function calls \`norm.sf(...)\`, therefore failing with
+\`AttributeError: 'function' object has no attribute 'sf'\`.
+This defect is present in the unchanged original historical builder.
+The panel/QA portion is complete and exact.
+
+We **did not rewrite or silently fix the historical model estimator**:
+the source-pinned panel-only replay excludes the broken final model
+section at a unique, explicitly checked source boundary. Then the
+**separately archived, original, working**
+\`run_cadence_models_fast.py\` (source SHA-256
+\`f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3\`)
+was executed on this newly generated panel, changing **only the
+filesystem ROOT path**.
+
+### Original October models rerun on the fresh panel
+
+| October Stage-6 specification | Model N | Interaction estimate | SE | p |
+|---|---:|---:|---:|---:|
+| National-partner, full controls | 180,530 | **+2.63045 pp** | 1.31872 pp | .04608 |
+| National-partner, no controls | 180,664 | +2.63277 pp | 1.32571 pp | .04704 |
+| Harmonized linear-TV, full controls | 180,530 | +1.23897 pp | 1.31870 pp | .34745 |
+| Harmonized linear-TV, no controls | 180,664 | +1.25111 pp | 1.32677 pp | .34569 |
+
+All four original model rows reproduce. Absolute frozen-reference
+differences are at most **1.16e-14 pp for the point estimate**,
+**5.78e-15 pp for SE**, **1.87e-14 pp for the confidence interval**,
+and **5.33e-15 for p**. Original model N and alternating fixed-effects
+iteration counts also match exactly.
+
+### Reusable original-source command
+
+Put all previously documented core, reviewed taxonomy, crosswalk,
+selector, historical parsed-row and S4 team-status ZIPs alongside
+the original 2025 raw PDF ZIPs in a **private directory**.
+Then run the source-derived October stage directly on an
+**already regenerated** reviewed complete panel:
+
+    python scripts/data_rebuild/rebuild_october_cadence_from_generated_core.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --generated-reviewed-full-panel "$HOME/nba-private-rebuild/raw2021-to-2025-analysis-ready/analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz" \
+      --output-dir "$HOME/nba-private-rebuild/october-from-sources" \
+      --workers 8
+
+Or append **\`--with-october-cadence\`** to the existing umbrella
+\`reproduce_core_and_stars.py --from-original-2021-2025-pdfs
+--with-analysis-ready\` command. This makes original raw source
+extraction, reviewed player core reconstruction, and original October
+panel/models a single declared dependency graph.
+
+The newly committed standalone October implementation checks original
+archive/package/source-code SHA-256s, exact complete reviewed source
+panel SHA-256, exact 355 PDF and 13,762 harmonized player-row counts,
+full decoded panel equality and four original model estimates.
+The historical \`norm\` bug is isolated by cutting only the clearly
+demarcated final model portion of the immutable historical source,
+then running the separately archived original working model script.
+The generated player-level CSVs and source report data are private
+and must not be committed.
+
+[Sanitized original-input execution report](../validation/level_c_injury_pdf_real_2026-11-10/source_generated_october_cadence_panel_and_four_models.json)
+|
+[Original-source October reproduction command](../scripts/data_rebuild/rebuild_october_cadence_from_generated_core.py)
+|
+[Fail-closed regression tests](../tests/test_october_cadence_from_generated_core.py)
+
+**Scientific limitations:** the original 2020–21 reason-text issue
+(93 original source rows, 25 selected) remains unresolved. Historical
+selector choices, 2020–24 pre-parsed source tables, manually reviewed
+crosswalk and reason taxonomy, source award/Cup/TV definitions and
+game covariate histories remain independently distinct provenance
+dependencies. This execution exactly reproduces the **four original
+Stage-6 headline TV/control variants**, not the entire larger
+October 10-script manuscript sensitivity and falsification suite.
+The new GitHub standalone/umbrella CLI has not separately been
+accepted by a clean-checkout full real-private-ZIP execution; the
+equivalent original individual stages were executed locally and
+their full outputs checked. Keep PR #4 draft/unmerged and Issue #5 open.
