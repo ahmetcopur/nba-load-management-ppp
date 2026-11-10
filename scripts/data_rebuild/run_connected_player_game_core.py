@@ -25,6 +25,10 @@ import subprocess
 import sys
 from zipfile import ZipFile
 
+# Support both "python scripts/data_rebuild/..." and package imports in tests.
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from scripts.data_rebuild.verify_player_identity_replay import (
     EXPECTED as IDENTITY_ARCHIVE_SHA256,
     csv_from_zip, compare_exact, immutable_original_helpers,
