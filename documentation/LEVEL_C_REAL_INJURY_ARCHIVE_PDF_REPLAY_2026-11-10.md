@@ -46,3 +46,17 @@ Further remaining Level C: reproduce 2020–21 fixed-width extraction exactly; i
 ## 4. How this was executed
 
 The original ZIPs were mounted from the user's private file library; their original SHA-256 values and all 17,166 indexed members were independently checked against the pinned real archive inventories, not just a local smoke test. For each audited season, the archived original manifest and verified PDFs were staged under a temporary ignored directory; the original PyMuPDF-based parser was invoked on the source PDFs; the generated CSV rows and per-PDF parser logs were compared as exact full-record multisets against the original pre-S4/cadence ZIP outputs. The current isolated runtime uses Python 3.13.5, pandas 2.2.3, PyMuPDF 1.26.7 and pdfplumber 0.11.9. No original private files were pushed. The parser and input SHA information, passing and failing comparisons, and checked counts are recorded in the local consolidated execution report, with a sanitized GitHub validation record alongside this document.
+
+## 5. Replayed-PDF to historical canonical game selector linkage (November 10 follow-up)
+
+A further source-linked audit matched the **actual PDF-reparsed outputs and parser logs** to the archived `nba_canonical_snapshot_selector_v1.zip` full and harmonized selectors. Each 2021–22, 2022–23 and 2023–24 season has 1,230 distinct regular-season games in each of two panels (total **7,380 selected game/report records**). Every selected `(PDF basename, published_timestamp_utc)` has an `ok` parser log, and the calculated `tip_timestamp_utc - published_timestamp_utc` agrees with the selector's `minutes_before_tip` and is strictly positive. There were zero duplicate game IDs and zero unexplained missing matchup-to-reparsed-PDF links.
+
+| Season | Full selector PDF logs matched | Harmonized PDF logs matched | Reported matchup in PDF rows | Explicit clean-team exception |
+|---|---:|---:|---:|---|
+| 2021–22 | 1,230 / 1,230 | 1,230 / 1,230 | 1,230 in each | none |
+| 2022–23 | 1,230 / 1,230 | 1,230 / 1,230 | 1,230 in each | none |
+| 2023–24 | 1,230 / 1,230 | 1,230 / 1,230 | 1,229 in each | one valid archived inference |
+
+The single expected exception is **FD2023_5, BOS@NYK (October 25, 2023)**: the selected 5PM/6PM PDFs contain no matchup rows, and the original frozen selector explicitly records `inferred_clean_teams=2`, `listed_teams=0`, and `both_teams_usable=True`. This is an *explicit historical clean-team inference*, not a missing PDF or failed source join. No other selected matchup is missing.
+
+[Machine-readable 7,380-link check](../validation/level_c_injury_pdf_real_2026-11-10/canonical_snapshot_selector_links.json). **Scope limitation:** this checks the existing historical selector **against independent source PDF reparses**; it does not independently regenerate the selector's choice of latest eligible report, player-ID matches, report-status propagation or final panel. That full upstream reconstruction remains in Issue #5.
