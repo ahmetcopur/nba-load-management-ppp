@@ -200,8 +200,17 @@ def run_pipeline(archive_dir: Path, output_dir: Path, *, timeout: int = 900) -> 
     output_dir = output_dir.resolve()
     if output_dir.exists():
         raise FileExistsError(f"Use a new, empty output destination: {output_dir}")
-    if output_dir == archive_dir or output_dir in archive_dir.parents:
-        raise ValueError("Output directory must not be the original source archive directory")
+    if (output_dir == archive_dir or output_dir in archive_dir.parents
+            or archive_dir in output_dir.parents):
+        raise ValueError("Output directory must be separate from the original source archive tree")
+    # Freeze the tested historical builder environment. Pandas 3 changes
+    # source-era fillna/bool behavior and can change the scientific risk set.
+    import pandas as pd
+    if pd.__version__ != "2.2.3":
+        raise RuntimeError(
+            f"Historical core requires pandas==2.2.3, found {pd.__version__}; "
+            "use requirements-builder-lock.txt"
+        )
     checksums = verify_archives(archive_dir)
     output_dir.mkdir(parents=True)
     stage_input_files(archive_dir, output_dir)
