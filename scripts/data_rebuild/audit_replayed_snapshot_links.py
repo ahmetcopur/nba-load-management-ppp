@@ -15,6 +15,12 @@ from pathlib import Path
 from zipfile import ZipFile
 
 ALLOWED_SEASONS = ("2021-22", "2022-23", "2023-24")
+# Documented original clean-team inference; no blanket waiver for missing games.
+KNOWN_CLEAN_INFERENCES = {
+    "2021-22": set(),
+    "2022-23": set(),
+    "2023-24": {"FD2023_5"},
+}
 REQUIRED_LOG = {"source_file", "snapshot_timestamp_utc", "status"}
 REQUIRED_ROWS = {"source_file", "snapshot_timestamp_utc", "matchup_norm"}
 REQUIRED_SELECTOR = {
@@ -65,8 +71,11 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
     }
     game_sets = {}
     with ZipFile(selector_zip) as archive:
+        member_names = archive.namelist()
         for panel in ("full", "harmonized"):
             member = f"nba_canonical_snapshot_selector_v1/{season}_game_snapshot_join_{panel}_canonical.csv"
+            if member_names.count(member) != 1:
+                raise ValueError(f"Expected one canonical selector ZIP member {member}, got {member_names.count(member)}")
             selected = list(zip_csv(archive, member, REQUIRED_SELECTOR))
             problems = Counter()
             selected_games = set()
@@ -77,6 +86,8 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
                 raise ValueError(f"{season} {panel}: expected {expected_games} games, found {len(selected)}")
             for record in selected:
                 game_id = record["game_id"]
+                if not game_id:
+                    problems["empty_game_id"] += 1
                 if game_id in selected_games:
                     problems["duplicate_game_id"] += 1
                 selected_games.add(game_id)
@@ -89,7 +100,8 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
                 if logs.get(key) != "ok":
                     problems["missing_or_failed_pdf_parse"] += 1
                 if (basename, timestamp, matchup) not in matchups:
-                    if (record["inferred_clean_teams"] == "2"
+                    if (game_id in KNOWN_CLEAN_INFERENCES[season]
+                            and record["inferred_clean_teams"] == "2"
                             and record["listed_teams"] == "0"
                             and record["both_teams_usable"] == "True"):
                         clean_inferences.append(game_id)
@@ -108,6 +120,8 @@ def verify(selector_zip: Path, season: str, rows_csv: Path, logs_csv: Path,
                     age_max = age if age_max is None else max(age_max, age)
                 except (ValueError, TypeError):
                     problems["timestamp_parse_error"] += 1
+            if set(clean_inferences) != KNOWN_CLEAN_INFERENCES[season]:
+                problems["known_clean_inference_mismatch"] += 1
             findings["panels"][panel] = {
                 "selected_games": len(selected),
                 "unique_game_ids": len(selected_games),
