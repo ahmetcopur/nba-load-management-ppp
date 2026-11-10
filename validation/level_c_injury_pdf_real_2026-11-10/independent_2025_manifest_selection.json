@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-10",
+  "season": "2025-26",
+  "source": "Original archived raw report manifests (initial and targeted), independently read from two SHA256-pinned private ZIPs",
+  "source_zip_sha256": {
+    "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+    "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea"
+  },
+  "manifest_counts": {
+    "initial_present_pdfs": 1497,
+    "targeted_present_pdfs": 3526,
+    "unique_pdf_publication_timestamps": 5023,
+    "duplicate_published_timestamps": 0,
+    "duplicate_pdf_names": 0,
+    "harmonized_eligible_pdfs": 507
+  },
+  "method": "Generate game-to-PDF mapping with timestamp-only merge_asof strictly before schedule tip. For harmonized only accept 01PM/05PM/08PM from early hourly reports plus 01_30PM/05_30PM/08_30PM from later targeted reports. Select latest saved available report independent of matchup content. Compare each result's PDF basename, publication UTC and minutes_before_tip against frozen canonical game selector package.",
+  "comparisons": [
+    {
+      "panel": "full",
+      "games": 1230,
+      "exact_pdf_choices": 1230,
+      "exact_timestamp_matches": 1230,
+      "exact_minutes_before_tip": 1230,
+      "missing_games": 0,
+      "wrong_choices": 0,
+      "source_initial_choices": 422,
+      "source_targeted_choices": 808
+    },
+    {
+      "panel": "harmonized",
+      "games": 1230,
+      "exact_pdf_choices": 1230,
+      "exact_timestamp_matches": 1230,
+      "exact_minutes_before_tip": 1230,
+      "missing_games": 0,
+      "wrong_choices": 0,
+      "source_initial_choices": 422,
+      "source_targeted_choices": 808
+    }
+  ],
+  "total_exact_game_to_report_choices": 2460,
+  "all_saved_original_source_selection_matches": true,
+  "scope_limitations": {
+    "actual_original_pdf_sha_integrity_proven_separately": true,
+    "full_report_collection_completeness": false,
+    "reports_absent_from_saved_archives_cannot_be_excluded_as_historically_available": true,
+    "injury_status_and_reason_rows_reparsed_in_prior_independent_selected_729_pdf_test": true,
+    "downstream_player_game_awards_cup_tv_regressions_rebuilt_in_this_run": false,
+    "source_zip_pdfs_or_frozen_data_modified": false
+  }
+}
