@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-10",
+  "scope": "Actual original NBA injury PDFs from 2021–22 to 2025–26 were freshly parsed; 2020–21 remained archived because of reason-text extraction drift.",
+  "verified_five_seasons": [
+    {
+      "season": "2021-22",
+      "pdfs": 570,
+      "selected_rows": 12527,
+      "nonfatal_parser_warnings": 40,
+      "raw_zip_sha256": "1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339",
+      "parser_sha256": "321d9c8d807325209fbcb6174ec6d82df4ba845c156d7d52158f0ea44714ab3e",
+      "complete_22_column_row_multisets_equal": true
+    },
+    {
+      "season": "2022-23",
+      "pdfs": 584,
+      "selected_rows": 11499,
+      "nonfatal_parser_warnings": 42,
+      "raw_zip_sha256": "bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0",
+      "parser_sha256": "321d9c8d807325209fbcb6174ec6d82df4ba845c156d7d52158f0ea44714ab3e",
+      "complete_22_column_row_multisets_equal": true
+    },
+    {
+      "season": "2023-24",
+      "pdfs": 564,
+      "selected_rows": 12897,
+      "nonfatal_parser_warnings": 0,
+      "raw_zip_sha256": "9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba",
+      "parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "complete_22_column_row_multisets_equal": true
+    },
+    {
+      "season": "2024-25",
+      "pdfs": 573,
+      "selected_rows": 14065,
+      "nonfatal_parser_warnings": 2,
+      "raw_zip_sha256": "a10cc660a45f0c3fa6ac279d540a29eae04804dc03eb16a86a1d0c6a7f363e3",
+      "parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "complete_22_column_row_multisets_equal": true
+    },
+    {
+      "season": "2025-26",
+      "pdfs": 729,
+      "selected_rows": 13968,
+      "nonfatal_parser_warnings": null,
+      "raw_zip_sha256": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70 + 8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "complete_22_column_row_multisets_equal": true
+    }
+  ],
+  "original_selected_PDFs_freshly_reparsed": 3020,
+  "fresh_player_report_rows_from_original_PDFs": 64956,
+  "other_archived_2020_21_selected_player_report_rows": 8591,
+  "input_rows_total": 73547,
+  "original_2021_2024_report_selected_pdfs": 2291,
+  "original_2021_2024_rows": 50988,
+  "original_2025_report_selected_pdfs": 729,
+  "original_2025_rows": 13968,
+  "all_22_original_report_fields_match_for_every_selected_row": true,
+  "original_source_parser_warnings_2021_2024": 84,
+  "source_rules": "Use unchanged SHA-pinned parser_2021_2022 for 2021–22/2022–23 and parser_2023plus for 2023–24/2024–25/2025–26; use original canonical game choice metadata but independently parse all names, reasons, statuses from raw PDFs; original source-coded two Toronto game IDs corrected; full 22-column row multiset exact.",
+  "independent_connected_execution": {
+    "status": "pass",
+    "name_resolution_rows": 73438,
+    "core_player_game_rows": 248730,
+    "at_risk_rows": 180829,
+    "absence_onsets": 12710,
+    "absence_spells": 13723,
+    "report_only_roster_additions": 159,
+    "core_outputs_exact": 10,
+    "star_outputs_exact": 12,
+    "cup_outputs_exact": 3,
+    "full_decoded_byte_comparisons": true,
+    "sha256_examples": {
+      "original_player_id_rows": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a",
+      "core_full": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+      "star_model": "3fc05ca7c22dd69db347bd3eccea5778763797fb7d5908eef7794c469e491068",
+      "cup_full": "1e78983ec73b4206bc851c50d8853973966e2116a7a1b61c61e3412c64cd4ba5",
+      "cup_model": "a1d843daa9f54366d9ee998e05ef904ff5d10695b18b0dd968a4a098b9e587c5",
+      "cup_spells": "0a5bfa6d71a8209b100f3b5f314917071a8f7704a5d283e1834e1cea9f1a3a35"
+    }
+  },
+  "reusable_source_entrypoint": "scripts/data_rebuild/rebuild_2021_2024_selected_from_pdfs.py",
+  "reusable_full_entrypoint": "scripts/data_rebuild/reproduce_core_and_stars.py --from-original-2021-2025-pdfs --with-cup",
+  "required_unchanged_original_source_zip_packages": 12,
+  "important_boundaries": {
+    "selected_PDFs_from_original_source_selector_inventory_not_independently_reselected_in_this_run": true,
+    "archived_2020_21_reason_fields_inherited": true,
+    "unresolved_original_2020_21_reason_string_differences": 93,
+    "of_which_selected_2020_21_rows": 25,
+    "awards_star_history_independently_checked_against_official_announcement_sources": false,
+    "original_Cup_lookup_regenerated_against_official_schedules": false,
+    "original_game_covariate_source_independently_rebuilt": false,
+    "manuscript_estimates_refit_from_this_new_pipeline": false,
+    "frozen_original_datasets_or_manuscript_changed": false,
+    "private_raw_source_PDFs_committed": false,
+    "clean_checkout_new_combined_CLI_tested_on_all_private_12_ZIPs": false
+  },
+  "note": "Real private input runs were performed as equivalent connected source stages; separately newly packaged GitHub command has synthetic CI tests but has not been separately accepted using all 12 original private ZIPs from a clean checkout."
+}
