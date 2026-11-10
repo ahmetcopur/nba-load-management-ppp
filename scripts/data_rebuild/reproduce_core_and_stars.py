@@ -44,6 +44,11 @@ from scripts.data_rebuild.run_original_teamseason_models_from_generated_panel im
 from scripts.data_rebuild.rebuild_october_cadence_from_generated_core import (
     run as rebuild_october_cadence,
 )
+from scripts.data_rebuild.run_full_october_suite_from_generated_panel import (
+    run as run_ten_october_from_generated_panel,
+    verify_october_runtime,
+)
+from scripts.data_rebuild.october_corrected_chronology import verify_shared_commit
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
@@ -53,7 +58,10 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
               pdf_workers: int = 4,
               include_analysis_ready: bool = False,
               include_original_teamseason_models: bool = False,
-              include_october_cadence: bool = False) -> dict:
+              include_october_cadence: bool = False,
+              include_full_october_suite: bool = False,
+              october_shared_repo: Path | None = None,
+              october_python: Path | None = None) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -66,6 +74,14 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         raise ValueError("Original team-season model replay requires --with-analysis-ready")
     if include_october_cadence and not include_analysis_ready:
         raise ValueError("October cadence reconstruction requires --with-analysis-ready")
+    if include_full_october_suite:
+        if not include_october_cadence:
+            raise ValueError("Original ten-script October suite requires --with-october-cadence")
+        if not october_shared_repo or not october_python:
+            raise ValueError("Original ten-script October suite requires both an original clean --october-shared-repo and --october-python")
+        # Cheap provenance/runtime preflight before creating any private output.
+        verify_shared_commit(Path(october_shared_repo).resolve())
+        verify_october_runtime(Path(october_python).resolve())
     if include_analysis_ready:
         reviewed_path = archive_dir / "nba_player_game_analysis_ready_v1.zip"
         if sha256_file(reviewed_path) != REVIEWED_ZIP_SHA256:
@@ -114,6 +130,12 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
             workers=pdf_workers,
             timeout_seconds=timeout_seconds,
         ) if include_october_cadence else None
+        october_ten = run_ten_october_from_generated_panel(
+            Path(october_shared_repo),
+            output_dir / "original_october_cadence_from_generated_core/cadence_harmonized_results/player_team_game_harmonized_cadence.csv.gz",
+            output_dir / "original_october_full_ten_scripts_from_generated_panel",
+            october_python=Path(october_python),
+        ) if include_full_october_suite else None
     result = {
         "status": "pass",
         "scope": "Original archived selected-report inputs -> independently rebuilt player IDs -> original finalizer -> source-pinned award/star enrichment.",
@@ -134,6 +156,12 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
         ),
         "original_october_cadence_four_models_reproduced": bool(
             october and october["all_four_model_specifications_reproduced"]
+        ),
+        "source_generated_october_all_ten_scripts_reproduced": bool(
+            october_ten and october_ten["all_original_ten_october_scripts_ran"]
+        ),
+        "source_generated_october_archived_outputs_compared": (
+            october_ten["original_33_reference_output_comparisons"] if october_ten else 0
         ),
         "new_2025_original_harmonized_PDFs_parsed": (
             october["source_2025_harmonized"]["fresh_original_pdfs_parsed"]
@@ -193,6 +221,12 @@ def main():
                    help="After the reviewed analysis-ready bridge, rerun the original August player/team-season fixed effects and compare all 44 original coefficient rows")
     p.add_argument("--with-october-cadence", action="store_true",
                    help="Regenerate the original October cadence-harmonized panel, parse 355 original 2025 harmonized PDFs, and reproduce four Stage-6 original models")
+    p.add_argument("--with-full-october-suite", action="store_true",
+                   help="After new October cadence panel passes, rerun all 10 original October scripts and compare 33 archived results")
+    p.add_argument("--october-shared-repo", type=Path,
+                   help="Clean independent original October Git repo checkout at the pinned historical source commit")
+    p.add_argument("--october-python", type=Path,
+                   help="Python 3.12 interpreter with pandas 3.0.5 and requirements-october-lock.txt; kept separate from source builder's pandas 2 environment")
     p.add_argument("--pdf-workers", type=int, default=4,
                    help="Parallel original PDF parsers when either raw-source option is set")
     args = p.parse_args()
@@ -204,7 +238,10 @@ def main():
                   pdf_workers=args.pdf_workers,
                   include_analysis_ready=args.with_analysis_ready,
                   include_original_teamseason_models=args.with_original_teamseason_models,
-                  include_october_cadence=args.with_october_cadence),
+                  include_october_cadence=args.with_october_cadence,
+                  include_full_october_suite=args.with_full_october_suite,
+                  october_shared_repo=args.october_shared_repo,
+                  october_python=args.october_python),
         indent=2
     ))
 
