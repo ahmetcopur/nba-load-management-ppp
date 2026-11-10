@@ -45,6 +45,25 @@ From the audit branch, with the five required original ZIPs staged together
       --archive-dir "$HOME/nba-original-zips" \
       --output-dir "$HOME/nba-private-rebuild/core-and-stars"
 
+The **original October cadence-harmonized panel** has now also been
+rebuilt from source-derived data, using the 2021–25 original-PDF-based
+analysis-ready core and **355 freshly parsed original 2025 harmonized
+injury PDFs**, together with original historical parser and selector
+inputs. The full generated **248,778-row** harmonized player-game CSV
+matches the frozen October panel **byte-for-byte after decompression**.
+The original separately archived Stage-6 model script then reproduced
+all **four TV/control models**, including +2.63045 pp (p=.04608)
+for national partners and +1.23897 pp (p=.34745) for linear TV.
+
+Add `--with-october-cadence` alongside
+`--from-original-2021-2025-pdfs --with-analysis-ready` in the combined
+command to include this source-derived October construction.
+The frozen all-in-one builder has a documented `norm()` name-shadowing
+bug in its model section; the new runner executes its unchanged
+panel-building code, then the original separate working model script.
+[Real original-source October acceptance](validation/level_c_injury_pdf_real_2026-11-10/source_generated_october_cadence_panel_and_four_models.json)
+and [full original-source runbook](documentation/CONNECTED_CORE_REPRODUCTION_2026-11-10.md).
+
 The original **player/team-season fixed-effects model** has also been
 rerun on the newly generated five-PDF-season analysis-ready input.
 The original absence-onset triple-interaction coefficient is
