@@ -35,7 +35,29 @@ class FiveRawSeasonsToAnalysisReadyIntegrationTests(unittest.TestCase):
         self.assertIn("--with-analysis-ready", completed.stdout)
         self.assertIn("--with-original-teamseason-models", completed.stdout)
         self.assertIn("--with-october-cadence", completed.stdout)
+        self.assertIn("--with-full-october-suite", completed.stdout)
+        self.assertIn("--october-shared-repo", completed.stdout)
+        self.assertIn("--october-python", completed.stdout)
         self.assertIn("--with-cup", completed.stdout)
+
+    def test_full_ten_script_suite_requires_generated_october_panel(self):
+        with patch.object(runner, "immutable_original_star_source"):
+            with self.assertRaisesRegex(ValueError, "requires --with-october-cadence"):
+                runner.reproduce(
+                    self.archives, self.dest, include_analysis_ready=True,
+                    include_full_october_suite=True,
+                )
+        self.assertFalse(self.dest.exists())
+
+    def test_full_ten_script_suite_requires_independent_runtime_and_checkout(self):
+        with patch.object(runner, "immutable_original_star_source"):
+            with self.assertRaisesRegex(ValueError, "requires both"):
+                runner.reproduce(
+                    self.archives, self.dest, include_analysis_ready=True,
+                    include_october_cadence=True,
+                    include_full_october_suite=True,
+                )
+        self.assertFalse(self.dest.exists())
 
     def test_october_source_models_require_new_reviewed_core(self):
         with patch.object(runner, "immutable_original_star_source"):
