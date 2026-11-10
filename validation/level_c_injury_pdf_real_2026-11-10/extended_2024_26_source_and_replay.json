@@ -1,0 +1,75 @@
+{
+  "audit_date": "2026-11-10",
+  "source_commit": "OEKundakcioglu/nba-ppp-star-availability@0bd713d97e8d519df5700ef473da34aba4495223",
+  "source_metadata_git_blob_sha1": {
+    "injury_archive_summary.csv": "ca5188baf047e8154003b0daad1cb319af1ff3d4",
+    "injury_report_inventory.csv.gz": "a3273b97035c63f9e34b68bac0dddf863588adc4"
+  },
+  "raw_archive_integrity": {
+    "2024-25": {
+      "archive": "audit_2024_25_upload.zip",
+      "sha256": "a10cc660a45f0c3fa6ac279d540a29eae04804dc03eb16a86a1d0c6a7f363e3b",
+      "pdfs_hashed": 5566,
+      "missing_indexed_pdfs": 0,
+      "extra_pdfs": 0,
+      "duplicate_paths": 0,
+      "zip_crc": "passed",
+      "candidate_absent_pdf_count": 290
+    },
+    "2025-26_initial": {
+      "archive": "audit_2025_26_upload.zip",
+      "sha256": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "pdfs_hashed": 1497,
+      "missing_indexed_pdfs": 0,
+      "extra_pdfs": 0,
+      "duplicate_paths": 0,
+      "zip_crc": "passed",
+      "candidate_absent_pdf_count": 4167
+    },
+    "2025-26_targeted": {
+      "archive": "audit_2025_26_targeted_upload.zip",
+      "sha256": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "pdfs_hashed": 3526,
+      "missing_indexed_pdfs": 0,
+      "extra_pdfs": 0,
+      "duplicate_paths": 0,
+      "zip_crc": "passed",
+      "candidate_absent_pdf_count": 0
+    }
+  },
+  "total_seven_archives_original_pdf_member_hashes_matched": 27755,
+  "parsing_replays": {
+    "2024-25_regular_season": {
+      "raw_pdf_count": 4078,
+      "archived_reference_rows": 418059,
+      "original_parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "reconstructed_rows": 418059,
+      "missing_full_records": 0,
+      "extra_full_records": 0,
+      "parser_log_differences": 0,
+      "unmatched_reference_pdfs": 0,
+      "exact": true,
+      "reference_archive": "audit_2024_25_pre_s4_outputs_corrected.zip"
+    },
+    "2025-26_selected_reports": {
+      "raw_pdf_count": 729,
+      "selected_games": 1230,
+      "reference_selected_rows": 13968,
+      "reconstructed_selected_rows": 13968,
+      "missing_full_records": 0,
+      "extra_full_records": 0,
+      "parser_log_differences": 0,
+      "unmatched_reference_pdfs": 0,
+      "exact": true,
+      "reference_archive": "nba_player_game_at_risk_core_v1.zip"
+    }
+  },
+  "remaining_caveats": {
+    "2020-21_reason_text": "93 reason fields across 44 original PDFs differ from the reference under a diagnostic layout override; selected 2020-21 source rows affected: 25 across 12 games in each full and harmonized selector. All other compared fields unchanged.",
+    "2025-26_completeness": "The initial archive covers only a portion of the requested hourly candidates; the targeted archive is a separate targeted collection. Authenticity of available saved PDFs does not imply full hourly coverage.",
+    "selector_algorithm": "The 2025-26 result reuses archived selected report/game mapping; selector choice was not independently reconstructed.",
+    "end_to_end_models": "Not rebuilt from these replays; historical awards, TV, joins, and exact manuscript outcomes remain further acceptance gates.",
+    "raw_files_committed": false,
+    "frozen_data_modified": false
+  }
+}
