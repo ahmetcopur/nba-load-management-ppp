@@ -41,6 +41,9 @@ from scripts.data_rebuild.build_analysis_ready_from_generated_core import (
 from scripts.data_rebuild.run_original_teamseason_models_from_generated_panel import (
     run as run_original_teamseason_models,
 )
+from scripts.data_rebuild.rebuild_october_cadence_from_generated_core import (
+    run as rebuild_october_cadence,
+)
 
 
 def reproduce(archive_dir: Path, output_dir: Path, *,
@@ -49,7 +52,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
               from_original_2021_2025_pdfs: bool = False,
               pdf_workers: int = 4,
               include_analysis_ready: bool = False,
-              include_original_teamseason_models: bool = False) -> dict:
+              include_original_teamseason_models: bool = False,
+              include_october_cadence: bool = False) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     # Validate that this original star package is available BEFORE creating
     # any private reconstructed core output. The stage runner rechecks it.
@@ -60,6 +64,8 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
             raise ValueError("Original NBA Cup lookup package SHA-256 changed")
     if include_original_teamseason_models and not include_analysis_ready:
         raise ValueError("Original team-season model replay requires --with-analysis-ready")
+    if include_october_cadence and not include_analysis_ready:
+        raise ValueError("October cadence reconstruction requires --with-analysis-ready")
     if include_analysis_ready:
         reviewed_path = archive_dir / "nba_player_game_analysis_ready_v1.zip"
         if sha256_file(reviewed_path) != REVIEWED_ZIP_SHA256:
@@ -101,6 +107,13 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
             output_dir / "analysis_ready_from_generated_core/player_game_panel_model_at_risk_analysis_ready.csv.gz",
             output_dir / "original_teamseason_models_from_source",
         ) if include_original_teamseason_models else None
+        october = rebuild_october_cadence(
+            archive_dir,
+            output_dir / "analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz",
+            output_dir / "original_october_cadence_from_generated_core",
+            workers=pdf_workers,
+            timeout_seconds=timeout_seconds,
+        ) if include_october_cadence else None
     result = {
         "status": "pass",
         "scope": "Original archived selected-report inputs -> independently rebuilt player IDs -> original finalizer -> source-pinned award/star enrichment.",
@@ -116,6 +129,16 @@ def reproduce(archive_dir: Path, output_dir: Path, *,
             len(reviewed["outputs"]) if reviewed else 0
         ),
         "original_teamseason_model_reproduced": bool(models),
+        "october_source_derived_cadence_panel_exact": (
+            bool(october and october["full_decoded_harmonized_panel_exact"]["identical_decoded_bytes"])
+        ),
+        "original_october_cadence_four_models_reproduced": bool(
+            october and october["all_four_model_specifications_reproduced"]
+        ),
+        "new_2025_original_harmonized_PDFs_parsed": (
+            october["source_2025_harmonized"]["fresh_original_pdfs_parsed"]
+            if october else 0
+        ),
         "original_teamseason_model_outputs_exact": (
             len(models["models"]) if models else 0
         ),
@@ -168,6 +191,8 @@ def main():
                    help="Rebuild the reviewed reason taxonomy and both analysis-ready tables from the new original player-game core; requires historical reviewed source ZIP")
     p.add_argument("--with-original-teamseason-models", action="store_true",
                    help="After the reviewed analysis-ready bridge, rerun the original August player/team-season fixed effects and compare all 44 original coefficient rows")
+    p.add_argument("--with-october-cadence", action="store_true",
+                   help="Regenerate the original October cadence-harmonized panel, parse 355 original 2025 harmonized PDFs, and reproduce four Stage-6 original models")
     p.add_argument("--pdf-workers", type=int, default=4,
                    help="Parallel original PDF parsers when either raw-source option is set")
     args = p.parse_args()
@@ -178,7 +203,8 @@ def main():
                   from_original_2021_2025_pdfs=args.from_original_2021_2025_pdfs,
                   pdf_workers=args.pdf_workers,
                   include_analysis_ready=args.with_analysis_ready,
-                  include_original_teamseason_models=args.with_original_teamseason_models),
+                  include_original_teamseason_models=args.with_original_teamseason_models,
+                  include_october_cadence=args.with_october_cadence),
         indent=2
     ))
 
