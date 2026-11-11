@@ -36,6 +36,8 @@ on:
       - "tests/test_2020_original_pdf_reason_overflow.py"
       - "tests/test_level_c_acceptance_ledger.py"
       - "tests/test_official_NBA_cup_groups.py"
+      - "tests/test_official_nba_tv_announcements.py"
+      - "scripts/data_rebuild/verify_official_nba_tv_announcements.py"
       - "tests/test_connected_five_raw_seasons_analysis_ready.py"
       - "tests/test_original_teamseason_models_generated_panel.py"
       - "tests/test_october_cadence_from_generated_core.py"
@@ -103,6 +105,10 @@ jobs:
           python scripts/data_rebuild/verify_level_c_acceptance_ledger.py --report "$RUNNER_TEMP/level_c_acceptance_ledger.json"
       - name: Test independent NBA 2023-25 Cup official group matchups and tournament calendar
         run: python -m unittest discover -s tests -p test_official_NBA_cup_groups.py -v
+      - name: Test original NBA preseason PDF and original 2020 broadcaster HTML independent TV source extraction
+        run: |
+          python -m pip install 'PyMuPDF==1.26.7' 'beautifulsoup4==4.14.3'
+          python -m unittest discover -s tests -p test_official_nba_tv_announcements.py -v
       - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
         run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
       - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
