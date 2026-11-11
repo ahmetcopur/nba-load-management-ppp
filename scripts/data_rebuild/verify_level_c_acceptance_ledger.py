@@ -21,6 +21,7 @@ REPO = Path(__file__).resolve().parents[2]
 REL = Path("validation/level_c_injury_pdf_real_2026-11-10")
 EVIDENCE = {
     "source_2020": "2020_original_pdf_reason_wrap_repaired_six_season_identity_exact.json",
+    "fresh_2020": "fresh_2020_617_original_PDFs_source_full_acceptance_2026-11-11.json",
     "six_core_star_cup": "six_original_pdf_seasons_to_25_exact_core_star_cup_outputs.json",
     "five_reviewed": "five_raw_seasons_to_exact_reviewed_analysis_ready.json",
     "august_model": "five_raw_seasons_to_original_teamseason_fe_models.json",
@@ -95,6 +96,38 @@ def audit(reports: dict) -> dict:
             "fresh separate raw 2020 full 617-PDF command cannot be claimed as accepted")
     require(source["caveats"]["new_GitHub_master_CLI_direct_private_input_acceptance"] is False,
             "all-six original source master CLI direct acceptance not yet established")
+
+    fresh = reports["fresh_2020"]
+    reread = fresh["actual_new_private_execution"]
+    require(fresh["status"] == "PASS_ACTUAL_FRESH_617_ORIGINAL_NBA_PDF_REPARSE",
+            "new 617 original PDF real-input rerun not accepted")
+    require(fresh["original_raw_PDF_archive"]["sha256"] ==
+            a["original_raw_zip_sha256"] and
+            fresh["original_reference_archive"]["sha256"] ==
+            a["original_corrected_reference_zip_sha256"] and
+            fresh["historical_original_parser_sha256"] ==
+            a["immutable_original_parser_sha256"],
+            "fresh original 2020 PDF/archive/parser hashes differ from original previous evidence")
+    require(reread["fresh_original_PDFs_extracted_and_parsed"] == ORIGINAL_2020_PDFS and
+            reread["complete_fresh_raw_source_rows"] == a["raw_source_rows"] and
+            reread["all_source_columns_compared"] == a["original_source_fields_checked"],
+            "fresh original 617-PDF, 41,780-source row or 15-column execution incomplete")
+    require(reread["all_41780_full_records_identical_to_archived_corrected_source"] is True and
+            reread["complete_source_record_missing_rows"] == 0 and
+            reread["complete_source_record_extra_rows"] == 0,
+            "fresh 2020 617-PDF full source output differs")
+    require(reread["printed_reason_overflow_fragments_transferred_back"] ==
+            a["printed_reason_continuation_fragments_moved_back"] and
+            reread["preceding_injury_reason_records_completed"] ==
+            a["earlier_rows_with_recovered_reason_tails"] and
+            reread["remaining_reason_field_differences_after_source_correction"] == 0 and
+            reread["published_or_frozen_reason_values_read_during_reconstruction"] is False,
+            "fresh original 2020 printed reason repairs differ or used frozen reason values")
+    require(reread["reparsed_source_private_CSV_SHA256"] ==
+            "d8f27697d0fc03d6f199855f71b8706409a5e6058cd19414ddc11d450410b028",
+            "fresh 2020 private source CSV digest differs from actual real-PDF execution")
+    require(fresh["distinctions"]["separately_packaged_new_GitHub_2020_replay_CLI_direct_execution_not_proven_by_this_run"] is True,
+            "separate Github standalone 2020 tool falsely claimed to be executed")
 
     six = reports["six_core_star_cup"]
     require(six["original_PDF_reports_reparsed_in_source"] == ALL_PDFS and
@@ -171,6 +204,7 @@ def audit(reports: dict) -> dict:
 
     accepted = {
         "original_2020_reason_only_drift_resolved_at_source_row_level": True,
+        "fresh_direct_617_original_PDFs_reparsed_and_exact_full_source": True,
         "six_seasons_full_22_field_selected_reports_exact": True,
         "six_seasons_original_player_IDs_exact": True,
         "six_seasons_original_core_star_Cup_full_output_files_exact": 25,
@@ -180,7 +214,7 @@ def audit(reports: dict) -> dict:
         "four_original_October_Stage6_models_exact": True,
     }
     outstanding = {
-        "direct_fresh_reparse_of_all_617_original_2020_PDFs_with_repaired_CLI": True,
+        "separately_packaged_new_GitHub_2020_CLI_direct_private_execution": True,
         "direct_clean_checkout_original_PDF_six_season_master_CLI_acceptance": True,
         "six_season_new_analysis_ready_and_original_August_October_model_rerun": True,
         "direct_private_original_October_ten_script_handoff": True,
