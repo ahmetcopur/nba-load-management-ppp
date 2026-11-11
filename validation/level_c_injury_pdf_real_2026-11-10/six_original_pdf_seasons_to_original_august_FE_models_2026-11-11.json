@@ -1,0 +1,72 @@
+{
+  "execution_date": "2026-11-11",
+  "result": "PASS_ORIGINAL_AUGUST_FE_ON_FRESH_SIX_NBA_PDF_SEASONS",
+  "input_lineage": {
+    "original_NBA_injury_PDFs_reparsed": 3637,
+    "original_2020_source_PDFs_freshly_reparsed": 617,
+    "original_2021_2025_source_PDFs_reparsed": 3020,
+    "selected_report_rows_exact_full_22_fields": 73547,
+    "final_original_resolved_player_report_ID_rows_exact": 73438,
+    "original_core_player_game_rows": 248730,
+    "reviewed_analysis_ready_full_rows": 248730,
+    "reviewed_analysis_ready_at_risk_rows": 180829,
+    "reviewed_at_risk_full_decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+    "reviewed_taxonomy_labels_inherited": 2182
+  },
+  "original_historical_model": {
+    "source_package": "nba_player_game_analysis_ready_v1 source package and historically released model package packages/02_first_pass_models.zip",
+    "original_model_zip_sha256": "79682a44dab8f00e448a40772f11c2ed6d29f95ab893b1492068d8853a184ac2",
+    "original_code_member": "nba_policy_models_first_pass_v1/scripts/run_teamseason_fixed_effects.py",
+    "original_code_sha256": "7fd6983fb1ce58469ae175a6702cf7ef667c57afa4583a32073bb7f7469d65d3",
+    "source_changes_except_original_hardcoded_input_output_paths": false,
+    "unchanged_original_model_OLS_player_and_team_season_FE_and_two_way_player_game_cluster_SE": true,
+    "historical_model_script_exited_successfully": true
+  },
+  "original_complete_result_comparisons": {
+    "teamseason_fe_focal.csv": {
+      "original_and_recomputed_outcome_rows": 2,
+      "columns_compared": 10,
+      "original_outcomes_identical": true,
+      "max_absolute_numeric_difference": 1.4700046735427463e-14,
+      "full_original_results_accepted_tolerance": 1e-10
+    },
+    "teamseason_fe_coefficients.csv": {
+      "original_and_recomputed_coefficient_rows": 44,
+      "columns_compared": 7,
+      "original_outcome_term_identifiers_identical": true,
+      "max_absolute_numeric_difference": 2.7755575615628914e-16,
+      "full_original_results_accepted_tolerance": 1e-10
+    }
+  },
+  "original_focal_estimates": [
+    {
+      "outcome": "absence_onset",
+      "sample_n": 180695,
+      "coefficient": 0.0314925625567831,
+      "coefficient_percentage_points": 3.14925625567831,
+      "standard_error": 0.0131564272555179,
+      "p_value": 0.0166793068180634,
+      "ci95_low": 0.005705965135968,
+      "ci95_high": 0.0572791599775982
+    },
+    {
+      "outcome": "vague_conditional",
+      "sample_n": 6256,
+      "coefficient": -0.071812294423661,
+      "standard_error": 0.0830678706941054,
+      "p_value": 0.3873124857208618,
+      "ci95_low": -0.2346253209841076,
+      "ci95_high": 0.0910007321367855
+    }
+  ],
+  "accepted_replay_scope": "Actual unchanged original August player/team-season model fitting using genuinely regenerated six-season original NBA PDF source-derived analysis-ready input, not a regression on frozen model data",
+  "research_limitations": {
+    "current_model_stage": "original August pre-tip player/team-season fixed effects only",
+    "original_October_10_script_suite_executed_directly_on_six_season_rebuilt_private_panel": false,
+    "independent_historical_official_awards_Cup_TV_and_game_covariates_verified": false,
+    "original_human_reviewed_reason_labels_independently_adjudicated": false,
+    "full_new_master_GitHub_umbrella_direct_private_zip_execution_accepted": false,
+    "published_original_research_data_or_manuscript_changed": false,
+    "private_original_NBA_PDFs_or_player_game_records_committed": false
+  }
+}
