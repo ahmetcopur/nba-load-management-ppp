@@ -41,6 +41,8 @@ on:
       - "tests/test_official_nba_cup_2025_named_broadcasts.py"
       - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
       - "tests/test_official_nba_cup_knockout_original_fixtures.py"
+      - "tests/test_official_nba_cup_2025_aug13_team_press_sources.py"
+      - "validation/official_nba_cup_2025_aug13_five_team_press_releases.csv"
       - "validation/official_nba_cup_2023_2025_eighteen_knockout_fixture_sources.csv"
       - "validation/official_nba_cup_2025_aug21_all_15_national_group_broadcasts.csv"
       - "validation/official_nba_cup_2025_aug14_named_group_broadcasts.csv"
@@ -133,6 +135,10 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_official_nba_cup_knockout_original_fixtures.py -v
           python scripts/data_rebuild/verify_official_nba_cup_knockout_original_fixtures.py --source-only --output-report "$RUNNER_TEMP/official_nba_cup_knockout_18_public_source_only.json"
+      - name: Independently validate five ORIGINAL Aug 13 2025 NBA team Cup announcement reports
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_2025_aug13_team_press_sources.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_2025_aug13_team_press_sources.py --source-only --output-report "$RUNNER_TEMP/2025_nba_cup_aug13_original_team_sources_public_preflight.json"
       - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
         run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
       - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
