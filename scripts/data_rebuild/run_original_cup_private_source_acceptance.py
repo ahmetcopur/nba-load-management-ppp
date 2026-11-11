@@ -36,7 +36,9 @@ try:
     from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as cup_2025_9tv
     from scripts.data_rebuild import verify_official_nba_cup_2025_all_15_national_broadcasts as cup_2025_15tv
     from scripts.data_rebuild import verify_official_nba_cup_knockout_original_fixtures as knockout
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as group_prior
     import verify_official_nba_tv_announcements as tv
     import verify_official_nba_cup_first_release_fixtures as cup_2023_24
@@ -58,9 +60,9 @@ def original_sha_pins(cup_path: Path, freeze_path: Path) -> None:
             "both original private ZIP paths must exist")
     require(cup_path.resolve() != freeze_path.resolve(),
             "original Cup ZIP and frozen research ZIP must be different files")
-    require(sha256(cup_path.read_bytes()).hexdigest() == group_prior.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(cup_path) == group_prior.ARCHIVE_SHA256,
             "immutable original NBA Cup ZIP SHA-256 mismatch")
-    require(sha256(freeze_path.read_bytes()).hexdigest() == tv.FREEZE_SHA,
+    require(stream_hash.sha256_file(freeze_path) == tv.FREEZE_SHA,
             "immutable original research freeze ZIP SHA-256 mismatch")
 
 
