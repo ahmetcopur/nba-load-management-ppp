@@ -32,7 +32,9 @@ try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup
     from scripts.data_rebuild import verify_official_nba_cup_2025_aug13_team_press_sources as nba_first_party
     from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as cup
     import verify_official_nba_cup_2025_aug13_team_press_sources as nba_first_party
     import compare_nba_cup_exact_source_rows as exact_join
@@ -193,7 +195,7 @@ def validate_sources(second: pd.DataFrame, first: pd.DataFrame) -> dict:
 
 def check_original_private(second: pd.DataFrame, first: pd.DataFrame, archive: Path) -> dict:
     validate_sources(second,first)
-    require(sha256(archive.read_bytes()).hexdigest() == cup.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(archive) == cup.ARCHIVE_SHA256,
             "original immutable Cup ZIP SHA-256 drift")
     with ZipFile(archive) as original:
         lookup=pd.read_csv(io.BytesIO(original.read(cup.ARCHIVE_MEMBER)),
