@@ -31,9 +31,11 @@ import pandas as pd
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup_groups
     from scripts.data_rebuild import verify_official_nba_tv_announcements as tv_source
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as cup_groups
     import verify_official_nba_tv_announcements as tv_source
+    import compare_nba_cup_exact_source_rows as exact_join
 
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE = REPO / "validation/official_nba_cup_2023_2024_first_release_group_fixtures.csv"
@@ -142,10 +144,10 @@ def compare_to_private_archives(source: pd.DataFrame, cup_zip: Path, freeze_zip:
     require(len(cup) == 120, "original private Cup stage lookup not 120 group games")
     require(not cup.duplicated(list(KEY)).any(), "private Cup identity duplicated")
 
-    source_keys, original_keys = as_keys(source), as_keys(cup)
-    require(source_keys == original_keys,
-            f"official release to private Cup mismatch: {len(source_keys - original_keys)} "
-            f"missing from research, {len(original_keys - source_keys)} extra in research")
+    # The same exact matcher is exercised on positive and mutated synthetic
+    # original-archive frames in public CI. The frozen original ZIP check
+    # above remains a mandatory, separately unexecuted private acceptance.
+    exact_join.exact_group_fixture_join(source, cup, expected=120)
 
     with ZipFile(freeze_zip) as frozen_project:
         packaged = frozen_project.read(tv_source.TV_PACKAGE)
@@ -163,15 +165,9 @@ def compare_to_private_archives(source: pd.DataFrame, cup_zip: Path, freeze_zip:
         "announced_home_team": "home_team",
         "network_announced": "first_release_network",
     })
-    compare_cols = list(KEY) + ["first_release_network"]
-    subset = translated.loc[translated.loc[:, list(KEY)].apply(tuple, axis=1).isin(source_keys)]
-    require(len(subset) == 120 and not subset.duplicated(list(KEY)).any(),
-            "Cup group first release not 120 unique original preseason PDF rows")
-    actual_rows = as_keys(subset, compare_cols)
-    source_rows = as_keys(source, compare_cols)
-    require(source_rows == actual_rows,
-            f"network or game mapping drift: {len(source_rows - actual_rows)} official "
-            f"first-release rows differ from original main NBA season PDF")
+    exact_join.exact_first_release_network_join(
+        source, translated, expected=120
+    )
 
     return {
         "status": "PASS_EXACT_ORIGINAL_PRIVATE_CUP_AND_TV_SOURCE_MATCH",
