@@ -24,7 +24,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
 
     def test_all_five_original_source_evidence_documents_cross_check(self):
         result = ledger.audit(self.actual)
-        self.assertEqual(result["source_evidence_files_checked"], 6)
+        self.assertEqual(result["source_evidence_files_checked"], 8)
         self.assertEqual(
             result["verified"]["six_seasons_original_core_star_Cup_full_output_files_exact"],25)
         self.assertEqual(result["status"],"ACCEPTED_COMPONENTS_WITH_OPEN_RESEARCH_GATES")
@@ -103,8 +103,36 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
     def test_all_original_model_p_values_and_source_count_are_separate(self):
         result=ledger.audit(self.actual)
         self.assertEqual(result["verified"]["five_seasons_original_August_FE_coefficient_rows_reproduced"],44)
-        self.assertTrue(result["still_open"]["six_season_new_analysis_ready_and_original_August_October_model_rerun"])
+        self.assertTrue(result["still_open"]["six_season_private_source_generated_October_model_suite_rerun"])
         self.assertTrue(result["still_open"]["independent_star_awards_Cup_TV_and_game_covariate_provenance"])
+
+    def test_fresh_six_season_reviewed_model_data_exact_against_previous_five_season_reference(self):
+        result=ledger.audit(self.actual)
+        self.assertEqual(result["verified"]["six_seasons_reviewed_analysis_ready_full_outputs_exact"],2)
+        changed=self.mutated()
+        changed["six_reviewed"]["actual_private_execution"]["generated_outputs"][1]["decoded_sha256"]="changed"
+        with self.assertRaisesRegex(ValueError,"six-season source-derived reviewed"):
+            ledger.audit(changed)
+
+    def test_actual_six_original_PDF_season_August_model_fits_original_44_coefficients(self):
+        result=ledger.audit(self.actual)
+        self.assertEqual(result["verified"]["six_seasons_original_August_FE_coefficient_rows_reproduced"],44)
+        changed=self.mutated()
+        changed["six_august_model"]["original_complete_result_comparisons"]["teamseason_fe_coefficients.csv"]["max_absolute_numeric_difference"]=0.25
+        with self.assertRaisesRegex(ValueError,"44 model result rows"):
+            ledger.audit(changed)
+
+    def test_six_original_pdf_season_August_model_source_code_must_be_original(self):
+        changed=self.mutated()
+        changed["six_august_model"]["original_historical_model"]["original_code_sha256"]="tampered"
+        with self.assertRaisesRegex(ValueError,"model source/code"):
+            ledger.audit(changed)
+
+    def test_original_2182_human_reviewed_labels_not_overclaimed(self):
+        changed=self.mutated()
+        changed["six_reviewed"]["reviewed_archive_source"]["label_contents_independently_medically_adjudicated"]=True
+        with self.assertRaisesRegex(ValueError,"human-reviewed"):
+            ledger.audit(changed)
 
     def test_missing_original_evidence_document_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
