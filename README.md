@@ -32,6 +32,47 @@ No additional specification should replace the frozen suite merely because it gi
 - `validation/` — taxonomy scoring artifacts.
 - `MANIFEST_SHA256.csv` — hashes for every file in this freeze.
 
+### November 11, 2026 — all six original PDF seasons accepted through August models
+
+The original **2020–21 PDF reason-text discrepancy is resolved**: a fresh
+complete parse of all **617 original reports** regenerated 41,780 original
+15-field source rows, including all previously differing reason strings,
+without borrowing the frozen reason text. Combined with the 3,020
+original PDFs from 2021–22 through 2025–26, the resulting **3,637
+original NBA injury reports** feed all 73,547 selected reports and
+73,438 resolved player identities, **10/10 exact core, 12/12 exact
+All-Star and 3/3 exact Cup outputs**.
+
+The newly generated six-season core also passed original reviewed
+taxonomy reconstruction: both **248,730 full** and **180,829
+at-risk** reviewed modeling files reproduce *all* original
+decoded bytes. The unchanged original August player/team-season
+fixed-effects model was actually refitted on that six-original-PDF-season
+input; **all 44 model coefficients and both focal rows match the
+historical research**, including +3.1493 percentage points
+(p=.01668) for the original headline triple interaction.
+
+For an independent primary-source check rather than an internal
+replay, the original NBA Cup game lookup was compared against
+the **official NBA 2023, 2024 and 2025 tournament group draws
+and schedules**: **180/180 group opponent fixtures** and all
+**18 knockout stage/dates** satisfy those original NBA
+releases, with each of the 30 teams playing four group opponents
+(2 home, 2 away).
+
+[Fresh six-source reviewed data acceptance](validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_exact_reviewed_analysis_ready_2026-11-11.json) ·
+[Original August model execution](validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_original_august_FE_models_2026-11-11.json) ·
+[Independent NBA Cup source audit](validation/level_c_injury_pdf_real_2026-11-10/official_NBA_cup_2023_2025_group_and_calendar_source_audit.json) ·
+[Current full scientific runbook](documentation/CONNECTED_CORE_REPRODUCTION_2026-11-10.md).
+
+**Scope:** The human-reviewed injury-reason and award/crosswalk
+judgments, official advance TV scheduling and inherited game
+covariates are not yet fully independently source-validated.
+Exact per-game NBA Cup dates and broadcast providers remain
+separate verification tasks. The new monolithic clean-checkout
+private ZIP command and the final full manuscript
+reconciliation remain open. **PR #4 stays draft and unmerged**.
+
 ## Connected private-source reconstruction (November 2026)
 
 An additional executable pipeline now rebuilds historical player IDs, the full
