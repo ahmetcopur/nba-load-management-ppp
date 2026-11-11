@@ -1,4 +1,4 @@
-# NBA Cup 2025 — August 14 original NBA press release, nine named broadcasts
+# NBA Cup 2025 — original NBA dated public releases, nine Aug 14 + fifteen by Aug 21
 
 **Scope: source-only first-party evidence, NOT full 2025 first-release audit.**
 
@@ -59,3 +59,34 @@ The command rejects modified archives by **full original SHA-256**, compares the
 - Keep human-reviewed taxonomy/crosswalk, award history, all other scientific covariates, master clean-checkout ZIP invocation, and manuscript reconciliation as distinct open research gates.
 
 This does not revise any historical model coefficient or retroactively change the frozen national-TV exposure coding. No original data or manuscript modified. **PR #4 stays draft/unmerged, Issue #5 open.**
+
+## November 11 follow-up — complete 15-game *national group-play* subset (additional NBA.com source)
+
+The NBA's [2025–26 national TV schedule article](https://www.nba.com/news/2025-26-schedule-announced), updated **August 21, 2025**, explicitly names all **15 2025 NBA Cup Group Play national broadcasts**: **ten Prime**, **two NBC/Peacock**, and **three ESPN**. This adds six previously unnamed Prime games to the nine directly evidenced in the separately dated August 14 primary NBA Communications release.
+
+The new [complete national subset 15-row source CSV](../validation/official_nba_cup_2025_aug21_all_15_national_group_broadcasts.csv) is independently checked by [the fail-closed complete national 15 verifier](../scripts/data_rebuild/verify_official_nba_cup_2025_all_15_national_broadcasts.py) with [ten mutation/failure tests](../tests/test_official_nba_cup_2025_all_15_national_broadcasts.py).
+
+The six *additional* Prime matchup/network tuples from the later NBA.com article are:
+- November 7: Houston Rockets at San Antonio Spurs; Golden State Warriors at Denver Nuggets.
+- November 14: Miami Heat at New York Knicks; Golden State Warriors at San Antonio Spurs.
+- November 21: Indiana Pacers at Cleveland Cavaliers; Denver Nuggets at Houston Rockets.
+
+These six are **verified by August 21 NBA article**, not independently proven to have had the exact same original public network assignments on **August 13**. The first nine retain their independently evidenced **August 14** publication dates in the earlier source. We do not silently backdate the six later-verified rows.
+
+The 15-row source-only checker verifies exact date, opponents, provider and correct official 2025 five-team group membership. It cross-checks inclusion of all original nine August 14 explicitly named tuples. The separately packaged private original research archive comparison can verify whether all 15 were coded exactly in the frozen NBA Cup lookup and later main-season TV PDF, but **that private command has not been run**.
+
+```bash
+python scripts/data_rebuild/verify_official_nba_cup_2025_all_15_national_broadcasts.py --source-only
+python -m unittest discover -s tests -p test_official_nba_cup_2025_all_15_national_broadcasts.py -v
+
+# Strict acceptance only with the two actual PRIVATE original source ZIPs:
+python scripts/data_rebuild/verify_official_nba_cup_2025_all_15_national_broadcasts.py \
+  --original-cup-zip /PRIVATE/PATH/nba_player_game_at_risk_star_cup_v1.zip \
+  --original-freeze-zip /PRIVATE/PATH/nba_load_management_final_freeze_2026-08-12.zip \
+  --output-report /PRIVATE/PATH/2025_Cup_original_fifteen_national_joins.json
+```
+
+**Remain open:** the complete August 13 **60-game** first-release Cup PDF and its potentially distinct original network statuses; source-national flags on the **other 45 group games**; all **18 historical knockout per-game exact source/mapping** verifications; full original private archive execution; and all broader causal/manuscript gates. Original NBA Cup championship excluded from regular season. PR draft; Issue open; no original data/manuscript modified.
+
+---
+
