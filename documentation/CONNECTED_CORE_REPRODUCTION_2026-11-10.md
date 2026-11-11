@@ -1,6 +1,110 @@
 # Connected reproduction: player-ID resolution to final NBA player-game core
 
 
+
+
+## November 11: independent original NBA TV PDF and newsroom HTML source audit
+
+The original first-party **NBA preseason schedule-by-date PDFs for
+2021–22 through 2025–26** were reopened from the immutable
+historical-source inventory. Their bytes were confirmed identical
+to the separately stored original frozen TV research package,
+SHA-256 13c6a13bace590e4116046f3258d666c1c62e0768a910051bca7883429078867.
+Their original official NBA Communications URLs were recovered
+and checked against the contemporaneous public announcements.
+The PDF rows were independently extracted by printed word-column
+coordinates, *without borrowing the already parsed research CSV
+broadcast flags*.
+
+| NBA preseason source season | PDF matchups extracted | Differences in date, road team, home team, network |
+|---|---:|---:|
+| 2021–22 | 1,230 | 0 |
+| 2022–23 | 1,230 | 0 |
+| 2023–24 | 1,200 | 0 |
+| 2024–25 | 1,200 | 0 |
+| 2025–26 | 1,200 | 0 |
+| **All five** | **6,060** | **0** |
+
+The independently parsed rows were joined one-to-one to the
+original 6,150 played-game release-time classifications. All
+primary-TV and separate NBA TV flags match the actual PDF
+networks, with **zero classification errors**. The 90 Cup-driven
+matchups not known at the preseason releases (30 per season
+2023–24 through 2025–26) correctly remain **matchup TBD**,
+never retrospectively coded ordinary non-national games.
+Nationally announced primary counts are 162, 163, 160, 163
+and 237 in the five respective seasons.
+
+### Special 2020–21 source release treatment
+
+The original 2020–21 schedule was released in **two segments**.
+We independently parsed the original saved ESPN/ABC,
+Warner Bros. Discovery TNT and NBA TV press-page HTML tables,
+including carried date labels, Christmas platform labels,
+footnote asterisks and removal of explicitly TBD matchups.
+**All 219 specified release-source HTML rows matched** original
+research source records on date, visitors, home team and
+network; zero mismatches. Breakdown: ESPN/ABC first half 49;
+ESPN/ABC second half 46; TNT first half 36;
+TNT second half 27; first-half NBA TV 61.
+
+These 219 announced rows comprise 218 distinct matchups;
+217 joined to a played fixture. The unmatched source game
+was New Orleans at Phoenix, February 3, 2021, ESPN.
+**156 played games** were truly matchup-announced primary
+ESPN/ABC/TNT; another **61 games** were confirmed NBA TV
+from the first-half release. The original final-week
+four TNT and five ESPN broadcast *slots with opponents
+TBD* were not retrospectively filled. The second-half
+original NBA TV archived page does not contain a complete
+static schedule: **542 second-half NBA TV values remain
+unknown**, not falsely zero.
+
+**Across all six seasons, the original 7,230-game research
+panel has 1,041 primary matchup-announced national
+broadcast games**, supported by independently extracted
+first-party release source records. The independent
+2025–26 treatment includes Peacock/NBC and Prime, while
+the earlier four years use ABC/ESPN/TNT and distinguish
+NBA TV as a sensitivity variable.
+
+### Rerunnable independent audit
+
+Use the new [original NBA PDF and media HTML
+source verifier](../scripts/data_rebuild/verify_official_nba_tv_announcements.py)
+with BOTH original private archive ZIPs:
+
+    python scripts/data_rebuild/verify_official_nba_tv_announcements.py \
+      --historical-source-inventory "$HOME/nba-original-zips/NBA_Historical_Source_Inventory.zip" \
+      --original-final-freeze "$HOME/nba-original-zips/nba_load_management_final_reproducibility_freeze_2026-08-12.zip" \
+      --output-report "$HOME/nba-private-rebuild/official-tv-source-replay.json"
+
+The audit requires immutable package/source SHA-256s,
+all original PDF/HTML source network labels, one-to-one
+fixture mapping, all 7,230 final research treatment
+records and proper missing/TBD semantics. It produces
+aggregate JSON only, without private game-by-game
+or player-level rows. [Original-input audit
+evidence](../validation/level_c_injury_pdf_real_2026-11-10/official_NBA_advance_TV_six_season_original_PDF_HTML_source_replay_2026-11-11.json)
+includes original source URLs, SHA-256s, row counts
+and explicit scientific limitations. The source-level
+parses were fully executed in the private workspace;
+the newly packaged CLI still needs a distinct clean
+checkout direct invocation with the two original ZIPs.
+
+**Boundaries:** The recorded historic archived
+source digests were confirmed locally, but the public
+NBA CDN PDF files were not freshly re-downloaded and
+re-hashed byte-for-byte from their live endpoints.
+The mapping of rescheduled NBA games to the final
+played-game box score has not been independently
+reverified game-by-game against fresh official
+schedules. Original 2020–21 second-half NBA TV
+coverage is permanently unresolved using the saved
+HTML alone. A correct original national-TV treatment
+definition does not by itself establish causality
+in the paper's fixed-effects regressions.
+
 ## November 11 addendum: complete original PDF source seasons, actual six-season model fitting, and independent official Cup source audit
 
 **Current verified scientific status supersedes the chronology of the older
