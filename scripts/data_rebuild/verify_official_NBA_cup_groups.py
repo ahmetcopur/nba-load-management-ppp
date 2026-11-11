@@ -152,7 +152,7 @@ def check_season(season: str, records: pd.DataFrame) -> dict:
         ):
             require(bool(getattr(row, flag)) == (row.cup_stage == target),
                     f"{season} cup flag {flag} contradicts published stage")
-        require(bool(row.cup_knockout) == row.cup_stage in ("quarterfinal", "semifinal"),
+        require(bool(row.cup_knockout) == (row.cup_stage in ("quarterfinal", "semifinal")),
                 f"{season} knockout flag contradicts published stage")
 
     return {
