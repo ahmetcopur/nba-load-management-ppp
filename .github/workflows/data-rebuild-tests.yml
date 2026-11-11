@@ -41,6 +41,7 @@ on:
       - "tests/test_nba_cup_original_archive_exact_join_synthetic.py"
       - "tests/test_nba_cup_2025_partial_archive_join_synthetic.py"
       - "tests/test_original_cup_private_source_acceptance_runner.py"
+      - "tests/test_original_cup_streaming_archive_hashes.py"
       - "tests/test_official_nba_cup_2025_named_broadcasts.py"
       - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
       - "tests/test_official_nba_cup_knockout_original_fixtures.py"
@@ -135,6 +136,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_nba_cup_2025_partial_archive_join_synthetic.py -v
       - name: Fail-closed original Cup private master CLI orchestration (mocked archive calls only)
         run: python -m unittest discover -s tests -p test_original_cup_private_source_acceptance_runner.py -v
+      - name: Verify streaming original SHA-256 digest correctness and avoid full ZIP read memory spikes
+        run: python -m unittest discover -s tests -p test_original_cup_streaming_archive_hashes.py -v
       - name: Validate named official NBA Cup 2025 August 14 broadcaster tuples
         run: |
           python -m unittest discover -s tests -p test_official_nba_cup_2025_named_broadcasts.py -v
