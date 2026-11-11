@@ -30,7 +30,9 @@ try:
     from scripts.data_rebuild import verify_official_nba_tv_announcements as tv
     from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as aug14
     from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as groups
     import verify_official_nba_tv_announcements as tv
     import verify_official_nba_cup_2025_named_broadcasts as aug14
@@ -125,9 +127,9 @@ def validate_15(source: pd.DataFrame, nine: pd.DataFrame) -> dict:
 def compare_original_private(source: pd.DataFrame, nine: pd.DataFrame,
                              cup_zip: Path, freeze_zip: Path) -> dict:
     validate_15(source, nine)
-    require(sha256(cup_zip.read_bytes()).hexdigest() == groups.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(cup_zip) == groups.ARCHIVE_SHA256,
             "original Cup source ZIP SHA-256 drift")
-    require(sha256(freeze_zip.read_bytes()).hexdigest() == tv.FREEZE_SHA,
+    require(stream_hash.sha256_file(freeze_zip) == tv.FREEZE_SHA,
             "original research freeze ZIP SHA-256 drift")
     with ZipFile(cup_zip) as z:
         original = pd.read_csv(io.BytesIO(z.read(groups.ARCHIVE_MEMBER)),
