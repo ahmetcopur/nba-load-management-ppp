@@ -35,6 +35,7 @@ try:
     from scripts.data_rebuild import verify_cup_2025_aug13_contemporaneous_secondary_sources as cup_2025_33
     from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as cup_2025_9tv
     from scripts.data_rebuild import verify_official_nba_cup_2025_all_15_national_broadcasts as cup_2025_15tv
+    from scripts.data_rebuild import verify_nba_cup_2025_nov01_espn_60_groups as later_60
     from scripts.data_rebuild import verify_official_nba_cup_knockout_original_fixtures as knockout
     from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
@@ -46,6 +47,7 @@ except ModuleNotFoundError:
     import verify_cup_2025_aug13_contemporaneous_secondary_sources as cup_2025_33
     import verify_official_nba_cup_2025_named_broadcasts as cup_2025_9tv
     import verify_official_nba_cup_2025_all_15_national_broadcasts as cup_2025_15tv
+    import verify_nba_cup_2025_nov01_espn_60_groups as later_60
     import verify_official_nba_cup_knockout_original_fixtures as knockout
 
 
@@ -95,6 +97,14 @@ def run_original_private_cup_acceptance(cup_path: Path, freeze_path: Path) -> di
     original_15 = cup_2025_15tv.compare_original_private(
         national_15, national_9, cup_path, freeze_path)
 
+    # Later ESPN source cross-check of ALL 60 actual 2025 fixture identities.
+    # This explicitly does not certify original first-release August 13 timing.
+    nov01_espn_60 = later_60.load(later_60.SOURCE)
+    original_later_60 = later_60.compare_original_private_later_60(
+        nov01_espn_60, team_19, secondary_14, national_9, national_15,
+        cup_path
+    )
+
     knockout_18 = knockout.load(knockout.SOURCE)
     knockout.validate_original_source(knockout_18)
     original_18 = knockout.compare_original_private(knockout_18, cup_path)
@@ -114,6 +124,8 @@ def run_original_private_cup_acceptance(cup_path: Path, freeze_path: Path) -> di
             (original_9,"PASS_NINE_ORIGINAL_PRIVATE_CUP_AND_TV_SOURCE_TUPLES"),
         "15_2025_Aug21_NBA_com_named_national_rows":
             (original_15,"PASS_15_ORIGINAL_PRIVATE_2025_NAMED_NATIONAL_CUP_GAME_TUPLES"),
+        "60_2025_Nov01_ESPN_later_full_actual_fixture_source_rows":
+            (original_later_60,"PASS_PRIVATE_CUP_2025_ALL_60_LATER_ESPN_GROUP_FIXTURE_ROWS"),
         "18_2023_2025_knockout_date_opponent_pair_rows":
             (original_18,"PASS_18_ORIGINAL_CUP_ARCHIVE_DATE_UNORDERED_OPPONENTS_AND_12_QF_HOME_AWAY"),
     }
@@ -136,6 +148,9 @@ def run_original_private_cup_acceptance(cup_path: Path, freeze_path: Path) -> di
     require(original_15["original_Cup_fixture_tuples_exact"]==15 and
             original_15["original_preseason_PDF_network_tuples_exact"]==15,
             "2025 Aug21 fifteen NBA national broadcast archive fields incomplete")
+    require(original_later_60[
+        "later_ESPN_2025_group_fixture_date_away_home_original_private_matches"]==60,
+        "2025 later ESPN full 60 actual fixture original lookup mismatch")
     require(original_18["original_knockout_season_date_stage_opponent_pairs_exact"]==18 and
             original_18["original_quarterfinal_home_away_source_rows_exact"]==12,
             "original Cup 18 knockout or 12 quarterfinal host mappings incomplete")
@@ -150,6 +165,8 @@ def run_original_private_cup_acceptance(cup_path: Path, freeze_path: Path) -> di
         "original_private_2025_first_dated_second_tier_aug13_combined_fixtures_exact":33,
         "original_private_2025_Aug14_named_national_NBA_broadcast_exact":9,
         "original_private_2025_Aug21_named_national_NBA_broadcast_exact":15,
+        "original_private_2025_later_Nov01_ESPN_full_fixture_date_home_away_exact":60,
+        "later_ESPN_2025_60_fixture_source_does_not_establish_initial_Aug13":True,
         "original_private_2023_2025_knockout_stage_date_opponent_exact":18,
         "original_private_quarterfinal_host_assignment_exact":12,
         "neutral_semifinal_nominal_home_side_source_verified":False,
