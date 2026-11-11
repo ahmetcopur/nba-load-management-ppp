@@ -39,6 +39,8 @@ on:
       - "tests/test_official_nba_tv_announcements.py"
       - "tests/test_official_nba_cup_first_release_fixtures.py"
       - "tests/test_official_nba_cup_2025_named_broadcasts.py"
+      - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
+      - "validation/official_nba_cup_2025_aug21_all_15_national_group_broadcasts.csv"
       - "validation/official_nba_cup_2025_aug14_named_group_broadcasts.csv"
       - "validation/official_nba_cup_2023_2024_first_release_group_fixtures.csv"
       - "scripts/data_rebuild/verify_official_nba_tv_announcements.py"
@@ -121,6 +123,10 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_official_nba_cup_2025_named_broadcasts.py -v
           python scripts/data_rebuild/verify_official_nba_cup_2025_named_broadcasts.py --source-only --output-report "$RUNNER_TEMP/official_cup_2025_named_broadcasts_public.json"
+      - name: Independently verify all 15 specifically named 2025 Cup national broadcasts
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_2025_all_15_national_broadcasts.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_2025_all_15_national_broadcasts.py --source-only --output-report "$RUNNER_TEMP/official_cup_2025_15_national_source_only.json"
       - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
         run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
       - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
