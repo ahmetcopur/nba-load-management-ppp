@@ -303,7 +303,7 @@ def audit(reports: dict) -> dict:
             tv["original_source_archives"]["all_six_original_2020_HTML_bytes_identical_across_inventory_and_frozen_research_package"] is True,
             "NBA first-party broadcast PDF/HTML source archives changed")
     modern = tv["source_2021_2025"]
-    require(modern["original_PDF_source_schedule_rows_by_season"] ==
+    require(modern["original_PDF_schedule_rows_by_season"] ==
             {"2021-22":1230, "2022-23":1230, "2023-24":1200,
              "2024-25":1200, "2025-26":1200},
             "five original NBA preseason PDF fixture row counts differ")
