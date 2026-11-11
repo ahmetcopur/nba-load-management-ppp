@@ -26,7 +26,9 @@ import pandas as pd
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup
     from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as cup
     import compare_nba_cup_exact_source_rows as exact_join
 
@@ -168,7 +170,7 @@ def validate_source(source: pd.DataFrame) -> dict:
 def original_private_compare(source: pd.DataFrame, cup_zip: Path) -> dict:
     """Directly verify all 19 source fixture identities in ORIGINAL Cup archive."""
     validate_source(source)
-    require(sha256(cup_zip.read_bytes()).hexdigest() == cup.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(cup_zip) == cup.ARCHIVE_SHA256,
             "immutable original private Cup ZIP SHA-256 differs")
     with ZipFile(cup_zip) as z:
         original = pd.read_csv(io.BytesIO(z.read(cup.ARCHIVE_MEMBER)),
