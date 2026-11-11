@@ -29,10 +29,12 @@ try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as groups
     from scripts.data_rebuild import verify_official_nba_tv_announcements as tv
     from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as aug14
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as groups
     import verify_official_nba_tv_announcements as tv
     import verify_official_nba_cup_2025_named_broadcasts as aug14
+    import compare_nba_cup_exact_source_rows as exact_join
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "validation/official_nba_cup_2025_aug21_all_15_national_group_broadcasts.csv"
@@ -134,9 +136,9 @@ def compare_original_private(source: pd.DataFrame, nine: pd.DataFrame,
                             original.cup_stage.eq("group_play")]
     require(len(original) == 60 and not original.duplicated(list(KEYS)).any(),
             "original private 2025 Cup group lookup not 60 unique games")
-    official_keys = records(source, KEYS)
-    require(official_keys <= records(original, KEYS),
-            "15 official 2025 source games missing from original private Cup lookup")
+    exact_join.exact_group_fixture_join(
+        source, original, expected=15, subset=True
+    )
     with ZipFile(freeze_zip) as outer:
         nested = outer.read(tv.TV_PACKAGE)
     require(sha256(nested).hexdigest() == tv.ORIGINAL_TV_PACKAGE_SHA,
@@ -155,9 +157,15 @@ def compare_original_private(source: pd.DataFrame, nine: pd.DataFrame,
     })
     require(not pdf_rows.duplicated(list(KEYS)).any(),
             "duplicate game identity in original PDF parser release rows")
-    matched = pdf_rows.loc[pdf_rows.loc[:, list(KEYS)].apply(tuple, axis=1).isin(official_keys)]
-    require(len(matched) == 15 and records(matched, FIVE) == records(source, FIVE),
-            "15 2025 national source broadcasts not exact in historical 2025 PDF network rows")
+    official_names = source.rename(columns={
+        "source_announced_network": "first_release_network"
+    })
+    pdf_names = pdf_rows.rename(columns={
+        "source_announced_network": "first_release_network"
+    })
+    exact_join.exact_first_release_network_join(
+        official_names, pdf_names, expected=15
+    )
     return {
         "status": "PASS_15_ORIGINAL_PRIVATE_2025_NAMED_NATIONAL_CUP_GAME_TUPLES",
         "original_Cup_fixture_tuples_exact": 15,
