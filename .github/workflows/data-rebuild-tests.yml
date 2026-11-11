@@ -39,6 +39,7 @@ on:
       - "tests/test_official_nba_tv_announcements.py"
       - "tests/test_official_nba_cup_first_release_fixtures.py"
       - "tests/test_nba_cup_original_archive_exact_join_synthetic.py"
+      - "tests/test_nba_cup_2025_partial_archive_join_synthetic.py"
       - "tests/test_official_nba_cup_2025_named_broadcasts.py"
       - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
       - "tests/test_official_nba_cup_knockout_original_fixtures.py"
@@ -129,6 +130,8 @@ jobs:
           python scripts/data_rebuild/verify_official_nba_cup_first_release_fixtures.py --source-only --output-report "$RUNNER_TEMP/official_cup_first_release_public_preflight.json"
       - name: Positively and negatively test the actual original-Cup archive exact fixture and network join functions
         run: python -m unittest discover -s tests -p test_nba_cup_original_archive_exact_join_synthetic.py -v
+      - name: Test 2025 partial original Cup 19 and 33 fixture joins and 15 network joins with synthetic archives
+        run: python -m unittest discover -s tests -p test_nba_cup_2025_partial_archive_join_synthetic.py -v
       - name: Validate named official NBA Cup 2025 August 14 broadcaster tuples
         run: |
           python -m unittest discover -s tests -p test_official_nba_cup_2025_named_broadcasts.py -v
