@@ -36,7 +36,9 @@ import pandas as pd
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as original
     from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as original
     import compare_nba_cup_exact_source_rows as exact_join
 
@@ -174,7 +176,7 @@ def validate_original_source(frame: pd.DataFrame) -> dict:
 
 def compare_original_private(frame: pd.DataFrame, archive_path: Path) -> dict:
     validate_original_source(frame)
-    require(sha256(archive_path.read_bytes()).hexdigest() == original.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(archive_path) == original.ARCHIVE_SHA256,
             "original private Cup archive full SHA-256 mismatch")
     with ZipFile(archive_path) as z:
         lookup = pd.read_csv(io.BytesIO(z.read(original.ARCHIVE_MEMBER)),
