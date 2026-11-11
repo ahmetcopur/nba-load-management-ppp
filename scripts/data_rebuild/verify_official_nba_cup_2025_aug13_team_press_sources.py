@@ -25,8 +25,10 @@ import pandas as pd
 
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as cup
+    import compare_nba_cup_exact_source_rows as exact_join
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE = ROOT / "validation/official_nba_cup_2025_aug13_five_team_press_releases.csv"
@@ -176,10 +178,10 @@ def original_private_compare(source: pd.DataFrame, cup_zip: Path) -> dict:
     stage = original.loc[original.season.eq("2025-26") &
                          original.cup_stage.eq("group_play")]
     require(len(stage) == 60, "original full 2025 Cup lookup not 60 group fixtures")
-    source_games = {row_id(row) for row in source.itertuples(index=False)}
-    original_games = {row_id(row) for row in stage.itertuples(index=False)}
-    require(source_games <= original_games,
-            "one or more original Aug 13 announcement fixtures missing from historical Cup")
+    unique_source = source.drop_duplicates(list(FIXTURE))
+    exact_join.exact_group_fixture_join(
+        unique_source, stage, expected=19, subset=True
+    )
     return {
         "status": "PASS_19_SAME_DAY_ORIGINAL_TEAM_RELEASES_TO_PRIVATE_CUP_LOOKUP",
         "original_Cup_archive_sha256": cup.ARCHIVE_SHA256,
