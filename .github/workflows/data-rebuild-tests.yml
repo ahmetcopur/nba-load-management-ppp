@@ -42,6 +42,8 @@ on:
       - "tests/test_nba_cup_2025_partial_archive_join_synthetic.py"
       - "tests/test_original_cup_private_source_acceptance_runner.py"
       - "tests/test_original_cup_streaming_archive_hashes.py"
+      - "tests/test_nba_cup_2025_nov01_espn_60_source.py"
+      - "validation/nba_cup_2025_nov01_espn_editorial_60_group_fixtures.csv"
       - "tests/test_official_nba_cup_2025_named_broadcasts.py"
       - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
       - "tests/test_official_nba_cup_knockout_original_fixtures.py"
@@ -138,6 +140,10 @@ jobs:
         run: python -m unittest discover -s tests -p test_original_cup_private_source_acceptance_runner.py -v
       - name: Verify streaming original SHA-256 digest correctness and avoid full ZIP read memory spikes
         run: python -m unittest discover -s tests -p test_original_cup_streaming_archive_hashes.py -v
+      - name: Verify later independent ESPN 60 game Cup fixture schedule against August 33 source rows and NBA 15 network rows
+        run: |
+          python -m unittest discover -s tests -p test_nba_cup_2025_nov01_espn_60_source.py -v
+          python scripts/data_rebuild/verify_nba_cup_2025_nov01_espn_60_groups.py --output-report "$RUNNER_TEMP/2025_espn_later_60_group_fixture_crosscheck.json"
       - name: Validate named official NBA Cup 2025 August 14 broadcaster tuples
         run: |
           python -m unittest discover -s tests -p test_official_nba_cup_2025_named_broadcasts.py -v
