@@ -27,6 +27,7 @@ EVIDENCE = {
     "august_model": "five_raw_seasons_to_original_teamseason_fe_models.json",
     "six_reviewed": "six_original_pdf_seasons_to_exact_reviewed_analysis_ready_2026-11-11.json",
     "six_august_model": "six_original_pdf_seasons_to_original_august_FE_models_2026-11-11.json",
+    "official_cup": "official_NBA_cup_2023_2025_group_and_calendar_source_audit.json",
     "october_source": "source_generated_october_cadence_panel_and_four_models.json",
 }
 ORIGINAL_2020_PDFS = 617
@@ -258,6 +259,38 @@ def audit(reports: dict) -> dict:
     require(october["limitations"]["original_harmonized_report_choice_metadata_inherited"] is True and
             october["limitations"]["new_GitHub_script_not_independently_rerun_from_clean_checkout_with_all_private_zips"] is True,
             "October original choices and separately run full private CLI are open")
+    official_cup = reports["official_cup"]
+    require(official_cup["status"] ==
+            "PASS_INDEPENDENT_ORIGINAL_NBA_CUP_PRIMARY_SOURCE_GROUP_AND_CALENDAR_VALIDATION",
+            "original NBA Cup primary-source 2023–25 audit not accepted")
+    require(official_cup["original_source_archive_sha256"] ==
+            "65c4756b86dfb5757bb84b6be13eafb952375aaa6ce49fc1ddddc6224a4faf70" and
+            official_cup["archived_original_game_rows"] == 7230 and
+            official_cup["original_regular_season_Cup_games_checked"] == 198,
+            "original Cup audit did not open the immutable 7,230-game source")
+    require(official_cup["group_round_robin_opponent_pairings_checked_against_official_NBA_groups"] == 180 and
+            official_cup["knockout_quarterfinal_and_semifinal_games_on_official_dates_checked"] == 18 and
+            official_cup["distinct_official_NBA_5_team_groups_checked"] == 18,
+            "not all 180 original NBA Cup group fixtures and 18 knockout stage dates checked")
+    all_original_seasons = official_cup["result_by_season"]
+    require({x["season"] for x in all_original_seasons} ==
+            {"2023-24", "2024-25", "2025-26"} and len(all_original_seasons) == 3,
+            "independent official NBA Cup archive release seasons are missing")
+    for season in all_original_seasons:
+        dates = season["actual_group_game_counts_on_official_dates"]
+        require(season["all_60_distinct_unordered_official_group_fixture_pairs_present_once"] is True and
+                season["each_team_two_home_two_away_group_games"] is True and
+                sum(dates.values()) == 60 and len(dates) == 7 and
+                sum(season["quarterfinal_games_on_official_dates"].values()) == 4 and
+                sum(season["semifinal_games_on_official_dates"].values()) == 2 and
+                season["original_official_NBA_sources"]["original_five_team_groups"].startswith("https://www.nba.com/"),
+                "not all original official group fixtures and Cup-night dates cross-checked")
+    require(official_cup["research_scope_boundaries"]["all_individual_original_matchups_matched_against_the_exact_official_per_day_home_away_schedule"] is False and
+            official_cup["research_scope_boundaries"]["official_TV_broadcast_provider_schedule_independently_verified"] is False,
+            "Cup source verification may not claim individual fixture dates or TV providers")
+    require(six["limitations"]["original_Cup_and_TV_source_releases_independently_verified"] is False,
+            "older six-season original-model source report must remain chronologically unchanged")
+
     # The October evidence is a snapshot FROM BEFORE the 2020 repaired
     # source replay. Do not reinterpret its historical 93 as current!
     require(october["limitations"]["raw_2020_21_reason_differences_unresolved"] == 93,
@@ -273,6 +306,8 @@ def audit(reports: dict) -> dict:
         "five_seasons_original_August_FE_coefficient_rows_reproduced": 44,
         "six_seasons_reviewed_analysis_ready_full_outputs_exact": 2,
         "six_seasons_original_August_FE_coefficient_rows_reproduced": 44,
+        "independently_verified_NBA_Cup_original_group_opponent_pairings": 180,
+        "independently_verified_NBA_Cup_knockout_stage_date_rows": 18,
         "five_seasons_source_built_October_cadence_panel_exact_decoded_bytes": 122661378,
         "four_original_October_Stage6_models_exact": True,
     }
@@ -284,7 +319,8 @@ def audit(reports: dict) -> dict:
         "direct_private_original_October_ten_script_handoff": True,
         "independent_original_PDF_inventory_completeness_against_NBA_archive": True,
         "independent_human_crosswalk_and_2182_taxonomy_label_review": True,
-        "independent_star_awards_Cup_TV_and_game_covariate_provenance": True,
+        "independent_star_awards_TV_and_game_covariate_provenance": True,
+        "independent_NBA_Cup_exact_per_fixture_dates_and_TV_provider_provenance": True,
         "full_published_manuscript_claims_reconciliation": True,
         "independent_scientific_review_before_merge": True,
     }
