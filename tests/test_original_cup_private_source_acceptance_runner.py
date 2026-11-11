@@ -90,6 +90,9 @@ class CupPrivateMasterCLIOrchestrationTests(unittest.TestCase):
                 "status":"PASS_15_ORIGINAL_PRIVATE_2025_NAMED_NATIONAL_CUP_GAME_TUPLES",
                 "original_Cup_fixture_tuples_exact":15,
                 "original_preseason_PDF_network_tuples_exact":15}),
+            ("later_60","compare_original_private_later_60",{
+                "status":"PASS_PRIVATE_CUP_2025_ALL_60_LATER_ESPN_GROUP_FIXTURE_ROWS",
+                "later_ESPN_2025_group_fixture_date_away_home_original_private_matches":60}),
             ("knockout","compare_original_private",{
                 "status":"PASS_18_ORIGINAL_CUP_ARCHIVE_DATE_UNORDERED_OPPONENTS_AND_12_QF_HOME_AWAY",
                 "original_knockout_season_date_stage_opponent_pairs_exact":18,
@@ -115,12 +118,13 @@ class CupPrivateMasterCLIOrchestrationTests(unittest.TestCase):
                 error=e
             return outcome,error,called
 
-    def test_seven_private_subtasks_are_not_skipped_in_mocked_dispatcher(self):
+    def test_eight_private_subtasks_are_not_skipped_in_mocked_dispatcher(self):
         result,error,called=self.mock_complete_run()
         self.assertIsNone(error)
-        self.assertEqual(len(called),7)
+        self.assertEqual(len(called),8)
         self.assertTrue(all(p.call_count==1 for _,_,p in called))
         self.assertEqual(result["original_private_2025_first_dated_second_tier_aug13_combined_fixtures_exact"],33)
+        self.assertEqual(result["original_private_2025_later_Nov01_ESPN_full_fixture_date_home_away_exact"],60)
         self.assertFalse(result["2025_original_Aug13_all_60_first_release_pdf_recovered"])
         self.assertFalse(result["neutral_semifinal_nominal_home_side_source_verified"])
         self.assertFalse(result["all_original_scientific_and_manuscript_gates_closed"])
@@ -131,6 +135,13 @@ class CupPrivateMasterCLIOrchestrationTests(unittest.TestCase):
             forced_bad_status=("cup_2025_15tv","compare_original_private"))
         self.assertIsNone(result)
         self.assertRegex(str(error),"strict original-private source subcheck failed")
+
+    def test_eighth_2025_later_ESPN_source_rejects_bad_date_home_away_count(self):
+        result,error,_=self.mock_complete_run(
+            tamper_metric=("later_60","compare_original_private_later_60",
+                           "later_ESPN_2025_group_fixture_date_away_home_original_private_matches"))
+        self.assertIsNone(result)
+        self.assertRegex(str(error),"later ESPN full 60 actual fixture original lookup mismatch")
 
     def test_one_wrong_component_row_count_aborts_entire_master_report(self):
         result,error,_=self.mock_complete_run(
