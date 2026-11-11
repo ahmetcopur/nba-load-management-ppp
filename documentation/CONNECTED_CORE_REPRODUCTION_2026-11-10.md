@@ -1,5 +1,169 @@
 # Connected reproduction: player-ID resolution to final NBA player-game core
 
+
+## November 11 addendum: complete original PDF source seasons, actual six-season model fitting, and independent official Cup source audit
+
+**Current verified scientific status supersedes the chronology of the older
+intermediate reports below.** The previously unresolved 2020–21
+PDF reason-field issue is now resolved: a **new, complete invocation**
+of the SHA-pinned historical parser read **all 617 saved original
+2020–21 PDFs**, yielding **41,780 complete source rows**. The
+deterministic original printed line-wrap correction moved **44
+continuation fragments** back to preceding injury rows and
+completed **49 injured-player reasons**. All 15 original
+fields now match the source reference, including every formerly
+mismatched reason. This fresh parser execution produced
+[its own original-input acceptance report](../validation/level_c_injury_pdf_real_2026-11-10/fresh_2020_617_original_PDFs_source_full_acceptance_2026-11-11.json).
+
+That fresh 2020 source was combined with the genuine 2021–25
+original-PDF-derived selected reports. **All 3,637 selected original
+PDFs** across **six seasons** now supply **73,547 source
+reports** (22 fields exact), **73,438 final resolved player
+report identities** (33 fields exact), and the original
+source-pinned **248,730-row core player-game panel**.
+The original finalizer, original All-Star builder and original
+Cup-lookup implementation were actually rerun and compared to
+their original historical archives: **10 core + 12 All-Star +
+3 Cup = all 25 complete decoded files exact**. This
+is a completed series of real-source code-generation executions,
+not only a synthetic fixture or archived checksum verification.
+See [six-original-season to 25 exact output evidence](../validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_25_exact_core_star_cup_outputs.json).
+
+### Full six-season reviewed modeling inputs, now independently executed
+
+The original source-derived six-season core was passed through
+the unchanged reviewed absence-classification rules using the
+original human-reviewed dictionary of 2,182 distinct injury
+reason labels, extracted from the **original immutable**
+nba_player_game_analysis_ready_v1.zip (original source SHA-256
+a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155).
+Every core field was compared, reviewed classification and
+onset flags were recomputed from the fresh six-season reasons,
+and both final reviewed modeling CSVs were regenerated.
+
+| Actual six-original-season result | Rows | Exact full decoded CSV | Decoded SHA-256 |
+|---|---:|---|---|
+| Full reviewed analysis-ready panel | 248,730 | Yes, 313,710,704 bytes | 5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77 |
+| At-risk reviewed modeling panel | 180,829 | Yes, 150,056,294 bytes | d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635 |
+
+The original reviewed labels themselves are still human-reviewed
+*inherited source assumptions*, not fresh independent medical
+adjudications. See [six-original-season reviewed analysis
+acceptance](../validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_exact_reviewed_analysis_ready_2026-11-11.json).
+
+### Original August fixed-effects statistics from the NEW six-season input
+
+Next the actual original source-hash-pinned historical
+run_teamseason_fixed_effects.py (SHA-256
+7fd6983fb1ce58469ae175a6702cf7ef667c57afa4583a32073bb7f7469d65d3)
+was reexecuted on the newly generated **180,829-row risk panel**.
+Only its original hard-coded input and output paths were
+redirected; the OLS estimator, player/team-season fixed effects,
+two-way player/game clustering and covariate specifications
+were unchanged.
+
+Both original focal models and **all 44 coefficient rows**
+match archived outputs: maximum absolute differences
+1.47e-14 in the 2-row focal table and 2.78e-16 in the
+44-row coefficient table (predeclared acceptance 1e-10).
+The published original Star × post-PPP × announced-national-TV
+triple coefficient is **+0.0314925625567831** (+3.1493 pp,
+SE 0.0131564272555179, p=.0166793), with the same 180,695
+complete-case sample as the original source. The secondary
+conditional injury-classification model is also unchanged
+(N=6,256, coefficient −0.071812294423661, p=.3873125).
+
+[Six-original-PDF-season unchanged original FE model source execution](../validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_original_august_FE_models_2026-11-11.json).
+
+**The separately regenerated October harmonized panel and four
+Stage-6 models passed earlier on a five-original-PDF-season reviewed
+input**; because this new six-source-season reviewed input has
+the same **entire decoded CSV**, it is mathematically input-equivalent.
+Nevertheless, the separate full 10-script October private
+handoff has not yet been executed *directly* against the new
+six-source-season output. Do not silently restate this equivalence
+as a new private 10-script execution.
+
+### First independent primary-source check of original NBA Cup games
+
+Unlike the earlier Cup builder, which faithfully reused the
+**original historical Cup game lookup**, the
+[new official NBA Cup group/calendar verifier](../scripts/data_rebuild/verify_official_NBA_cup_groups.py)
+independently compares the original 7,230-game source lookup
+to **contemporaneous, primary-source official NBA.com releases**
+for the **2023, 2024, and 2025 Cups**.
+
+The official six five-team groups, 7 scheduled group-play nights,
+quarterfinal nights and semifinal nights for each year were
+transcribed from their original NBA releases (the original
+source URLs are embedded in the script and in the
+[executed report](../validation/level_c_injury_pdf_real_2026-11-10/official_NBA_cup_2023_2025_group_and_calendar_source_audit.json)).
+The private original Cup lookup passed all independently
+checked constraints: **180 of 180 original group-stage
+unordered opponent fixture pairs** reproduce the expected
+10 pairings within each of the six official groups each
+season; all teams play four different group opponents
+(two home / two away); and **18 of 18 quarterfinal and semifinal
+game stage dates** fall on the officially announced dates.
+That gives 66 original regular-season Cup games per season,
+**198 total**, excluding the non-regular-season
+championship each year.
+
+This independently checks **official group opponents, total
+season schedule structure, stage/date windows and tournament
+round classifications**. It does **not** independently fetch
+every exact official home/away date matchup, broadcast network,
+or fully rebuild the original Cup lookups from NBA schedule
+source files. Those narrower source-validation gates remain
+open.
+
+### New GitHub source-run acceptance and remaining gates
+
+For a single *declared* private workflow, the master tool
+now accepts:
+
+    python scripts/data_rebuild/reproduce_core_and_stars.py \
+      --archive-dir "$HOME/nba-original-zips" \
+      --output-dir "$HOME/nba-private-rebuild/six-original-PDF-seasons" \
+      --from-original-2020-2025-pdfs \
+      --with-cup \
+      --with-analysis-ready \
+      --with-original-teamseason-models
+
+All source ZIPs must be pinned, original, and outside a Git
+checkout. The clean output destination must not exist. The
+old raw original PDF reports and new player-level rows
+are never committed.
+
+The historical *equivalent actual constituent private
+executions* above all passed. The newly packaged one-command
+GitHub umbrella interface has **not** separately been
+accepted from a clean checkout against the full set of
+original private ZIPs; nor has its standalone 2020 CLI
+alone been accepted end-to-end. Do not mark those distinct
+engineering tests as passed based on individual stages.
+
+The new [cross-stage acceptance ledger](../scripts/data_rebuild/verify_level_c_acceptance_ledger.py),
+executed in public CI against only sanitized real-source
+evidence, now gates 2020 source repair, full 617-PDF
+reparse, 25 source-derived core/star/Cup outputs,
+both six-season reviewed tables and the original
+six-source-season August model. It preserves the earlier
+documents' chronological true statements rather than
+rewriting past unfinished-stage evidence.
+
+**Still pending for full scientific Level C:** independent
+original official TV advance-announcement/broadcast
+classification and precise date join checks, independent
+official award history and player alias adjudication,
+validation of all original raw report archive collection
+coverage and inherited game/team covariates, exact
+individual NBA Cup fixtures/broadcasts, the direct
+new six-PDF-season clean-checkout master/October handoff
+acceptance, and complete manuscript-to-model/table
+reconciliation. Keep PR #4 DRAFT and Issue #5 OPEN.
+
+
 **Status, November 10, 2026:** Executed against the recovered original private source packages. Independently regenerated the resolved player-ID table and fed it into the original player-game finalizer; all ten original output files matched exactly (gzip files compared after decompression). This is a connected **data-generation** step, not a checksum-only audit. Its input starts at an archived selected-report CSV, not raw PDFs.
 
 ## One-command runner
