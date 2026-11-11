@@ -24,7 +24,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
 
     def test_all_five_original_source_evidence_documents_cross_check(self):
         result = ledger.audit(self.actual)
-        self.assertEqual(result["source_evidence_files_checked"], 9)
+        self.assertEqual(result["source_evidence_files_checked"], 10)
         self.assertEqual(
             result["verified"]["six_seasons_original_core_star_Cup_full_output_files_exact"],25)
         self.assertEqual(result["status"],"ACCEPTED_COMPONENTS_WITH_OPEN_RESEARCH_GATES")
@@ -104,7 +104,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         result=ledger.audit(self.actual)
         self.assertEqual(result["verified"]["five_seasons_original_August_FE_coefficient_rows_reproduced"],44)
         self.assertTrue(result["still_open"]["six_season_private_source_generated_October_model_suite_rerun"])
-        self.assertTrue(result["still_open"]["independent_star_awards_TV_and_game_covariate_provenance"])
+        self.assertTrue(result["still_open"]["independent_star_awards_and_game_covariate_provenance"])
 
     def test_fresh_six_season_reviewed_model_data_exact_against_previous_five_season_reference(self):
         result=ledger.audit(self.actual)
@@ -156,6 +156,42 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         changed=self.mutated()
         changed["official_cup"]["research_scope_boundaries"]["official_TV_broadcast_provider_schedule_independently_verified"]=True
         with self.assertRaisesRegex(ValueError,"may not claim individual fixture dates or TV providers"):
+            ledger.audit(changed)
+
+    def test_independent_original_NBA_TV_PDF_and_HTML_broadcast_source_rows(self):
+        result=ledger.audit(self.actual)
+        self.assertEqual(result["verified"]["independently_extracted_original_NBA_preseason_PDF_network_rows"],6060)
+        self.assertEqual(result["verified"]["independently_extracted_original_2020_broadcaster_HTML_network_rows"],219)
+        self.assertEqual(result["verified"]["independently_validated_six_season_advance_announced_primary_TV_games"],1041)
+
+    def test_an_original_2025_streaming_network_schedule_row_change_fails(self):
+        changed=self.mutated()
+        changed["official_tv"]["source_2021_2025"]["original_primary_TV_classification_mismatches"]=1
+        with self.assertRaisesRegex(ValueError,"6,060 original NBA PDF"):
+            ledger.audit(changed)
+
+    def test_original_2020_incomplete_NBA_TV_coverage_stays_a_limitation(self):
+        changed=self.mutated()
+        changed["official_tv"]["source_2020_21"]["complete_original_2020_NBA_TV_second_half_schedule_recovered"]=True
+        with self.assertRaisesRegex(ValueError,"incomplete NBA TV coverage"):
+            ledger.audit(changed)
+
+    def test_unknown_original_Cup_matchups_not_backfilled(self):
+        changed=self.mutated()
+        changed["official_tv"]["source_2021_2025"]["unannounced_Cup_determined_games"]=89
+        with self.assertRaisesRegex(ValueError,"6,060 original NBA PDF"):
+            ledger.audit(changed)
+
+    def test_original_NBA_advance_TV_archive_SHA_must_not_drift(self):
+        changed=self.mutated()
+        changed["official_tv"]["original_source_archives"]["original_03_announced_tv_six_seasons_nested_zip_sha256"]="tampered"
+        with self.assertRaisesRegex(ValueError,"broadcast PDF/HTML source archives changed"):
+            ledger.audit(changed)
+
+    def test_public_CI_does_not_claim_live_CDN_byte_redownload(self):
+        changed=self.mutated()
+        changed["official_tv"]["research_limitations"]["fresh_direct_re_download_and_binary_SHA_match_against_live_NBA_CDN_not_completed"]=False
+        with self.assertRaisesRegex(ValueError,"may not claim future"):
             ledger.audit(changed)
 
     def test_missing_original_evidence_document_fails_closed(self):
