@@ -24,7 +24,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
 
     def test_all_five_original_source_evidence_documents_cross_check(self):
         result = ledger.audit(self.actual)
-        self.assertEqual(result["source_evidence_files_checked"], 5)
+        self.assertEqual(result["source_evidence_files_checked"], 6)
         self.assertEqual(
             result["verified"]["six_seasons_original_core_star_Cup_full_output_files_exact"],25)
         self.assertEqual(result["status"],"ACCEPTED_COMPONENTS_WITH_OPEN_RESEARCH_GATES")
@@ -34,7 +34,8 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         self.assertTrue(
             result["verified"]["original_2020_reason_only_drift_resolved_at_source_row_level"])
         self.assertTrue(
-            result["still_open"]["direct_fresh_reparse_of_all_617_original_2020_PDFs_with_repaired_CLI"])
+            result["still_open"]["separately_packaged_new_GitHub_2020_CLI_direct_private_execution"])
+        self.assertTrue(result["verified"]["fresh_direct_617_original_PDFs_reparsed_and_exact_full_source"])
         self.assertFalse(result["all_research_gates_closed"])
         self.assertFalse(result["PR_4_ready_to_merge"])
 
@@ -48,6 +49,18 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         changed=self.mutated()
         changed["source_2020"]["source_2020"]["borrowed_frozen_reason_values_for_repair"]=True
         with self.assertRaisesRegex(ValueError,"may not be borrowed"):
+            ledger.audit(changed)
+
+    def test_fresh_full_617_PDF_source_evidence_cannot_be_replaced_by_prior_diagnostic(self):
+        changed=self.mutated()
+        changed["fresh_2020"]["actual_new_private_execution"]["fresh_original_PDFs_extracted_and_parsed"]=0
+        with self.assertRaisesRegex(ValueError,"fresh original 617-PDF"):
+            ledger.audit(changed)
+
+    def test_fresh_full_2020_PDF_parser_hash_must_match_original(self):
+        changed=self.mutated()
+        changed["fresh_2020"]["historical_original_parser_sha256"]="changed"
+        with self.assertRaisesRegex(ValueError,"parser hashes"):
             ledger.audit(changed)
 
     def test_six_season_ID_output_full_row_count_must_match(self):
