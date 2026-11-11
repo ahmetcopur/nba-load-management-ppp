@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 import unittest
+import tempfile
+from pathlib import Path
 
 from scripts.data_rebuild import verify_nba_cup_2025_nov01_espn_60_groups as audit
+from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 from scripts.data_rebuild import verify_official_nba_cup_2025_aug13_team_press_sources as original
 from scripts.data_rebuild import verify_cup_2025_aug13_contemporaneous_secondary_sources as secondary
 from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as aug14
@@ -31,6 +34,30 @@ class LaterESPN60FixtureSourceTests(unittest.TestCase):
         self.assertEqual(r["additional_Aug13_first_dated_secondary_source_fixtures_crosschecked"],14)
         self.assertEqual(r["NBA_named_national_source_fixture_and_network_matches"],15)
         self.assertTrue(r["all_30_teams_two_home_two_away"])
+
+    def test_positive_all_60_synthetic_original_private_exact_join(self):
+        # Uses the SAME exact matcher as the SHA-pinned original private path,
+        # but synthetic data only: this is NOT actual original ZIP acceptance.
+        fake=self.espn.loc[:,list(exact_join.MATCH)].copy()
+        passed=exact_join.exact_group_fixture_join(self.espn,fake,expected=60)
+        self.assertEqual(passed["source_fixture_exact"],60)
+        self.assertTrue(passed["exact_full_match"])
+
+    def test_one_wrong_original_private_2025_host_fails_exact_60_join(self):
+        fake=self.espn.loc[:,list(exact_join.MATCH)].copy()
+        a,h=fake.loc[0,["away_team","home_team"]].to_list()
+        fake.loc[0,["away_team","home_team"]]=[h,a]
+        with self.assertRaisesRegex(ValueError,"date/away/home group mismatch"):
+            exact_join.exact_group_fixture_join(self.espn,fake,expected=60)
+
+    def test_actual_private_60_runner_refuses_fake_SHA_archive(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/"not-original-cup.zip"
+            path.write_bytes(b"synthetic not the immutable original NBA Cup")
+            with self.assertRaisesRegex(ValueError,"full SHA-256 mismatch"):
+                audit.compare_original_private_later_60(
+                    self.espn,self.first,self.second,self.nine,self.fifteen,path
+                )
 
     def test_not_false_original_Aug13_full_release_claim(self):
         r=self.verify()
