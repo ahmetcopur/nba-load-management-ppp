@@ -43,6 +43,7 @@ on:
       - "tests/test_official_nba_cup_knockout_original_fixtures.py"
       - "tests/test_official_nba_cup_2025_aug13_team_press_sources.py"
       - "tests/test_cup_2025_aug13_contemporaneous_secondary_sources.py"
+      - "tests/test_2025_cup_national_publication_timing.py"
       - "validation/nba_cup_2025_aug13_four_contemporaneous_secondary_reports.csv"
       - "validation/official_nba_cup_2025_aug13_five_team_press_releases.csv"
       - "validation/official_nba_cup_2023_2025_eighteen_knockout_fixture_sources.csv"
@@ -145,6 +146,10 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_cup_2025_aug13_contemporaneous_secondary_sources.py -v
           python scripts/data_rebuild/verify_cup_2025_aug13_contemporaneous_secondary_sources.py --source-only --output-report "$RUNNER_TEMP/2025_cup_aug13_secondary_report_tier_public_preflight.json"
+      - name: Enforce 2025 NBA Cup public national broadcast publication-timing matrix
+        run: |
+          python -m unittest discover -s tests -p test_2025_cup_national_publication_timing.py -v
+          python scripts/data_rebuild/audit_2025_cup_national_publication_timing.py --output-report "$RUNNER_TEMP/cup_2025_original_publication_provenance_matrix.json"
       - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
         run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
       - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
