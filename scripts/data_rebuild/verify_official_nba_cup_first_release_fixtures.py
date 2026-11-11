@@ -32,7 +32,9 @@ try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup_groups
     from scripts.data_rebuild import verify_official_nba_tv_announcements as tv_source
     from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
+    import hash_original_archive_streaming as stream_hash
     import verify_official_NBA_cup_groups as cup_groups
     import verify_official_nba_tv_announcements as tv_source
     import compare_nba_cup_exact_source_rows as exact_join
@@ -130,9 +132,9 @@ def load_source(path: Path) -> pd.DataFrame:
 
 def compare_to_private_archives(source: pd.DataFrame, cup_zip: Path, freeze_zip: Path) -> dict:
     """Actually check the immutable 2023/24 original game and TV research rows."""
-    require(sha256(cup_zip.read_bytes()).hexdigest() == cup_groups.ARCHIVE_SHA256,
+    require(stream_hash.sha256_file(cup_zip) == cup_groups.ARCHIVE_SHA256,
             "original private Cup ZIP digest differs")
-    require(sha256(freeze_zip.read_bytes()).hexdigest() == tv_source.FREEZE_SHA,
+    require(stream_hash.sha256_file(freeze_zip) == tv_source.FREEZE_SHA,
             "original immutable frozen project ZIP digest differs")
 
     with ZipFile(cup_zip) as archive:
