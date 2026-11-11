@@ -25,6 +25,8 @@ EVIDENCE = {
     "six_core_star_cup": "six_original_pdf_seasons_to_25_exact_core_star_cup_outputs.json",
     "five_reviewed": "five_raw_seasons_to_exact_reviewed_analysis_ready.json",
     "august_model": "five_raw_seasons_to_original_teamseason_fe_models.json",
+    "six_reviewed": "six_original_pdf_seasons_to_exact_reviewed_analysis_ready_2026-11-11.json",
+    "six_august_model": "six_original_pdf_seasons_to_original_august_FE_models_2026-11-11.json",
     "october_source": "source_generated_october_cadence_panel_and_four_models.json",
 }
 ORIGINAL_2020_PDFS = 617
@@ -182,6 +184,65 @@ def audit(reports: dict) -> dict:
     require(august["new_analysis_ready_model_input_decoded_sha256"] == ORIGINAL_REVIEWED_MODEL_SHA,
             "August model does not match source-derived reviewed at-risk input")
 
+    six_reviewed = reports["six_reviewed"]
+    six_reviewed_lineage = six_reviewed["input_lineage"] if "input_lineage" in six_reviewed else six_reviewed["data_lineage"]
+    six_full = six_reviewed["actual_private_execution"]
+    require(six_reviewed["result"] == "PASS_ALL_SIX_SOURCE_SEASONS_REVIEWED_ANALYSIS_READY",
+            "new six-season original NBA PDF derived reviewed analysis-ready stage has not passed")
+    require(six_reviewed_lineage["original_pdf_reports_reparsed"] == ALL_PDFS and
+            six_reviewed_lineage["original_2020_21_pdfs_newly_reparsed"] == ORIGINAL_2020_PDFS and
+            six_reviewed_lineage["original_2021_22_through_2025_26_pdfs_reparsed"] == OTHER_SEASON_PDFS and
+            six_reviewed_lineage["six_season_selected_report_rows"] == SIX_SELECTED and
+            six_reviewed_lineage["original_resolved_report_player_rows"] == PLAYER_ROWS and
+            six_reviewed_lineage["original_core_player_game_rows"] == PLAYER_GAMES,
+            "six-season fresh original-NBA-source-to-reviewed data lineage contradicts earlier source evidence")
+    require(six_reviewed_lineage["original_decoded_core_sha256"] == ORIGINAL_CORE_DECODED_SHA,
+            "new six-season reviewed input did not originate from the original exact core")
+    require(six_reviewed["reviewed_archive_source"]["historical_sha256"] == reviewed["historical_reviewed_source_sha256"] and
+            six_reviewed["reviewed_archive_source"]["number_of_unique_reviewed_official_reason_labels"] == 2182 and
+            six_reviewed["reviewed_archive_source"]["label_contents_independently_medically_adjudicated"] is False,
+            "original human-reviewed 2,182-label taxonomy source provenance misrepresented")
+    require(six_full["status"] == "success" and
+            six_full["full_analysis_ready_rows"] == PLAYER_GAMES and
+            six_full["at_risk_model_rows"] == AT_RISK,
+            "new six-season reviewed analysis-ready full/at-risk regeneration incomplete")
+    six_outputs = {x["name"]: x for x in six_full["generated_outputs"]}
+    require(len(six_outputs) == 2 and
+            all(x["full_decoded_contents_exact"] is True for x in six_outputs.values()),
+            "both six-season reconstructed reviewed tables must match all decoded bytes")
+    for filename in ("player_game_panel_analysis_ready.csv.gz",
+                     "player_game_panel_model_at_risk_analysis_ready.csv.gz"):
+        require(six_outputs[filename]["decoded_sha256"] == output[filename]["decoded_sha256"] and
+                six_outputs[filename]["decoded_bytes"] == output[filename]["decoded_bytes"] and
+                six_outputs[filename]["rows"] == output[filename]["rows"],
+                f"six-season source-derived reviewed {filename} differs from accepted original")
+    require(six_reviewed["scientific_limits"]["separate_new_six_season_GitHub_master_umbrella_CLI_accepted_from_clean_checkout"] is False,
+            "public six-season master command falsely claimed accepted directly from private source ZIPs")
+
+    six_august = reports["six_august_model"]
+    six_august_lineage = six_august["input_lineage"]
+    require(six_august["result"] == "PASS_ORIGINAL_AUGUST_FE_ON_FRESH_SIX_NBA_PDF_SEASONS" and
+            six_august_lineage["original_NBA_injury_PDFs_reparsed"] == ALL_PDFS and
+            six_august_lineage["original_2020_source_PDFs_freshly_reparsed"] == ORIGINAL_2020_PDFS and
+            six_august_lineage["reviewed_analysis_ready_at_risk_rows"] == AT_RISK and
+            six_august_lineage["reviewed_at_risk_full_decoded_sha256"] == ORIGINAL_REVIEWED_MODEL_SHA,
+            "new August regression not actually fitted on the six original-source-season model input")
+    require(six_august["original_historical_model"]["original_model_zip_sha256"] ==
+            august["original_model_package_sha256"] and
+            six_august["original_historical_model"]["original_code_sha256"] ==
+            august["original_model_executed_source_sha256"] and
+            six_august["original_historical_model"]["source_changes_except_original_hardcoded_input_output_paths"] is False and
+            six_august["original_historical_model"]["historical_model_script_exited_successfully"] is True,
+            "original August statistical model source/code not executed as originally frozen")
+    new_models = six_august["original_complete_result_comparisons"]
+    require(new_models["teamseason_fe_focal.csv"]["original_and_recomputed_outcome_rows"] == 2 and
+            new_models["teamseason_fe_coefficients.csv"]["original_and_recomputed_coefficient_rows"] == 44 and
+            all(x["max_absolute_numeric_difference"] < 1e-10 for x in new_models.values()),
+            "complete original August two focal / 44 model result rows do not match")
+    require(len(six_august["original_focal_estimates"]) == 2 and
+            six_august["research_limitations"]["original_October_10_script_suite_executed_directly_on_six_season_rebuilt_private_panel"] is False,
+            "six-season October direct full-suite execution has not yet been accepted")
+
     october = reports["october_source"]
     panel = october["full_harmonized_panel_exact"]
     require(october["original_2025_harmonized_pdf_reparse"]["actual_selected_original_pdfs"] == 355,
@@ -210,13 +271,16 @@ def audit(reports: dict) -> dict:
         "six_seasons_original_core_star_Cup_full_output_files_exact": 25,
         "five_seasons_reviewed_analysis_ready_full_outputs_exact": 2,
         "five_seasons_original_August_FE_coefficient_rows_reproduced": 44,
+        "six_seasons_reviewed_analysis_ready_full_outputs_exact": 2,
+        "six_seasons_original_August_FE_coefficient_rows_reproduced": 44,
         "five_seasons_source_built_October_cadence_panel_exact_decoded_bytes": 122661378,
         "four_original_October_Stage6_models_exact": True,
     }
     outstanding = {
         "separately_packaged_new_GitHub_2020_CLI_direct_private_execution": True,
         "direct_clean_checkout_original_PDF_six_season_master_CLI_acceptance": True,
-        "six_season_new_analysis_ready_and_original_August_October_model_rerun": True,
+        "six_season_new_reviewed_analysis_ready_or_August_FE_model_rerun": False,
+        "six_season_private_source_generated_October_model_suite_rerun": True,
         "direct_private_original_October_ten_script_handoff": True,
         "independent_original_PDF_inventory_completeness_against_NBA_archive": True,
         "independent_human_crosswalk_and_2182_taxonomy_label_review": True,
