@@ -108,3 +108,29 @@ other award/medical-label/crosswalk/covariate/manuscript reconciliation
 gates remain separate and open. No original frozen research data,
 model, manuscript or historical evidence modified. Keep PR #4
 DRAFT/UNMERGED, Issue #5 OPEN.
+
+
+## Original Aug 13 opponent-pair coverage map: where the next searches matter most
+
+Compared to the previously independently verified **six 2025 official NBA
+groups of five** (10 unique group opponents per group), the five team stories
+verify these **19** unordered group pair identities with **date and
+away/home** attached:
+
+| Official 2025 NBA group | Independently first-release checked | Still awaiting original Aug 13 first-party tuple |
+|---|---:|---:|
+| West A (Suns group) | 4 of 10 | 6 |
+| West B (Lakers/Clippers/Mavs/Memphis/Pelicans) | 0 of 10 | 10 |
+| West C (Nuggets group) | 4 of 10 | 6 |
+| East A (Pacers/Raptors group) | 7 of 10 | 3 |
+| East B (Celtics/Nets/Pistons/Magic/76ers) | 0 of 10 | 10 |
+| East C (Hornets group) | 4 of 10 | 6 |
+| **All six** | **19 of 60** | **41** |
+
+**Priority next search:** find ORIGINAL **August 13, 2025** first-party
+team Cup announcement articles from **West B and East B** first: they cover
+the biggest entirely unverified group-fixture blocks. These are gaps in
+*independent original-Aug-13 source evidence*, **not proof that the group
+fixtures or their original dated TV release records are absent**. The
+historic general Aug 14 schedule PDF confirms these later one day, but
+must not be passed off as the exact original Aug 13 source.
