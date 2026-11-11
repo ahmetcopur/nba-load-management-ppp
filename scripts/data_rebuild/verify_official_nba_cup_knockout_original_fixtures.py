@@ -35,8 +35,10 @@ import pandas as pd
 
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as original
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as original
+    import compare_nba_cup_exact_source_rows as exact_join
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "validation/official_nba_cup_2023_2025_eighteen_knockout_fixture_sources.csv"
@@ -182,24 +184,13 @@ def compare_original_private(frame: pd.DataFrame, archive_path: Path) -> dict:
     knockout = lookup.loc[lookup.cup_stage.isin(REQUIRED_BY_STAGE)]
     require(len(knockout)==18,"original private Cup stage rows not 18")
 
-    def pair_tuple(r):
-        a,b=sorted((r.away_team,r.home_team))
-        return (r.season,r.game_date_et,r.cup_stage,a,b)
+    # Independent exact-row comparator is now positively exercised with
+    # synthetic original lookup frames, including wrong stage/date/teams,
+    # false quarterfinal host direction and neutral semifinal source limits.
+    # Original private ZIP digest and full 7,230 lookup checks above remain
+    # mandatory before a user can claim an actual archive PASS.
+    exact_join.exact_knockout_fixture_join(frame, knockout)
 
-    original_keys={pair_tuple(r) for r in knockout.itertuples(index=False)}
-    source_keys={source_identity(r) for r in frame.itertuples(index=False)}
-    require(original_keys==source_keys,
-            f"official vs original 18 exact date/stage/opponents mismatch: "
-            f"{len(source_keys-original_keys)} missing; {len(original_keys-source_keys)} extra")
-
-    source_quarters={(r.season,r.game_date_et,r.away_team,r.home_team)
-                     for r in frame.itertuples(index=False) if r.cup_stage=="quarterfinal"}
-    original_quarters={(r.season,r.game_date_et,r.away_team,r.home_team)
-                       for r in knockout.itertuples(index=False) if r.cup_stage=="quarterfinal"}
-    require(source_quarters==original_quarters,
-            "12 NBA quarterfinal actual source home/away assignments differ from original Cup")
-    require(len(source_quarters)==12 and len(original_quarters)==12,
-            "not 12 distinct original official QF home-market fixtures")
     return {
         "status":"PASS_18_ORIGINAL_CUP_ARCHIVE_DATE_UNORDERED_OPPONENTS_AND_12_QF_HOME_AWAY",
         "original_source_Cup_ZIP_SHA256":original.ARCHIVE_SHA256,
