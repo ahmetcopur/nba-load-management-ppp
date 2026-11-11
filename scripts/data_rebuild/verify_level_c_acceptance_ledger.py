@@ -28,6 +28,7 @@ EVIDENCE = {
     "six_reviewed": "six_original_pdf_seasons_to_exact_reviewed_analysis_ready_2026-11-11.json",
     "six_august_model": "six_original_pdf_seasons_to_original_august_FE_models_2026-11-11.json",
     "official_cup": "official_NBA_cup_2023_2025_group_and_calendar_source_audit.json",
+    "official_tv": "official_NBA_advance_TV_six_season_original_PDF_HTML_source_replay_2026-11-11.json",
     "october_source": "source_generated_october_cadence_panel_and_four_models.json",
 }
 ORIGINAL_2020_PDFS = 617
@@ -291,6 +292,61 @@ def audit(reports: dict) -> dict:
     require(six["limitations"]["original_Cup_and_TV_source_releases_independently_verified"] is False,
             "older six-season original-model source report must remain chronologically unchanged")
 
+    tv = reports["official_tv"]
+    require(tv["status"] == "PASS_INDEPENDENT_FIRST_PARTY_NBA_BROADCAST_SOURCE_REEXTRACTION",
+            "independently re-extracted original NBA six-season national-TV source audit not accepted")
+    require(tv["original_source_archives"]["original_NBA_Historical_Source_Inventory_zip_sha256"] ==
+            "365e86f47078b093585445ab8dd6143b74b14df3afdfc1af4e4f063305823d1f" and
+            tv["original_source_archives"]["original_03_announced_tv_six_seasons_nested_zip_sha256"] ==
+            "13c6a13bace590e4116046f3258d666c1c62e0768a910051bca7883429078867" and
+            tv["original_source_archives"]["all_five_original_PDF_bytes_identical_across_inventory_and_frozen_research_package"] is True and
+            tv["original_source_archives"]["all_six_original_2020_HTML_bytes_identical_across_inventory_and_frozen_research_package"] is True,
+            "NBA first-party broadcast PDF/HTML source archives changed")
+    modern = tv["source_2021_2025"]
+    require(modern["original_PDF_source_schedule_rows_by_season"] ==
+            {"2021-22":1230, "2022-23":1230, "2023-24":1200,
+             "2024-25":1200, "2025-26":1200},
+            "five original NBA preseason PDF fixture row counts differ")
+    require(modern["all_original_6060_PDF_away_home_date_network_fields_exact"] is True and
+            modern["original_PDF_network_row_disagreements"] == 0 and
+            modern["original_PDF_date_away_home_row_disagreements"] == 0 and
+            modern["mapped_games_in_final_five_season_treatment"] == 6150 and
+            modern["unannounced_Cup_determined_games"] == 90 and
+            modern["original_primary_TV_2021_2025_total"] == 885 and
+            modern["original_primary_TV_classification_mismatches"] == 0 and
+            modern["original_separate_NBA_TV_classification_mismatches"] == 0,
+            "6,060 original NBA PDF date/away/home/network rows or 6,150 original treatment flags not exact")
+    require(modern["unannounced_Cup_games_by_season"] ==
+            {"2023-24":30,"2024-25":30,"2025-26":30} and
+            modern["all_90_unknown_Cup_matchups_correctly_not_assigned_false_non_national_at_preseason_release"] is True,
+            "90 unknown original NBA Cup fixture matchups incorrectly backfilled as released")
+    legacy = tv["source_2020_21"]
+    require(legacy["original_original_HTML_specified_broadcast_rows"] == 219 and
+            legacy["original_2020_release_HTML_independently_extracted_date_team_network_field_disagreements"] == 0 and
+            legacy["unique_first_party_2020_broadcast_matchup_announcements"] == 218 and
+            legacy["unique_announced_matchups_joined_to_realized_fixtures"] == 217 and
+            legacy["original_national_primary_fixtures_exclusively_matchup_announced"] == 156 and
+            legacy["original_2020_21_first_half_NBA_TV_confirmed_matches"] == 61 and
+            legacy["original_2020_21_second_half_NBA_TV_unknown_flag_count"] == 542 and
+            legacy["complete_original_2020_NBA_TV_second_half_schedule_recovered"] is False,
+            "219 original 2020 broadcaster HTML rows or incomplete NBA TV coverage misrepresented")
+    require(legacy["original_2020_21_final_week_TNT_unknown_matchups"] == 4 and
+            legacy["original_2020_21_final_week_ESPN_unknown_matchups"] == 5 and
+            legacy["unannounced_matchups_not_backfilled_from_eventual_TV_appearance"] is True,
+            "2020 unpublished final-week national flex choices cannot be retrospectively coded announced")
+    require(tv["six_seasons"]["historical_played_games"] == 7230 and
+            tv["six_seasons"]["six_season_original_primary_advance_announced_TV_games"] == 1041 and
+            tv["six_seasons"]["primary_advance_announced_TV_per_season"] ==
+            {"2020-21":156, "2021-22":162, "2022-23":163,
+             "2023-24":160, "2024-25":163, "2025-26":237},
+            "six-season 7,230-game official-source-announced primary-TV counts changed")
+    require(tv["research_limitations"]["fresh_direct_re_download_and_binary_SHA_match_against_live_NBA_CDN_not_completed"] is True and
+            tv["research_limitations"]["all_2020_21_NBA_TV_sensitivity_games_knowable_from_saved_release"] is False and
+            tv["research_limitations"]["game_by_game_postponed_announcement_to_original_official_played_fixture_mapping_independently_validated_from_NBA_live_log"] is False,
+            "original NBA TV verification may not claim future, unavailable or independently unchecked raw sources")
+    require(six["limitations"]["original_Cup_and_TV_source_releases_independently_verified"] is False,
+            "older six-season original TV source status is historical, do not rewrite it retroactively")
+
     # The October evidence is a snapshot FROM BEFORE the 2020 repaired
     # source replay. Do not reinterpret its historical 93 as current!
     require(october["limitations"]["raw_2020_21_reason_differences_unresolved"] == 93,
@@ -308,6 +364,9 @@ def audit(reports: dict) -> dict:
         "six_seasons_original_August_FE_coefficient_rows_reproduced": 44,
         "independently_verified_NBA_Cup_original_group_opponent_pairings": 180,
         "independently_verified_NBA_Cup_knockout_stage_date_rows": 18,
+        "independently_extracted_original_NBA_preseason_PDF_network_rows": 6060,
+        "independently_extracted_original_2020_broadcaster_HTML_network_rows": 219,
+        "independently_validated_six_season_advance_announced_primary_TV_games": 1041,
         "five_seasons_source_built_October_cadence_panel_exact_decoded_bytes": 122661378,
         "four_original_October_Stage6_models_exact": True,
     }
@@ -319,7 +378,10 @@ def audit(reports: dict) -> dict:
         "direct_private_original_October_ten_script_handoff": True,
         "independent_original_PDF_inventory_completeness_against_NBA_archive": True,
         "independent_human_crosswalk_and_2182_taxonomy_label_review": True,
-        "independent_star_awards_TV_and_game_covariate_provenance": True,
+        "independent_star_awards_and_game_covariate_provenance": True,
+        "original_2020_second_half_NBA_TV_complete_sensitivity_source": True,
+        "independent_postponed_game_to_announced_TV_fixture_NBA_source_crosscheck": True,
+        "live_NBA_CDN_re_downloaded_PDF_bytes_binary_verified": True,
         "independent_NBA_Cup_exact_per_fixture_dates_and_TV_provider_provenance": True,
         "full_published_manuscript_claims_reconciliation": True,
         "independent_scientific_review_before_merge": True,
