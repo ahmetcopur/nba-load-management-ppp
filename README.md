@@ -32,6 +32,35 @@ No additional specification should replace the frozen suite merely because it gi
 - `validation/` — taxonomy scoring artifacts.
 - `MANIFEST_SHA256.csv` — hashes for every file in this freeze.
 
+### Independent first-party national-TV source audit — November 11
+
+The project now has an **independent source-level check of the advance-announced
+national-TV treatment**. We re-extracted the date, visitor, host and network
+from all five original NBA preseason by-date PDF releases (2021–22 through
+2025–26), verifying **6,060/6,060 complete broadcast source rows exactly**
+and all 6,150 corresponding original played-game treatment classifications.
+The **90 original Cup-driven TBD matchups** retain an explicitly unknown
+at-release status rather than being backfilled.
+
+For 2020–21, we independently parsed the first/second-half original
+ESPN/ABC, TNT and NBA TV announcement HTML. All **219 specified original
+broadcast rows** match, mapping to **156 truly matchup-announced primary-TV
+games** and 61 verified first-half NBA TV games. Importantly, **542
+second-half NBA TV classifications remain unknown** because the saved
+original broadcaster source does not contain the complete static schedule.
+Together, the verified six-season original national-TV dataset contains
+**1,041 primary matchup-announced games across 7,230 fixtures**.
+
+[Original first-party TV-source reparser](scripts/data_rebuild/verify_official_nba_tv_announcements.py) ·
+[Sanitized verified original PDF/HTML audit](validation/level_c_injury_pdf_real_2026-11-10/official_NBA_advance_TV_six_season_original_PDF_HTML_source_replay_2026-11-11.json) ·
+[Complete methods, commands and limitations](documentation/CONNECTED_CORE_REPRODUCTION_2026-11-10.md).
+
+This is **source-defined treatment verification**, not proof of a
+causal policy effect. Live NBA CDN bytes were not separately
+re-downloaded, every postponed-game assignment has not been
+independently checked against official NBA boxscore logs, and
+the original incomplete 2020–21 NBA TV sensitivity limitation remains.
+
 ### November 11, 2026 — all six original PDF seasons accepted through August models
 
 The original **2020–21 PDF reason-text discrepancy is resolved**: a fresh
