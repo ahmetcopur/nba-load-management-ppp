@@ -61,13 +61,13 @@ created *by the tests*.
 The [private runner orchestration tests](../tests/test_original_cup_private_source_acceptance_runner.py)
 also use *MOCKED* private join calls, authentic original SHA-gate
 rejection for altered fake source ZIPs, and strict no-overwrite tests.
-They demonstrate that all seven private component subcommands are required
+They demonstrate that all eight private component subcommands are required
 and that one component failure or wrong row count aborts the report,
 not that original private bytes were checked.
 
 ## One-command original PRIVATE acceptance — not yet executed in this chat
 
-The seven verified real-archive subcommands are now composed in
+The eight verified real-archive subcommands are now composed in
 [one read-only master runner](../scripts/data_rebuild/run_original_cup_private_source_acceptance.py).
 
 On a **private local checked-out copy**, use the authentic historical
@@ -122,3 +122,32 @@ reconciliation all remain independent research gates.
 
 Keep PR #4 **DRAFT/UNMERGED**, Issue #5 **OPEN**, and the original
 frozen data, model and paper intact.
+
+
+## November 11 additional original-archive gate — all 60 2025 actual fixtures
+
+The master now includes an **eighth** strict original-private comparison
+to the complete **November 1 ESPN-authored 2025 Cup group schedule**:
+[public 60-row later ESPN source](../validation/nba_cup_2025_nov01_espn_editorial_60_group_fixtures.csv),
+[separate exact 60-game private original lookup join](../scripts/data_rebuild/verify_nba_cup_2025_nov01_espn_60_groups.py),
+and [synthetic positive/failure tests](../tests/test_nba_cup_2025_nov01_espn_60_source.py).
+It compares every **season + game date + away team + home team** 2025
+Cup group tuple against original frozen Cup game lookup, once the immutable
+archive hash passes. This checks all 60 later schedule identities,
+**not** the timing/initial network of the missing August 13 first-release
+NBA PDF. Earlier Aug 13 contemporary first-party 19 and secondary 14
+checks retain their separate provenance.
+
+Also, full-original-file SHA-256 hash operations are now **streaming,
+bounded-memory** instead of `Path.read_bytes()` through
+[shared hash module](../scripts/data_rebuild/hash_original_archive_streaming.py).
+This addresses possible multi-gigabyte original archive memory spikes;
+the exact expected original SHA-256 pin values and fail-closed
+requirement are unchanged. [Six SHA-256 synthetic tests](../tests/test_original_cup_streaming_archive_hashes.py)
+reject corruption, missing files, invalid chunk sizes and accidental
+whole-file reads. The underlying private original ZIPs remain unavailable
+in public CI; no original bytes were checked in this session.
+
+New full private original runner output is still a partial science PASS
+**with explicit open gates**. Do not infer a complete 2025 first-release
+publication audit or readiness to merge from its eventual success.
