@@ -20,6 +20,8 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from zipfile import ZipFile
+import io
 import json
 from pathlib import Path
 
@@ -31,12 +33,16 @@ try:
     from scripts.data_rebuild import verify_cup_2025_aug13_contemporaneous_secondary_sources as aug13_secondary
     from scripts.data_rebuild import verify_official_nba_cup_2025_named_broadcasts as aug14_nine
     from scripts.data_rebuild import verify_official_nba_cup_2025_all_15_national_broadcasts as nba15
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
+    from scripts.data_rebuild import hash_original_archive_streaming as stream_hash
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as cup
     import verify_official_nba_cup_2025_aug13_team_press_sources as aug13_nba
     import verify_cup_2025_aug13_contemporaneous_secondary_sources as aug13_secondary
     import verify_official_nba_cup_2025_named_broadcasts as aug14_nine
     import verify_official_nba_cup_2025_all_15_national_broadcasts as nba15
+    import compare_nba_cup_exact_source_rows as exact_join
+    import hash_original_archive_streaming as stream_hash
 
 ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/"validation/nba_cup_2025_nov01_espn_editorial_60_group_fixtures.csv"
@@ -157,9 +163,45 @@ def verify(espn: pd.DataFrame, first: pd.DataFrame,
     }
 
 
+
+def compare_original_private_later_60(espn: pd.DataFrame,
+                                      first: pd.DataFrame,
+                                      second: pd.DataFrame,
+                                      nine: pd.DataFrame,
+                                      national: pd.DataFrame,
+                                      original_cup_zip: Path) -> dict:
+    """After full SHA pin, compare all 60 later ESPN game tuples to original Cup.
+
+    This must NOT be interpreted as validation of the missing August 13
+    original NBA Cup first-release binary or its first-published networks.
+    """
+    verify(espn,first,second,nine,national)
+    require(stream_hash.sha256_file(original_cup_zip)==cup.ARCHIVE_SHA256,
+            "original private Cup ZIP full SHA-256 mismatch")
+    with ZipFile(original_cup_zip) as archive:
+        lookup=pd.read_csv(io.BytesIO(archive.read(cup.ARCHIVE_MEMBER)),
+                           dtype=str,keep_default_na=False,low_memory=False)
+    require(len(lookup)==7230 and not lookup.game_id.duplicated().any(),
+            "original six-season Cup game research lookup not 7,230 distinct games")
+    original=lookup.loc[lookup.season.eq("2025-26") &
+                        lookup.cup_stage.eq("group_play")]
+    require(len(original)==60,
+            "original private 2025 Cup group-play game rows not exactly 60")
+    exact_join.exact_group_fixture_join(espn,original,expected=60)
+    return {
+        "status":"PASS_PRIVATE_CUP_2025_ALL_60_LATER_ESPN_GROUP_FIXTURE_ROWS",
+        "original_Cup_source_ZIP_SHA256":cup.ARCHIVE_SHA256,
+        "later_ESPN_2025_group_fixture_date_away_home_original_private_matches":60,
+        "NBA_original_aug13_complete_first_release_independently_recovered":False,
+        "original_aug13_network_treatment_certified":False,
+        "source_editorial_publication_date":"2025-11-01",
+    }
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-csv",type=Path,default=SOURCE)
+    parser.add_argument("--original-cup-zip",type=Path)
     parser.add_argument("--output-report",type=Path)
     a=parser.parse_args()
     report=verify(
@@ -169,6 +211,16 @@ def main():
         aug14_nine.load_source(aug14_nine.SOURCE),
         nba15.load(nba15.SOURCE),
     )
+    if a.original_cup_zip:
+        report["private_original_comparison"]=compare_original_private_later_60(
+            load(a.source_csv),
+            aug13_nba.load_source(aug13_nba.DEFAULT_SOURCE),
+            aug13_secondary.load(aug13_secondary.SECONDARY),
+            aug14_nine.load_source(aug14_nine.SOURCE),
+            nba15.load(nba15.SOURCE),
+            a.original_cup_zip
+        )
+        report["status"]="PASS_PRIVATE_2025_LATER_ESPN_ALL_60_FIXTURES_ONLY"
     if a.output_report:
         require(not a.output_report.exists(),"do not overwrite a previous source report")
         a.output_report.parent.mkdir(parents=True,exist_ok=True)
