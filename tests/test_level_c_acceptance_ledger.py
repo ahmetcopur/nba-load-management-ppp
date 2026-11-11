@@ -24,7 +24,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
 
     def test_all_five_original_source_evidence_documents_cross_check(self):
         result = ledger.audit(self.actual)
-        self.assertEqual(result["source_evidence_files_checked"], 8)
+        self.assertEqual(result["source_evidence_files_checked"], 9)
         self.assertEqual(
             result["verified"]["six_seasons_original_core_star_Cup_full_output_files_exact"],25)
         self.assertEqual(result["status"],"ACCEPTED_COMPONENTS_WITH_OPEN_RESEARCH_GATES")
@@ -104,7 +104,7 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         result=ledger.audit(self.actual)
         self.assertEqual(result["verified"]["five_seasons_original_August_FE_coefficient_rows_reproduced"],44)
         self.assertTrue(result["still_open"]["six_season_private_source_generated_October_model_suite_rerun"])
-        self.assertTrue(result["still_open"]["independent_star_awards_Cup_TV_and_game_covariate_provenance"])
+        self.assertTrue(result["still_open"]["independent_star_awards_TV_and_game_covariate_provenance"])
 
     def test_fresh_six_season_reviewed_model_data_exact_against_previous_five_season_reference(self):
         result=ledger.audit(self.actual)
@@ -132,6 +132,30 @@ class LevelCAcceptanceLedgerTests(unittest.TestCase):
         changed=self.mutated()
         changed["six_reviewed"]["reviewed_archive_source"]["label_contents_independently_medically_adjudicated"]=True
         with self.assertRaisesRegex(ValueError,"human-reviewed"):
+            ledger.audit(changed)
+
+    def test_actual_original_NBA_Cup_group_and_knockout_dates_independent_checks(self):
+        result=ledger.audit(self.actual)
+        self.assertEqual(result["verified"]["independently_verified_NBA_Cup_original_group_opponent_pairings"],180)
+        self.assertEqual(result["verified"]["independently_verified_NBA_Cup_knockout_stage_date_rows"],18)
+        self.assertTrue(result["still_open"]["independent_NBA_Cup_exact_per_fixture_dates_and_TV_provider_provenance"])
+
+    def test_official_NBA_Cup_source_season_must_not_be_omitted(self):
+        changed=self.mutated()
+        changed["official_cup"]["result_by_season"].pop()
+        with self.assertRaisesRegex(ValueError,"archive release seasons are missing"):
+            ledger.audit(changed)
+
+    def test_original_Cup_verified_game_lookup_sha_must_be_immutable(self):
+        changed=self.mutated()
+        changed["official_cup"]["original_source_archive_sha256"]="modified"
+        with self.assertRaisesRegex(ValueError,"immutable 7,230-game source"):
+            ledger.audit(changed)
+
+    def test_official_Cup_per_fixture_TV_knowledge_cannot_be_overclaimed(self):
+        changed=self.mutated()
+        changed["official_cup"]["research_scope_boundaries"]["official_TV_broadcast_provider_schedule_independently_verified"]=True
+        with self.assertRaisesRegex(ValueError,"may not claim individual fixture dates or TV providers"):
             ledger.audit(changed)
 
     def test_missing_original_evidence_document_fails_closed(self):
