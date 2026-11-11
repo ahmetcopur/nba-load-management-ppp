@@ -31,9 +31,11 @@ import pandas as pd
 try:
     from scripts.data_rebuild import verify_official_NBA_cup_groups as cup
     from scripts.data_rebuild import verify_official_nba_cup_2025_aug13_team_press_sources as nba_first_party
+    from scripts.data_rebuild import compare_nba_cup_exact_source_rows as exact_join
 except ModuleNotFoundError:
     import verify_official_NBA_cup_groups as cup
     import verify_official_nba_cup_2025_aug13_team_press_sources as nba_first_party
+    import compare_nba_cup_exact_source_rows as exact_join
 
 ROOT = Path(__file__).resolve().parents[2]
 SECONDARY = ROOT / "validation/nba_cup_2025_aug13_four_contemporaneous_secondary_reports.csv"
@@ -201,10 +203,11 @@ def check_original_private(second: pd.DataFrame, first: pd.DataFrame, archive: P
     originals=lookup.loc[lookup.season.eq("2025-26") & lookup.cup_stage.eq("group_play")]
     require(len(originals)==60 and not originals.duplicated(list(KEYS)).any(),
             "original private 2025 Cup group stage not 60 unique games")
-    ours=identities(second)|identities(first)
-    require(ours <= identities(originals),
-            f"official NBA+secondary Aug13 fixtures missing from private Cup: "+
-            str(len(ours - identities(originals))))
+    combined = pd.concat([first, second], ignore_index=True)
+    unique_source = combined.drop_duplicates(list(KEYS))
+    exact_join.exact_group_fixture_join(
+        unique_source, originals, expected=33, subset=True
+    )
     return {
         "status":"PASS_ORIGINAL_PRIVATE_CUP_33_CONTEMPORANEOUS_FIXTURE_IDENTITIES",
         "independently_transcribed_source_date_host_away_tuples_in_original_Cup":33,
