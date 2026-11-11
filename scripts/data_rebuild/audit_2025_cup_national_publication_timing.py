@@ -124,8 +124,8 @@ def verify(
             "expected 9 exact national games to overlap 33 contemporaneous fixtures")
     require(len(positive_on_first)==6,
             "only six of overlapping 9 network assignments positively named Aug 13")
-    require(earliest=={DATE_FIRST:6,DATE_NINE:3,DATE_ALL:6},
-            "separate earliest named-network chronology not 6/3/6")
+    require(earliest=={DATE_FIRST:6,DATE_NINE:4,DATE_ALL:5},
+            "separate earliest named-network chronology not 6/4/5")
     require(Counter((r["matchup_in_original_Aug_13_NBA_team_first_party"],
                      r["matchup_in_Aug_13_first_dated_secondary_news"])
                     for r in output) == {(True,False):3,(False,True):6,(False,False):6},
@@ -138,8 +138,8 @@ def verify(
         "of_those_aug13_source_secondary":6,
         "national_games_without_Aug13_game_specific_source":6,
         "named_network_verified_by_Aug13_sources":6,
-        "named_network_only_verified_by_Aug14_NBA_announcement_not_Aug13_sources":3,
-        "named_network_only_verified_by_Aug21_NBA_later_article":6,
+        "named_network_only_verified_by_Aug14_NBA_announcement_not_Aug13_sources":4,
+        "named_network_only_verified_by_Aug21_NBA_later_article":5,
         "network_first_verified_by_date_counts":earliest,
         "original_Aug13_NBA_group_first_release_60_game_binary_recovered":False,
         "original_private_Cup_or_TV_archives_compared":False,
