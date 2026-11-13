@@ -221,12 +221,18 @@ def under_git(path: Path) -> bool:
                for node in (path, *path.parents) for m in (node / ".git",))
 
 
-def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool) -> list[str]:
+def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,
+              *, finalize_existing: bool = False) -> list[str]:
     if not archive_dir.is_dir() or archive_dir.is_symlink():
         raise FileNotFoundError("Private --archive-dir must be an existing real directory")
     if under_git(archive_dir) or under_git(output_root):
         raise ValueError("Private source archives and output must be OUTSIDE every Git worktree")
-    if output_root.exists():
+    if finalize_existing:
+        if output_root.is_symlink() or not output_root.is_dir():
+            raise FileNotFoundError(f"Completed private output root missing or symlinked: {output_root}")
+        if (output_root / "final").exists():
+            raise FileExistsError("Existing final/ folder must not be overwritten")
+    elif output_root.exists():
         raise FileExistsError(f"Output root must be new and absent: {output_root}")
     if not output_root.parent.is_dir():
         raise FileNotFoundError(f"Create private output parent first: {output_root.parent}")
@@ -386,15 +392,56 @@ def run_stage(root: Path, name: str, command: list[str]) -> str:
     return str(logfile.relative_to(root))
 
 
+def completed_stage_logs(root: Path, commands: list[tuple[str, list[str]]]) -> dict[str, str]:
+    """Only finalize an existing run whose every planned stage finished cleanly."""
+    event_log = root / "logs/stages.jsonl"
+    if event_log.is_symlink() or not event_log.is_file():
+        raise FileNotFoundError("Completed run requires an unsymlinked logs/stages.jsonl")
+    events = [json.loads(line) for line in event_log.read_text().splitlines() if line.strip()]
+    expected_events = [(name, event) for name, _ in commands for event in ("start", "finish")]
+    if [(row.get("stage"), row.get("event")) for row in events] != expected_events:
+        raise ValueError("Existing run does not have exactly one ordered start/finish pair per required stage")
+    logs = {}
+    for i, (name, command) in enumerate(commands):
+        start, finish = events[2 * i:2 * i + 2]
+        prior = start.get("command")
+        if (not isinstance(prior, list) or len(prior) != len(command)
+                or Path(prior[1]).name != Path(command[1]).name
+                or [s for s in prior if s.startswith("--")] != [s for s in command if s.startswith("--")]
+                or finish.get("exit_code") != 0
+                or start.get("stdout_log") != f"logs/{name}.log"):
+            raise ValueError(f"Existing stage execution evidence invalid: {name}")
+        logfile = root / "logs" / (name + ".log")
+        if logfile.is_symlink() or not logfile.is_file():
+            raise FileNotFoundError(f"Completed stage log missing or symlinked: {logfile}")
+        logs[name] = f"logs/{name}.log"
+    return logs
+
+
+def verified_boxscore_handoff(root: Path) -> dict:
+    """Require full raw-cache verification AND the August core's recorded handoff."""
+    raw = json.loads((root / "00b_original_boxscore/boxscore_cache_verification.json").read_text())
+    august = json.loads((root / "01_august_core/august_core_source_correction_report.json").read_text())
+    handoff = august.get("raw_original_boxscore_roster_handoff")
+    if (raw.get("scope") != "full 7,230-game cache" or not raw.get("matched")
+            or not handoff or not handoff.get("exact_non_path_cell_equality_to_archived_roster")
+            or not handoff.get("both_source_paths_identify_same_season_and_game_json")
+            or handoff.get("rows") != 248571):
+        raise ValueError("Original NBA JSON roster handoff was not fully verified")
+    return raw
+
+
 def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           october_shared_repo: Path | None = None,
           october_python: Path | None = None,
           boxscore_v1: Path | None = None,
           boxscore_discovery: Path | None = None,
           boxscore_repair_zip: Path | None = None,
-          boxscore_python: Path | None = None) -> dict:
+          boxscore_python: Path | None = None,
+          finalize_existing: bool = False) -> dict:
     archives, output = archives.resolve(), output.resolve()
-    original_zips = preflight(archives, output, verify_original_pdfs)
+    original_zips = preflight(archives, output, verify_original_pdfs,
+                              finalize_existing=finalize_existing)
     raw_boxscore = preflight_original_boxscores(
         boxscore_v1, boxscore_discovery, boxscore_repair_zip, boxscore_python,
         verify_original_pdfs=verify_original_pdfs, output=output)
@@ -410,9 +457,11 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
                               boxscore_v1=boxscore_v1, boxscore_discovery=boxscore_discovery,
                               boxscore_repair_zip=boxscore_repair_zip,
                               boxscore_python=boxscore_python)
-    output.mkdir(parents=True, exist_ok=False)
+    if not finalize_existing:
+        output.mkdir(parents=True, exist_ok=False)
     try:
-        logs = {name: run_stage(output, name, cmd) for name, cmd in commands}
+        logs = (completed_stage_logs(output, commands) if finalize_existing else
+                {name: run_stage(output, name, cmd) for name, cmd in commands})
         august = output / "02_corrected_august"
         cadence = output / "06_corrected_cadence"
         source_paths = {
@@ -432,14 +481,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         analysis_qa = json.loads((august / "corrected_august_analysis_ready_qa.json").read_text())
         raw_boxscore_report = None
         if raw_boxscore:
-            raw_boxscore_report = json.loads((output / "00b_original_boxscore/boxscore_cache_verification.json").read_text())
-            august_report = json.loads((august / "august_core_source_correction_report.json").read_text())
-            handoff_report = august_report.get("raw_original_boxscore_roster_handoff")
-            if (raw_boxscore_report.get("scope") != "full 7,230-game cache"
-                    or not raw_boxscore_report.get("matched") or not handoff_report
-                    or not handoff_report.get("exact_non_path_cell_equality_to_archived_roster")
-                    or not handoff_report.get("both_source_paths_identify_same_season_and_game_json")):
-                raise ValueError("Original NBA JSON roster handoff was not fully verified")
+            raw_boxscore_report = verified_boxscore_handoff(output)
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
                 or analysis_qa.get("corrected_onsets") != 12707):
@@ -476,6 +518,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "stage6_corrected_models": models,
             "stage_logs": logs,
             "structured_stage_log": "logs/stages.jsonl",
+            "stages_reused_from_completed_private_run": finalize_existing,
             "provisional_spells": {
                 "filename": "corrected_august_provisional_spells.csv.gz",
                 "compressed_sha256": sha256_file(final / "corrected_august_provisional_spells.csv.gz"),
@@ -530,6 +573,8 @@ def main() -> None:
                         help="Separate original October analysis Python environment for ten-script replay")
     parser.add_argument("--check-only", action="store_true",
                         help="Preflight required source ZIP filenames and paths; do not run builders")
+    parser.add_argument("--finalize-existing", action="store_true",
+                        help="Validate and manifest an already completed private run with all successful stage logs; never rerun stages or overwrite final/")
     args = parser.parse_args()
     if args.list_inputs:
         print(json.dumps({
@@ -541,6 +586,8 @@ def main() -> None:
     if args.archive_dir is None or args.output_root is None:
         parser.error("--archive-dir and --output-root are required except with --list-inputs")
     archives, output = args.archive_dir.resolve(), args.output_root.resolve()
+    if args.check_only and args.finalize_existing:
+        parser.error("--check-only and --finalize-existing are mutually exclusive")
     raw_options = dict(boxscore_v1=args.boxscore_v1, boxscore_discovery=args.boxscore_discovery,
                        boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
@@ -555,6 +602,7 @@ def main() -> None:
         archives, output, verify_original_pdfs=args.verify_original_pdfs,
         october_shared_repo=args.october_shared_repo,
         october_python=args.october_python,
+        finalize_existing=args.finalize_existing,
         **raw_options,
     )
     print(json.dumps({

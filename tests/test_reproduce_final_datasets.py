@@ -134,6 +134,51 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
                         v1, discovery, repair, Path(sys.executable), verify_original_pdfs=True,
                         output=p / "out")
 
+    def test_existing_run_handoff_reads_actual_august_source_stage(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            raw = p / "00b_original_boxscore"
+            source = p / "01_august_core"
+            decoy = p / "02_corrected_august"
+            for directory in (raw, source, decoy):
+                directory.mkdir()
+            (raw / "boxscore_cache_verification.json").write_text(json.dumps({
+                "scope": "full 7,230-game cache", "matched": True}))
+            report = {"raw_original_boxscore_roster_handoff": {
+                "rows": 248571, "exact_non_path_cell_equality_to_archived_roster": True,
+                "both_source_paths_identify_same_season_and_game_json": True}}
+            (source / "august_core_source_correction_report.json").write_text(json.dumps(report))
+            (decoy / "august_core_source_correction_report.json").write_text("bad")
+            self.assertTrue(final.verified_boxscore_handoff(p)["matched"])
+            report["raw_original_boxscore_roster_handoff"]["rows"] = 10
+            (source / "august_core_source_correction_report.json").write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError, "not fully verified"):
+                final.verified_boxscore_handoff(p)
+
+    def test_completed_stage_reuse_requires_ordered_success_records(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            commands = final.stage_commands(p / "archives", p, verify_original_pdfs=False)
+            (p / "logs").mkdir()
+            events = []
+            for name, command in commands:
+                (p / "logs" / (name + ".log")).write_text("success\n")
+                events.extend([{"stage": name, "event": "start", "command": command,
+                                "stdout_log": f"logs/{name}.log"},
+                               {"stage": name, "event": "finish", "exit_code": 0}])
+            record = p / "logs/stages.jsonl"
+            record.write_text("".join(json.dumps(event) + "\n" for event in events))
+            self.assertEqual(len(final.completed_stage_logs(p, commands)), len(commands))
+            events[-1]["exit_code"] = 1
+            record.write_text("".join(json.dumps(event) + "\n" for event in events))
+            with self.assertRaisesRegex(ValueError, "invalid"):
+                final.completed_stage_logs(p, commands)
+            events[-1]["exit_code"] = 0
+            events.pop()
+            record.write_text("".join(json.dumps(event) + "\n" for event in events))
+            with self.assertRaisesRegex(ValueError, "exactly one ordered"):
+                final.completed_stage_logs(p, commands)
+
     def test_october_pdf_base_handoff_accepts_equal_bytes_and_rejects_tampering(self):
         from scripts.data_rebuild import inject_verified_october_base as bridge
         with tempfile.TemporaryDirectory() as folder:

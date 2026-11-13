@@ -112,6 +112,21 @@ docker run --rm --platform linux/amd64 \
 
 Choose a **new** output-root name per attempt. The mounts for the repository, archives and raw JSON are read-only; only `/runs` is writable. Keep failed native macOS output separate. If a stage fails, examine its private log in the corresponding `/runs` directory. The earlier successful 22-ZIP run used Linux amd64 without the extra original JSON handoff; its success does not establish that this additional stage passes.
 
+If **all** build stages completed successfully but a later manifest check failed, fix the checker in Git and use `--finalize-existing` with the same source and output paths. It requires one ordered successful start/finish record and log for every planned stage, rechecks all 22 source ZIP hashes, the raw repair script, all three decoded dataset hashes and counts, original PDF baseline, the full boxscore and August handoff reports, corrected model estimates, and then writes `final/` and the manifest. It refuses an existing `final/`; it never runs a builder or silently resumes an incomplete stage. The manifest marks the stages as reused from the completed private run. For the completed `linux-amd64-json-002` stages, from a Mac checkout with both private source paths available:
+
+~~~bash
+source "$HOME/.venvs/nba-builder/bin/activate"
+python scripts/data_rebuild/reproduce_final_datasets.py \
+  --archive-dir "$HOME/nba-original-zips" \
+  --output-root "$HOME/nba-reproduction-runs/linux-amd64-json-002" \
+  --verify-original-pdfs \
+  --boxscore-v1 "$HOME/nba-load-audit/nba_boxscore_roster_frame_v1_output" \
+  --boxscore-discovery "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_output/raw_json_discovery" \
+  --boxscore-repair-zip "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_repair.zip" \
+  --boxscore-python "$HOME/venvs/nba-boxscore/bin/python" \
+  --finalize-existing
+~~~
+
 ## Source-to-final dependency boundaries
 
 | Source or decision | Current reconstruction and downstream consumer | Status |
