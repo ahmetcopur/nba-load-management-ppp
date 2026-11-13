@@ -166,6 +166,50 @@ def verify_model_report(report: Path) -> dict:
             "linear_beta_pp": observed[("harmonized_linear", "full")]["estimate_pp_corrected"]}
 
 
+
+# Expected decoded originals. These are independently pinned by the
+# original finalizer and original historical October builder.
+PDF_BASELINE_EXPECTED = {
+    "august_full_core": (
+        "00_original_pdf_baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
+        "01_august_core/baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
+        "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+    ),
+    "october_frozen_cadence": (
+        "00_original_pdf_baseline/original_october_cadence_from_generated_core/cadence_harmonized_results/player_team_game_harmonized_cadence.csv.gz",
+        "04_frozen_cadence/player_team_game_harmonized_cadence.csv.gz",
+        "3c161f954a217fe6996944bd86dc027a9b6968a868097052af21ac11a6d07eac",
+    ),
+}
+
+
+def verify_raw_pdf_baseline_link(root: Path) -> dict:
+    """Prove raw-PDF rebuilt original panels equal correction-stage originals.
+
+    This verifies equality of scientific frozen inputs. It does not claim the
+    correction stages directly used newly parsed PDF rows as file inputs.
+    """
+    comparisons = {}
+    for key, (pdf_relative, archive_relative, expected) in PDF_BASELINE_EXPECTED.items():
+        pdf_panel = root / pdf_relative
+        archive_panel = root / archive_relative
+        if not pdf_panel.is_file() or not archive_panel.is_file():
+            raise FileNotFoundError(f"Missing raw-PDF/core baseline: {key}")
+        pdf_digest = decoded_sha256(pdf_panel)
+        archive_digest = decoded_sha256(archive_panel)
+        if pdf_digest != expected or archive_digest != expected:
+            raise ValueError(
+                f"Original raw-PDF and historical-intermediate frozen baselines differ: "
+                f"{key}, pdf={pdf_digest}, archive={archive_digest}, expected={expected}"
+            )
+        comparisons[key] = {
+            "raw_pdf_rebuilt_decoded_sha256": pdf_digest,
+            "correction_source_baseline_decoded_sha256": archive_digest,
+            "exact_full_csv_equal_via_sha256": True,
+        }
+    return comparisons
+
+
 def under_git(path: Path) -> bool:
     return any((node / ".git").exists() for node in (path, *path.parents))
 
@@ -282,6 +326,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         inspected = {key: inspect_panel(source_paths[key], spec)
                      for key, spec in EXPECTED.items()}
         models = verify_model_report(cadence / "fixture_date_chronology_sensitivity.json")
+        pdf_baseline = verify_raw_pdf_baseline_link(output) if verify_original_pdfs else None
         analysis_qa = json.loads((august / "corrected_august_analysis_ready_qa.json").read_text())
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
@@ -302,6 +347,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "source_level": "historical archived intermediates; optional independently source-PDF-rebuilt frozen baseline",
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
+            "raw_pdf_baseline_exact_compatibility": pdf_baseline,
             "original_manual_taxonomy_awards_cup_tv_decisions_inherited": True,
             "original_archives_and_frozen_panels_unmodified": True,
             "input_archives_sha256": {name: sha256_file(archives / name) for name in original_zips},
