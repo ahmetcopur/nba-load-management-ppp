@@ -65,6 +65,7 @@ on:
       - "tests/test_build_player_game_core_pipeline.py"
       - "tests/test_analysis_ready_from_generated_core.py"
       - "tests/test_rebuild_core_to_analysis_ready.py"
+      - "tests/test_reproduce_final_datasets.py"
       - "tests/test_august_generated_baseline.py"
       - "tests/test_recent_injury_pdf_replays.py"
       - "requirements-october-lock.txt"
@@ -178,6 +179,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_full_october_suite_from_generated_panel.py -v
       - name: Test source-PDF-derived October panel fingerprint to public 10-script input bridge
         run: python -m unittest discover -s tests -p test_october_source_provenance_bridge.py -v
+      - name: Test final corrected August and October dataset entry point (synthetic fixtures)
+        run: python -m unittest discover -s tests -p test_reproduce_final_datasets.py -v
       - name: Test executable identity-to-core source pipeline with tamper/overwrite failures
         run: python -m unittest discover -s tests -p test_build_player_game_core_pipeline.py -v
       - name: Test newly generated core to reviewed analysis-ready bridge
