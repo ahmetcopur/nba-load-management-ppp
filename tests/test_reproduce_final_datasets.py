@@ -66,6 +66,26 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             self.assertIn("--rebuilt-original-selected-players", jobs[1][1])
             self.assertIn(str(p / "out/00_original_pdf_baseline/nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"), jobs[1][1])
 
+    def test_october_pdf_base_handoff_accepts_equal_bytes_and_rejects_tampering(self):
+        from scripts.data_rebuild import inject_verified_october_base as bridge
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            source, target, report = (p / name for name in ("pdf.gz", "historical.gz", "report.json"))
+            payload = b"player_team_game_id\na\n"
+            expected = hashlib.sha256(payload).hexdigest()
+            for path in (source, target):
+                with gzip.open(path, "wb") as f:
+                    f.write(payload)
+            result = bridge.inject(source, target, report, expected=expected)
+            self.assertEqual(result["substituted_input_decoded_sha256"], expected)
+            with self.assertRaises(FileExistsError):
+                bridge.inject(source, target, report, expected=expected)
+            report.unlink()
+            with gzip.open(target, "wb") as f:
+                f.write(b"tampered")
+            with self.assertRaisesRegex(ValueError, "SHA-256 differs"):
+                bridge.inject(source, target, report, expected=expected)
+
     def test_optional_october_models_require_explicit_external_python(self):
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder)
