@@ -376,7 +376,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         manifest = {
             "status": "pass",
             "scope": "Pinned original historical source ZIP intermediates -> source-corrected August/latest-pre-tip and October/cadence final analysis panels",
-            "source_level": "historical archived intermediates; optional direct six-season source-PDF-derived player report rows for corrected August (other original sources and corrected cadence still archived)",
+            "source_level": "six-season source-PDF-derived player report rows feed corrected August; the PDF-derived original reviewed base feeds corrected October after exact hash validation; October season report selection, roster, covariates and reviewed decisions remain inherited",
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
