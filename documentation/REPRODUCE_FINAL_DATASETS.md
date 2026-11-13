@@ -63,7 +63,7 @@ python scripts/data_rebuild/reproduce_final_datasets.py \
   --verify-original-pdfs
 ~~~
 
-**Precise scope:** the extra original-PDF stage rebuilds the original six-season **FROZEN baseline** and verifies it independently. The two Toronto-corrected datasets still consume the version-pinned *original saved report/intermediate ZIPs* in their corresponding reconstruction stages. The extra PDF run does **not** pipe newly parsed raw PDF rows directly into the Toronto correction code. Fully coupled raw-PDF-to-corrected lineage remains a distinct integration task. Original official box-score JSON verification is handled separately by verify_boxscore_cache.py and associated provenance scripts.
+**Precise scope:** the extra original-PDF stage rebuilds the six-season frozen player core, verifies it independently, and then **feeds the directly PDF-derived, identity-resolved 73,438 selected player-report rows into the August baseline and Toronto-corrected finalizer**, after enforcing exact equality across all 33 historical source fields. The source-derived August core is used to generate the corrected latest-pre-tip analysis-ready outputs. Other historical inputs (covariates, team-game reports, roster, manual awards/Cup/TV mappings) still come from pinned original ZIPs. The October cadence correction still uses the historical selected-report intermediate ZIPs; its raw-PDF baseline is independently compared by complete decoded hash but not injected directly. This is a partial raw-to-corrected source path, not an assertion that every historical source is re-downloaded or manually adjudicated. Original official box-score JSON verification is handled separately by verify_boxscore_cache.py and associated provenance scripts.
 
 ### Optional: all 33 October model tables
 
@@ -78,7 +78,7 @@ This invokes october_corrected_chronology.py, rechecks the original archived 33 
 
 ## Existing scientific scripts actually connected
 
-1. **rebuild_august_core_from_source_archives.py:** validate original ZIP hashes; execute original historical finalizer, correct two Toronto physical-game dates, rebuild covariates, report assignments and absence histories, rerun original finalizer.
+1. **rebuild_august_core_from_source_archives.py:** validate original ZIP hashes; optionally inject source-PDF-derived player-report rows after exact 33-field and 73,438-row verification; execute original finalizer, correct two Toronto physical-game dates, rebuild covariates, report assignments and absence histories, rerun original finalizer.
 2. **build_august_analysis_ready_sensitivity.py:** produce corrected full and at-risk August files using the original locked reviewed medical-reason taxonomy. Unknown active reason labels fail rather than being guessed.
 3. **rebuild_from_archives.py:** restore original selected report and source-intermediate ZIPs; reparse original 2025 harmonized sources, build original frozen October cadence and re-execute original four Stage-6 models.
 4. **fixture_date_chronology_sensitivity.py:** separately correct Toronto chronology and original report links; rebuild October cadence panel and fit all four corrected Stage-6 models.
