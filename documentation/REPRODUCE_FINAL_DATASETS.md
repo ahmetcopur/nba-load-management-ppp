@@ -67,7 +67,7 @@ python scripts/data_rebuild/reproduce_final_datasets.py \
 
 ### Optional: connect original NBA box-score JSON to the August finalizer
 
-The original 7,230 JSON cache is **additional private input**; it is not in the 22 historical ZIPs. The original V1 output directory must contain `raw_json/` (7,185 original files) and `download_log.csv`. The V2 `raw_json_discovery/` directory must contain the other 45 original files. Supply the original `nba_boxscore_roster_frame_v2_repair.zip` (SHA-256 `c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0`). The historical roster repair needs pandas 3.0.5, separately from the pandas 2.2.3 final builder:
+The original 7,230 JSON cache is **additional private input**; it is not in the 22 historical ZIPs. The original V1 output directory must contain `raw_json/` (7,185 original files) and `download_log.csv`. The V2 `raw_json_discovery/` directory must contain the other 45 original files. Supply the original `nba_boxscore_roster_frame_v2_repair.zip`; the `repair_boxscore_rosters.py` **member inside it** must have SHA-256 `c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0`. The ZIP container hash itself is recorded during verification but not pinned because the historical evidence pins the executable member. The historical roster repair needs pandas 3.0.5, separately from the pandas 2.2.3 final builder:
 
 ~~~bash
 python3.12 -m venv "$HOME/venvs/nba-boxscore"

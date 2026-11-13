@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import zipfile
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -99,6 +100,28 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,A,1,2022\nTOR,0022200001,A,1,2022\n")
             with self.assertRaisesRegex(ValueError, "Duplicate"):
                 inject_verified_raw_boxscore_roster(original, generated)
+
+    def test_repair_archive_preflight_pins_member_bytes_not_zip_container(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            v1, discovery, repair = p / "v1", p / "discovery", p / "repair.zip"
+            (v1 / "raw_json").mkdir(parents=True)
+            (v1 / "download_log.csv").write_text("status,raw_json_path,bytes,endpoint_name\n")
+            discovery.mkdir()
+            payload = b"original pinned executable"
+            with zipfile.ZipFile(repair, "w") as archive:
+                archive.writestr("source/repair_boxscore_rosters.py", payload)
+            with (mock.patch.object(final, "REPAIR_SCRIPT_SHA256", hashlib.sha256(payload).hexdigest()),
+                  mock.patch.object(final.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "3.0.5\n", ""))):
+                self.assertTrue(final.preflight_original_boxscores(
+                    v1, discovery, repair, Path(sys.executable), verify_original_pdfs=True,
+                    output=p / "out"))
+                with zipfile.ZipFile(repair, "w") as archive:
+                    archive.writestr("source/repair_boxscore_rosters.py", b"changed")
+                with self.assertRaisesRegex(ValueError, "repair script SHA-256 differs"):
+                    final.preflight_original_boxscores(
+                        v1, discovery, repair, Path(sys.executable), verify_original_pdfs=True,
+                        output=p / "out")
 
     def test_october_pdf_base_handoff_accepts_equal_bytes_and_rejects_tampering(self):
         from scripts.data_rebuild import inject_verified_october_base as bridge

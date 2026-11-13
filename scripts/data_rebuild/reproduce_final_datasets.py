@@ -33,13 +33,15 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import zipfile
 
 REPO = Path(__file__).resolve().parents[2]
 TOOLS = REPO / "scripts" / "data_rebuild"
 REFERENCE_CADENCE = REPO / "data_intermediate" / "player_team_game_harmonized_cadence.csv.gz"
 STAGE6_ZIP = REPO / "packages" / "06_cadence_harmonized_identification.zip"
 SOURCE_HASHES = json.loads((TOOLS / "final_source_sha256.json").read_text())
-REPAIR_ZIP_SHA256 = "c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0"
+# Hash of repair_boxscore_rosters.py INSIDE the ZIP, not of the ZIP container.
+REPAIR_SCRIPT_SHA256 = "c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0"
 
 # Provenance: union of the immutable August core ZIPs and the historical
 # cadence restoration layout in restore_historical_layout.py.
@@ -273,8 +275,13 @@ def preflight_original_boxscores(v1: Path | None, discovery: Path | None,
         raise RuntimeError(f"Original roster repair requires pandas 3.0.5 (got {version})")
     if repair.is_symlink() or not repair.is_file() or under_git(repair):
         raise FileNotFoundError(f"Original repair ZIP missing or inside Git: {repair}")
-    if sha256_file(repair) != REPAIR_ZIP_SHA256:
-        raise ValueError("Original boxscore repair ZIP SHA-256 differs")
+    with zipfile.ZipFile(repair) as archive:
+        matches = [name for name in archive.namelist()
+                   if not name.endswith("/") and Path(name).name == "repair_boxscore_rosters.py"]
+        if len(matches) != 1 or Path(matches[0]).is_absolute() or ".." in Path(matches[0]).parts or "\\" in matches[0]:
+            raise ValueError("Original boxscore repair ZIP must contain one safe repair_boxscore_rosters.py")
+        if hashlib.sha256(archive.read(matches[0])).hexdigest() != REPAIR_SCRIPT_SHA256:
+            raise ValueError("Original boxscore repair script SHA-256 differs")
     return True
 
 
