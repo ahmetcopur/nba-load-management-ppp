@@ -238,10 +238,72 @@ def compare_core(oldpath: Path, newpath: Path):
     return {"removed_names": sorted(removed_names), "changed_fields": changed}
 
 
+
+def inject_raw_pdf_rebuilt_selected_players(reference_path: Path,
+                                            generated_path: Path) -> dict:
+    """Use exact source-PDF-derived player rows as inputs to the original finalizer.
+
+    The raw original-PDF reconstruction must independently have been accepted
+    by the six-season identity/core runner. Require every key and all 33
+    report-player fields to agree with the original historical source archive
+    before substitution. This cannot repair or re-adjudicate external Cup,
+    awards, TV or manually reviewed injury labels.
+    """
+    if reference_path.is_symlink() or generated_path.is_symlink():
+        raise RuntimeError("Refusing source-player CSV symlinks")
+    if not generated_path.is_file() or not reference_path.is_file():
+        raise FileNotFoundError("Original frozen and PDF-rebuilt source player rows required")
+    original = pd.read_csv(reference_path, dtype=str, keep_default_na=False,
+                           low_memory=False)
+    rebuilt = pd.read_csv(generated_path, dtype=str, keep_default_na=False,
+                          low_memory=False)
+    keys = ["game_id", "team_norm", "nba_player_id"]
+    if (set(original.columns) != set(rebuilt.columns)
+            or len(original) != len(rebuilt)
+            or original.duplicated(keys).any()
+            or rebuilt.duplicated(keys).any()):
+        raise ValueError("PDF-rebuilt player source schema, row count or keys differ")
+    orig = original.set_index(keys, drop=False)
+    fresh = rebuilt.set_index(keys, drop=False)
+    if not orig.index.is_unique or not fresh.index.is_unique:
+        raise ValueError("Duplicate PDF-derived source player keys")
+    if set(orig.index) != set(fresh.index):
+        raise ValueError("PDF-rebuilt report-player identities do not match original")
+    fresh = fresh.loc[orig.index, original.columns]
+    mismatches = {}
+    for name in original.columns:
+        old = orig[name].fillna("NULL").astype(str).str.strip()
+        new = fresh[name].fillna("NULL").astype(str).str.strip()
+        differences = int(old.ne(new).sum())
+        if differences:
+            mismatches[name] = differences
+    if mismatches:
+        raise ValueError(f"Source-PDF-derived report-player fields differ: {mismatches}")
+    if len(fresh) != 73438 or len(fresh.columns) != 33:
+        raise ValueError("Historical report-player source cardinality changed")
+    # Keep original canonical row ordering, but write the newly regenerated
+    # values themselves. The downstream unchanged original finalizer must
+    # reproduce the complete historical core SHA before any chronology repair.
+    target = reference_path.with_name("source_pdf_rebuilt_player_rows.tmp.csv")
+    if target.exists():
+        raise FileExistsError("Temporary source handoff already exists")
+    fresh.to_csv(target, index=False)
+    target.replace(reference_path)
+    return {
+        "source": "Original NBA injury PDFs -> player-ID resolution -> selected report players",
+        "original_rows_and_fields": [len(fresh), len(fresh.columns)],
+        "all_field_values_equal_to_archived_historical_reference": True,
+        "generated_source_csv_sha256": digest(generated_path),
+        "source_rows_injected_into_original_finalizer_and_corrected_copy": True,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archives", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
+    parser.add_argument("--rebuilt-original-selected-players", type=Path,
+                        help="Optional six-season original-PDF-derived selected_report_player_rows.csv; exact 33-field equality required before injecting into both finalizer passes")
     args = parser.parse_args()
     output = args.output_root.resolve()
     if output.exists():
@@ -250,6 +312,12 @@ def main():
     baseline = output / "baseline"
     baseline.mkdir()
     unpack(args.archives.resolve(), baseline)
+    raw_pdf_handoff = (
+        inject_raw_pdf_rebuilt_selected_players(
+            baseline / "nba_player_game_at_risk_core_v1/selected_report_player_rows.csv",
+            args.rebuilt_original_selected_players.resolve())
+        if args.rebuilt_original_selected_players else None
+    )
     baseline_qa = run_original_finalizer(baseline)
     historical = baseline / "nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz"
     if decompressed_digest(historical) != BASELINE_UNCOMPRESSED_SHA:
@@ -278,6 +346,7 @@ def main():
     report = {
         "scope": "Original August core finalizer, source-corrected two Toronto physical games; review-star/Cup and taxonomy downstream not yet rebuilt",
         "source_zip_sha256": {key: value[1] for key, value in SOURCE_ZIPS.items()},
+        "raw_original_pdf_selected_player_rows_handoff": raw_pdf_handoff,
         "historical_finalizer_sha256": FINALIZER_SHA,
         "frozen_original_csv_reproduced_exactly_uncompressed_sha256": BASELINE_UNCOMPRESSED_SHA,
         "baseline_qa": baseline_qa,
