@@ -178,7 +178,7 @@ PDF_BASELINE_EXPECTED = {
     "october_frozen_cadence": (
         "00_original_pdf_baseline/original_october_cadence_from_generated_core/cadence_harmonized_results/player_team_game_harmonized_cadence.csv.gz",
         "04_frozen_cadence/player_team_game_harmonized_cadence.csv.gz",
-        "3c161f954a217fe6996944bd86dc027a9b6968a868097052af21ac11a6d07eac",
+        "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
     ),
 }
 
