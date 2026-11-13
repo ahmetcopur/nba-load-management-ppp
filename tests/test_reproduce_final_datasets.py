@@ -197,7 +197,7 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             report = august.inject_raw_pdf_rebuilt_selected_players(
                 target, pdf, expected_rows=2, expected_columns=5)
             self.assertTrue(report["source_rows_injected_into_original_finalizer_and_corrected_copy"])
-            self.assertEqual(pd.read_csv(target).to_dict("records"), original.to_dict("records"))
+            self.assertEqual(pd.read_csv(target, dtype=str).to_dict("records"), original.to_dict("records"))
             target_before = target.read_bytes()
             amended = original.copy()
             amended.loc[0, "designation_reason"] = "Tampered clinical wording"
