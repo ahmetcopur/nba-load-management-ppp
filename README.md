@@ -8,6 +8,16 @@ This package freezes the completed empirical analysis for the six-season NBA Pla
 
 **Start here:** [One-command final dataset reconstruction](scripts/data_rebuild/reproduce_final_datasets.py) · [private source ZIP setup, expected outputs and exact SHA-256 checks](documentation/REPRODUCE_FINAL_DATASETS.md).
 
+Python 3.12: `python -m pip install -r requirements-builder-lock.txt`. Supply all 22 authentic private ZIPs listed by `--list-inputs` outside Git, then run `--check-only` and the full command with `--verify-original-pdfs`:
+
+```bash
+python scripts/data_rebuild/reproduce_final_datasets.py --list-inputs
+python scripts/data_rebuild/reproduce_final_datasets.py --archive-dir /private/nba-original-zips --output-root /private/nba-final-reproduction --verify-original-pdfs --check-only
+python scripts/data_rebuild/reproduce_final_datasets.py --archive-dir /private/nba-original-zips --output-root /private/nba-final-reproduction --verify-original-pdfs
+```
+
+The output root must be new. The accepted files and manifest appear under `final/`. PDF-derived original reviewed rows feed August, and the hash-verified PDF-derived original reviewed base feeds corrected October. October season-specific report selection, roster, covariates and manual labels remain inherited from SHA-pinned archives.
+
 From the **original private historical source archives**, regenerate the November 2026 accepted **corrected August latest-pre-tip full/at-risk panels** and the **corrected October cadence-harmonized player-game panel** with the original scientific builders. The command refuses changed frozen baselines, wrong corrected dataset hashes, incorrect risk/onset counts or Stage-6 estimates. Use a **fresh private directory outside Git**. Optional six-season raw injury-PDF replay can directly supply identity-resolved original report-player rows to the corrected August finalizer (after exact 33-field verification); the corrected October cadence still uses pinned historical intermediates. The original ten-script October regressions are separately available.
 
 This is an executable reproducibility route to the **datasets used in analysis**, not merely a repository of historical model estimates. The user-owned NBA PDFs, raw box-score data, manually adjudicated source mappings, and generated private player-game rows are not committed. Read the documentation's explicit intermediate-source versus raw-PDF lineage boundary before asserting full raw-to-corrected source acceptance.

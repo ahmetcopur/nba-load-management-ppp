@@ -8,7 +8,7 @@
     "Execute the unchanged original October historical panel/QA section with its ROOT path redirected, excluding its known broken all-in-one model section",
     "Execute separately archived unchanged original October run_cadence_models_fast.py with ROOT redirected on the freshly rebuilt cadence panel"
   ],
-  "original_stage6_zip_sha256": "821b50373d0ab6f27237d05f2d1d2b32f669f2bbbcd25e7fe0cdd5cd8292b221",
+  "original_stage6_zip_sha256": "821b50373d0ab6f27237d05f2d1d2b32f669f2ebbcd25e7fe0cdd5cd8292b221",
   "original_panel_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
   "original_separate_model_script_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
   "original_2025_harmonized_pdf_reparse": {

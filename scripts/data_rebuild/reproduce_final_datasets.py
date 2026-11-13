@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
@@ -37,6 +38,7 @@ REPO = Path(__file__).resolve().parents[2]
 TOOLS = REPO / "scripts" / "data_rebuild"
 REFERENCE_CADENCE = REPO / "data_intermediate" / "player_team_game_harmonized_cadence.csv.gz"
 STAGE6_ZIP = REPO / "packages" / "06_cadence_harmonized_identification.zip"
+SOURCE_HASHES = json.loads((TOOLS / "final_source_sha256.json").read_text())
 
 # Provenance: union of the immutable August core ZIPs and the historical
 # cadence restoration layout in restore_historical_layout.py.
@@ -212,7 +214,8 @@ def verify_raw_pdf_baseline_link(root: Path) -> dict:
 
 
 def under_git(path: Path) -> bool:
-    return any((node / ".git").exists() for node in (path, *path.parents))
+    return any((m.is_file() or (m.is_dir() and (m / "HEAD").is_file()))
+               for node in (path, *path.parents) for m in (node / ".git",))
 
 
 def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool) -> list[str]:
@@ -232,6 +235,12 @@ def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool) 
     missing = [filename for filename in required if not (archive_dir / filename).is_file()]
     if missing:
         raise FileNotFoundError("Missing original ZIP(s): " + ", ".join(missing))
+    if set(REQUIRED_ZIPS) | set(RAW_PDF_EXTRA_ZIPS) != set(SOURCE_HASHES):
+        raise RuntimeError("Source inventory differs from required ZIP names")
+    for name in required:
+        path = archive_dir / name
+        if path.is_symlink() or sha256_file(path) != SOURCE_HASHES[name]:
+            raise ValueError(f"Original ZIP SHA-256 differs or is symlinked: {name}")
     return required
 
 
@@ -276,6 +285,12 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
               "--output", correction, "--covariates-zip", archives / "nba_game_covariates_v1.zip",
               "--reference", REFERENCE_CADENCE, "--stage6-zip", STAGE6_ZIP)),
     ])
+    if verify_original_pdfs:
+        work.insert(-1, ("03b_pdf_derived_october_base_handoff",
+                         tool("inject_verified_october_base.py",
+                              "--source", root / "00_original_pdf_baseline/analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz",
+                              "--target", historical / "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz",
+                              "--report", root / "03b_pdf_derived_october_base_handoff.json")))
     if october_shared_repo is not None:
         if october_python is None:
             raise ValueError("Corrected October 10-script replay requires --october-python")
@@ -292,6 +307,12 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
 def run_stage(root: Path, name: str, command: list[str]) -> str:
     logfile = root / "logs" / (name + ".log")
     logfile.parent.mkdir(parents=True, exist_ok=True)
+    event_log = logfile.parent / "stages.jsonl"
+    def record(event):
+        with event_log.open("a") as f:
+            f.write(json.dumps({"time_utc": datetime.now(timezone.utc).isoformat(),
+                                "stage": name, **event}, sort_keys=True) + "\n")
+    record({"event": "start", "command": command, "stdout_log": str(logfile.relative_to(root))})
     print(f"RUN {name}: {' '.join(command)}", flush=True)
     with logfile.open("w", encoding="utf-8") as stream:
         status = subprocess.run(command, cwd=REPO, stdout=stream,
@@ -299,6 +320,7 @@ def run_stage(root: Path, name: str, command: list[str]) -> str:
                                     **os.environ, "OPENBLAS_NUM_THREADS": "1",
                                     "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
                                 })
+    record({"event": "finish", "exit_code": status.returncode})
     if status.returncode:
         raise RuntimeError(f"{name} failed (exit {status.returncode}); private log: {logfile}")
     return str(logfile.relative_to(root))
@@ -332,6 +354,11 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
                      for key, spec in EXPECTED.items()}
         models = verify_model_report(cadence / "fixture_date_chronology_sensitivity.json")
         pdf_baseline = verify_raw_pdf_baseline_link(output) if verify_original_pdfs else None
+        handoff = None
+        if verify_original_pdfs:
+            handoff = json.loads((output / "03b_pdf_derived_october_base_handoff.json").read_text())
+            if handoff["substituted_input_decoded_sha256"] != "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77":
+                raise ValueError("PDF-derived October base handoff differs")
         analysis_qa = json.loads((august / "corrected_august_analysis_ready_qa.json").read_text())
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
@@ -354,6 +381,8 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
             "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": False,
+            "raw_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(handoff),
+            "pdf_to_october_base_handoff": handoff,
             "raw_pdf_baseline_exact_compatibility": pdf_baseline,
             "original_manual_taxonomy_awards_cup_tv_decisions_inherited": True,
             "original_archives_and_frozen_panels_unmodified": True,
@@ -361,6 +390,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "outputs": inspected,
             "stage6_corrected_models": models,
             "stage_logs": logs,
+            "structured_stage_log": "logs/stages.jsonl",
             "provisional_spells": {
                 "filename": "corrected_august_provisional_spells.csv.gz",
                 "compressed_sha256": sha256_file(final / "corrected_august_provisional_spells.csv.gz"),
@@ -412,6 +442,7 @@ def main() -> None:
         print(json.dumps({
             "required_historical_source_ZIPs": REQUIRED_ZIPS,
             "additional_if_verify_original_pdfs": RAW_PDF_EXTRA_ZIPS,
+            "sha256_by_zip": SOURCE_HASHES,
         }, indent=2))
         return
     if args.archive_dir is None or args.output_root is None:
@@ -419,7 +450,7 @@ def main() -> None:
     archives, output = args.archive_dir.resolve(), args.output_root.resolve()
     if args.check_only:
         required = preflight(archives, output, args.verify_original_pdfs)
-        print(json.dumps({"status": "preflight-only", "required_zips_present": required,
+        print(json.dumps({"status": "preflight-only", "required_zips_present_and_sha256_verified": required,
                           "output_root_untouched": True}, indent=2))
         return
     manifest = build(

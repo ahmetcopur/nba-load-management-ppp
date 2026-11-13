@@ -51,7 +51,7 @@ from scripts.data_rebuild.compare_stage6_models import (
 
 REPO = Path(__file__).resolve().parents[2]
 STAGE6_ZIP = REPO / "packages/06_cadence_harmonized_identification.zip"
-STAGE6_SHA256 = "821b50373d0ab6f27237d05f2d1d2b32f669f2bbbcd25e7fe0cdd5cd8292b221"
+STAGE6_SHA256 = "821b50373d0ab6f27237d05f2d1d2b32f669f2ebbcd25e7fe0cdd5cd8292b221"
 CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 CORE_SHA256 = "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
 ORIGINAL_PARSER = "nba_player_game_at_risk_core_v1/parsers/parser_2023plus.py"

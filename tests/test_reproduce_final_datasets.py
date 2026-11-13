@@ -56,7 +56,8 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             p = Path(folder)
             jobs = final.stage_commands(p / "archives", p / "out",
                                         verify_original_pdfs=True)
-            self.assertEqual(len(jobs), 5)
+            self.assertEqual(len(jobs), 6)
+            self.assertEqual(jobs[4][0], "03b_pdf_derived_october_base_handoff")
             self.assertTrue(jobs[0][1][1].endswith("reproduce_core_and_stars.py"))
             for required in ("--from-original-2020-2025-pdfs",
                              "--with-analysis-ready", "--with-october-cadence"):
@@ -82,6 +83,7 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder)
             (p / ".git").mkdir()
+            (p / ".git/HEAD").write_text("ref: refs/heads/main\n")
             arc = p / "source"
             arc.mkdir()
             with self.assertRaisesRegex(ValueError, "OUTSIDE"):
