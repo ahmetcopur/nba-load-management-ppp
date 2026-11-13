@@ -437,7 +437,8 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             handoff_report = august_report.get("raw_original_boxscore_roster_handoff")
             if (raw_boxscore_report.get("scope") != "full 7,230-game cache"
                     or not raw_boxscore_report.get("matched") or not handoff_report
-                    or not handoff_report.get("exact_full_cell_equality_to_archived_roster")):
+                    or not handoff_report.get("exact_non_path_cell_equality_to_archived_roster")
+                    or not handoff_report.get("both_source_paths_identify_same_season_and_game_json")):
                 raise ValueError("Original NBA JSON roster handoff was not fully verified")
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831

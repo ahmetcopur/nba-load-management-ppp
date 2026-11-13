@@ -303,15 +303,16 @@ def inject_raw_pdf_rebuilt_selected_players(reference_path: Path,
 def inject_verified_raw_boxscore_roster(reference_path: Path, generated_path: Path) -> dict:
     """Feed the independently rebuilt NBA JSON roster to the original finalizer.
 
-    Require exact identity, schema and every source cell before substitution.
-    Preserve historical row/column order, but write the verified rebuilt values.
+    Require exact identity, schema and all non-path cells before substitution.
+    Machine-specific source paths must resolve to the same season/game JSON.
     """
     if any(p.is_symlink() or not p.is_file() for p in (reference_path, generated_path)):
         raise FileNotFoundError("Missing or symlinked original/rebuilt boxscore roster")
     original = pd.read_csv(reference_path, dtype=str, keep_default_na=False, low_memory=False)
     rebuilt = pd.read_csv(generated_path, dtype=str, keep_default_na=False, low_memory=False)
     keys = ["game_id", "team", "nba_player_id"]
-    if set(original.columns) != set(rebuilt.columns) or not set(keys) <= set(original.columns):
+    if (set(original.columns) != set(rebuilt.columns)
+            or not {*keys, "nba_game_id", "raw_json_path"} <= set(original.columns)):
         raise ValueError("Rebuilt boxscore roster schema differs")
     if original.duplicated(keys).any() or rebuilt.duplicated(keys).any():
         raise ValueError("Duplicate original/rebuilt boxscore roster identity")
@@ -320,19 +321,40 @@ def inject_verified_raw_boxscore_roster(reference_path: Path, generated_path: Pa
     if len(left) != len(right) or set(left.index) != set(right.index):
         raise ValueError("Rebuilt boxscore roster game/player identities differ")
     right = right.loc[left.index, left.columns]
-    if not left.equals(right):
-        changed = left.ne(right).sum()
+    compared = left.columns.drop("raw_json_path")
+    if not left[compared].equals(right[compared]):
+        changed = left[compared].ne(right[compared]).sum()
         raise ValueError("Rebuilt boxscore roster source fields differ: "
                          + str(changed[changed.gt(0)].to_dict()))
+    import re
+    def source_id(value: str, game_id: str) -> tuple[str, str]:
+        match = re.search(r"(?:^|/)(20\d{2}_\d{2})/boxscore_(002\d{7})\.json$",
+                          value.replace("\\", "/"))
+        season = f"{2000 + int(game_id[3:5])}_{(int(game_id[3:5]) + 1) % 100:02d}"
+        if not match or match.groups() != (season, game_id):
+            raise ValueError("Boxscore raw_json_path does not identify the row's season/game JSON")
+        return match.groups()
+    # game_id is the study's canonical fixture key; nba_game_id is the
+    # official 002... identifier embedded in the original JSON filename.
+    for name, frame in (("archived", left), ("rebuilt", right)):
+        for path, game_id in zip(frame["raw_json_path"], frame["nba_game_id"]):
+            source_id(path, game_id)
+    path_differences = int(left["raw_json_path"].ne(right["raw_json_path"]).sum())
     temporary = reference_path.with_name("verified_raw_json_roster.tmp.csv")
     if temporary.exists():
         raise FileExistsError(temporary)
+    # Preserve the original environment's provenance path. All data fields
+    # from the independently rebuilt JSON-derived roster are written.
+    right["raw_json_path"] = left["raw_json_path"]
     right.reset_index()[list(original.columns)].to_csv(temporary, index=False)
     temporary.replace(reference_path)
     return {"original_nba_json_roster_fed_to_original_august_finalizer": True,
             "rows": len(right), "columns": len(original.columns),
             "generated_roster_sha256": digest(generated_path),
-            "exact_full_cell_equality_to_archived_roster": True}
+            "exact_non_path_cell_equality_to_archived_roster": True,
+            "raw_json_path_values_differing_by_environment": path_differences,
+            "both_source_paths_identify_same_season_and_game_json": True,
+            "historical_raw_json_path_preserved_in_private_finalizer_input": True}
 
 
 def main():

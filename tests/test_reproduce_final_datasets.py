@@ -89,15 +89,26 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder)
             original, generated = p / "archived.csv", p / "generated.csv"
-            original.write_text("season,nba_player_id,game_id,team,status\n2022,1,0022200001,TOR,A\n")
-            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,A,1,2022\n")
+            original.write_text("season,nba_player_id,game_id,nba_game_id,team,status,raw_json_path\n"
+                                "2022,1,canonical-key,0022200001,TOR,A,/old/raw_json/2022_23/boxscore_0022200001.json\n")
+            generated.write_text("team,game_id,nba_game_id,status,nba_player_id,season,raw_json_path\n"
+                                 "TOR,canonical-key,0022200001,A,1,2022,/boxscore-v1/raw_json/2022_23/boxscore_0022200001.json\n")
             accepted = inject_verified_raw_boxscore_roster(original, generated)
-            self.assertTrue(accepted["exact_full_cell_equality_to_archived_roster"])
-            self.assertEqual(original.read_text(), "season,nba_player_id,game_id,team,status\n2022,1,0022200001,TOR,A\n")
-            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,B,1,2022\n")
+            self.assertTrue(accepted["exact_non_path_cell_equality_to_archived_roster"])
+            self.assertEqual(accepted["raw_json_path_values_differing_by_environment"], 1)
+            self.assertEqual(original.read_text(), "season,nba_player_id,game_id,nba_game_id,team,status,raw_json_path\n"
+                                                 "2022,1,canonical-key,0022200001,TOR,A,/old/raw_json/2022_23/boxscore_0022200001.json\n")
+            generated.write_text("team,game_id,nba_game_id,status,nba_player_id,season,raw_json_path\n"
+                                 "TOR,canonical-key,0022200001,B,1,2022,/new/2022_23/boxscore_0022200001.json\n")
             with self.assertRaisesRegex(ValueError, "source fields differ"):
                 inject_verified_raw_boxscore_roster(original, generated)
-            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,A,1,2022\nTOR,0022200001,A,1,2022\n")
+            generated.write_text("team,game_id,nba_game_id,status,nba_player_id,season,raw_json_path\n"
+                                 "TOR,canonical-key,0022200001,A,1,2022,/new/2022_23/boxscore_0022200002.json\n")
+            with self.assertRaisesRegex(ValueError, "does not identify"):
+                inject_verified_raw_boxscore_roster(original, generated)
+            generated.write_text("team,game_id,nba_game_id,status,nba_player_id,season,raw_json_path\n"
+                                 "TOR,canonical-key,0022200001,A,1,2022,/new/2022_23/boxscore_0022200001.json\n"
+                                 "TOR,canonical-key,0022200001,A,1,2022,/new/2022_23/boxscore_0022200001.json\n")
             with self.assertRaisesRegex(ValueError, "Duplicate"):
                 inject_verified_raw_boxscore_roster(original, generated)
 
