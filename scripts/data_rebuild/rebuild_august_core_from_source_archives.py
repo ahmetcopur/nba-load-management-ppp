@@ -300,12 +300,49 @@ def inject_raw_pdf_rebuilt_selected_players(reference_path: Path,
     }
 
 
+def inject_verified_raw_boxscore_roster(reference_path: Path, generated_path: Path) -> dict:
+    """Feed the independently rebuilt NBA JSON roster to the original finalizer.
+
+    Require exact identity, schema and every source cell before substitution.
+    Preserve historical row/column order, but write the verified rebuilt values.
+    """
+    if any(p.is_symlink() or not p.is_file() for p in (reference_path, generated_path)):
+        raise FileNotFoundError("Missing or symlinked original/rebuilt boxscore roster")
+    original = pd.read_csv(reference_path, dtype=str, keep_default_na=False, low_memory=False)
+    rebuilt = pd.read_csv(generated_path, dtype=str, keep_default_na=False, low_memory=False)
+    keys = ["game_id", "team", "nba_player_id"]
+    if set(original.columns) != set(rebuilt.columns) or not set(keys) <= set(original.columns):
+        raise ValueError("Rebuilt boxscore roster schema differs")
+    if original.duplicated(keys).any() or rebuilt.duplicated(keys).any():
+        raise ValueError("Duplicate original/rebuilt boxscore roster identity")
+    left = original.set_index(keys)
+    right = rebuilt.set_index(keys)
+    if len(left) != len(right) or set(left.index) != set(right.index):
+        raise ValueError("Rebuilt boxscore roster game/player identities differ")
+    right = right.loc[left.index, left.columns]
+    if not left.equals(right):
+        changed = left.ne(right).sum()
+        raise ValueError("Rebuilt boxscore roster source fields differ: "
+                         + str(changed[changed.gt(0)].to_dict()))
+    temporary = reference_path.with_name("verified_raw_json_roster.tmp.csv")
+    if temporary.exists():
+        raise FileExistsError(temporary)
+    right.reset_index()[list(original.columns)].to_csv(temporary, index=False)
+    temporary.replace(reference_path)
+    return {"original_nba_json_roster_fed_to_original_august_finalizer": True,
+            "rows": len(right), "columns": len(original.columns),
+            "generated_roster_sha256": digest(generated_path),
+            "exact_full_cell_equality_to_archived_roster": True}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archives", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--rebuilt-original-selected-players", type=Path,
                         help="Optional six-season original-PDF-derived selected_report_player_rows.csv; exact 33-field equality required before injecting into both finalizer passes")
+    parser.add_argument("--rebuilt-original-boxscore-roster", type=Path,
+                        help="Optional raw-NBA-JSON-derived verified game_roster_players.csv")
     args = parser.parse_args()
     output = args.output_root.resolve()
     if output.exists():
@@ -319,6 +356,12 @@ def main():
             baseline / "nba_player_game_at_risk_core_v1/selected_report_player_rows.csv",
             args.rebuilt_original_selected_players.resolve())
         if args.rebuilt_original_selected_players else None
+    )
+    raw_boxscore_handoff = (
+        inject_verified_raw_boxscore_roster(
+            baseline / "nba_boxscore_roster_frame_v2_output/game_roster_players.csv",
+            args.rebuilt_original_boxscore_roster.resolve())
+        if args.rebuilt_original_boxscore_roster else None
     )
     baseline_qa = run_original_finalizer(baseline)
     historical = baseline / "nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz"
@@ -349,6 +392,7 @@ def main():
         "scope": "Original August core finalizer, source-corrected two Toronto physical games; review-star/Cup and taxonomy downstream not yet rebuilt",
         "source_zip_sha256": {key: value[1] for key, value in SOURCE_ZIPS.items()},
         "raw_original_pdf_selected_player_rows_handoff": raw_pdf_handoff,
+        "raw_original_boxscore_roster_handoff": raw_boxscore_handoff,
         "historical_finalizer_sha256": FINALIZER_SHA,
         "frozen_original_csv_reproduced_exactly_uncompressed_sha256": BASELINE_UNCOMPRESSED_SHA,
         "baseline_qa": baseline_qa,

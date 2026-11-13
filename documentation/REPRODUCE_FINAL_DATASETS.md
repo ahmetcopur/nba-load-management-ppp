@@ -63,7 +63,45 @@ python scripts/data_rebuild/reproduce_final_datasets.py \
   --verify-original-pdfs
 ~~~
 
-**Precise scope:** the extra original-PDF stage rebuilds the six-season frozen player core, verifies it independently, and then **feeds the directly PDF-derived, identity-resolved 73,438 selected player-report rows into the August baseline and Toronto-corrected finalizer**, after enforcing exact equality across all 33 historical source fields. The source-derived August core is used to generate the corrected latest-pre-tip analysis-ready outputs. Other historical inputs (covariates, team-game reports, roster, manual awards/Cup/TV mappings) still come from pinned original ZIPs. The October cadence correction still uses historical selected-report intermediates; the PDF-derived original reviewed base is substituted after exact decoded-hash comparison, while season-specific report selection is not injected. This is a partial raw-to-corrected source path, not an assertion that every historical source is re-downloaded or manually adjudicated. Original official box-score JSON verification is handled separately by verify_boxscore_cache.py and associated provenance scripts.
+**Precise scope:** the extra original-PDF stage rebuilds the six-season frozen player core, verifies it independently, and then **feeds the directly PDF-derived, identity-resolved 73,438 selected player-report rows into the August baseline and Toronto-corrected finalizer**, after enforcing exact equality across all 33 historical source fields. The source-derived August core is used to generate the corrected latest-pre-tip analysis-ready outputs. Other historical inputs (covariates, team-game reports, roster, manual awards/Cup/TV mappings) still come from pinned original ZIPs. The October cadence correction still uses historical selected-report intermediates; the PDF-derived original reviewed base is substituted after exact decoded-hash comparison, while season-specific report selection is not injected. This is a partial raw-to-corrected source path, not an assertion that every historical source is re-downloaded or manually adjudicated. Original official box-score JSON verification can be connected to the August finalizer using the additional options below.
+
+### Optional: connect original NBA box-score JSON to the August finalizer
+
+The original 7,230 JSON cache is **additional private input**; it is not in the 22 historical ZIPs. The original V1 output directory must contain `raw_json/` (7,185 original files) and `download_log.csv`. The V2 `raw_json_discovery/` directory must contain the other 45 original files. Supply the original `nba_boxscore_roster_frame_v2_repair.zip` (SHA-256 `c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0`). The historical roster repair needs pandas 3.0.5, separately from the pandas 2.2.3 final builder:
+
+~~~bash
+python3.12 -m venv "$HOME/venvs/nba-boxscore"
+"$HOME/venvs/nba-boxscore/bin/python" -m pip install -r requirements-boxscore-lock.txt
+
+python scripts/data_rebuild/reproduce_final_datasets.py \
+  --archive-dir "$HOME/private/nba-original-zips" \
+  --output-root "$HOME/private/nba-final-raw-001" \
+  --verify-original-pdfs \
+  --boxscore-v1 "$HOME/private/nba_boxscore_roster_frame_v1_output" \
+  --boxscore-discovery "$HOME/private/nba_boxscore_roster_frame_v2_output/raw_json_discovery" \
+  --boxscore-repair-zip "$HOME/private/nba_boxscore_roster_frame_v2_repair.zip" \
+  --boxscore-python "$HOME/venvs/nba-boxscore/bin/python" \
+  --check-only
+
+# Remove --check-only and choose a new --output-root for the real execution.
+~~~
+
+The raw-cache verifier checks JSON structure, original logged byte lengths, every present JSON SHA-256, 7,230 official game identities, the archived four roster tables and the frozen box-score base. Only its fully matched rebuilt `game_roster_players.csv` feeds the **private** original August finalizer and corrected August copy. An additional handoff checks all source cells and player/game identities; the finalizer still requires the exact frozen baseline hash. The run manifest records the raw verification report. Original per-game download hashes were never retained, so present-file hashes cannot establish original download-byte provenance. The original PDF baseline stage and October selector still use the archived roster; this option does not make the October cadence fully raw-boxscore-derived.
+
+## Source-to-final dependency boundaries
+
+| Source or decision | Current reconstruction and downstream consumer | Status |
+|---|---|---|
+| 3,637 original NBA injury-report PDFs | Original parser, player identity resolution and 73,438 selected rows; source handoff to August original/corrected finalizer and original reviewed analysis base, then October base handoff | Connected when `--verify-original-pdfs`; season-specific October selector remains archived |
+| 7,230 original NBA box-score JSONs, original download log, repair source ZIP | Full V2 roster replay; exact field handoff to August original/corrected finalizer | Connected only with all four `--boxscore-*` options; original PDF baseline and October selector still inherit roster |
+| Canonical snapshot/game and team selection | Six season maps from `nba_canonical_snapshot_selector_v1.zip`; 2022/23 team status from S4 archives | Historical replay and independent selector verifiers exist, but newly rebuilt selector files are not yet fed into corrected October |
+| 2020–24 parsed season report rows | Five individual `audit_*` archives in `restore_historical_layout.py` | Historical intermediate replay in October; not a live raw-PDF-to-October handoff |
+| 2025–26 report rows | Original upload and targeted-upload ZIPs; October builder reparses | Connected from the supplied original source archives |
+| Player crosswalk and alias decisions | `nba_player_crosswalk_final_v1.zip`; alias table checked for conflicting archive copies | Human identity decisions inherited, SHA-pinned ZIP |
+| Game covariates, scheduling and travel/Elo | `nba_game_covariates_v1.zip` plus February 2022 physical-game date correction/recalculation | Historical covariates inherited; corrected values recalculated |
+| Star/award, Cup, announced TV, reviewed injury taxonomy | Historical source tables and versioned classification decisions | Inherited; source audits exist, no fresh human adjudication in this command |
+
+All required historical ZIP SHA-256 values are pinned in `scripts/data_rebuild/final_source_sha256.json`. `restore_historical_layout.py` enumerates exact October intermediate members and rejects ambiguity. Inspect the private `logs/stages.jsonl`, `00b_original_boxscore/boxscore_json_sha256_manifest.csv` and `final/final_dataset_manifest.json` to distinguish completed source stages from inherited inputs. Passing the three final CSV hashes does not establish the unresolved raw-PDF-to-October-selector or new human-classification handoffs.
 
 ### Optional: all 33 October model tables
 

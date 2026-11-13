@@ -66,6 +66,40 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             self.assertIn("--rebuilt-original-selected-players", jobs[1][1])
             self.assertIn(str(p / "out/00_original_pdf_baseline/nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"), jobs[1][1])
 
+    def test_original_json_roster_handoff_is_before_august_and_uses_separate_python(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            jobs = final.stage_commands(
+                p / "archives", p / "out", verify_original_pdfs=True,
+                boxscore_v1=p / "v1", boxscore_discovery=p / "discovery",
+                boxscore_repair_zip=p / "repair.zip", boxscore_python=p / "boxscore/bin/python")
+            self.assertEqual([name for name, _ in jobs][:3], [
+                "00_independent_original_six_pdf_baseline",
+                "00b_original_nba_json_boxscore_roster", "01_august_source_correction"])
+            self.assertEqual(jobs[1][1][0], str(p / "boxscore/bin/python"))
+            self.assertIn("--rebuilt-original-boxscore-roster", jobs[2][1])
+            self.assertIn(str(p / "out/00b_original_boxscore/game_roster_players.csv"), jobs[2][1])
+            with self.assertRaisesRegex(ValueError, "requires all"):
+                final.stage_commands(p / "archives", p / "out", verify_original_pdfs=True,
+                                     boxscore_v1=p / "v1")
+
+    def test_raw_roster_handoff_rejects_changed_cells_and_duplicate_keys(self):
+        from scripts.data_rebuild.rebuild_august_core_from_source_archives import inject_verified_raw_boxscore_roster
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            original, generated = p / "archived.csv", p / "generated.csv"
+            original.write_text("season,nba_player_id,game_id,team,status\n2022,1,0022200001,TOR,A\n")
+            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,A,1,2022\n")
+            accepted = inject_verified_raw_boxscore_roster(original, generated)
+            self.assertTrue(accepted["exact_full_cell_equality_to_archived_roster"])
+            self.assertEqual(original.read_text(), "season,nba_player_id,game_id,team,status\n2022,1,0022200001,TOR,A\n")
+            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,B,1,2022\n")
+            with self.assertRaisesRegex(ValueError, "source fields differ"):
+                inject_verified_raw_boxscore_roster(original, generated)
+            generated.write_text("team,game_id,status,nba_player_id,season\nTOR,0022200001,A,1,2022\nTOR,0022200001,A,1,2022\n")
+            with self.assertRaisesRegex(ValueError, "Duplicate"):
+                inject_verified_raw_boxscore_roster(original, generated)
+
     def test_october_pdf_base_handoff_accepts_equal_bytes_and_rejects_tampering(self):
         from scripts.data_rebuild import inject_verified_october_base as bridge
         with tempfile.TemporaryDirectory() as folder:

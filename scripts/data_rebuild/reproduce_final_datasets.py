@@ -13,10 +13,10 @@ Outputs (all under a fresh private --output-root/final/):
   final_dataset_manifest.json
 
 The default path begins at authenticated historical source INTERMEDIATES.
---verify-original-pdfs additionally reparses all six seasons of original injury
-PDFs, resolves source player identities, and injects the fully verified
-selected_report_player_rows.csv into BOTH August finalizer passes. Other
-sources and the corrected October cadence still use archived intermediates.
+--verify-original-pdfs reparses all six seasons of original injury PDFs and
+feeds selected rows into both August finalizer passes. Optional --boxscore-*
+inputs rebuild the original NBA JSON roster and feed it to the August finalizer.
+Other sources and the corrected October selector still use archived intermediates.
 Source-code, manually reviewed injury, award/Cup/TV lookup decisions are
 inherited as documented. No raw NBA data is written into Git.
 """
@@ -39,6 +39,7 @@ TOOLS = REPO / "scripts" / "data_rebuild"
 REFERENCE_CADENCE = REPO / "data_intermediate" / "player_team_game_harmonized_cadence.csv.gz"
 STAGE6_ZIP = REPO / "packages" / "06_cadence_harmonized_identification.zip"
 SOURCE_HASHES = json.loads((TOOLS / "final_source_sha256.json").read_text())
+REPAIR_ZIP_SHA256 = "c3d1c8be0dd80f5249935bac8c5de4811dc37cbb6810a98e93202a19e0b32fd0"
 
 # Provenance: union of the immutable August core ZIPs and the historical
 # cadence restoration layout in restore_historical_layout.py.
@@ -244,9 +245,46 @@ def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool) 
     return required
 
 
+def preflight_original_boxscores(v1: Path | None, discovery: Path | None,
+                                repair: Path | None, python: Path | None,
+                                *, verify_original_pdfs: bool,
+                                output: Path | None = None) -> bool:
+    """Check the optional raw-cache sources before creating an output directory."""
+    provided = (v1, discovery, repair, python)
+    if not any(value is not None for value in provided):
+        return False
+    if not all(value is not None for value in provided):
+        raise ValueError("Original boxscore handoff requires all four --boxscore-* options")
+    if not verify_original_pdfs:
+        raise ValueError("Original boxscore handoff requires --verify-original-pdfs")
+    assert v1 is not None and discovery is not None and repair is not None and python is not None
+    for directory in (v1, discovery):
+        if directory.is_symlink() or not directory.is_dir() or under_git(directory):
+            raise ValueError(f"Original boxscore cache must be a real private directory: {directory}")
+        if output and (directory == output or directory in output.parents or output in directory.parents):
+            raise ValueError("Original boxscore cache and output directories must not overlap")
+    if not (v1 / "raw_json").is_dir() or not (v1 / "download_log.csv").is_file():
+        raise FileNotFoundError("Original V1 cache requires raw_json/ and download_log.csv")
+    if not python.is_file() or not os.access(python, os.X_OK):
+        raise FileNotFoundError(f"Boxscore Python executable missing: {python}")
+    version = subprocess.run([str(python), "-c", "import pandas; print(pandas.__version__)"],
+                             text=True, capture_output=True, check=True).stdout.strip()
+    if version != "3.0.5":
+        raise RuntimeError(f"Original roster repair requires pandas 3.0.5 (got {version})")
+    if repair.is_symlink() or not repair.is_file() or under_git(repair):
+        raise FileNotFoundError(f"Original repair ZIP missing or inside Git: {repair}")
+    if sha256_file(repair) != REPAIR_ZIP_SHA256:
+        raise ValueError("Original boxscore repair ZIP SHA-256 differs")
+    return True
+
+
 def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                    october_shared_repo: Path | None = None,
-                   october_python: Path | None = None) -> list[tuple[str, list[str]]]:
+                   october_python: Path | None = None,
+                   boxscore_v1: Path | None = None,
+                   boxscore_discovery: Path | None = None,
+                   boxscore_repair_zip: Path | None = None,
+                   boxscore_python: Path | None = None) -> list[tuple[str, list[str]]]:
     python = sys.executable
     def tool(name: str, *args: object) -> list[str]:
         return [python, str(TOOLS / name), *[str(x) for x in args]]
@@ -261,6 +299,18 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                           "--output-dir", root / "00_original_pdf_baseline",
                           "--from-original-2020-2025-pdfs", "--with-cup",
                           "--with-analysis-ready", "--with-october-cadence")))
+    if boxscore_v1 is not None:
+        if not all((boxscore_discovery, boxscore_repair_zip, boxscore_python)) or not verify_original_pdfs:
+            raise ValueError("Original boxscore stage requires all cache paths and --verify-original-pdfs")
+        work.append(("00b_original_nba_json_boxscore_roster",
+                     [str(boxscore_python), str(TOOLS / "verify_boxscore_cache.py"),
+                      "--v1-output", str(boxscore_v1),
+                      "--discovery", str(boxscore_discovery),
+                      "--fixtures", str(root / "00_original_pdf_baseline/nba_game_covariates_v1/game_level_covariates.csv"),
+                      "--repair-zip", str(boxscore_repair_zip),
+                      "--reference-zip", str(archives / "nba_boxscore_roster_frame_v2_output_upload.zip"),
+                      "--base-panel", str(REPO / "data_final/player_game_panel_analysis_ready.csv.gz"),
+                      "--output", str(root / "00b_original_boxscore")]))
     work.extend([
         ("01_august_source_correction",
          tool("rebuild_august_core_from_source_archives.py", "--archives", archives,
@@ -268,6 +318,9 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                   ["--rebuilt-original-selected-players",
                    root / "00_original_pdf_baseline/nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"]
                   if verify_original_pdfs else []
+              ), *(
+                  ["--rebuilt-original-boxscore-roster", root / "00b_original_boxscore/game_roster_players.csv"]
+                  if boxscore_v1 is not None else []
               ))),
         ("02_august_analysis_ready",
          tool("build_august_analysis_ready_sensitivity.py",
@@ -328,9 +381,16 @@ def run_stage(root: Path, name: str, command: list[str]) -> str:
 
 def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           october_shared_repo: Path | None = None,
-          october_python: Path | None = None) -> dict:
+          october_python: Path | None = None,
+          boxscore_v1: Path | None = None,
+          boxscore_discovery: Path | None = None,
+          boxscore_repair_zip: Path | None = None,
+          boxscore_python: Path | None = None) -> dict:
     archives, output = archives.resolve(), output.resolve()
     original_zips = preflight(archives, output, verify_original_pdfs)
+    raw_boxscore = preflight_original_boxscores(
+        boxscore_v1, boxscore_discovery, boxscore_repair_zip, boxscore_python,
+        verify_original_pdfs=verify_original_pdfs, output=output)
     if sys.version_info < (3, 10):
         raise RuntimeError("Python 3.10+ required")
     from importlib.metadata import version
@@ -339,7 +399,10 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         raise RuntimeError(f"Source builder must run with pandas 2.x (got {pandas_version})")
     commands = stage_commands(archives, output, verify_original_pdfs=verify_original_pdfs,
                               october_shared_repo=october_shared_repo,
-                              october_python=october_python)
+                              october_python=october_python,
+                              boxscore_v1=boxscore_v1, boxscore_discovery=boxscore_discovery,
+                              boxscore_repair_zip=boxscore_repair_zip,
+                              boxscore_python=boxscore_python)
     output.mkdir(parents=True, exist_ok=False)
     try:
         logs = {name: run_stage(output, name, cmd) for name, cmd in commands}
@@ -360,6 +423,15 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             if handoff["substituted_input_decoded_sha256"] != "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77":
                 raise ValueError("PDF-derived October base handoff differs")
         analysis_qa = json.loads((august / "corrected_august_analysis_ready_qa.json").read_text())
+        raw_boxscore_report = None
+        if raw_boxscore:
+            raw_boxscore_report = json.loads((output / "00b_original_boxscore/boxscore_cache_verification.json").read_text())
+            august_report = json.loads((august / "august_core_source_correction_report.json").read_text())
+            handoff_report = august_report.get("raw_original_boxscore_roster_handoff")
+            if (raw_boxscore_report.get("scope") != "full 7,230-game cache"
+                    or not raw_boxscore_report.get("matched") or not handoff_report
+                    or not handoff_report.get("exact_full_cell_equality_to_archived_roster")):
+                raise ValueError("Original NBA JSON roster handoff was not fully verified")
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
                 or analysis_qa.get("corrected_onsets") != 12707):
@@ -376,12 +448,17 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         manifest = {
             "status": "pass",
             "scope": "Pinned original historical source ZIP intermediates -> source-corrected August/latest-pre-tip and October/cadence final analysis panels",
-            "source_level": "six-season source-PDF-derived player report rows feed corrected August; the PDF-derived original reviewed base feeds corrected October after exact hash validation; October season report selection, roster, covariates and reviewed decisions remain inherited",
+            "source_level": ("six-season source-PDF-derived player report rows feed corrected August; "
+                             "the PDF-derived original reviewed base feeds corrected October after exact hash validation; "
+                             + ("verified original NBA JSON roster also feeds August; " if raw_boxscore else "")
+                             + "October season report selection, roster, covariates and reviewed decisions remain inherited"),
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
             "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": False,
             "raw_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(handoff),
+            "original_NBA_JSON_roster_fed_to_corrected_August": raw_boxscore,
+            "original_NBA_JSON_roster_2020_2025_verification": raw_boxscore_report,
             "pdf_to_october_base_handoff": handoff,
             "raw_pdf_baseline_exact_compatibility": pdf_baseline,
             "original_manual_taxonomy_awards_cup_tv_decisions_inherited": True,
@@ -431,6 +508,14 @@ def main() -> None:
                         help="New private destination that does not exist yet")
     parser.add_argument("--verify-original-pdfs", action="store_true",
                         help="Additionally rebuild six original PDF seasons into an independently verified FROZEN baseline; corrected stages still use source-intermediate ZIPs")
+    parser.add_argument("--boxscore-v1", type=Path,
+                        help="Private original V1 boxscore output with raw_json/ and download_log.csv")
+    parser.add_argument("--boxscore-discovery", type=Path,
+                        help="Private V2 raw_json_discovery directory (45 original JSONs)")
+    parser.add_argument("--boxscore-repair-zip", type=Path,
+                        help="SHA-256-pinned original V2 roster repair source ZIP")
+    parser.add_argument("--boxscore-python", type=Path,
+                        help="Separate Python 3.12 environment with requirements-boxscore-lock.txt (pandas 3)")
     parser.add_argument("--october-shared-repo", type=Path,
                         help="Optional clean shared October code checkout at immutable commit 0bd713d9...; rerun all 10 scripts")
     parser.add_argument("--october-python", type=Path,
@@ -448,15 +533,21 @@ def main() -> None:
     if args.archive_dir is None or args.output_root is None:
         parser.error("--archive-dir and --output-root are required except with --list-inputs")
     archives, output = args.archive_dir.resolve(), args.output_root.resolve()
+    raw_options = dict(boxscore_v1=args.boxscore_v1, boxscore_discovery=args.boxscore_discovery,
+                       boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
         required = preflight(archives, output, args.verify_original_pdfs)
+        boxscore = preflight_original_boxscores(*raw_options.values(), verify_original_pdfs=args.verify_original_pdfs,
+                                                output=output)
         print(json.dumps({"status": "preflight-only", "required_zips_present_and_sha256_verified": required,
+                          "original_boxscore_cache_paths_and_repair_zip_verified": boxscore,
                           "output_root_untouched": True}, indent=2))
         return
     manifest = build(
         archives, output, verify_original_pdfs=args.verify_original_pdfs,
         october_shared_repo=args.october_shared_repo,
         october_python=args.october_python,
+        **raw_options,
     )
     print(json.dumps({
         "status": manifest["status"],
