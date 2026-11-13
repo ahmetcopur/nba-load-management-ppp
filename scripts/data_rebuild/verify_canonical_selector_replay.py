@@ -76,8 +76,15 @@ def original_builder(canonical_zip: Path):
     boundary='# load inputs 2020, 2024'
     if decoded.count(boundary)!=1:
         raise ValueError('Original builder no longer has the trusted source boundary')
+    prefix=decoded.split(boundary,1)[0]
+    # The immutable source initializes a /mnt/data output folder at import
+    # time. Only the function declarations are needed; never create a
+    # historical environment-specific folder while replaying them.
+    output_setup="OUT=Path('/mnt/data/nba_canonical_snapshot_selector_v1')\nOUT.mkdir(exist_ok=True)\n"
+    if prefix.count(output_setup)!=1:
+        raise ValueError('Original builder top-level output setup changed')
     namespace={}
-    exec(compile(decoded.split(boundary,1)[0],BUILDER_MEMBER,'exec'),namespace)
+    exec(compile(prefix.replace(output_setup,'',1),BUILDER_MEMBER,'exec'),namespace)
     return namespace['build_season']
 
 
@@ -134,7 +141,8 @@ def check_metrics(observed:dict,original:pd.Series)->dict:
     return {'metrics_compared':len(columns),'differences':0}
 
 
-def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS)->dict:
+def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS,
+           generated_dir:Path|None=None)->dict:
     if not seasons or len(seasons)!=len(set(seasons)) or not set(seasons)<=set(ALLOWED_SEASONS):
         raise ValueError('Choose one or both canonical-rebuilt seasons without duplicates')
     canonical_zip=archive_dir/'nba_canonical_snapshot_selector_v1.zip'
@@ -146,6 +154,7 @@ def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS)->dict:
       'original_frozen_dataset_modified':False,'all_selected_season_cases_passed':False,
       'inputs':{},'cases':[],
     }
+    generated={}
     for season in seasons:
         spec=SEASON_INPUTS[season]
         manifest=csv_from_zip(archive_dir,spec['manifest'])
@@ -175,8 +184,26 @@ def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS)->dict:
             team=compare_records(result_t,reference_t,['game_id','team_role'],TEAM_SCIENTIFIC_FIELDS,2*spec['expected_games'])
             metrics=check_metrics(met,expected_metric.iloc[0])
             result['cases'].append({'season':season,'panel':panel,'game':game,'team':team,'metrics':metrics})
+            generated[f'{season}_game_snapshot_join_{panel}_canonical.csv']=result_g
+            generated[f'{season}_team_game_status_{panel}_canonical.csv']=result_t
     result['all_selected_season_cases_passed']=True
     result['canonical_original_zip_sha256']=file_sha256(canonical_zip)
+    if generated_dir is not None:
+        generated_dir=generated_dir.resolve()
+        if generated_dir==archive_dir.resolve() or archive_dir.resolve() in generated_dir.parents:
+            raise ValueError('Generated selectors must be outside original archive directory')
+        generated_dir.mkdir(parents=True,exist_ok=False)
+        result['generated_selector_tables']={}
+        for filename,frame in generated.items():
+            target=generated_dir/filename
+            frame.to_csv(target,index=False)
+            result['generated_selector_tables'][filename]={
+                'rows':len(frame),'sha256':file_sha256(target),
+                'generated_from_original_pdfs_directly':False,
+                'input_rows_are_pinned_historical_parser_outputs':True,
+            }
+        (generated_dir/'selector_replay_manifest.json').write_text(
+            json.dumps(result,indent=2)+'\n')
     return result
 
 
@@ -185,8 +212,10 @@ def main():
     parser.add_argument('--archive-dir',type=Path,required=True)
     parser.add_argument('--seasons',nargs='+',choices=ALLOWED_SEASONS,default=list(ALLOWED_SEASONS))
     parser.add_argument('--output',type=Path)
+    parser.add_argument('--generated-dir',type=Path,
+                        help='Export validated new selector CSVs to a fresh private directory; parsed-row inputs remain historical archives')
     args=parser.parse_args()
-    result=verify(args.archive_dir,tuple(args.seasons))
+    result=verify(args.archive_dir,tuple(args.seasons),args.generated_dir)
     rendered=json.dumps(result,indent=2)+'\n'
     if args.output:
         if args.output.exists():

@@ -80,6 +80,12 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             self.assertEqual(jobs[1][1][0], str(p / "boxscore/bin/python"))
             self.assertIn("--rebuilt-original-boxscore-roster", jobs[2][1])
             self.assertIn(str(p / "out/00b_original_boxscore/game_roster_players.csv"), jobs[2][1])
+            self.assertEqual(jobs[3][0], "01b_json_pdf_original_reviewed_base")
+            self.assertIn(str(p / "out/01_august_core/baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz"), jobs[3][1])
+            self.assertIn(str(p / "out/01b_json_pdf_reviewed_base/player_game_panel_analysis_ready.csv.gz"),
+                          dict(jobs)["03b_pdf_derived_october_base_handoff"])
+            self.assertNotIn(str(p / "out/00_original_pdf_baseline/analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz"),
+                             dict(jobs)["03b_pdf_derived_october_base_handoff"])
             with self.assertRaisesRegex(ValueError, "requires all"):
                 final.stage_commands(p / "archives", p / "out", verify_original_pdfs=True,
                                      boxscore_v1=p / "v1")

@@ -71,6 +71,10 @@ RAW_PDF_EXTRA_ZIPS = (
     "audit_2023_24_upload.zip",
     "audit_2024_25_upload.zip",
 )
+SELECTOR_SCHEDULE_EXTRA_ZIPS = {
+    "audit_2020_21_s4_join_results_rechecked.zip": "c6dbf2fb5d28c3d5b715ec39fee47930c67b1880d54128ebbc7ae71a565fe962",
+    "audit_2024_25_s4_join_results.zip": "11e865b7f7ca6d0674a55aa55ff720b00308631fa7e0890ddc12ccabef5e32b3",
+}
 EXPECTED = {
     "august_latest_pre_tip_full": {
         "filename": "august_latest_pre_tip_full.csv.gz",
@@ -222,7 +226,8 @@ def under_git(path: Path) -> bool:
 
 
 def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,
-              *, finalize_existing: bool = False) -> list[str]:
+              *, finalize_existing: bool = False,
+              rebuild_2020_2024_selectors: bool = False) -> list[str]:
     if not archive_dir.is_dir() or archive_dir.is_symlink():
         raise FileNotFoundError("Private --archive-dir must be an existing real directory")
     if under_git(archive_dir) or under_git(output_root):
@@ -250,6 +255,12 @@ def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,
         path = archive_dir / name
         if path.is_symlink() or sha256_file(path) != SOURCE_HASHES[name]:
             raise ValueError(f"Original ZIP SHA-256 differs or is symlinked: {name}")
+    if rebuild_2020_2024_selectors:
+        for name, expected in SELECTOR_SCHEDULE_EXTRA_ZIPS.items():
+            path = archive_dir / name
+            if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+                raise ValueError(f"Selector schedule ZIP missing/symlinked or SHA-256 differs: {name}")
+            required.append(name)
     return required
 
 
@@ -297,7 +308,8 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                    boxscore_v1: Path | None = None,
                    boxscore_discovery: Path | None = None,
                    boxscore_repair_zip: Path | None = None,
-                   boxscore_python: Path | None = None) -> list[tuple[str, list[str]]]:
+                   boxscore_python: Path | None = None,
+                   rebuild_2020_2024_selectors: bool = False) -> list[tuple[str, list[str]]]:
     python = sys.executable
     def tool(name: str, *args: object) -> list[str]:
         return [python, str(TOOLS / name), *[str(x) for x in args]]
@@ -324,6 +336,10 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                       "--reference-zip", str(archives / "nba_boxscore_roster_frame_v2_output_upload.zip"),
                       "--base-panel", str(REPO / "data_final/player_game_panel_analysis_ready.csv.gz"),
                       "--output", str(root / "00b_original_boxscore")]))
+    if rebuild_2020_2024_selectors:
+        work.append(("00c_historical_parser_selector_algorithm_replay",
+                     tool("verify_canonical_selector_replay.py", "--archive-dir", archives,
+                          "--generated-dir", root / "00c_generated_selectors")))
     work.extend([
         ("01_august_source_correction",
          tool("rebuild_august_core_from_source_archives.py", "--archives", archives,
@@ -335,6 +351,12 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                   ["--rebuilt-original-boxscore-roster", root / "00b_original_boxscore/game_roster_players.csv"]
                   if boxscore_v1 is not None else []
               ))),
+        *([("01b_json_pdf_original_reviewed_base",
+             tool("build_analysis_ready_from_generated_core.py",
+                  "--generated-core", august / "baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
+                  "--reviewed-source-zip", archives / "nba_player_game_analysis_ready_v1.zip",
+                  "--output-dir", root / "01b_json_pdf_reviewed_base"))]
+          if boxscore_v1 is not None else []),
         ("02_august_analysis_ready",
          tool("build_august_analysis_ready_sensitivity.py",
               "--historical-core", august / "baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
@@ -344,7 +366,9 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
         ("03_frozen_cadence",
          tool("rebuild_from_archives.py", "--archive-dir", archives,
               "--historical-root", historical, "--output", cadence,
-              "--reference", REFERENCE_CADENCE)),
+              "--reference", REFERENCE_CADENCE,
+              *(["--generated-selector-dir", root / "00c_generated_selectors"]
+                if rebuild_2020_2024_selectors else []))),
         ("04_corrected_cadence",
          tool("fixture_date_chronology_sensitivity.py",
               "--replay-root", historical, "--variant-root", root / "05_corrected_cadence_inputs",
@@ -354,7 +378,9 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
     if verify_original_pdfs:
         work.insert(-1, ("03b_pdf_derived_october_base_handoff",
                          tool("inject_verified_october_base.py",
-                              "--source", root / "00_original_pdf_baseline/analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz",
+                              "--source", (root / "01b_json_pdf_reviewed_base/player_game_panel_analysis_ready.csv.gz"
+                                           if boxscore_v1 is not None else
+                                           root / "00_original_pdf_baseline/analysis_ready_from_generated_core/player_game_panel_analysis_ready.csv.gz"),
                               "--target", historical / "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz",
                               "--report", root / "03b_pdf_derived_october_base_handoff.json")))
     if october_shared_repo is not None:
@@ -438,10 +464,12 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           boxscore_discovery: Path | None = None,
           boxscore_repair_zip: Path | None = None,
           boxscore_python: Path | None = None,
+          rebuild_2020_2024_selectors: bool = False,
           finalize_existing: bool = False) -> dict:
     archives, output = archives.resolve(), output.resolve()
     original_zips = preflight(archives, output, verify_original_pdfs,
-                              finalize_existing=finalize_existing)
+                              finalize_existing=finalize_existing,
+                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors)
     raw_boxscore = preflight_original_boxscores(
         boxscore_v1, boxscore_discovery, boxscore_repair_zip, boxscore_python,
         verify_original_pdfs=verify_original_pdfs, output=output)
@@ -456,13 +484,15 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
                               october_python=october_python,
                               boxscore_v1=boxscore_v1, boxscore_discovery=boxscore_discovery,
                               boxscore_repair_zip=boxscore_repair_zip,
-                              boxscore_python=boxscore_python)
+                              boxscore_python=boxscore_python,
+                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors)
     if not finalize_existing:
         output.mkdir(parents=True, exist_ok=False)
     try:
         logs = (completed_stage_logs(output, commands) if finalize_existing else
                 {name: run_stage(output, name, cmd) for name, cmd in commands})
         august = output / "02_corrected_august"
+        historical = output / "03_historical_cadence_inputs"
         cadence = output / "06_corrected_cadence"
         source_paths = {
             "august_latest_pre_tip_full": august / "player_game_panel_analysis_ready.csv.gz",
@@ -478,10 +508,21 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             handoff = json.loads((output / "03b_pdf_derived_october_base_handoff.json").read_text())
             if handoff["substituted_input_decoded_sha256"] != "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77":
                 raise ValueError("PDF-derived October base handoff differs")
+        json_pdf_base_report = None
+        if raw_boxscore:
+            json_pdf_base_report = json.loads((output / "01b_json_pdf_reviewed_base/analysis_ready_rebuild_report.json").read_text())
+            if not json_pdf_base_report.get("all_analysis_ready_outputs_match_original_decoded_csv"):
+                raise ValueError("JSON and PDF-derived reviewed October base did not exactly rebuild")
         analysis_qa = json.loads((august / "corrected_august_analysis_ready_qa.json").read_text())
         raw_boxscore_report = None
         if raw_boxscore:
             raw_boxscore_report = verified_boxscore_handoff(output)
+        selector_handoff = None
+        if rebuild_2020_2024_selectors:
+            selector_handoff = json.loads((historical / "generated_selector_handoff.json").read_text())
+            if (not selector_handoff.get("generated_selectors_fed_to_october_historical_builder")
+                    or len(selector_handoff.get("tables", [])) != 4):
+                raise ValueError("Regenerated 2020/2024 selectors were not consumed")
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
                 or analysis_qa.get("corrected_onsets") != 12707):
@@ -501,14 +542,20 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "source_level": ("six-season source-PDF-derived player report rows feed corrected August; "
                              "the PDF-derived original reviewed base feeds corrected October after exact hash validation; "
                              + ("verified original NBA JSON roster also feeds August; " if raw_boxscore else "")
-                             + "October season report selection, roster, covariates and reviewed decisions remain inherited"),
+                             + ("2020/2024 October selectors replay the original algorithm from historical parsed rows; "
+                                if selector_handoff else "")
+                             + "other October season report selection, roster, covariates and reviewed decisions remain inherited"),
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
             "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": False,
             "raw_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(handoff),
+            "raw_NBA_JSON_and_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(json_pdf_base_report),
+            "raw_NBA_JSON_and_PDF_original_reviewed_base_report": json_pdf_base_report,
             "original_NBA_JSON_roster_fed_to_corrected_August": raw_boxscore,
             "original_NBA_JSON_roster_2020_2025_verification": raw_boxscore_report,
+            "historical_parser_derived_2020_2024_selectors_fed_to_october": bool(selector_handoff),
+            "historical_parser_selector_handoff": selector_handoff,
             "pdf_to_october_base_handoff": handoff,
             "raw_pdf_baseline_exact_compatibility": pdf_baseline,
             "original_manual_taxonomy_awards_cup_tv_decisions_inherited": True,
@@ -567,6 +614,8 @@ def main() -> None:
                         help="SHA-256-pinned original V2 roster repair source ZIP")
     parser.add_argument("--boxscore-python", type=Path,
                         help="Separate Python 3.12 environment with requirements-boxscore-lock.txt (pandas 3)")
+    parser.add_argument("--rebuild-2020-2024-selectors-from-historical-rows", action="store_true",
+                        help="Regenerate and consume 2020/2024 selectors with pinned original algorithm and historical parsed-row/schedule inputs; NOT a raw-PDF selector rebuild; requires two extra S4 ZIPs")
     parser.add_argument("--october-shared-repo", type=Path,
                         help="Optional clean shared October code checkout at immutable commit 0bd713d9...; rerun all 10 scripts")
     parser.add_argument("--october-python", type=Path,
@@ -580,6 +629,7 @@ def main() -> None:
         print(json.dumps({
             "required_historical_source_ZIPs": REQUIRED_ZIPS,
             "additional_if_verify_original_pdfs": RAW_PDF_EXTRA_ZIPS,
+            "additional_if_rebuilding_2020_2024_selectors_from_historical_rows": SELECTOR_SCHEDULE_EXTRA_ZIPS,
             "sha256_by_zip": SOURCE_HASHES,
         }, indent=2))
         return
@@ -591,7 +641,8 @@ def main() -> None:
     raw_options = dict(boxscore_v1=args.boxscore_v1, boxscore_discovery=args.boxscore_discovery,
                        boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
-        required = preflight(archives, output, args.verify_original_pdfs)
+        required = preflight(archives, output, args.verify_original_pdfs,
+                             rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows)
         boxscore = preflight_original_boxscores(*raw_options.values(), verify_original_pdfs=args.verify_original_pdfs,
                                                 output=output)
         print(json.dumps({"status": "preflight-only", "required_zips_present_and_sha256_verified": required,
@@ -602,6 +653,7 @@ def main() -> None:
         archives, output, verify_original_pdfs=args.verify_original_pdfs,
         october_shared_repo=args.october_shared_repo,
         october_python=args.october_python,
+        rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows,
         finalize_existing=args.finalize_existing,
         **raw_options,
     )

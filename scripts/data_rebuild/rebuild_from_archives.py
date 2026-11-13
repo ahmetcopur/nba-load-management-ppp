@@ -38,6 +38,8 @@ def main():
                         help="Requires a previously independently verified 2025 parsed-row CSV")
     parser.add_argument("--reparse-2024-25-from-pdfs", action="store_true",
                         help="Explicit fallback only if the original corrected 2024-25 ZIP is unavailable")
+    parser.add_argument("--generated-selector-dir", type=Path,
+                        help="After historical restoration, substitute independently regenerated 2020/2024 selectors with exact field/key gates; other seasons stay inherited")
     parser.add_argument("--check-only", action="store_true",
                         help="Check ZIP archive member mappings without writing/executing anything")
     args = parser.parse_args()
@@ -52,6 +54,11 @@ def main():
         print("Archive layout inspected. No files written, PDFs parsed or models run.")
         return
     call("restore_historical_layout.py", restore_args)
+    if args.generated_selector_dir:
+        call("inject_generated_canonical_selectors.py",
+             ["--generated-dir", args.generated_selector_dir,
+              "--historical-root", args.historical_root,
+              "--report", args.historical_root / "generated_selector_handoff.json"])
     if args.reparse_2024_25_from_pdfs:
         call("reparse_2024_25_from_pdfs.py",
              ["--historical-root", args.historical_root,
