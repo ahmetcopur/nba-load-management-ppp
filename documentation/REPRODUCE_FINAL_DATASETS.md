@@ -88,6 +88,30 @@ python scripts/data_rebuild/reproduce_final_datasets.py \
 
 The raw-cache verifier checks JSON structure, original logged byte lengths, every present JSON SHA-256, 7,230 official game identities, the archived four roster tables and the frozen box-score base. Only its fully matched rebuilt `game_roster_players.csv` feeds the **private** original August finalizer and corrected August copy. An additional handoff checks all source cells and player/game identities; the finalizer still requires the exact frozen baseline hash. The run manifest records the raw verification report. Original per-game download hashes were never retained, so present-file hashes cannot establish original download-byte provenance. The original PDF baseline stage and October selector still use the archived roster; this option does not make the October cadence fully raw-boxscore-derived.
 
+**Apple Silicon execution:** the historical frozen August baseline requires the Linux amd64 floating-point serialization; a native macOS arm64 run can fail the exact original core checksum in seven Elo/travel fields. For the PDF plus original NBA JSON run, use one Linux amd64 container with two isolated Python environments. From the repository checkout, with Docker running:
+
+~~~bash
+mkdir -p "$HOME/nba-reproduction-runs"
+docker run --rm --platform linux/amd64 \
+  -v "$PWD:/repo:ro" \
+  -v "$HOME/nba-original-zips:/archives:ro" \
+  -v "$HOME/nba-load-audit/nba_boxscore_roster_frame_v1_output:/boxscore-v1:ro" \
+  -v "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_output/raw_json_discovery:/boxscore-discovery:ro" \
+  -v "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_repair.zip:/repair.zip:ro" \
+  -v "$HOME/nba-reproduction-runs:/runs" \
+  -w /repo python:3.12-slim sh -lc '
+    python -m venv /tmp/nba-boxscore &&
+    /tmp/nba-boxscore/bin/python -m pip install --no-cache-dir -r requirements-boxscore-lock.txt &&
+    python -m pip install --no-cache-dir -r requirements-builder-lock.txt &&
+    python scripts/data_rebuild/reproduce_final_datasets.py \
+      --archive-dir /archives --output-root /runs/linux-amd64-json-001 \
+      --verify-original-pdfs --boxscore-v1 /boxscore-v1 \
+      --boxscore-discovery /boxscore-discovery --boxscore-repair-zip /repair.zip \
+      --boxscore-python /tmp/nba-boxscore/bin/python'
+~~~
+
+Choose a **new** output-root name per attempt. The mounts for the repository, archives and raw JSON are read-only; only `/runs` is writable. Keep failed native macOS output separate. If a stage fails, examine its private log in the corresponding `/runs` directory. The earlier successful 22-ZIP run used Linux amd64 without the extra original JSON handoff; its success does not establish that this additional stage passes.
+
 ## Source-to-final dependency boundaries
 
 | Source or decision | Current reconstruction and downstream consumer | Status |
@@ -126,7 +150,7 @@ All private data remain outside Git. The original star/award/Cup/taxonomy and an
 
 ## Verification boundary
 
-The recommended `--verify-original-pdfs` path also substitutes the PDF-derived original reviewed full base into the private October replay after both it and the restored archived base match decoded SHA-256 `5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77`. The October season report selector still uses archived intermediates. All 22 required ZIPs are SHA-256 pinned in `scripts/data_rebuild/final_source_sha256.json`; `--check-only` verifies their complete bytes. The original per-game NBA box-score JSON is not supplied to this command; the inherited roster ZIP is pinned and the raw JSON cache check remains separate. Historical reviewed injury, award, Cup and TV decisions remain inherited inputs.
+The recommended `--verify-original-pdfs` path also substitutes the PDF-derived original reviewed full base into the private October replay after both it and the restored archived base match decoded SHA-256 `5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77`. The October season report selector still uses archived intermediates. All 22 required ZIPs are SHA-256 pinned in `scripts/data_rebuild/final_source_sha256.json`; `--check-only` verifies their complete bytes. The original per-game NBA box-score JSON is supplied only with the optional four `--boxscore-*` inputs; this feeds the August finalizer but not the October selector. Historical reviewed injury, award, Cup and TV decisions remain inherited inputs.
 
 An authentic private Linux amd64 run **completed** the new PDF-to-October handoff and every final dataset/model acceptance gate. The private manifest and stage evidence were retained and independently checked. See [the 2026-11-13 authentic run record](AUTHENTIC_FINAL_DATASET_RUN_2026-11-13.md) for exact hashes, model values, environment, native macOS floating-point failure, and remaining provenance boundaries. The original frozen ZIPs were never edited. The Stage-6 package hash typo (`...f2bbb...` versus actual `...f2ebb...`) and missing `pdfplumber` lock entry were discovered and fixed during the authentic runs.
 
