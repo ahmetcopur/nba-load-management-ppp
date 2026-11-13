@@ -13,9 +13,10 @@ Outputs (all under a fresh private --output-root/final/):
   final_dataset_manifest.json
 
 The default path begins at authenticated historical source INTERMEDIATES.
---verify-original-pdfs additionally rebuilds all six seasons of raw injury
-PDFs into an independently checked *frozen baseline*. Its PDF outputs do NOT
-silently replace the source intermediate archives in the correction stages.
+--verify-original-pdfs additionally reparses all six seasons of original injury
+PDFs, resolves source player identities, and injects the fully verified
+selected_report_player_rows.csv into BOTH August finalizer passes. Other
+sources and the corrected October cadence still use archived intermediates.
 Source-code, manually reviewed injury, award/Cup/TV lookup decisions are
 inherited as documented. No raw NBA data is written into Git.
 """
@@ -348,7 +349,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         manifest = {
             "status": "pass",
             "scope": "Pinned original historical source ZIP intermediates -> source-corrected August/latest-pre-tip and October/cadence final analysis panels",
-            "source_level": "historical archived intermediates; optional independently source-PDF-rebuilt frozen baseline",
+            "source_level": "historical archived intermediates; optional direct six-season source-PDF-derived player report rows for corrected August (other original sources and corrected cadence still archived)",
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
