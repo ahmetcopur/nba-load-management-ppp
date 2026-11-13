@@ -240,7 +240,9 @@ def compare_core(oldpath: Path, newpath: Path):
 
 
 def inject_raw_pdf_rebuilt_selected_players(reference_path: Path,
-                                            generated_path: Path) -> dict:
+                                            generated_path: Path, *,
+                                            expected_rows: int = 73438,
+                                            expected_columns: int = 33) -> dict:
     """Use exact source-PDF-derived player rows as inputs to the original finalizer.
 
     The raw original-PDF reconstruction must independently have been accepted
@@ -279,7 +281,7 @@ def inject_raw_pdf_rebuilt_selected_players(reference_path: Path,
             mismatches[name] = differences
     if mismatches:
         raise ValueError(f"Source-PDF-derived report-player fields differ: {mismatches}")
-    if len(fresh) != 73438 or len(fresh.columns) != 33:
+    if len(fresh) != expected_rows or len(fresh.columns) != expected_columns:
         raise ValueError("Historical report-player source cardinality changed")
     # Keep original canonical row ordering, but write the newly regenerated
     # values themselves. The downstream unchanged original finalizer must
