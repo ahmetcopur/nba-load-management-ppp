@@ -254,7 +254,11 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
     work.extend([
         ("01_august_source_correction",
          tool("rebuild_august_core_from_source_archives.py", "--archives", archives,
-              "--output-root", august)),
+              "--output-root", august, *(
+                  ["--rebuilt-original-selected-players",
+                   root / "00_original_pdf_baseline/nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"]
+                  if verify_original_pdfs else []
+              ))),
         ("02_august_analysis_ready",
          tool("build_august_analysis_ready_sensitivity.py",
               "--historical-core", august / "baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz",
@@ -347,6 +351,8 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "source_level": "historical archived intermediates; optional independently source-PDF-rebuilt frozen baseline",
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
+            "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
+            "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": False,
             "raw_pdf_baseline_exact_compatibility": pdf_baseline,
             "original_manual_taxonomy_awards_cup_tv_decisions_inherited": True,
             "original_archives_and_frozen_panels_unmodified": True,
