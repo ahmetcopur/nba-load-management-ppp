@@ -176,6 +176,30 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "p-value"):
                 final.verify_model_report(path)
 
+    def test_optional_raw_pdf_baseline_links_to_identical_archive_input(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            payload = b"player_team_game_id\nexample\n"
+            hash_value = hashlib.sha256(payload).hexdigest()
+            mapping = {
+                "august_full_core": ("raw/august.csv.gz", "archived/august.csv.gz", hash_value),
+                "october_frozen_cadence": ("raw/october.csv.gz", "archived/october.csv.gz", hash_value),
+            }
+            for pdf, archive, _ in mapping.values():
+                for filename in (pdf, archive):
+                    target = root / filename
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    with gzip.open(target, "wb") as output:
+                        output.write(payload)
+            with mock.patch.object(final, "PDF_BASELINE_EXPECTED", mapping):
+                result = final.verify_raw_pdf_baseline_link(root)
+                self.assertEqual(set(result), set(mapping))
+                self.assertTrue(result["august_full_core"]["exact_full_csv_equal_via_sha256"])
+                with gzip.open(root / "raw/august.csv.gz", "wb") as output:
+                    output.write(b"changed source input")
+                with self.assertRaisesRegex(ValueError, "baselines differ"):
+                    final.verify_raw_pdf_baseline_link(root)
+
     def test_list_inputs_does_not_require_private_archives_or_pandas(self):
         process = subprocess.run([sys.executable, str(final.TOOLS / "reproduce_final_datasets.py"),
                                   "--list-inputs"], cwd=ROOT, capture_output=True,
