@@ -62,6 +62,8 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
                              "--with-analysis-ready", "--with-october-cadence"):
                 self.assertIn(required, jobs[0][1])
             self.assertEqual(jobs[1][0], "01_august_source_correction")
+            self.assertIn("--rebuilt-original-selected-players", jobs[1][1])
+            self.assertIn(str(p / "out/00_original_pdf_baseline/nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"), jobs[1][1])
 
     def test_optional_october_models_require_explicit_external_python(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -175,6 +177,35 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             path.write_text(json.dumps(source), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "p-value"):
                 final.verify_model_report(path)
+
+    def test_original_pdf_derived_report_rows_direct_handoff_and_integrity(self):
+        import pandas as pd
+        from scripts.data_rebuild import rebuild_august_core_from_source_archives as august
+
+        original = pd.DataFrame([
+            {"game_id": "g1", "team_norm": "A", "nba_player_id": "1",
+             "designation_status": "Out", "designation_reason": "Left ankle sprain"},
+            {"game_id": "g2", "team_norm": "B", "nba_player_id": "2",
+             "designation_status": "Questionable", "designation_reason": "Right knee soreness"},
+        ])
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            target = p / "selected_report_player_rows.csv"
+            pdf = p / "rebuilt_from_pdfs.csv"
+            original.to_csv(target, index=False)
+            original.iloc[::-1].to_csv(pdf, index=False)
+            report = august.inject_raw_pdf_rebuilt_selected_players(
+                target, pdf, expected_rows=2, expected_columns=5)
+            self.assertTrue(report["source_rows_injected_into_original_finalizer_and_corrected_copy"])
+            self.assertEqual(pd.read_csv(target).to_dict("records"), original.to_dict("records"))
+            target_before = target.read_bytes()
+            amended = original.copy()
+            amended.loc[0, "designation_reason"] = "Tampered clinical wording"
+            amended.to_csv(pdf, index=False)
+            with self.assertRaisesRegex(ValueError, "fields differ"):
+                august.inject_raw_pdf_rebuilt_selected_players(
+                    target, pdf, expected_rows=2, expected_columns=5)
+            self.assertEqual(target.read_bytes(), target_before)
 
     def test_optional_raw_pdf_baseline_links_to_identical_archive_input(self):
         with tempfile.TemporaryDirectory() as folder:
