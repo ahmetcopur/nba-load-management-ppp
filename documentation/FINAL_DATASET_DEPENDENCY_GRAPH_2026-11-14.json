@@ -268,7 +268,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Full original regular-season parser and selector passed in isolation; targeted builder consumption and canonical integration remain pending."
+      "remaining_limitation": "Full original regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
