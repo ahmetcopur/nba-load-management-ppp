@@ -10,6 +10,10 @@ It runs the pre-existing original August and October source reconstruction scrip
 
 ## The generated final files
 
+### Targeted 2020 downstream acceptance after the accepted nine-stage run
+
+Run `python -m scripts.data_rebuild.accept_2020_raw_selector_downstream --archive-dir /archives --prior-run-root /runs/linux-amd64-json-selectors-003 --output-root /runs/raw-2020-downstream-001` in the pinned Linux amd64 builder environment. The prior run root and all source ZIPs must be mounted read-only; the new output must be absent and private. This command reparses only the 617 original 2020 PDFs (or revalidates an explicitly supplied `--fresh-2020-source-dir`), regenerates the 2020/2024 selector tables, copies the prior historical input tree, substitutes fresh 2020 row/selector files, and runs the original October builder. A Python audit hook observes the original subprocess opening all three required 2020 files; their hashes must be identical before and after execution. All eight original intermediate outputs are compared as complete decoded bytes to the prior frozen run, the new panel must match the immutable frozen hash, and the original frozen Stage-6 model gate executes. Success writes private `downstream_acceptance.json`. This test concerns the frozen October builder; it does not rerun corrected chronology or constitute a new three-final-dataset acceptance. An actual authentic run of this targeted command is pending.
+
 | File under the private final/ folder | Purpose | Rows | Decoded CSV SHA-256 |
 |---|---|---:|---|
 | august_latest_pre_tip_full.csv.gz | Corrected August full analysis-ready panel | 248,728 | 2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d |
