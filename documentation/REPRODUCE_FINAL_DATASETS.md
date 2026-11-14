@@ -12,6 +12,8 @@ The [supplied authentic targeted October execution](AUTHENTIC_2020_OCTOBER_DOWNS
 
 ## The generated final files
 
+The [2025 saved-source audit](ORIGINAL_2025_SAVED_SOURCE_AUDIT_2026-11-14.md) reparsed all saved candidates and reproduced the acquisition plan and game selections, but found contradictory archived team metadata. Its strict comparison remains blocked; diagnostic mode does not substitute those values. The historical 2025 team table remains an unresolved computational input, not a newly verified human annotation.
+
 The same targeted runner accepts `--season 2024-25`. It reparses the complete 4,078-PDF original regular-season set, passes fresh rows to the existing canonical selector, and replaces both selectors and October's actual `s1_snapshot_rows_regular_season_real.csv` input. The corrected original archive and other required ZIPs are already in the inventory. See [authentic isolated 2024 source/selector results and pending downstream gate](ORIGINAL_2024_CANDIDATE_SELECTOR_2026-11-14.md). Choose a fresh private output root; no new corrected final-dataset claim follows until the actual downstream run passes.
 
 Use `--season 2023-24` on the same targeted acceptance command for the complete 4,097-PDF regular-season candidate set. All required original ZIPs are in the existing inventory. The runner uses the pinned later parser, original selector and documented clean-game fallback, replaces the actual S4 team-status and nested parsed-row paths, and traces the original October builder's consumption. See [authentic isolated 2023 results and pending downstream gate](ORIGINAL_2023_CANDIDATE_SELECTOR_2026-11-14.md). Choose a fresh output root.

@@ -143,12 +143,13 @@ def submitted_precedence(team_rows: pd.DataFrame, raw_rows: pd.DataFrame, norm_t
 
 
 def source_snapshot_counts(rows: pd.DataFrame, manifest: pd.DataFrame,
-                           season: str, panel: str, games: pd.DataFrame) -> tuple[list[int], list[int], list[str]]:
+                           season: str, panel: str, games: pd.DataFrame,
+                           cadence_suffix=CADENCE_SUFFIX) -> tuple[list[int], list[int], list[str]]:
     raw = rows[["matchup_norm", "game_date_raw", "source_file", "snapshot_timestamp_utc"]].copy()
     raw["game_date_et"] = pd.to_datetime(raw.game_date_raw, format="%m/%d/%Y", errors="raise").dt.strftime("%Y-%m-%d")
     raw = raw.drop_duplicates(["matchup_norm", "game_date_et", "source_file"])
     if panel == "harmonized":
-        raw = raw.loc[raw.source_file.str.endswith(CADENCE_SUFFIX)]
+        raw = raw.loc[raw.source_file.str.endswith(cadence_suffix)]
     raw["pub"] = pd.to_datetime(raw.snapshot_timestamp_utc, utc=True, errors="raise")
     grouped = {key: group.pub for key, group in raw.groupby(["matchup_norm", "game_date_et"], sort=False)}
     all_counts, pre_counts, fallback_ids = [], [], []

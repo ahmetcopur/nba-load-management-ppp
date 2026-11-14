@@ -301,10 +301,10 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "E",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "B/E",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections."
+      "remaining_limitation": "All 5,023 saved candidate PDFs parsed and both game selections match; archived team metadata contradicts game counts in 800 games per panel. Original S4 team-join program is unrecovered, so strict handoff is blocked."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
@@ -373,10 +373,10 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "E",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "B/E",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections."
+      "remaining_limitation": "All 5,023 saved candidate PDFs parsed and both game selections match; archived team metadata contradicts game counts in 800 games per panel. Original S4 team-join program is unrecovered, so strict handoff is blocked."
     },
     {
       "id": "game covariates, Elo, rest, travel",
@@ -470,18 +470,18 @@
     },
     {
       "id": "2025 candidate report selection",
-      "original_source": "Original 2025\u201326 injury PDF candidate inventory",
-      "generating_script": "verify_2025_manifest_selector.py",
+      "original_source": "5,023 original saved PDFs plus original targeted acquisition design",
+      "generating_script": "generate_2025_selector_inputs.py",
       "upstream_dependencies": [
         "audit_2025_26_upload.zip"
       ],
       "current_input": {
         "archive": "audit_2025_26_upload.zip"
       },
-      "classification": "E",
+      "classification": "B/E",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
-      "remaining_limitation": "Some original acquisition/selection timestamps cannot be reconstructed from selected PDFs alone."
+      "remaining_limitation": "All saved selection choices and original 3,526-request plan reproduced; original download timing remains historical metadata and legacy team join blocks handoff."
     }
   ],
   "final_dataset_decoded_sha256": {
@@ -493,7 +493,7 @@
   "strict_six_season_raw_source_acceptance": false,
   "remaining_computational_tasks": [
     "Connect full all-candidate original PDF parser rows and canonical selector for 2021\u201324.",
-    "Reconstruct 2025 candidate selection only to the extent original acquisition records support it.",
+    "Recover original 2025 S4 team-join program or establish provenance of the contradictory legacy team metadata; do not force source rows to match it.",
     "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
     "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks."
   ]

@@ -1,0 +1,85 @@
+{
+  "status": "blocked_legacy_team_metadata",
+  "all_replays_exact": false,
+  "cases": [
+    {
+      "panel": "full",
+      "selection": {
+        "panel": "full",
+        "games": 1230,
+        "exact_pdf_matches": 1230,
+        "exact_publication_time_matches": 1230,
+        "pre_tip_time_discrepancies": 0,
+        "problems": {
+          "wrong_pdf_basename": 0,
+          "wrong_publication_time": 0,
+          "wrong_minutes_before_tip": 0
+        },
+        "initial_source_selections": 422,
+        "targeted_source_selections": 808
+      },
+      "game": {
+        "rows": 1230,
+        "reference_fields_compared": 25,
+        "differences": 0,
+        "all_reference_fields_match": true
+      },
+      "team": {
+        "rows": 2460,
+        "accepted": false,
+        "different_cells_by_field": {
+          "team_final_status": 1598,
+          "inferred_no_listed_players": 1598
+        },
+        "strict_comparison_error": "Source-rebuilt selector differs from frozen fields: {'team_final_status': 1598, 'inferred_no_listed_players': 1598}"
+      },
+      "metrics": {
+        "accepted": false,
+        "strict_comparison_error": "Canonical season metrics drift: {'inferred_clean_team_games': {'recomputed': 32.0, 'reference': 1630.0}}"
+      },
+      "mixed_submitted_placeholder_rows": 0,
+      "archived_games_with_inconsistent_game_team_inferred_clean_counts": 800
+    },
+    {
+      "panel": "harmonized",
+      "selection": {
+        "panel": "harmonized",
+        "games": 1230,
+        "exact_pdf_matches": 1230,
+        "exact_publication_time_matches": 1230,
+        "pre_tip_time_discrepancies": 0,
+        "problems": {
+          "wrong_pdf_basename": 0,
+          "wrong_publication_time": 0,
+          "wrong_minutes_before_tip": 0
+        },
+        "initial_source_selections": 422,
+        "targeted_source_selections": 808
+      },
+      "game": {
+        "rows": 1230,
+        "reference_fields_compared": 25,
+        "differences": 0,
+        "all_reference_fields_match": true
+      },
+      "team": {
+        "rows": 2460,
+        "accepted": false,
+        "different_cells_by_field": {
+          "team_final_status": 1598,
+          "inferred_no_listed_players": 1598
+        },
+        "strict_comparison_error": "Source-rebuilt selector differs from frozen fields: {'team_final_status': 1598, 'inferred_no_listed_players': 1598}"
+      },
+      "metrics": {
+        "accepted": false,
+        "strict_comparison_error": "Canonical season metrics drift: {'inferred_clean_team_games': {'recomputed': 33.0, 'reference': 1631.0}}"
+      },
+      "mixed_submitted_placeholder_rows": 0,
+      "archived_games_with_inconsistent_game_team_inferred_clean_counts": 800
+    }
+  ],
+  "full_candidate_rows_sha256": "38d5ba587ac1109585014190841d8d7a495c8ae3fb87871e351342c6ada375ac",
+  "no_generated_selector_tables_accepted_or_substituted": true,
+  "original_S4_team_join_program_not_recovered": true
+}

@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "original_design_zip_sha256": "f17354dc244e7650fb5f92f4b41f292e9229055b00d4506948e62951b8f53919",
+  "original_generator_sha256": "7abb429122470e747c5f85ba6997d9957b146b8dc1a2e77e4ede69a1fad08f2d",
+  "targeted_urls": 3526,
+  "all_six_original_plan_fields_exact": true,
+  "fallback_hours": 4,
+  "network_requests_performed": false,
+  "full_quarter_hour_archive_claimed": false,
+  "historical_download_observations_not_regenerated": true
+}

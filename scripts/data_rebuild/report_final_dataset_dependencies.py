@@ -54,7 +54,7 @@ def selector_class(name: str) -> tuple[str, str]:
         return ("C", "Full original regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     if season=="2021-22":
         return ("C", "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
-    return ("E", "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections.")
+    return ("B/E", "All 5,023 saved candidate PDFs parsed and both game selections match; archived team metadata contradicts game counts in 800 games per panel. Original S4 team-join program is unrecovered, so strict handoff is blocked.")
 
 
 def build_report() -> dict:
@@ -89,7 +89,7 @@ def build_report() -> dict:
         ("awards and star timeline", "NBA awards and All-Star records", "nba_player_game_at_risk_star_v1.zip", "run_connected_star_enrichment.py", "C/D", "Historical award lookup and reviewed identity decisions remain inherited."),
         ("NBA Cup and TV advance mapping", "Original NBA publication schedules and manual match decisions", "nba_player_game_at_risk_star_cup_v1.zip", "run_connected_cup_enrichment.py", "C/D/E", "Original announcement timing/nominal neutral hosts and some match decisions remain historical inputs."),
         ("reviewed taxonomy", "Original report text and human reviewed reason classifications", "nba_player_game_analysis_ready_v1.zip", "build_analysis_ready_from_generated_core.py", "D", "Never invent replacement human classifications."),
-        ("2025 candidate report selection", "Original 2025–26 injury PDF candidate inventory", "audit_2025_26_upload.zip", "verify_2025_manifest_selector.py", "E", "Some original acquisition/selection timestamps cannot be reconstructed from selected PDFs alone."),
+        ("2025 candidate report selection", "5,023 original saved PDFs plus original targeted acquisition design", "audit_2025_26_upload.zip", "generate_2025_selector_inputs.py", "B/E", "All saved selection choices and original 3,526-request plan reproduced; original download timing remains historical metadata and legacy team join blocks handoff."),
     ]
     for id_,source,archive,generator,status,limitation in upstream:
         nodes.append({"id":id_,"original_source":source,"generating_script":generator,
@@ -117,7 +117,7 @@ def build_report() -> dict:
         "strict_six_season_raw_source_acceptance":False,
         "remaining_computational_tasks":[
             "Connect full all-candidate original PDF parser rows and canonical selector for 2021–24.",
-            "Reconstruct 2025 candidate selection only to the extent original acquisition records support it.",
+            "Recover original 2025 S4 team-join program or establish provenance of the contradictory legacy team metadata; do not force source rows to match it.",
             "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
             "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks.",
         ],
