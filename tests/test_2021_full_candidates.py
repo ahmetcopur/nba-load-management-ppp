@@ -90,5 +90,21 @@ class CandidateTests(unittest.TestCase):
                 rebuild(archives,root/"output",season="2023-24")
             self.assertFalse((root/"output").exists())
 
+    def test_2024_complete_regular_inventory_and_real_parsed_destination(self):
+        frame=self.frame().iloc[:4078]
+        self.assertEqual(len(candidate_inventory(frame,list(frame.local_path),4078)),4078)
+        targets=input_files("2024-25")
+        self.assertEqual(str(targets["2024-25_fresh_candidate_rows.csv"]),
+                         "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv")
+        self.assertIn("selector",str(targets["2024-25_team_game_status_harmonized_canonical.csv"]))
+
+    def test_2024_tampered_original_archive_fails_before_output(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);archives=root/"archives";archives.mkdir()
+            (archives/"audit_2024_25_upload.zip").write_bytes(b"altered")
+            with self.assertRaisesRegex(ValueError,"ZIP hash differs"):
+                rebuild(archives,root/"output",season="2024-25")
+            self.assertFalse((root/"output").exists())
+
 
 if __name__=="__main__":unittest.main()

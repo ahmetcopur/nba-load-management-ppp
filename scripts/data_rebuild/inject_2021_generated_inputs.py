@@ -19,7 +19,13 @@ FILES={
 
 def input_files(season):
     if season=="2021-22":return FILES
-    if season not in ("2022-23","2023-24"):raise ValueError("Unsupported fresh source handoff season")
+    if season not in ("2022-23","2023-24","2024-25"):raise ValueError("Unsupported fresh source handoff season")
+    if season=="2024-25":
+        return {
+            "2024-25_game_snapshot_join_harmonized_canonical.csv":RELATIVE/"2024-25_game_snapshot_join_harmonized_canonical.csv",
+            "2024-25_team_game_status_harmonized_canonical.csv":RELATIVE/"2024-25_team_game_status_harmonized_canonical.csv",
+            "2024-25_fresh_candidate_rows.csv":Path("cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv"),
+        }
     if season=="2023-24":
         return {
             "2023-24_game_snapshot_join_harmonized_canonical.csv":RELATIVE/"2023-24_game_snapshot_join_harmonized_canonical.csv",
@@ -35,7 +41,7 @@ def input_files(season):
 
 def inject(generated, source, historical, season="2021-22"):
     files=input_files(season)
-    pdfs,count={"2021-22":(5567,398715),"2022-23":(4101,354146),"2023-24":(4097,388878)}[season]
+    pdfs,count={"2021-22":(5567,398715),"2022-23":(4101,354146),"2023-24":(4097,388878),"2024-25":(4078,418059)}[season]
     report=json.loads((generated/"selector_acceptance.json").read_text())
     raw=json.loads((source/"candidate_acceptance.json").read_text())
     if (raw.get("status")!="pass" or raw.get("fresh_original_PDF_execution") is not True

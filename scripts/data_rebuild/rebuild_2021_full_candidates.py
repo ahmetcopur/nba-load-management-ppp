@@ -20,6 +20,7 @@ from scripts.data_rebuild.reproduce_final_datasets import SOURCE_HASHES
 REGULAR={
     "2022-23":{"start":"2022-10-18","end":"2023-04-09","pdfs":4101,"rows":354146,"prefix":""},
     "2023-24":{"start":"2023-10-24","end":"2024-04-14","pdfs":4097,"rows":388878,"prefix":"audit_2023_24_pre_s4_outputs/"},
+    "2024-25":{"start":"2024-10-22","end":"2025-04-13","pdfs":4078,"rows":418059,"prefix":""},
 }
 LATE_PARSER_SHA="197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06"
 
@@ -45,7 +46,7 @@ def csv_records(frame):
 
 def verify_2022_reference(archives,frame,log,season="2022-23"):
     spec=REGULAR[season]
-    archive=archives/("audit_"+season.replace("-","_")+"_pre_s4_outputs.zip")
+    archive=archives/reference_archive(season)
     reference=pd.read_csv(io.BytesIO(member_bytes(archive,spec["prefix"]+"s1_snapshot_rows_regular_season.csv")),low_memory=False)
     reference_log=pd.read_csv(io.BytesIO(member_bytes(archive,spec["prefix"]+"s1_parse_log_regular_season.csv")))
     for actual,expected,count in ((frame,reference,spec["rows"]),(log,reference_log,spec["pdfs"])):
@@ -55,13 +56,17 @@ def verify_2022_reference(archives,frame,log,season="2022-23"):
             "all_regular_season_rows_and_logs_exact":True}
 
 
+def reference_archive(season):
+    return "audit_"+season.replace("-","_")+"_pre_s4_outputs"+("_corrected" if season=="2024-25" else "")+".zip"
+
+
 def rebuild(archives, output, workers=4, season="2021-22"):
     if season not in ("2021-22",*REGULAR):
         raise ValueError("Unsupported complete candidate season")
     regular=season in REGULAR
     raw_zip="audit_"+season.replace("-","_")+"_upload.zip"
-    dependencies=(raw_zip,"audit_"+season.replace("-","_")+"_pre_s4_outputs.zip","nba_player_game_at_risk_core_v1.zip") if regular else (raw_zip,"audit_2021_22_cadence_outputs.zip")
-    parser_sha=LATE_PARSER_SHA if season=="2023-24" else EXPECTED_2021_PARSER
+    dependencies=(raw_zip,reference_archive(season),"nba_player_game_at_risk_core_v1.zip") if regular else (raw_zip,"audit_2021_22_cadence_outputs.zip")
+    parser_sha=LATE_PARSER_SHA if season in ("2023-24","2024-25") else EXPECTED_2021_PARSER
     archives,output=archives.resolve(),output.resolve()
     if output.exists() or archives==output or archives in output.parents:
         raise ValueError("Fresh private output must be absent and outside original archives")
@@ -73,7 +78,7 @@ def rebuild(archives, output, workers=4, season="2021-22"):
         if file_sha256(archives/name)!=SOURCE_HASHES[name]:
             raise ValueError("Original source ZIP hash differs: "+name)
     parser=(member_bytes(archives/"nba_player_game_at_risk_core_v1.zip",
-                         "nba_player_game_at_risk_core_v1/parsers/"+("parser_2023plus.py" if season=="2023-24" else "parser_2021_2022.py"))
+                         "nba_player_game_at_risk_core_v1/parsers/"+("parser_2023plus.py" if season in ("2023-24","2024-25") else "parser_2021_2022.py"))
             if regular else member_bytes(archives/"audit_2021_22_cadence_outputs.zip","nba_injury_fitz_parser_v3.py"))
     if hashlib.sha256(parser).hexdigest()!=parser_sha:
         raise ValueError("Original season parser SHA-256 differs")

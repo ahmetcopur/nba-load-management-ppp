@@ -35,7 +35,7 @@ def decoded_hash(path):
 
 
 def run(archives, prior, output, fresh_source=None, season="2020-21"):
-    if season not in ("2020-21","2021-22","2022-23","2023-24"):
+    if season not in ("2020-21","2021-22","2022-23","2023-24","2024-25"):
         raise ValueError("Unsupported raw-source targeted season")
     archives, prior, output = map(lambda p: p.resolve(), (archives, prior, output))
     if file_sha256(SCRIPT) != "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272":
@@ -79,6 +79,9 @@ def run(archives, prior, output, fresh_source=None, season="2020-21"):
         verify(archives, generated_dir=generated,
                fresh_2020_rows=fresh_source/FULL_SOURCE_FILE,
                fresh_2020_acceptance=fresh_source/"2020_21_original_pdf_source_acceptance.json")
+    elif season=="2024-25":
+        from scripts.data_rebuild.generate_2024_selector_inputs import generate
+        generate(archives,fresh_source,generated)
     else:
         from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify as select_2021
         select_2021(archives,(season,),fresh_source/"full_candidate_rows.csv",
@@ -141,7 +144,7 @@ def main():
     p.add_argument("--prior-run-root",type=Path,required=True)
     p.add_argument("--output-root",type=Path,required=True)
     p.add_argument("--fresh-2020-source-dir","--fresh-source-dir",dest="fresh_source",type=Path)
-    p.add_argument("--season",choices=("2020-21","2021-22","2022-23","2023-24"),default="2020-21")
+    p.add_argument("--season",choices=("2020-21","2021-22","2022-23","2023-24","2024-25"),default="2020-21")
     a=p.parse_args()
     print(json.dumps(run(a.archive_dir,a.prior_run_root,a.output_root,a.fresh_source,a.season),indent=2))
 
