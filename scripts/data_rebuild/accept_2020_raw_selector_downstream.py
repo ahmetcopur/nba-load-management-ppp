@@ -20,7 +20,7 @@ from scripts.data_rebuild.reproduce_final_datasets import preflight, REFERENCE_C
 from scripts.data_rebuild.rebuild_2020_selected_from_pdfs import rebuild, FULL_SOURCE_FILE
 from scripts.data_rebuild.verify_canonical_selector_replay import verify, file_sha256
 from scripts.data_rebuild.inject_generated_canonical_selectors import inject, RAW_2020_TARGET, RELATIVE
-from scripts.data_rebuild.run_historical_cadence_builder import PRE_MODEL_OUTPUTS, NEEDED
+from scripts.data_rebuild.run_historical_cadence_builder import PRE_MODEL_OUTPUTS, NEEDED, SCRIPT
 
 FROZEN_HASH = "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac"
 
@@ -36,6 +36,8 @@ def decoded_hash(path):
 
 def run(archives, prior, output, fresh_source=None):
     archives, prior, output = map(lambda p: p.resolve(), (archives, prior, output))
+    if file_sha256(SCRIPT) != "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272":
+        raise ValueError("Original October builder source SHA-256 differs")
     if prior == output or prior in output.parents or output in prior.parents:
         raise ValueError("Prior acceptance run and new output must be disjoint")
     preflight(archives, output, True, rebuild_2020_2024_selectors=True)
