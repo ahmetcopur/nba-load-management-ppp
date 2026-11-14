@@ -286,7 +286,7 @@
       "classification": "B/C",
       "regenerated_value_consumed_downstream": true,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser/selector isolated checks passed, but new targeted downstream and canonical final integration remain pending."
+      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
@@ -358,7 +358,7 @@
       "classification": "B/C",
       "regenerated_value_consumed_downstream": true,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser/selector isolated checks passed, but new targeted downstream and canonical final integration remain pending."
+      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv",

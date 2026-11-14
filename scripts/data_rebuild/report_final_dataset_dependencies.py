@@ -47,7 +47,7 @@ def selector_class(name: str) -> tuple[str, str]:
     if season=="2020-21":
         return ("B with optional raw-PDF-derived full-row consumption", "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited.")
     if season=="2024-25":
-        return ("B/C", "Historical parsed-row option remains available; complete original-PDF parser/selector isolated checks passed, but new targeted downstream and canonical final integration remain pending.")
+        return ("B/C", "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending.")
     if season=="2022-23":
         return ("C","Fresh full regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     if season=="2023-24":
