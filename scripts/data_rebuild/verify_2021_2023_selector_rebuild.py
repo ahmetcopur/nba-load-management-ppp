@@ -39,6 +39,20 @@ CADENCE_SUFFIX = ("_01PM.pdf", "_05PM.pdf", "_08PM.pdf")
 METRIC_FIELDS = 13
 
 
+def canonical_export_order(games, teams):
+    """Preserve the historical CSV interface's deterministic tie ordering."""
+    games=games.copy()
+    games["tip_timestamp_utc"]=pd.to_datetime(games.tip_timestamp_utc,utc=True).map(lambda value:value.isoformat())
+    games=games.sort_values(["tip_timestamp_utc","Match Number"],kind="stable").reset_index(drop=True)
+    rank={key:i for i,key in enumerate(games.game_id)}
+    teams=teams.copy()
+    teams["_game_order"]=teams.game_id.map(rank)
+    if teams["_game_order"].isna().any():
+        raise ValueError("Export team references unknown game")
+    teams=teams.sort_values(["_game_order","team_role"],kind="stable").drop(columns="_game_order").reset_index(drop=True)
+    return games,teams
+
+
 def normalized_frame_equal(candidate: pd.DataFrame, reference: pd.DataFrame,
                            keys: list[str], *, strict_schema: bool) -> dict:
     if strict_schema and set(candidate.columns) != set(reference.columns):
@@ -251,8 +265,10 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
                 computed_team["selector_version"] = "canonical_v1_latest_verified_pdf_strictly_before_tip"
                 computed_team = computed_team[list(canonical_team.columns)]
                 normalized_frame_equal(computed_team, canonical_team, ["game_id","team_role"], strict_schema=True)
-                generated[f"{season}_game_snapshot_join_{panel}_canonical.csv"] = games
-                generated[f"{season}_team_game_status_{panel}_canonical.csv"] = computed_team
+                export_games,export_teams=canonical_export_order(games,computed_team)
+                export_games=export_games[list(original_game.columns)]
+                generated[f"{season}_game_snapshot_join_{panel}_canonical.csv"] = export_games
+                generated[f"{season}_team_game_status_{panel}_canonical.csv"] = export_teams
             assert metric_result["metrics_compared"] == METRIC_FIELDS
             report["panels"].append({
                 "season": season, "panel": panel,
@@ -273,6 +289,14 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
         if "2021-22" in seasons:
             reference_log = csv_from_zip(archive_dir,("audit_2021_22_cadence_outputs.zip","s1_parse_log_harmonized.csv"))
             harmonized = raw.loc[raw.source_file.isin(set(reference_log.source_file))].copy()
+            if reference_log.source_file.duplicated().any():
+                raise ValueError("Duplicate original parse-log source ordering")
+            # Archived parser workers completed out of chronological order.
+            # Reuse only their source-file sequence, never archived row values.
+            rank={name:i for i,name in enumerate(reference_log.source_file)}
+            harmonized["_source_order"]=harmonized.source_file.map(rank)
+            harmonized=harmonized.sort_values("_source_order",kind="stable").drop(columns="_source_order")
+            report["historical_source_file_order_inherited_from_parse_log"]=True
             path=generated_dir/"2021-22_fresh_harmonized_rows.csv"
             harmonized.to_csv(path,index=False)
             report["generated_files"][path.name]={"rows":len(harmonized),"sha256":file_sha256(path)}

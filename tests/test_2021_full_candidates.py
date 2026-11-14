@@ -3,7 +3,7 @@ import tempfile
 import unittest
 import pandas as pd
 from scripts.data_rebuild.rebuild_2021_full_candidates import candidate_inventory
-from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify
+from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify,canonical_export_order
 from scripts.data_rebuild.inject_2021_generated_inputs import inject
 
 
@@ -36,6 +36,16 @@ class CandidateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(FileNotFoundError):
                 inject(Path(d),Path(d),Path(d))
+
+    def test_equal_tip_games_use_match_number_and_team_role_order(self):
+        games=pd.DataFrame({"game_id":["G2","G1"],"Match Number":[2,1],
+                            "tip_timestamp_utc":["2021-10-19 23:30:00+00:00"]*2})
+        teams=pd.DataFrame({"game_id":["G2","G1","G2","G1"],
+                            "team_role":["home","home","away","away"]})
+        a,b=canonical_export_order(games,teams)
+        self.assertEqual(a.game_id.tolist(),["G1","G2"])
+        self.assertEqual(b.team_role.tolist(),["away","home","away","home"])
+        self.assertTrue(a.tip_timestamp_utc.str.contains("T").all())
 
 
 if __name__=="__main__":unittest.main()
