@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Replay a historical NBA cadence panel from archived intermediate sources.
 
-This is NOT raw-boxscore-to-canonical-panel reconstruction. Fail on any
+An optional verified 2020 PDF-derived selector can replace its restored table;
+the other seasons and inputs remain archived. Fail on any
 restoration, parsing, building, or frozen-panel comparison error.
 
 Run under requirements-builder-lock.txt; pandas 3 changes the original risk-set logic.
@@ -40,9 +41,13 @@ def main():
                         help="Explicit fallback only if the original corrected 2024-25 ZIP is unavailable")
     parser.add_argument("--generated-selector-dir", type=Path,
                         help="After historical restoration, substitute independently regenerated 2020/2024 selectors with exact field/key gates; other seasons stay inherited")
+    parser.add_argument("--require-raw-2020-selector", action="store_true",
+                        help="Require the regenerated 2020 selector to consume verified fresh original-PDF parsed rows")
     parser.add_argument("--check-only", action="store_true",
                         help="Check ZIP archive member mappings without writing/executing anything")
     args = parser.parse_args()
+    if args.require_raw_2020_selector and not args.generated_selector_dir:
+        parser.error("--require-raw-2020-selector requires --generated-selector-dir")
     restore_args = ["--archive-dir", args.archive_dir,
                     "--historical-root", args.historical_root]
     if args.reparse_2024_25_from_pdfs:
@@ -58,7 +63,8 @@ def main():
         call("inject_generated_canonical_selectors.py",
              ["--generated-dir", args.generated_selector_dir,
               "--historical-root", args.historical_root,
-              "--report", args.historical_root / "generated_selector_handoff.json"])
+              "--report", args.historical_root / "generated_selector_handoff.json",
+              *(["--require-raw-2020"] if args.require_raw_2020_selector else [])])
     if args.reparse_2024_25_from_pdfs:
         call("reparse_2024_25_from_pdfs.py",
              ["--historical-root", args.historical_root,

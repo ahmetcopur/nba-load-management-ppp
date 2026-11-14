@@ -309,7 +309,10 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                    boxscore_discovery: Path | None = None,
                    boxscore_repair_zip: Path | None = None,
                    boxscore_python: Path | None = None,
-                   rebuild_2020_2024_selectors: bool = False) -> list[tuple[str, list[str]]]:
+                   rebuild_2020_2024_selectors: bool = False,
+                   raw_2020_selector: bool = False) -> list[tuple[str, list[str]]]:
+    if raw_2020_selector and (not verify_original_pdfs or not rebuild_2020_2024_selectors):
+        raise ValueError("Fresh 2020 selector requires original-PDF and selector replay stages")
     python = sys.executable
     def tool(name: str, *args: object) -> list[str]:
         return [python, str(TOOLS / name), *[str(x) for x in args]]
@@ -323,7 +326,8 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                      tool("reproduce_core_and_stars.py", "--archive-dir", archives,
                           "--output-dir", root / "00_original_pdf_baseline",
                           "--from-original-2020-2025-pdfs", "--with-cup",
-                          "--with-analysis-ready", "--with-october-cadence")))
+                          "--with-analysis-ready", "--with-october-cadence",
+                          *(["--emit-full-2020-source-rows"] if raw_2020_selector else []))))
     if boxscore_v1 is not None:
         if not all((boxscore_discovery, boxscore_repair_zip, boxscore_python)) or not verify_original_pdfs:
             raise ValueError("Original boxscore stage requires all cache paths and --verify-original-pdfs")
@@ -339,7 +343,12 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
     if rebuild_2020_2024_selectors:
         work.append(("00c_historical_parser_selector_algorithm_replay",
                      tool("verify_canonical_selector_replay.py", "--archive-dir", archives,
-                          "--generated-dir", root / "00c_generated_selectors")))
+                          "--generated-dir", root / "00c_generated_selectors",
+                          *(["--fresh-2020-source-rows",
+                             root / "00_original_pdf_baseline/2020_original_pdf_selector_source/s1_snapshot_rows_2020_21_from_original_PDFs.csv",
+                             "--fresh-2020-acceptance",
+                             root / "00_original_pdf_baseline/2020_original_pdf_selector_source/2020_21_original_pdf_source_acceptance.json"]
+                            if raw_2020_selector else []))))
     work.extend([
         ("01_august_source_correction",
          tool("rebuild_august_core_from_source_archives.py", "--archives", archives,
@@ -368,7 +377,8 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
               "--historical-root", historical, "--output", cadence,
               "--reference", REFERENCE_CADENCE,
               *(["--generated-selector-dir", root / "00c_generated_selectors"]
-                if rebuild_2020_2024_selectors else []))),
+                if rebuild_2020_2024_selectors else []),
+              *(["--require-raw-2020-selector"] if raw_2020_selector else []))),
         ("04_corrected_cadence",
          tool("fixture_date_chronology_sensitivity.py",
               "--replay-root", historical, "--variant-root", root / "05_corrected_cadence_inputs",
@@ -465,11 +475,15 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           boxscore_repair_zip: Path | None = None,
           boxscore_python: Path | None = None,
           rebuild_2020_2024_selectors: bool = False,
+          raw_2020_selector: bool = False,
           finalize_existing: bool = False) -> dict:
+    if raw_2020_selector and (not verify_original_pdfs or not rebuild_2020_2024_selectors):
+        raise ValueError("Fresh 2020 selector requires original-PDF and selector replay stages")
     archives, output = archives.resolve(), output.resolve()
     original_zips = preflight(archives, output, verify_original_pdfs,
                               finalize_existing=finalize_existing,
-                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors)
+                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors,
+                              raw_2020_selector=raw_2020_selector)
     raw_boxscore = preflight_original_boxscores(
         boxscore_v1, boxscore_discovery, boxscore_repair_zip, boxscore_python,
         verify_original_pdfs=verify_original_pdfs, output=output)
@@ -523,6 +537,11 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             if (not selector_handoff.get("generated_selectors_fed_to_october_historical_builder")
                     or len(selector_handoff.get("tables", [])) != 4):
                 raise ValueError("Regenerated 2020/2024 selectors were not consumed")
+            if raw_2020_selector and (
+                    not selector_handoff.get("fresh_original_PDF_2020_selector_rows_fed_downstream")
+                    or not selector_handoff.get("fresh_original_PDF_2020_parsed_rows_fed_to_october_builder")
+                    or selector_handoff.get("fresh_2020_parsed_rows_handoff", {}).get("rows") != 41780):
+                raise ValueError("Fresh 2020 original-PDF selector handoff missing")
         if (analysis_qa.get("corrected_full_rows") != 248728
                 or analysis_qa.get("corrected_risk_rows") != 180831
                 or analysis_qa.get("corrected_onsets") != 12707):
@@ -542,7 +561,9 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "source_level": ("six-season source-PDF-derived player report rows feed corrected August; "
                              "the PDF-derived original reviewed base feeds corrected October after exact hash validation; "
                              + ("verified original NBA JSON roster also feeds August; " if raw_boxscore else "")
-                             + ("2020/2024 October selectors replay the original algorithm from historical parsed rows; "
+                             + ("2020 October selector consumes fresh original-PDF parsed rows with inherited report clocks; "
+                                if raw_2020_selector else
+                                "2020/2024 October selectors replay the original algorithm from historical parsed rows; "
                                 if selector_handoff else "")
                              + "other October season report selection, roster, covariates and reviewed decisions remain inherited"),
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
@@ -555,6 +576,8 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "original_NBA_JSON_roster_fed_to_corrected_August": raw_boxscore,
             "original_NBA_JSON_roster_2020_2025_verification": raw_boxscore_report,
             "historical_parser_derived_2020_2024_selectors_fed_to_october": bool(selector_handoff),
+            "fresh_original_PDF_2020_selector_rows_fed_to_october": raw_2020_selector,
+            "fresh_original_PDF_2020_parsed_rows_fed_to_october": raw_2020_selector,
             "historical_parser_selector_handoff": selector_handoff,
             "pdf_to_october_base_handoff": handoff,
             "raw_pdf_baseline_exact_compatibility": pdf_baseline,
@@ -616,6 +639,8 @@ def main() -> None:
                         help="Separate Python 3.12 environment with requirements-boxscore-lock.txt (pandas 3)")
     parser.add_argument("--rebuild-2020-2024-selectors-from-historical-rows", action="store_true",
                         help="Regenerate and consume 2020/2024 selectors with pinned original algorithm and historical parsed-row/schedule inputs; NOT a raw-PDF selector rebuild; requires two extra S4 ZIPs")
+    parser.add_argument("--rebuild-2020-selector-from-original-pdfs", action="store_true",
+                        help="With PDF and selector stages, feed freshly parsed 617 original 2020 PDFs into its selector; historical report timestamps and 2024 parsed rows remain inherited")
     parser.add_argument("--october-shared-repo", type=Path,
                         help="Optional clean shared October code checkout at immutable commit 0bd713d9...; rerun all 10 scripts")
     parser.add_argument("--october-python", type=Path,
@@ -638,6 +663,10 @@ def main() -> None:
     archives, output = args.archive_dir.resolve(), args.output_root.resolve()
     if args.check_only and args.finalize_existing:
         parser.error("--check-only and --finalize-existing are mutually exclusive")
+    if args.rebuild_2020_selector_from_original_pdfs and (
+            not args.verify_original_pdfs or
+            not args.rebuild_2020_2024_selectors_from_historical_rows):
+        parser.error("Fresh 2020 selector requires --verify-original-pdfs and --rebuild-2020-2024-selectors-from-historical-rows")
     raw_options = dict(boxscore_v1=args.boxscore_v1, boxscore_discovery=args.boxscore_discovery,
                        boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
@@ -654,6 +683,7 @@ def main() -> None:
         october_shared_repo=args.october_shared_repo,
         october_python=args.october_python,
         rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows,
+        raw_2020_selector=args.rebuild_2020_selector_from_original_pdfs,
         finalize_existing=args.finalize_existing,
         **raw_options,
     )

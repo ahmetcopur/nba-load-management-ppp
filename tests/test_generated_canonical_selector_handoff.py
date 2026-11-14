@@ -70,6 +70,52 @@ class SelectorHandoffTests(unittest.TestCase):
                     final.preflight(archives, p / "out", False,
                                     rebuild_2020_2024_selectors=True)
 
+    def test_fresh_2020_pdf_rows_have_exact_stage_order_and_no_fallback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with self.assertRaisesRegex(ValueError, "requires original-PDF"):
+                final.stage_commands(root, root / "out", verify_original_pdfs=False,
+                                     raw_2020_selector=True)
+            stages = dict(final.stage_commands(root, root / "out", verify_original_pdfs=True,
+                                               rebuild_2020_2024_selectors=True,
+                                               raw_2020_selector=True))
+            self.assertIn("--emit-full-2020-source-rows", stages["00_independent_original_six_pdf_baseline"])
+            selector = stages["00c_historical_parser_selector_algorithm_replay"]
+            self.assertIn("--fresh-2020-source-rows", selector)
+            self.assertIn("--fresh-2020-acceptance", selector)
+            self.assertIn("--require-raw-2020-selector", stages["03_frozen_cadence"])
+            self.assertTrue(str(selector[selector.index("--fresh-2020-source-rows")+1]).startswith(str(root / "out")))
+
+    def test_strict_handoff_rejects_archived_2020_and_accepts_declared_raw(self):
+        with tempfile.TemporaryDirectory() as directory:
+            generated, target, archived, filename = self.prepare(Path(directory))
+            with patch.object(handoff, "EXPECTED", {filename: (
+                    ["game_id"], frozenset({"published_timestamp_utc"}), 1)}):
+                with self.assertRaisesRegex(ValueError, "requires fresh original-PDF"):
+                    handoff.inject(generated, target, target / "handoff.json", require_raw_2020=True)
+                manifest_file = generated / "selector_replay_manifest.json"
+                manifest = json.loads(manifest_file.read_text())
+                manifest["inputs"] = {"2020-21": {"parsed_rows_consumed": {
+                    "kind": "recomputed_intermediate", "origin": "original_injury_PDFs",
+                    "historical_report_timestamps_inherited": True}}}
+                raw = Path(directory) / "fresh_2020.csv"
+                raw.write_text("source_file,reason\nsource.pdf,knee\n")
+                restored_raw = target / handoff.RAW_2020_TARGET
+                restored_raw.parent.mkdir(parents=True)
+                restored_raw.write_text(raw.read_text())
+                manifest["inputs"]["2020-21"]["parsed_rows_consumed"].update(
+                    path=str(raw), sha256=hashlib.sha256(raw.read_bytes()).hexdigest(), rows=1)
+                entry = manifest["generated_selector_tables"][filename]
+                entry["generated_from_original_pdfs_directly"] = True
+                entry["input_rows_are_pinned_historical_parser_outputs"] = False
+                manifest_file.write_text(json.dumps(manifest))
+                with patch.object(handoff,"RAW_2020_EXPECTED_ROWS",1):
+                    result = handoff.inject(generated, target, target / "handoff.json",
+                                            require_raw_2020=True)
+                self.assertTrue(result["fresh_original_PDF_2020_selector_rows_fed_downstream"])
+                self.assertTrue(result["fresh_original_PDF_2020_parsed_rows_fed_to_october_builder"])
+                self.assertEqual(restored_raw.read_bytes(),raw.read_bytes())
+
 
 if __name__ == "__main__":
     unittest.main()

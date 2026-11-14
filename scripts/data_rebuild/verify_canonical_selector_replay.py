@@ -3,11 +3,13 @@
 
 Read-only validation against private original/archive inputs. This replays the
 original canonical selection function and compares full game and team status
-columns with archived canonical output, plus published season metrics. It does
-not reparse PDFs, rebuild player identities, or rerun regressions.
+columns with archived canonical output, plus published season metrics. Optional
+fresh 2020 rows are verified output from the preceding original-PDF stage; this
+script does not itself reparse PDFs, rebuild identities, or rerun regressions.
 """
 from __future__ import annotations
 import argparse
+from collections import Counter
 import hashlib
 import io
 import json
@@ -21,6 +23,9 @@ BUILDER_SHA256 = '3e2c3f975a9d6f0828655cfade2a11a8418c0a3b3af3789a30794978066603
 BUILDER_MEMBER = 'nba_canonical_snapshot_selector_v1/build_canonical_snapshot_selector_v1.py'
 CANONICAL_PREFIX = 'nba_canonical_snapshot_selector_v1/'
 ALLOWED_SEASONS = ('2020-21','2024-25')
+FULL_2020_SOURCE = 's1_snapshot_rows_2020_21_from_original_PDFs.csv'
+PDF_PARSER_2020_SHA256 = '77fb85d6e0634c01d0ddb0739294c0ed044671b5b93b0affbbf9ec943a7ef6ee'
+PDF_ARCHIVE_2020_SHA256 = 'e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c'
 SEASON_INPUTS = {
     '2020-21': {
         'manifest': ('audit_2020_21_upload.zip', 'audit_2020_21/report_manifest.csv'),
@@ -93,6 +98,37 @@ def csv_from_zip(archive_dir:Path,record:tuple[str,str])->pd.DataFrame:
     return pd.read_csv(io.BytesIO(data))
 
 
+def verified_fresh_2020_rows(archive_dir:Path, source:Path, acceptance:Path)->pd.DataFrame:
+    """Require actual original-PDF parser evidence, then compare every source cell."""
+    if source.is_symlink() or acceptance.is_symlink() or not source.is_file() or not acceptance.is_file():
+        raise FileNotFoundError('Fresh 2020 PDF rows and acceptance report must be real private files')
+    if source.name!=FULL_2020_SOURCE or source.parent!=acceptance.parent:
+        raise ValueError('Fresh 2020 PDF rows and acceptance report must be siblings at the expected path')
+    report=json.loads(acceptance.read_text())
+    if (report.get('status')!='pass' or report.get('source_pdf_count')!=617
+            or report.get('fresh_original_617_PDF_execution_in_this_invocation') is not True
+            or report.get('source_reason_text_replaced_with_archived_value') is not False
+            or report.get('original_2020_source_parser_sha256')!=PDF_PARSER_2020_SHA256
+            or report.get('original_2020_raw_zip_sha256')!=PDF_ARCHIVE_2020_SHA256
+            or file_sha256(archive_dir/'audit_2020_21_upload.zip')!=PDF_ARCHIVE_2020_SHA256
+            or report.get('parsed_original_source',{}).get('every_original_column_and_full_record_exact') is not True
+            or report.get('parsed_original_source',{}).get('columns')!=15
+            or report.get('parsed_original_source',{}).get('rows')!=41780
+            or report.get('full_source_rows_filename')!=FULL_2020_SOURCE
+            or report.get('full_source_rows_sha256')!=file_sha256(source)):
+        raise ValueError('Fresh 2020 raw-PDF parser acceptance is missing, stale, or incomplete')
+    archived=csv_from_zip(archive_dir,SEASON_INPUTS['2020-21']['parsed_rows'])
+    fresh=pd.read_csv(source,low_memory=False)
+    if list(fresh.columns)!=list(archived.columns) or len(fresh)!=41780 or len(archived)!=41780:
+        raise ValueError('Fresh 2020 source parsed-row schema/count differs')
+    def records(frame):
+        normalized=pd.read_csv(io.StringIO(frame.to_csv(index=False)),dtype=str,keep_default_na=False)
+        return Counter(normalized.itertuples(index=False,name=None))
+    if records(fresh)!=records(archived):
+        raise ValueError('Fresh 2020 original-PDF parsed rows differ from historical complete records')
+    return fresh
+
+
 def compare_records(candidate:pd.DataFrame,ref:pd.DataFrame, keys:list[str],required:frozenset[str],
                     expected_rows:int):
     if not set(keys)|required<=set(candidate.columns):
@@ -142,14 +178,17 @@ def check_metrics(observed:dict,original:pd.Series)->dict:
 
 
 def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS,
-           generated_dir:Path|None=None)->dict:
+           generated_dir:Path|None=None,
+           fresh_2020_rows:Path|None=None, fresh_2020_acceptance:Path|None=None)->dict:
     if not seasons or len(seasons)!=len(set(seasons)) or not set(seasons)<=set(ALLOWED_SEASONS):
         raise ValueError('Choose one or both canonical-rebuilt seasons without duplicates')
+    if bool(fresh_2020_rows)!=bool(fresh_2020_acceptance) or (fresh_2020_rows and '2020-21' not in seasons):
+        raise ValueError('Fresh 2020 source rows/report require one another and the 2020–21 season')
     canonical_zip=archive_dir/'nba_canonical_snapshot_selector_v1.zip'
     builder=original_builder(canonical_zip)
     metrics_ref=pd.read_csv(io.BytesIO(member_bytes(canonical_zip,CANONICAL_PREFIX+'canonical_six_season_metrics.csv')))
     result={
-      'scope':'Original archived canonical snapshot algorithm replay against archived parsed PDF rows and schedules; no fresh PDF parsing or model fitting',
+      'scope':'Original canonical selector algorithm replay against pinned historical manifest/schedule and verified parsed rows; per-season source input declared below',
       'builder_original_sha256':BUILDER_SHA256,'private_raw_archives_committed':False,
       'original_frozen_dataset_modified':False,'all_selected_season_cases_passed':False,
       'inputs':{},'cases':[],
@@ -158,11 +197,18 @@ def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS,
     for season in seasons:
         spec=SEASON_INPUTS[season]
         manifest=csv_from_zip(archive_dir,spec['manifest'])
-        rows=csv_from_zip(archive_dir,spec['parsed_rows'])
+        rows=(verified_fresh_2020_rows(archive_dir,fresh_2020_rows,fresh_2020_acceptance)
+              if season=='2020-21' and fresh_2020_rows else csv_from_zip(archive_dir,spec['parsed_rows']))
         sched=csv_from_zip(archive_dir,spec['schedule'])
         result['inputs'][season]={label:{'archive':file[0],'member':file[1],
                              'archive_sha256':file_sha256(archive_dir/file[0])}
                              for label,file in spec.items() if label!='expected_games'}
+        result['inputs'][season]['parsed_rows_consumed']=(
+            {'kind':'recomputed_intermediate', 'origin':'original_injury_PDFs', 'path':str(fresh_2020_rows),
+             'sha256':file_sha256(fresh_2020_rows),'rows':len(rows),
+             'historical_report_timestamps_inherited':True}
+            if season=='2020-21' and fresh_2020_rows else
+            {'kind':'archived_computational_intermediate','archive':spec['parsed_rows'][0]})
         for panel,tokens,panel_name in (
           ('full',None,'full_canonical'),
           ('harmonized',['01PM','05PM','08PM'],'harmonized_0130_1730_2030')):
@@ -199,8 +245,8 @@ def verify(archive_dir:Path, seasons:tuple[str,...]=ALLOWED_SEASONS,
             frame.to_csv(target,index=False)
             result['generated_selector_tables'][filename]={
                 'rows':len(frame),'sha256':file_sha256(target),
-                'generated_from_original_pdfs_directly':False,
-                'input_rows_are_pinned_historical_parser_outputs':True,
+                'generated_from_original_pdfs_directly':bool(fresh_2020_rows and filename.startswith('2020-21_')),
+                'input_rows_are_pinned_historical_parser_outputs':not (fresh_2020_rows and filename.startswith('2020-21_')),
             }
         (generated_dir/'selector_replay_manifest.json').write_text(
             json.dumps(result,indent=2)+'\n')
@@ -214,8 +260,13 @@ def main():
     parser.add_argument('--output',type=Path)
     parser.add_argument('--generated-dir',type=Path,
                         help='Export validated new selector CSVs to a fresh private directory; parsed-row inputs remain historical archives')
+    parser.add_argument('--fresh-2020-source-rows',type=Path,
+                        help='Verified full 617-PDF parsed rows from the preceding source stage')
+    parser.add_argument('--fresh-2020-acceptance',type=Path,
+                        help='Unmodified original-PDF source acceptance report matching the parsed-row SHA')
     args=parser.parse_args()
-    result=verify(args.archive_dir,tuple(args.seasons),args.generated_dir)
+    result=verify(args.archive_dir,tuple(args.seasons),args.generated_dir,
+                  args.fresh_2020_source_rows,args.fresh_2020_acceptance)
     rendered=json.dumps(result,indent=2)+'\n'
     if args.output:
         if args.output.exists():

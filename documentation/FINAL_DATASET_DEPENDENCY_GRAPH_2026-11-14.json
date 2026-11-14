@@ -1,0 +1,500 @@
+{
+  "scope": "Code-level inventory; classification describes available execution modes, not proof that a private run used them.",
+  "classes": {
+    "A": "Fully reconstructed raw source and consumed downstream",
+    "B": "Algorithm reexecuted but consumed historical parsed intermediate",
+    "C": "Reconstructible source/code exists but canonical final path is unconnected",
+    "D": "Versioned historical human or methodological decision",
+    "E": "Unresolved original evidence or acquisition metadata"
+  },
+  "restored_file_count": 10,
+  "restored_selector_count": 10,
+  "required_source_zip_names": [
+    "audit_2020_21_corrected_outputs.zip",
+    "audit_2020_21_upload.zip",
+    "audit_2021_22_cadence_outputs.zip",
+    "audit_2021_22_upload.zip",
+    "audit_2022_23_pre_s4_outputs.zip",
+    "audit_2022_23_s4_join_results.zip",
+    "audit_2022_23_upload.zip",
+    "audit_2023_24_pre_s4_outputs.zip",
+    "audit_2023_24_s4_join_results.zip",
+    "audit_2023_24_upload.zip",
+    "audit_2024_25_pre_s4_outputs_corrected.zip",
+    "audit_2024_25_upload.zip",
+    "audit_2025_26_targeted_upload.zip",
+    "audit_2025_26_upload.zip",
+    "nba_boxscore_roster_frame_v2_output_upload.zip",
+    "nba_canonical_snapshot_selector_v1.zip",
+    "nba_game_covariates_v1.zip",
+    "nba_player_crosswalk_final_v1.zip",
+    "nba_player_game_analysis_ready_v1.zip",
+    "nba_player_game_at_risk_core_v1.zip",
+    "nba_player_game_at_risk_star_cup_v1.zip",
+    "nba_player_game_at_risk_star_v1.zip"
+  ],
+  "optional_selector_schedule_zip_names": [
+    "audit_2020_21_s4_join_results_rechecked.zip",
+    "audit_2024_25_s4_join_results.zip"
+  ],
+  "nodes": [
+    {
+      "id": "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz",
+      "original_source": "Original injury PDFs, NBA JSONs and reviewed reasons",
+      "generating_script": "build_analysis_ready_from_generated_core.py",
+      "upstream_dependencies": [
+        "nba_player_game_analysis_ready_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_game_analysis_ready_v1.zip",
+        "member": "player_game_panel_analysis_ready.csv.gz"
+      },
+      "classification": "A (with PDF + JSON options)",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Human reviewed taxonomy and annotations remain versioned original inputs."
+    },
+    {
+      "id": "cadence_2025/player_crosswalk_final.csv",
+      "original_source": "NBA JSON identities and reviewed alias matches",
+      "generating_script": "verify_player_identity_replay.py",
+      "upstream_dependencies": [
+        "nba_player_crosswalk_final_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_crosswalk_final_v1.zip",
+        "member": "player_crosswalk_final.csv"
+      },
+      "classification": "C/D",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Original alias/crosswalk decisions remain inherited at this October input."
+    },
+    {
+      "id": "cadence_core_full/nba_player_game_at_risk_core_v1/parsers/parser_2023plus.py",
+      "original_source": "SHA-pinned original parser code",
+      "generating_script": "rebuild_from_archives.py",
+      "upstream_dependencies": [
+        "nba_player_game_at_risk_core_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_game_at_risk_core_v1.zip",
+        "member": "parser_2023plus.py"
+      },
+      "classification": "D",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Original executable parser is a versioned methodological input."
+    },
+    {
+      "id": "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv",
+      "original_source": "Original S4 report statuses and schedules",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "audit_2022_23_s4_join_results.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2022_23_s4_join_results.zip",
+        "member": "team_game_final_pre_tip_status_harmonized.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Historical team status remains archived at the October builder input."
+    },
+    {
+      "id": "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv",
+      "original_source": "Original S4 report statuses and schedules",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "audit_2023_24_s4_join_results.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2023_24_s4_join_results.zip",
+        "member": "team_game_final_pre_tip_status_harmonized.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Historical team status remains archived at the October builder input."
+    },
+    {
+      "id": "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv",
+      "original_source": "617 original 2020\u201321 injury PDFs",
+      "generating_script": "rebuild_2020_selected_from_pdfs.py",
+      "upstream_dependencies": [
+        "audit_2020_21_corrected_outputs.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2020_21_corrected_outputs.zip",
+        "member": "s1_snapshot_rows_corrected.csv"
+      },
+      "classification": "B with optional raw-PDF-derived full-row consumption",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Publication clocks/manifests inherited; raw-PDF full row and selector handoffs are opt-in."
+    },
+    {
+      "id": "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
+      "original_source": "Original season injury PDF ZIP",
+      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "upstream_dependencies": [
+        "audit_2021_22_cadence_outputs.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2021_22_cadence_outputs.zip",
+        "member": "s1_snapshot_rows_harmonized.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+    },
+    {
+      "id": "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
+      "original_source": "Original season injury PDF ZIP",
+      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "upstream_dependencies": [
+        "audit_2022_23_pre_s4_outputs.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2022_23_pre_s4_outputs.zip",
+        "member": "s1_snapshot_rows_regular_season.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+    },
+    {
+      "id": "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
+      "original_source": "Original season injury PDF ZIP",
+      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "upstream_dependencies": [
+        "audit_2023_24_pre_s4_outputs.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2023_24_pre_s4_outputs.zip",
+        "member": "s1_snapshot_rows_regular_season.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+    },
+    {
+      "id": "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
+      "original_source": "Original season injury PDF ZIP",
+      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "upstream_dependencies": [
+        "audit_2024_25_pre_s4_outputs_corrected.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2024_25_pre_s4_outputs_corrected.zip",
+        "member": "s1_snapshot_rows_regular_season_real.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
+      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_canonical_selector_replay.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2020-21_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "B with optional raw-PDF-derived full-row consumption",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2021-22_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Requires full 5,567 hourly original-PDF reparse and submitted-placeholder precedence."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2022-23_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2023-24_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_canonical_selector_replay.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2024-25_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "B",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original algorithm executes on archived parsed rows and schedules; raw-PDF candidate rows not connected."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2025_manifest_selector.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2025-26_game_snapshot_join_harmonized_canonical.csv"
+      },
+      "classification": "E",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_canonical_selector_replay.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2020-21_team_game_status_harmonized_canonical.csv"
+      },
+      "classification": "B with optional raw-PDF-derived full-row consumption",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2021_2023_selector_rebuild.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2021-22_team_game_status_harmonized_canonical.csv"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Requires full 5,567 hourly original-PDF reparse and submitted-placeholder precedence."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_canonical_selector_replay.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2024-25_team_game_status_harmonized_canonical.csv"
+      },
+      "classification": "B",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Original algorithm executes on archived parsed rows and schedules; raw-PDF candidate rows not connected."
+    },
+    {
+      "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv",
+      "original_source": "Original NBA injury PDFs, original season manifest and S4 fixture schedule",
+      "generating_script": "verify_2025_manifest_selector.py",
+      "upstream_dependencies": [
+        "nba_canonical_snapshot_selector_v1.zip",
+        "original season parsed report rows",
+        "original schedule and manifest"
+      ],
+      "current_input": {
+        "archive": "nba_canonical_snapshot_selector_v1.zip",
+        "member": "2025-26_team_game_status_harmonized_canonical.csv"
+      },
+      "classification": "E",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
+      "remaining_limitation": "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections."
+    },
+    {
+      "id": "game covariates, Elo, rest, travel",
+      "original_source": "original NBA fixture and venue schedules",
+      "generating_script": "run_connected_player_game_core.py",
+      "upstream_dependencies": [
+        "nba_game_covariates_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_game_covariates_v1.zip"
+      },
+      "classification": "C",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Original calculation replayed independently, but connected final correction still inherits non-date source inputs."
+    },
+    {
+      "id": "player participation and roster",
+      "original_source": "7,230 original NBA boxscore JSON files",
+      "generating_script": "verify_boxscore_cache.py",
+      "upstream_dependencies": [
+        "nba_boxscore_roster_frame_v2_output_upload.zip"
+      ],
+      "current_input": {
+        "archive": "nba_boxscore_roster_frame_v2_output_upload.zip"
+      },
+      "classification": "A with JSON option",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Historical raw_json_path prefix is preserved after confirming same game JSON."
+    },
+    {
+      "id": "injury report player identity",
+      "original_source": "Original six-season injury PDFs and human-reviewed aliases",
+      "generating_script": "verify_player_identity_replay.py",
+      "upstream_dependencies": [
+        "nba_player_crosswalk_final_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_crosswalk_final_v1.zip"
+      },
+      "classification": "A/D",
+      "regenerated_value_consumed_downstream": true,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Alias choices are versioned human decisions."
+    },
+    {
+      "id": "awards and star timeline",
+      "original_source": "NBA awards and All-Star records",
+      "generating_script": "run_connected_star_enrichment.py",
+      "upstream_dependencies": [
+        "nba_player_game_at_risk_star_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_game_at_risk_star_v1.zip"
+      },
+      "classification": "C/D",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Historical award lookup and reviewed identity decisions remain inherited."
+    },
+    {
+      "id": "NBA Cup and TV advance mapping",
+      "original_source": "Original NBA publication schedules and manual match decisions",
+      "generating_script": "run_connected_cup_enrichment.py",
+      "upstream_dependencies": [
+        "nba_player_game_at_risk_star_cup_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_game_at_risk_star_cup_v1.zip"
+      },
+      "classification": "C/D/E",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Original announcement timing/nominal neutral hosts and some match decisions remain historical inputs."
+    },
+    {
+      "id": "reviewed taxonomy",
+      "original_source": "Original report text and human reviewed reason classifications",
+      "generating_script": "build_analysis_ready_from_generated_core.py",
+      "upstream_dependencies": [
+        "nba_player_game_analysis_ready_v1.zip"
+      ],
+      "current_input": {
+        "archive": "nba_player_game_analysis_ready_v1.zip"
+      },
+      "classification": "D",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Never invent replacement human classifications."
+    },
+    {
+      "id": "2025 candidate report selection",
+      "original_source": "Original 2025\u201326 injury PDF candidate inventory",
+      "generating_script": "verify_2025_manifest_selector.py",
+      "upstream_dependencies": [
+        "audit_2025_26_upload.zip"
+      ],
+      "current_input": {
+        "archive": "audit_2025_26_upload.zip"
+      },
+      "classification": "E",
+      "regenerated_value_consumed_downstream": false,
+      "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
+      "remaining_limitation": "Some original acquisition/selection timestamps cannot be reconstructed from selected PDFs alone."
+    }
+  ],
+  "final_dataset_decoded_sha256": {
+    "august_latest_pre_tip_full": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+    "august_latest_pre_tip_at_risk": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+    "october_cadence_player_games": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67"
+  },
+  "final_stage": "reproduce_final_datasets.py",
+  "strict_six_season_raw_source_acceptance": false,
+  "remaining_computational_tasks": [
+    "Connect full all-candidate original PDF parser rows and canonical selector for 2021\u201324.",
+    "Reconstruct 2025 candidate selection only to the extent original acquisition records support it.",
+    "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
+    "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks."
+  ]
+}

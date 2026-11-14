@@ -2,12 +2,16 @@
 from pathlib import Path
 import tempfile
 import unittest
+import json
+import hashlib
+from unittest.mock import patch
 from zipfile import ZipFile
 import pandas as pd
 
 from scripts.data_rebuild.verify_canonical_selector_replay import (
     compare_records, check_metrics, original_builder, member_bytes
 )
+from scripts.data_rebuild import verify_canonical_selector_replay as selector
 
 
 class OriginalSelectorReplayTests(unittest.TestCase):
@@ -94,6 +98,45 @@ class OriginalSelectorReplayTests(unittest.TestCase):
         original['games']=11
         with self.assertRaisesRegex(ValueError,'metrics drift'):
             check_metrics(original,pd.Series(dict.fromkeys(original,10)))
+
+    def test_fresh_2020_source_requires_complete_pdf_proof_and_all_cells(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory)
+            source=p/selector.FULL_2020_SOURCE
+            report=p/'2020_21_original_pdf_source_acceptance.json'
+            source.write_text('source_file,reason\n' + 'a.pdf,knee\n'*41780)
+            accepted={
+                'status':'pass','source_pdf_count':617,
+                'fresh_original_617_PDF_execution_in_this_invocation':True,
+                'source_reason_text_replaced_with_archived_value':False,
+                'original_2020_source_parser_sha256':selector.PDF_PARSER_2020_SHA256,
+                'original_2020_raw_zip_sha256':selector.PDF_ARCHIVE_2020_SHA256,
+                'parsed_original_source':{'every_original_column_and_full_record_exact':True,
+                                          'rows':41780,'columns':15},
+                'full_source_rows_filename':selector.FULL_2020_SOURCE,
+                'full_source_rows_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+            }
+            report.write_text(json.dumps(accepted))
+            historical=pd.read_csv(source)
+            with patch.object(selector,'csv_from_zip',return_value=historical), \
+                 patch.object(selector,'file_sha256',side_effect=lambda path: (
+                     selector.PDF_ARCHIVE_2020_SHA256 if path.name=='audit_2020_21_upload.zip'
+                     else hashlib.sha256(path.read_bytes()).hexdigest())):
+                self.assertEqual(len(selector.verified_fresh_2020_rows(p,source,report)),41780)
+                historical.loc[0,'reason']='other'
+                with self.assertRaisesRegex(ValueError,'complete records'):
+                    selector.verified_fresh_2020_rows(p,source,report)
+            source.write_text(source.read_text().replace('knee','other',1))
+            with patch.object(selector,'file_sha256',side_effect=lambda path: (
+                    selector.PDF_ARCHIVE_2020_SHA256 if path.name=='audit_2020_21_upload.zip'
+                    else hashlib.sha256(path.read_bytes()).hexdigest())):
+                with self.assertRaisesRegex(ValueError,'stale'):
+                    selector.verified_fresh_2020_rows(p,source,report)
+            accepted['fresh_original_617_PDF_execution_in_this_invocation']=False
+            accepted['full_source_rows_sha256']=hashlib.sha256(source.read_bytes()).hexdigest()
+            report.write_text(json.dumps(accepted))
+            with self.assertRaisesRegex(ValueError,'incomplete'):
+                selector.verified_fresh_2020_rows(p,source,report)
 
 
 if __name__=='__main__':

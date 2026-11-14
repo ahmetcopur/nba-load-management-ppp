@@ -39,6 +39,7 @@ CORE_ZIP = "nba_player_game_at_risk_core_v1.zip"
 CORE_SHA = "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
 PARSER_SHA = "77fb85d6e0634c01d0ddb0739294c0ed044671b5b93b0affbbf9ec943a7ef6ee"
 SELECTED_FILE = "selected_report_rows_2020_21_from_original_PDFs.csv"
+FULL_SOURCE_FILE = "s1_snapshot_rows_2020_21_from_original_PDFs.csv"
 EXPECTED_PDFS, EXPECTED_SOURCE_ROWS, EXPECTED_SELECTED_ROWS = 617, 41780, 8591
 _PARSE = None
 
@@ -161,7 +162,8 @@ def safe_output(source: Path, output: Path):
 
 
 def rebuild(archive_dir: Path, output_dir: Path, *,
-            workers: int = 4, previous_reparse_csv: Path | None = None) -> dict:
+            workers: int = 4, previous_reparse_csv: Path | None = None,
+            emit_full_source_rows: bool = False) -> dict:
     archive_dir, output_dir = archive_dir.resolve(), output_dir.resolve()
     safe_output(archive_dir, output_dir)
     if not 1 <= workers <= 16:
@@ -260,6 +262,8 @@ def rebuild(archive_dir: Path, output_dir: Path, *,
     )
     output_dir.mkdir(parents=True, exist_ok=False)
     output.to_csv(output_dir / SELECTED_FILE, index=False)
+    if emit_full_source_rows:
+        fixed_source[list(original_full.columns)].to_csv(output_dir / FULL_SOURCE_FILE, index=False)
     evidence = {
         "status": "pass", "season": "2020-21",
         "source_pdf_count": EXPECTED_PDFS, "parsed_original_source": full,
@@ -268,6 +272,8 @@ def rebuild(archive_dir: Path, output_dir: Path, *,
         "original_2020_raw_zip_sha256": RAW_SHA,
         "source_reason_text_replaced_with_archived_value": False,
         "fresh_original_617_PDF_execution_in_this_invocation": fresh_pdf_execution,
+        "full_source_rows_filename": FULL_SOURCE_FILE if emit_full_source_rows else None,
+        "full_source_rows_sha256": digest(output_dir / FULL_SOURCE_FILE) if emit_full_source_rows else None,
         "original_canonical_report_choice_metadata_inherited": True,
         "frozen_original_research_files_changed": False,
         "private_player_report_rows_committed": False,
@@ -285,10 +291,13 @@ def main():
     p.add_argument("--workers", type=int, default=4)
     p.add_argument("--previous-reparse-csv", type=Path,
                    help="Re-use existing complete private 617-PDF diagnostic CSV instead of freshly parsing all PDFs")
+    p.add_argument("--emit-full-source-rows", action="store_true",
+                   help="Retain the verified 41,780 raw-PDF-derived rows privately for the October selector")
     args = p.parse_args()
     print(json.dumps(rebuild(args.archive_dir, args.output_dir,
                              workers=args.workers,
-                             previous_reparse_csv=args.previous_reparse_csv), indent=2))
+                             previous_reparse_csv=args.previous_reparse_csv,
+                             emit_full_source_rows=args.emit_full_source_rows), indent=2))
 
 
 if __name__ == "__main__":
