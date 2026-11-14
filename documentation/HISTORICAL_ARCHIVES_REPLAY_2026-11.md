@@ -1,5 +1,7 @@
 # NBA cadence panel: restored-archives replay (November 2026)
 
+> **Updated November 8, 2026 after independent execution:** The actual 13 historical input ZIPs, including the original corrected 2024–25 archive, reproduced the complete 248,778-row cadence panel byte-for-byte *after decompression* and all four Stage-6 coefficients. A separate full December 2025 printed-clock sensitivity was also independently rerun using the original corrected 2024 input; it changed no onset/risk outcomes or four model results. See [independent results](LEVEL_B_REPLAY_RESULTS_2026-11-08.md). These results establish **Level B** via an independent temporary path-only wrapper, while a fresh clean-root execution of the integrated GitHub CLI remains desirable. **Level C remains unverified**. Historical statements below that describe Level B as unexecuted refer to the earlier stage of this work.
+
 ## Scope
 
 Reconstruct the published cadence-harmonized player-team-game panel from **original historical intermediate ZIP outputs**, while re-parsing the selected 2025–26 NBA injury report PDFs. This is not yet a from-scratch rebuild starting with all raw PDFs/boxscore JSONs; the pre-existing canonical roster/policy/covariate panel is an input.
@@ -33,15 +35,18 @@ Additional season audits (`audit_2020_21_s4_join_results_rechecked.zip`, `audit_
 Prepare a folder containing the named ZIPs. From the repository root:
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-lock.txt
 python3 scripts/data_rebuild/rebuild_from_archives.py \
   --archive-dir /path/to/nba_archives \
-  --historical-root data_rebuild/output/nba_continue
+  --historical-root data_rebuild/output/nba_continue \
+  --metadata-dir ../nba-ppp-star-availability/provenance/historical_sources
 ```
 
-The entrypoint (1) copies and SHA-256 logs historical source files into the original directory structure, (2) uses the unmodified archived 2025–26 PDF parser via a temporary path-adjusted copy, (3) uses the unmodified archived cadence-panel builder via a temporary path-adjusted copy, (4) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
+The entrypoint (1) inspects all historical ZIP members by exact basename and rejects missing or duplicate matches *before copying*, (2) copies verified historical intermediate data and records SHA-256 hashes into the original directory structure, (3) audits that each selected 2025–26 PDF exists and is not in conflict between source archives before running the unmodified historical parser via a temporary path-adjusted copy, (4) runs the archived cadence-panel builder via a temporary path-adjusted copy, and (5) compares the generated CSV to `data_intermediate/player_team_game_harmonized_cadence.csv.gz`. For `--metadata-dir`, first clone `https://github.com/OEKundakcioglu/nba-ppp-star-availability` into the relative folder shown, or supply another exact path to its `provenance/historical_sources` directory. This enables digest comparison of selected 2025–26 PDFs against the published game-to-source map. Without this option, the parser still checks that selected PDFs exist and rejects conflicting duplicate basenames, but does **not** independently verify their hashes against that public inventory.
 
-Prerequisites-only check:
+All computations and artifacts are written under Git-ignored `data_rebuild/output/` except for the locally restored 2025 PDF files under the same ignored folder.
+
+Read-only archive member inspection (does not copy files or run the historical parser):
 
 ```bash
 python3 scripts/data_rebuild/rebuild_from_archives.py \
@@ -53,7 +58,7 @@ Pre-verified parsed 2025 CSV can be reused with `--skip-2025-parse` to avoid rep
 
 ## QA
 
-GitHub Actions `data-rebuild-tests.yml` runs Python syntax compilation, synthetic CSV panel-difference tests, archive-copy/hash tampering detection, and a self-compare of the frozen cadence panel. These are tooling tests, not evidence of historical reconstruction. The full rebuild must pass an actual independent run before declaring raw-source replication.
+GitHub Actions `data-rebuild-tests.yml` runs Python syntax compilation, synthetic CSV panel-difference tests, archive-copy/hash tampering detection, and a self-compare of the frozen cadence panel. These are tooling tests and archived public package layout checks, **not** evidence of a successful historical reconstruction using the 13 original source archives. The full rebuild must pass an actual independent run before declaring raw-source replication.
 
 Expected frozen cadence panel from the October manuscript: **248,778 player-team-game rows, 180,664 onset-risk records, and 12,731 new onsets**. Any divergent counts, identity join failures, or strict comparison mismatches are blocking issues. Report them; never force them to the expected count.
 
@@ -68,3 +73,58 @@ Expected frozen cadence panel from the October manuscript: **248,778 player-team
 ## GitHub state
 
 This is an additive development branch. Do not overwrite frozen datasets, original research scripts or historical manifests. Preserve any reconstruction logs outside the public Git history unless source licensing and privacy have been reviewed.
+
+## November 8 audit and verification boundary
+
+PR #2 passed five synthetic tests and a real published 7,230-game *metadata join*. Those checks were not proof of the 248,778-row panel's independent construction: self-comparing a frozen CSV is tautological. The earlier ZIP restoration script also assumed unverified internal paths and could write output during a supposedly read-only check. PR #4 corrects these limitations.
+
+What an actual end-to-end historical **intermediate-to-panel replay** would need to establish:
+
+1. **Source authenticity and integrity.** Preserve a full manifest mapping each of the 13 real archive names, archive SHA-256 digests, resolved input members and member digests. The newly recorded SHA-256 of a copy establishes copy integrity, not independent trust in the source archive.
+2. **Exact source replay.** Run the original 2025–26 selected-PDF parser on the restored original two 2025–26 ZIPs. Audit duplicate/missing PDF basenames. Independently review the 21 clock exceptions; that is a separate sensitivity.
+3. **Dataset identity.** Run the historical cadence builder and compare the generated CSV against the frozen October panel by row keys and values, including 248,778 player–team–games, 180,664 onset-risk observations and 12,731 onsets. A strict mismatch is a failed replay, not a request to patch values until they match.
+4. **Analysis reproducibility.** Only after #3 passes, rerun the published October models against the rebuilt panel and compare estimates with scientific numeric tolerances. Source/analysis reconciliation cannot be inferred from green unit tests.
+5. **Full raw-to-final reproduction.** This is a **different, larger milestone**, requiring re-creation of canonical NBA rosters/boxscore JSON ingestion, 2020–21 through 2024–25 injury-report parsing and cadence selection, broadcast schedules, star/award histories, game covariates, and taxonomy construction. None of those should be described as regenerated when simply restored as existing intermediate CSVs.
+
+If an archive's member basename is missing/ambiguous, stop and inspect the original ZIP contents. Do not automatically select a different data file with a similar name.
+
+## Dependency and acceptance status
+
+For the reconstruction, install the historical versions in `requirements-lock.txt` rather than the unpinned `requirements.txt`. This lockfile covers the analysis packages, but the historical PDF parser's additional dependencies must still be verified from its original package before claiming an environment-complete raw-PDF parser replay. Record Python and dependency versions when running.
+
+`python3 scripts/data_rebuild/validate_cadence_panel.py --expect-frozen` independently checks six-season coverage, unique player-team-game keys, the 7,230 game count, 248,778 rows, 180,664 at-risk observations, 12,731 onsets, and the logical condition that every onset is in-risk and currently absent. This is an **invariant check of the published data**, not evidence that the data were independently reconstructed.
+
+## Historical coefficient acceptance check
+
+Once the historical cadence panel is replayed, the orchestrator also checks `cadence_harmonized_model_results.csv` against the four **Stage-6 historical model** specifications in `packages/06_cadence_harmonized_identification.zip`. This compares specification keys, sample sizes, effect/SE/CI values with a 0.001 percentage-point tolerance and p-values with a 0.001 absolute tolerance. An explicit `--skip-stage6-model-comparison` flag bypasses that check, but such a run should not be called full historical analysis replication. The Stage-6 legacy/harmonized labels are **not** identical to the October 25 paper's national-partner TV versus linear-only definitions; do not misreport them as the October manuscript estimates.
+
+All archived coefficients, frozen panels and original scripts remain unchanged; rebuilt values and comparison reports stay under `data_rebuild/output/`.
+
+## Independently verified model-only replay (GitHub Actions)
+
+The original Stage-6 model source can be rerun **without the private historical archives** using the published frozen cadence panel. This validates model computation, **not creation of the frozen panel**:
+
+```bash
+python3 -m pip install -r requirements-lock.txt
+python3 scripts/data_rebuild/replay_stage6_from_frozen.py
+```
+
+The wrapper checks the unchanged historical `run_cadence_models_fast.py` executable, creates an isolated temporary input root, reruns all four historical Stage-6 specifications, and compares estimates and SEs against `packages/06_cadence_harmonized_identification.zip`. It writes a source/input SHA-256 and environment provenance report under `data_rebuild/output/stage6_replay/`.
+
+**Verified in GitHub CI run 42491869499 (November 8, 2026)**: all four Stage-6 models were recalculated and matched the archived results within the declared 0.001 percentage-point and 0.001 p-value tolerances. Full-control legacy TV = +2.63044859 pp (95% CI +0.04574938 to +5.21514780; n=180,530), harmonized linear TV = +1.23897037 pp (95% CI -1.34567798 to +3.82361871; n=180,530). These are conditional regressions on the already-frozen panel; their replication does not establish original raw NBA data ingestion or a causal policy effect.
+
+## Correct provenance source for 2025 selected PDFs
+
+The harmonized checkpoint selector is intentionally **different** from the primary latest-pre-tip report selector. Do not compare their selected PDF sets or require exact equality of `primary_sample_report_map.csv.gz`. `reparse_2025_selected.py --metadata-dir` instead checks the **full** `injury_report_inventory.csv.gz` to verify selected 2025–26 PDF archive/member identities, stored original-manifest matching SHA-256 digests, and actual recovered ZIP bytes. Duplicate selected PDF basenames with conflicting contents are rejected. This does not resolve the 21 reported PDF-header/manifest clock exceptions.
+
+The updated restoration log records the SHA-256 of each *complete input ZIP* as well as each extracted member, and copies raw ZIPs instead of using hard links, protecting the originals from accidental mutation.
+
+
+
+## PDF parser completeness and platform safety
+
+The historical 2025–26 PDF parser catches individual PDF errors inside its worker pool; a process exit code of zero is therefore **not** sufficient to call the PDF parsing stage successful. The replay wrapper now reconciles every selected (`snapshot_basename`, `published_timestamp_utc`) pair against the historical `s1_parse_log_harmonized_selected.csv`, rejects duplicates, failed/missing logs, and mismatched row totals, and rejects `zero_rows` reports unless separately reviewed. After manual confirmation of legitimate empty PDF results, the standalone `reparse_2025_selected.py --allow-zero-rows` option can be used; the default one-command runner intentionally does not silently bypass this check.
+
+The original historical parser uses top-level `ProcessPoolExecutor` code without a multiprocessing main guard. **Linux is the supported execution target for this historical replay**, as a default macOS spawn context may not execute that original file safely. Do not change the original parser or reinterpret its results merely to obtain a successful run on another OS. Verify the parser's additional PDF library requirements from the original archival package; the pinned analysis lockfile by itself does not establish a fully specified PDF parsing environment.
+
+The public source inventory used by `--metadata-dir` should be pinned to shared repository commit `0bd713d97e8d519df5700ef473da34aba4495223` (the same immutable commit used by CI). This inventory contains `injury_report_inventory.csv.gz`; do not substitute the primary latest-pre-tip report map for a harmonized common-checkpoint selection.

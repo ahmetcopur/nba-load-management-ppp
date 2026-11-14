@@ -4,6 +4,77 @@ on:
     paths:
       - "scripts/data_rebuild/**"
       - "tests/test_data_rebuild.py"
+      - "tests/test_level_b_replay.py"
+      - "tests/test_boxscore_cache.py"
+      - "tests/test_fixture_date_swap_covariates.py"
+      - "tests/test_fixture_date_chronology.py"
+      - "tests/test_october_corrected_chronology.py"
+      - "tests/test_missing_october_paper_statistics.py"
+      - "tests/test_august_toronto_source_join.py"
+      - "tests/test_august_reviewed_taxonomy_transfer.py"
+      - "tests/test_august_preferred_model_sensitivity.py"
+      - "tests/test_august_descriptive_sensitivity.py"
+      - "tests/test_august_category_release_replay.py"
+      - "tests/test_august_heterogeneity_release_replay.py"
+      - "tests/test_august_prior_event_placebos_replay.py"
+      - "tests/test_august_corrected_zip_replays.py"
+      - "tests/test_august_released_suite_replay.py"
+      - "tests/test_corrected_chronology_consistency.py"
+      - "tests/test_tv_release_pdfs.py"
+      - "tests/test_historical_injury_archives.py"
+      - "tests/test_replayed_snapshot_links.py"
+      - "tests/test_2020_reason_layout_drift.py"
+      - "tests/test_canonical_selector_replay.py"
+      - "tests/test_generated_canonical_selector_handoff.py"
+      - "tests/test_final_dataset_dependency_inventory.py"
+      - "tests/test_october_generated_input_consumption.py"
+      - "tests/test_2021_full_candidates.py"
+      - "tests/test_2025_manifest_selector.py"
+      - "tests/test_2021_2023_selector_rebuild.py"
+      - "tests/test_player_identity_replay.py"
+      - "tests/test_connected_player_game_core.py"
+      - "tests/test_connected_star_enrichment.py"
+      - "tests/test_connected_cup_enrichment.py"
+      - "tests/test_raw_2025_to_connected_core.py"
+      - "tests/test_raw_2021_2024_to_connected_core.py"
+      - "tests/test_2020_original_pdf_reason_overflow.py"
+      - "tests/test_level_c_acceptance_ledger.py"
+      - "tests/test_official_NBA_cup_groups.py"
+      - "tests/test_official_nba_tv_announcements.py"
+      - "tests/test_official_nba_cup_first_release_fixtures.py"
+      - "tests/test_nba_cup_original_archive_exact_join_synthetic.py"
+      - "tests/test_nba_cup_2025_partial_archive_join_synthetic.py"
+      - "tests/test_original_cup_private_source_acceptance_runner.py"
+      - "tests/test_original_cup_streaming_archive_hashes.py"
+      - "tests/test_nba_cup_2025_nov01_espn_60_source.py"
+      - "validation/nba_cup_2025_nov01_espn_editorial_60_group_fixtures.csv"
+      - "tests/test_official_nba_cup_2025_named_broadcasts.py"
+      - "tests/test_official_nba_cup_2025_all_15_national_broadcasts.py"
+      - "tests/test_official_nba_cup_knockout_original_fixtures.py"
+      - "tests/test_official_nba_cup_2025_aug13_team_press_sources.py"
+      - "tests/test_cup_2025_aug13_contemporaneous_secondary_sources.py"
+      - "tests/test_2025_cup_national_publication_timing.py"
+      - "validation/nba_cup_2025_aug13_four_contemporaneous_secondary_reports.csv"
+      - "validation/official_nba_cup_2025_aug13_five_team_press_releases.csv"
+      - "validation/official_nba_cup_2023_2025_eighteen_knockout_fixture_sources.csv"
+      - "validation/official_nba_cup_2025_aug21_all_15_national_group_broadcasts.csv"
+      - "validation/official_nba_cup_2025_aug14_named_group_broadcasts.csv"
+      - "validation/official_nba_cup_2023_2024_first_release_group_fixtures.csv"
+      - "scripts/data_rebuild/verify_official_nba_tv_announcements.py"
+      - "tests/test_connected_five_raw_seasons_analysis_ready.py"
+      - "tests/test_original_teamseason_models_generated_panel.py"
+      - "tests/test_october_cadence_from_generated_core.py"
+      - "tests/test_full_october_suite_from_generated_panel.py"
+      - "tests/test_october_source_provenance_bridge.py"
+      - "tests/test_build_player_game_core_pipeline.py"
+      - "tests/test_analysis_ready_from_generated_core.py"
+      - "tests/test_rebuild_core_to_analysis_ready.py"
+      - "tests/test_reproduce_final_datasets.py"
+      - "tests/test_august_generated_baseline.py"
+      - "tests/test_recent_injury_pdf_replays.py"
+      - "requirements-october-lock.txt"
+      - "requirements-boxscore-lock.txt"
+      - "requirements-builder-lock.txt"
       - ".github/workflows/data-rebuild-tests.yml"
   workflow_dispatch:
 permissions:
@@ -19,19 +90,146 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install dependencies
-        run: python -m pip install -r requirements.txt
+        run: python -m pip install -r requirements-lock.txt
       - name: Syntax-check rebuild tools
         run: python -m compileall -q scripts/data_rebuild tests/test_data_rebuild.py
       - name: Unit tests with synthetic panels/archives
         run: python -m unittest discover -s tests -p test_data_rebuild.py -v
-      - name: Frozen panel self-check
+      - name: Test safe uploaded ZIP ingestion, CSV and gzip content hashes
+        run: python -m unittest discover -s tests -p test_august_corrected_zip_replays.py -v
+      - name: Test raw historical injury-PDF archive and provenance hashes fail closed
+        run: python -m unittest discover -s tests -p test_historical_injury_archives.py -v
+      - name: Test historical source-reparsed PDF to canonical selector links
+        run: python -m unittest discover -s tests -p test_replayed_snapshot_links.py -v
+      - name: Test that 2020 PDF reason-only drift remains a blocking exception
+        run: python -m unittest discover -s tests -p test_2020_reason_layout_drift.py -v
+      - name: Test pinned canonical selector replay and archive tamper rejection
+        run: python -m unittest discover -s tests -p test_canonical_selector_replay.py -v
+      - name: Test regenerated 2020/2024 selector downstream handoff and fallback guards
+        run: python -m unittest discover -s tests -p test_generated_canonical_selector_handoff.py -v
+      - name: Check the dependency inventory covers every October restored input
+        run: python -m unittest discover -s tests -p test_final_dataset_dependency_inventory.py -v
+      - name: Test 2025–26 original two-archive manifest selector and strict pre-tip rules
+        run: python -m unittest discover -s tests -p test_2025_manifest_selector.py -v
+      - name: Test independent 2021–23 selector replay and source-derived status precedence
+        run: python -m unittest discover -s tests -p test_2021_2023_selector_rebuild.py -v
+      - name: Reject incomplete 2021 original candidate inventory and fallback
+        run: python -m unittest discover -s tests -p test_2021_full_candidates.py -v
+      - name: Test original player-ID crosswalk, alias, roster and exact full-record replay
+        run: python -m unittest discover -s tests -p test_player_identity_replay.py -v
+      - name: Test connected source-pinned player-ID to finalizer and all ten exact outputs
+        run: python -m unittest discover -s tests -p test_connected_player_game_core.py -v
+      - name: Test connected star builder original-source safeguards and twelve decoded outputs
+        run: python -m unittest discover -s tests -p test_connected_star_enrichment.py -v
+      - name: Test original-Cup-lookup reconstruction of full, at-risk and spell stages
+        run: python -m unittest discover -s tests -p test_connected_cup_enrichment.py -v
+      - name: Test fresh original 2025 PDFs to selected report rows and downstream core substitution
+        run: python -m unittest discover -s tests -p test_raw_2025_to_connected_core.py -v
+      - name: Test four historical original PDF parser generations and exact 2021–24 source-to-core reconstruction
+        run: python -m unittest discover -s tests -p test_raw_2021_2024_to_connected_core.py -v
+      - name: Test exact 2020 original NBA PDF reason-wrap reconstruction and six-season pipeline guards
+        run: python -m unittest discover -s tests -p test_2020_original_pdf_reason_overflow.py -v
+      - name: Cross-check complete Level C source-generation evidence and open research gates
+        run: |
+          python -m unittest discover -s tests -p test_level_c_acceptance_ledger.py -v
+          python scripts/data_rebuild/verify_level_c_acceptance_ledger.py --report "$RUNNER_TEMP/level_c_acceptance_ledger.json"
+      - name: Test independent NBA 2023-25 Cup official group matchups and tournament calendar
+        run: python -m unittest discover -s tests -p test_official_NBA_cup_groups.py -v
+      - name: Test original NBA preseason PDF and original 2020 broadcaster HTML independent TV source extraction
+        run: |
+          python -m pip install 'PyMuPDF==1.26.7' 'beautifulsoup4==4.14.3'
+          python -m unittest discover -s tests -p test_official_nba_tv_announcements.py -v
+      - name: Validate independent 2023-24 first-release Cup fixtures and fail-closed private gate
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_first_release_fixtures.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_first_release_fixtures.py --source-only --output-report "$RUNNER_TEMP/official_cup_first_release_public_preflight.json"
+      - name: Positively and negatively test the actual original-Cup archive exact fixture and network join functions
+        run: python -m unittest discover -s tests -p test_nba_cup_original_archive_exact_join_synthetic.py -v
+      - name: Test 2025 partial original Cup 19 and 33 fixture joins and 15 network joins with synthetic archives
+        run: python -m unittest discover -s tests -p test_nba_cup_2025_partial_archive_join_synthetic.py -v
+      - name: Fail-closed original Cup private master CLI orchestration (mocked archive calls only)
+        run: python -m unittest discover -s tests -p test_original_cup_private_source_acceptance_runner.py -v
+      - name: Verify streaming original SHA-256 digest correctness and avoid full ZIP read memory spikes
+        run: python -m unittest discover -s tests -p test_original_cup_streaming_archive_hashes.py -v
+      - name: Verify later independent ESPN 60 game Cup fixture schedule against August 33 source rows and NBA 15 network rows
+        run: |
+          python -m unittest discover -s tests -p test_nba_cup_2025_nov01_espn_60_source.py -v
+          python scripts/data_rebuild/verify_nba_cup_2025_nov01_espn_60_groups.py --output-report "$RUNNER_TEMP/2025_espn_later_60_group_fixture_crosscheck.json"
+      - name: Validate named official NBA Cup 2025 August 14 broadcaster tuples
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_2025_named_broadcasts.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_2025_named_broadcasts.py --source-only --output-report "$RUNNER_TEMP/official_cup_2025_named_broadcasts_public.json"
+      - name: Independently verify all 15 specifically named 2025 Cup national broadcasts
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_2025_all_15_national_broadcasts.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_2025_all_15_national_broadcasts.py --source-only --output-report "$RUNNER_TEMP/official_cup_2025_15_national_source_only.json"
+      - name: Validate actual 18 historical NBA Cup knockout pairs, sources and neutral-site caveat
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_knockout_original_fixtures.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_knockout_original_fixtures.py --source-only --output-report "$RUNNER_TEMP/official_nba_cup_knockout_18_public_source_only.json"
+      - name: Independently validate five ORIGINAL Aug 13 2025 NBA team Cup announcement reports
+        run: |
+          python -m unittest discover -s tests -p test_official_nba_cup_2025_aug13_team_press_sources.py -v
+          python scripts/data_rebuild/verify_official_nba_cup_2025_aug13_team_press_sources.py --source-only --output-report "$RUNNER_TEMP/2025_nba_cup_aug13_original_team_sources_public_preflight.json"
+      - name: Independently validate same-day secondary NBA Cup 2025 fixture reports without upgrading evidence tier
+        run: |
+          python -m unittest discover -s tests -p test_cup_2025_aug13_contemporaneous_secondary_sources.py -v
+          python scripts/data_rebuild/verify_cup_2025_aug13_contemporaneous_secondary_sources.py --source-only --output-report "$RUNNER_TEMP/2025_cup_aug13_secondary_report_tier_public_preflight.json"
+      - name: Enforce 2025 NBA Cup public national broadcast publication-timing matrix
+        run: |
+          python -m unittest discover -s tests -p test_2025_cup_national_publication_timing.py -v
+          python scripts/data_rebuild/audit_2025_cup_national_publication_timing.py --output-report "$RUNNER_TEMP/cup_2025_original_publication_provenance_matrix.json"
+      - name: Test five raw source seasons to reviewed official-taxonomy analysis-ready pipeline option
+        run: python -m unittest discover -s tests -p test_connected_five_raw_seasons_analysis_ready.py -v
+      - name: Test original source-pinned player and team-season fixed effects from regenerated source panel
+        run: python -m unittest discover -s tests -p test_original_teamseason_models_generated_panel.py -v
+      - name: Test original source-backed October cadence panel/model generation and isolation
+        run: python -m unittest discover -s tests -p test_october_cadence_from_generated_core.py -v
+      - name: Test full ten October original scripts receive accepted source-generated panel and match all 33 outputs
+        run: python -m unittest discover -s tests -p test_full_october_suite_from_generated_panel.py -v
+      - name: Test source-PDF-derived October panel fingerprint to public 10-script input bridge
+        run: python -m unittest discover -s tests -p test_october_source_provenance_bridge.py -v
+      - name: Test final corrected August and October dataset entry point (synthetic fixtures)
+        run: python -m unittest discover -s tests -p test_reproduce_final_datasets.py -v
+      - name: Test executable identity-to-core source pipeline with tamper/overwrite failures
+        run: python -m unittest discover -s tests -p test_build_player_game_core_pipeline.py -v
+      - name: Test newly generated core to reviewed analysis-ready bridge
+        run: python -m unittest discover -s tests -p test_analysis_ready_from_generated_core.py -v
+      - name: Test connected original-source core to analysis-ready one-command workflow
+        run: python -m unittest discover -s tests -p test_rebuild_core_to_analysis_ready.py -v
+      - name: Test rerunning released August models on newly generated baseline without corrected-TV rekey
+        run: python -m unittest discover -s tests -p test_august_generated_baseline.py -v
+      - name: Test strict 2024/2025 original PDF replay runner
+        run: python -m unittest discover -s tests -p test_recent_injury_pdf_replays.py -v
+      - name: Independently screen August report-to-tip linkage for two misdated games
+        run: python scripts/data_rebuild/audit_august_base_report_links.py
+      - name: Inventory original August falsification-stage archive for public reproduction
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          path=Path("packages/05_identification_falsification_stage2.zip")
+          with ZipFile(path) as z:
+              bad=z.testzip()
+              assert bad is None, bad
+              for member in z.namelist():
+                  if not member.endswith("/"):
+                      print("STAGE05_MEMBER",member)
+          PY
+      - name: Validate frozen panel scientific invariants
+        run: python scripts/data_rebuild/validate_cadence_panel.py --expect-frozen
+      - name: CSV comparator smoke test (same-file identity only)
         run: |
           python scripts/data_rebuild/compare_panels.py \
             --reference data_intermediate/player_team_game_harmonized_cadence.csv.gz \
             --candidate data_intermediate/player_team_game_harmonized_cadence.csv.gz
       - name: Validate real published game-source lineage (7,230 games)
         run: |
-          git clone --depth 1 https://github.com/OEKundakcioglu/nba-ppp-star-availability.git "$RUNNER_TEMP/nba_shared"
+          git init "$RUNNER_TEMP/nba_shared"
+          git -C "$RUNNER_TEMP/nba_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_shared" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/nba_shared" rev-parse HEAD)" = "0bd713d97e8d519df5700ef473da34aba4495223"
           python scripts/data_rebuild/build_source_lineage.py \
             --source "$RUNNER_TEMP/nba_shared/provenance/historical_sources"
           python - <<'PY'
@@ -45,3 +243,386 @@ jobs:
           assert len(set(r["nba_game_id"] for r in rows)) == 7230
           print("PASS: 7,230 unique report-to-boxscore game joins")
           PY
+      - name: Verify pinned original public injury inventory blob identities and season PDF counts
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from scripts.data_rebuild.verify_historical_injury_archives import (
+              PINNED_ARCHIVES, read_source_inventory, verify_pinned_inventory)
+          metadata = Path(os.environ["RUNNER_TEMP"]) / "nba_shared/provenance/historical_sources"
+          observed = verify_pinned_inventory(metadata)
+          archives, pdfs = read_source_inventory(metadata, tuple(PINNED_ARCHIVES))
+          for name, (expected_sha, expected_count) in PINNED_ARCHIVES.items():
+              assert archives[name] == expected_sha, name
+              assert len(pdfs[name]) == expected_count, (name, len(pdfs[name]), expected_count)
+              print(f"PINNED_PUBLIC_PROVENANCE {name}: {expected_count} indexed original PDF hashes")
+          print("PINNED_PUBLIC_PROVENANCE_GIT_BLOBS", observed)
+          print("No private archive opened or uploaded in this CI step")
+          PY
+      - name: Check actual archived analysis package members
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from scripts.data_rebuild.restore_historical_layout import resolve_member
+          for archive, basename in (
+              ("packages/01_analysis_ready_panel.zip", "player_game_panel_analysis_ready.csv.gz"),
+              ("packages/06_cadence_harmonized_identification.zip", "player_team_game_harmonized_cadence.csv.gz"),
+              ("packages/06_cadence_harmonized_identification.zip", "cadence_harmonized_model_results.csv"),
+          ):
+              with ZipFile(archive) as z:
+                  member = resolve_member(z, basename)
+                  print(f"PASS {archive} -> {member} ({z.getinfo(member).file_size} bytes)")
+          PY
+      - name: Validate historical Stage-6 result archive schema
+        run: |
+          python - <<'PY'
+          from scripts.data_rebuild.compare_stage6_models import archived_rows, index, EXPECTED
+          rows = archived_rows(__import__("pathlib").Path(
+              "packages/06_cadence_harmonized_identification.zip"))
+          found = index(rows)
+          assert set(found) == EXPECTED, f"Unexpected published model variants: {set(found)}"
+          print("PASS: four archived Stage-6 TV/control model specifications")
+          PY
+  builder-tooling-tests:
+    name: Historical pandas-2 builder / exact-clock unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install verified historical builder environment
+        run: python -m pip install -r requirements-builder-lock.txt
+      - name: Confirm builder version and syntax
+        run: |
+          python - <<'PY'
+          import pandas, fitz
+          assert pandas.__version__.startswith('2.'), pandas.__version__
+          print('pandas:', pandas.__version__, 'PyMuPDF:', fitz.VersionBind)
+          PY
+          python -m compileall -q scripts/data_rebuild tests
+      - name: Test original risk-set guard, archive fallback, and PDF timing logic
+        run: python -m unittest discover -s tests -p test_level_b_replay.py -v
+      - name: Test strict report selector swaps and corrected-chronology guards
+        run: python -m unittest discover -s tests -p test_fixture_date_chronology.py -v
+      - name: Test August reviewed-label provenance and stable player-team IDs
+        run: python -m unittest discover -s tests -p test_august_reviewed_taxonomy_transfer.py -v
+      - name: Require original October subprocess to open regenerated inputs
+        run: python -m unittest discover -s tests -p test_october_generated_input_consumption.py -v
+  boxscore-json-tests:
+    name: Level-C raw JSON verifier fail-closed tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned offline boxscore analysis dependencies
+        run: python -m pip install -r requirements-boxscore-lock.txt
+      - name: Check verifier syntax
+        run: python -m compileall -q scripts/data_rebuild/verify_boxscore_cache.py scripts/data_rebuild/audit_fixture_date_swap_covariates.py scripts/data_rebuild/run_fixture_date_control_sensitivity.py tests/test_boxscore_cache.py tests/test_fixture_date_swap_covariates.py
+      - name: Run negative JSON / roster join / reference comparison tests
+        run: python -m unittest discover -s tests -p test_boxscore_cache.py -v
+      - name: Run original-covariate date-swap fixture tests
+        run: python -m unittest discover -s tests -p test_fixture_date_swap_covariates.py -v
+  october-release-tests:
+    name: October 2026 release replay comparison tests (pandas 3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install exact October release dependency versions
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Assert October runtime and script syntax
+        run: |
+          python - <<'PY'
+          import pandas, numpy, scipy, statsmodels
+          assert pandas.__version__ == "3.0.5"
+          assert numpy.__version__ == "2.5.2"
+          print(pandas.__version__, numpy.__version__, scipy.__version__, statsmodels.__version__)
+          PY
+          python -m compileall -q scripts/data_rebuild/october_corrected_chronology.py scripts/data_rebuild/rebuild_missing_october_paper_statistics.py scripts/data_rebuild/run_august_preferred_model_sensitivity.py tests/test_october_corrected_chronology.py tests/test_missing_october_paper_statistics.py
+      - name: Test fail-closed frozen release reproduction and corrected sensitivity comparator
+        run: python -m unittest discover -s tests -p test_october_corrected_chronology.py -v
+      - name: Test onset-rate and spell-duration boundaries
+        run: python -m unittest discover -s tests -p test_missing_october_paper_statistics.py -v
+      - name: Test August preferred estimates fail-closed benchmark guards
+        run: python -m unittest discover -s tests -p test_august_preferred_model_sensitivity.py -v
+      - name: Test August eight-cell raw onset calculations
+        run: python -m unittest discover -s tests -p test_august_descriptive_sensitivity.py -v
+      - name: Test archived August FDR family and physical-game TV source rekeys
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_category_fdr_from_release.py tests/test_august_category_release_replay.py
+          python -m unittest discover -s tests -p test_august_category_release_replay.py -v
+      - name: Test original predeclared subgroup definition, sample and FDR gates
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_heterogeneity_from_release.py tests/test_august_heterogeneity_release_replay.py
+          python -m unittest discover -s tests -p test_august_heterogeneity_release_replay.py -v
+      - name: Test archived August Stage-05 pretrend and fake-policy placebo specification gates
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_prior_event_placebos_from_release.py tests/test_august_prior_event_placebos_replay.py
+          python -m unittest discover -s tests -p test_august_prior_event_placebos_replay.py -v
+      - name: Test August source match-number repair refuses unrelated matchups
+        run: python -m unittest discover -s tests -p test_august_toronto_source_join.py -v
+      - name: Test reviewed-label transfer under pandas 3 string dtype
+        run: python -m unittest discover -s tests -p test_august_reviewed_taxonomy_transfer.py -v
+      - name: Test released August suite gates, collinear slope and executed-script copies
+        run: |
+          python -m compileall -q scripts/data_rebuild/run_august_released_suite_from_release.py scripts/data_rebuild/run_august_nonlinear_diagnostic.py
+          python -m unittest discover -s tests -p test_august_released_suite_replay.py -v
+      - name: Test six-season chronology audit
+        run: python -m unittest discover -s tests -p test_corrected_chronology_consistency.py -v
+      - name: Test release-PDF TV row parser
+        run: |
+          python -m pip install PyMuPDF==1.26.7
+          python -m unittest discover -s tests -p test_tv_release_pdfs.py -v
+  october-release-frozen-replay:
+    name: Independently rerun all ten Oct scripts and 33 archived outputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install immutable October release dependencies
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch exact shared October source commit
+        run: |
+          git init "$RUNNER_TEMP/nba_shared"
+          git -C "$RUNNER_TEMP/nba_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_shared" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/nba_shared" rev-parse HEAD)" = "0bd713d97e8d519df5700ef473da34aba4495223"
+      - name: Verify the full public October panel is byte-identical to the actual original-PDF-source regenerated panel
+        run: |
+          python scripts/data_rebuild/verify_source_generated_october_panel_provenance.py \
+            --public-october-panel "$RUNNER_TEMP/nba_shared/data_intermediate/player_team_game_harmonized_cadence.csv.gz" \
+            --report "$RUNNER_TEMP/october_provenance_bridge.json"
+      - name: Rerun published October scripts and require 33 archive matches
+        run: |
+          python scripts/data_rebuild/october_corrected_chronology.py \
+            --shared-repo "$RUNNER_TEMP/nba_shared" \
+            --work "$RUNNER_TEMP/october_work" \
+            --frozen-only
+      - name: Independently reproduce missing published duration, raw rates and paired home-contrast
+        run: |
+          python scripts/data_rebuild/rebuild_missing_october_paper_statistics.py \
+            --frozen-panel "$RUNNER_TEMP/nba_shared/data_intermediate/player_team_game_harmonized_cadence.csv.gz" \
+            --output "$RUNNER_TEMP/october_work/missing_manuscript_statistics.json"
+      - name: Upload frozen October full run summary and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: october-frozen-release-replay
+          path: |
+            ${{ runner.temp }}/october_provenance_bridge.json
+            ${{ runner.temp }}/october_work/october_frozen_reproduction.json
+            ${{ runner.temp }}/october_work/missing_manuscript_statistics.json
+            ${{ runner.temp }}/october_work/frozen/*.log
+          if-no-files-found: warn
+  august-frozen-preferred-model-replay:
+    name: Independently reproduce released August latest-pre-tip TV and wording model coefficients
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned published statistical model environment
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Rerun released August model definitions with hard benchmark gates
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_preferred_model_sensitivity.py \
+            --output data_rebuild/output/august_preferred_frozen_model_replay.json
+      - name: Independently reproduce released August descriptive rates and class counts
+        run: |
+          python scripts/data_rebuild/run_august_descriptive_sensitivity.py \
+            --output data_rebuild/output/august_frozen_descriptive_replay.json
+      - name: Preserve August frozen coefficients, N and SE comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-frozen-preferred-model-replay
+          path: |
+            data_rebuild/output/august_preferred_frozen_model_replay.json
+            data_rebuild/output/august_frozen_descriptive_replay.json
+          if-no-files-found: warn
+  august-category-fdr-frozen-replay:
+    name: Independently rerun unchanged August category FDR release executable and 8 archived estimates
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install exact August archived modeling dependencies
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch immutable shared source
+        run: |
+          git init "$RUNNER_TEMP/nba_category_shared"
+          git -C "$RUNNER_TEMP/nba_category_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_category_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_category_shared" checkout --detach FETCH_HEAD
+      - name: Execute unchanged published category FDR executable and verify all 8 frozen anchors
+        run: |
+          python scripts/data_rebuild/run_august_category_fdr_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_category_shared" \
+            --work "$RUNNER_TEMP/nba_august_category_replay" \
+            --frozen-only
+      - name: Preserve independent August 8-model FDR evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-category-fdr-frozen-release
+          path: |
+            ${{ runner.temp }}/nba_august_category_replay/august_category_fdr_replay.json
+            ${{ runner.temp }}/nba_august_category_replay/frozen/category_script.log
+          if-no-files-found: warn
+  august-heterogeneity-frozen-replay:
+    name: Rerun unchanged August four-predeclared-group 8-model heterogeneity release
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install original August analysis dependencies
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch exact immutable shared original release
+        run: |
+          git init "$RUNNER_TEMP/nba_heterogeneity_shared"
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_heterogeneity_shared" checkout --detach FETCH_HEAD
+      - name: Independently execute eight frozen predeclared heterogeneity models and verify archive
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_heterogeneity_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_heterogeneity_shared" \
+            --work "$RUNNER_TEMP/nba_heterogeneity_frozen" \
+            --frozen-only
+      - name: Preserve original frozen source numerical benchmark and script logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-predeclared-heterogeneity-original-frozen
+          path: |
+            ${{ runner.temp }}/nba_heterogeneity_frozen/august_heterogeneity_replay.json
+            ${{ runner.temp }}/nba_heterogeneity_frozen/frozen/heterogeneity_run.log
+          if-no-files-found: warn
+  august-pretrend-placebo-frozen-replay:
+    name: Independently rerun original August 10 event coefficients, 2 pretrend tests and 4 fake-policy placebos
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned August published analysis environment
+        run: python -m pip install -r requirements-october-lock.txt
+      - name: Fetch immutable original research source and Stage05 archive
+        run: |
+          git init "$RUNNER_TEMP/nba_prior_event_shared"
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_prior_event_shared" checkout --detach FETCH_HEAD
+      - name: Replay released event study and fake PPP policy dates against original ZIP outputs
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_prior_event_placebos_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_prior_event_shared" \
+            --work "$RUNNER_TEMP/nba_prior_event_replay" \
+            --frozen-only
+      - name: Retain published falsification-output comparison and original executable log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-original-frozen-event-pretrend-placebo
+          path: |
+            ${{ runner.temp }}/nba_prior_event_replay/august_prior_event_placebo_replay.json
+            ${{ runner.temp }}/nba_prior_event_replay/frozen/prior_event_placebo.log
+          if-no-files-found: warn
+  august-released-suite-frozen-replay:
+    name: Rerun executed August stage 02, 04 and 05 scripts against archived packages; verify release-PDF TV
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned August analysis environment
+        run: |
+          python -m pip install -r requirements-october-lock.txt
+          python -m pip install PyMuPDF==1.26.7
+      - name: Fetch immutable shared source
+        run: |
+          git init "$RUNNER_TEMP/nba_suite_shared"
+          git -C "$RUNNER_TEMP/nba_suite_shared" remote add origin https://github.com/OEKundakcioglu/nba-ppp-star-availability.git
+          git -C "$RUNNER_TEMP/nba_suite_shared" fetch --depth 1 origin 0bd713d97e8d519df5700ef473da34aba4495223
+          git -C "$RUNNER_TEMP/nba_suite_shared" checkout --detach FETCH_HEAD
+      - name: Execute original scripts and require every archived table to reproduce
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python \
+            scripts/data_rebuild/run_august_released_suite_from_release.py \
+            --shared-repo "$RUNNER_TEMP/nba_suite_shared" \
+            --work "$RUNNER_TEMP/nba_suite_frozen" \
+            --frozen-only
+      - name: Rebuild release-time TV rows from the archived schedule PDFs
+        run: |
+          python scripts/data_rebuild/verify_tv_release_pdfs.py \
+            --shared-repo "$RUNNER_TEMP/nba_suite_shared" \
+            --output "$RUNNER_TEMP/nba_suite_frozen/tv_release_pdf_verification.json"
+      - name: Preserve suite and TV evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: august-released-suite-frozen
+          path: |
+            ${{ runner.temp }}/nba_suite_frozen/august_released_suite_replay.json
+            ${{ runner.temp }}/nba_suite_frozen/tv_release_pdf_verification.json
+          if-no-files-found: warn
+  stage6-regression-replay:
+    name: Independent Stage-6 model replay from published frozen data
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install exact historical analysis dependencies
+        run: python -m pip install -r requirements-lock.txt
+      - name: Run original Stage-6 regression executable on frozen panel
+        run: |
+          python scripts/data_rebuild/replay_stage6_from_frozen.py --timeout 1080
+      - name: Upload regression verification (not raw NBA data)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage6-frozen-panel-replay
+          path: data_rebuild/output/stage6_replay/
+          if-no-files-found: warn

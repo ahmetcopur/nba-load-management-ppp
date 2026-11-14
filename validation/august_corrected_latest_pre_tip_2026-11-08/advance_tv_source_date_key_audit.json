@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-08",
+  "source": "Original nba_announced_tv_six_seasons_v1.zip, source archived six-season release-time TV fixture table; separately reconstructed 180831-row corrected August latest-pre-tip risk panel",
+  "verified_locally": true,
+  "tv_lookup_keys": [
+    "season",
+    "game_date_et",
+    "home_team",
+    "away_team"
+  ],
+  "historical_tv_source_rows_total": 7230,
+  "historical_source_date_key_discrepancies": [
+    {
+      "away_team": "Chicago Bulls",
+      "home_team": "Toronto Raptors",
+      "historical_source_date_et": "2022-02-01",
+      "corrected_date_et": "2022-02-03",
+      "corrected_tip_utc": "2022-02-04T00:30:00Z",
+      "historical_fixture_row": 759,
+      "original_network_announced": null,
+      "original_primary_tv": false
+    },
+    {
+      "away_team": "Miami Heat",
+      "home_team": "Toronto Raptors",
+      "historical_source_date_et": "2022-02-03",
+      "corrected_date_et": "2022-02-01",
+      "corrected_tip_utc": "2022-02-02T00:30:00Z",
+      "historical_fixture_row": 777,
+      "original_network_announced": "TNT",
+      "original_primary_tv": true
+    }
+  ],
+  "corrected_risk_player_games": 180831,
+  "original_date_key_join_unmatched_risk_rows": 46,
+  "unmatched_by_frozen_game_id": {
+    "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": 24,
+    "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": 22
+  },
+  "after_exact_two_source_rows_date_tip_rekey": {
+    "joined_risk_rows": 180831,
+    "unmatched_rows": 0,
+    "source_primary_tv_disagreements": 0,
+    "duplicated_source_lookup_keys": 0,
+    "source_columns_modified": [
+      "game_date_et",
+      "tip_utc"
+    ],
+    "preserved_original_source_fields": [
+      "network_announced",
+      "announced_tv_primary",
+      "announced_tv_status",
+      "source_line",
+      "mapping_method",
+      "fixture_row"
+    ],
+    "raw_announcement_source_original_archived_inputs_modified": false
+  },
+  "interpretation_limits": "Preserves ORIGINAL pre-announced game-specific network assignments; does not assert which network actually carried the game after rescheduling, or that original release-time line itself was date-correct.",
+  "reproducible_runner": "scripts/data_rebuild/run_august_category_fdr_from_release.py"
+}

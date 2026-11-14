@@ -1,0 +1,17 @@
+season,source_first_published_date,source_updated_date_if_known,reporting_team,source_evidence_tier,game_date_et,away_team,home_team,source_positively_named_network,source_url
+2025-26,2025-08-13,,Los Angeles Lakers,contemporaneous_news,2025-10-31,Los Angeles Lakers,Memphis Grizzlies,Prime,https://www.silverscreenandroll.com/lakers-news/93107/lakers-nba-cup-schedule-dates-grizzlies-pelicans-clippers-mavericks
+2025-26,2025-08-13,,Los Angeles Lakers,contemporaneous_news,2025-11-14,Los Angeles Lakers,New Orleans Pelicans,,https://www.silverscreenandroll.com/lakers-news/93107/lakers-nba-cup-schedule-dates-grizzlies-pelicans-clippers-mavericks
+2025-26,2025-08-13,,Los Angeles Lakers,contemporaneous_news,2025-11-25,LA Clippers,Los Angeles Lakers,NBC,https://www.silverscreenandroll.com/lakers-news/93107/lakers-nba-cup-schedule-dates-grizzlies-pelicans-clippers-mavericks
+2025-26,2025-08-13,,Los Angeles Lakers,contemporaneous_news,2025-11-28,Dallas Mavericks,Los Angeles Lakers,Prime,https://www.silverscreenandroll.com/lakers-news/93107/lakers-nba-cup-schedule-dates-grizzlies-pelicans-clippers-mavericks
+2025-26,2025-08-13,2025-08-14,New Orleans Pelicans,contemporaneous_news_updated_next_day,2025-10-31,New Orleans Pelicans,LA Clippers,,https://www.wsfa.com/2025/08/14/new-orleans-pelicans-nba-cup-schedule-released/
+2025-26,2025-08-13,2025-08-14,New Orleans Pelicans,contemporaneous_news_updated_next_day,2025-11-14,Los Angeles Lakers,New Orleans Pelicans,,https://www.wsfa.com/2025/08/14/new-orleans-pelicans-nba-cup-schedule-released/
+2025-26,2025-08-13,2025-08-14,New Orleans Pelicans,contemporaneous_news_updated_next_day,2025-11-21,New Orleans Pelicans,Dallas Mavericks,,https://www.wsfa.com/2025/08/14/new-orleans-pelicans-nba-cup-schedule-released/
+2025-26,2025-08-13,2025-08-14,New Orleans Pelicans,contemporaneous_news_updated_next_day,2025-11-26,Memphis Grizzlies,New Orleans Pelicans,,https://www.wsfa.com/2025/08/14/new-orleans-pelicans-nba-cup-schedule-released/
+2025-26,2025-08-13,2025-08-13,Boston Celtics,contemporaneous_news,2025-10-31,Boston Celtics,Philadelphia 76ers,Prime,https://www.cbsnews.com/boston/news/boston-celtics-nba-cup-schedule-amazon-prime/
+2025-26,2025-08-13,2025-08-13,Boston Celtics,contemporaneous_news,2025-11-07,Boston Celtics,Orlando Magic,,https://www.cbsnews.com/boston/news/boston-celtics-nba-cup-schedule-amazon-prime/
+2025-26,2025-08-13,2025-08-13,Boston Celtics,contemporaneous_news,2025-11-21,Brooklyn Nets,Boston Celtics,,https://www.cbsnews.com/boston/news/boston-celtics-nba-cup-schedule-amazon-prime/
+2025-26,2025-08-13,2025-08-13,Boston Celtics,contemporaneous_news,2025-11-26,Detroit Pistons,Boston Celtics,ESPN,https://www.cbsnews.com/boston/news/boston-celtics-nba-cup-schedule-amazon-prime/
+2025-26,2025-08-13,,Philadelphia 76ers,contemporaneous_syndicated_news,2025-10-31,Boston Celtics,Philadelphia 76ers,Prime,https://sports.yahoo.com/article/sixers-schedule-nba-cup-group-181855855.html
+2025-26,2025-08-13,,Philadelphia 76ers,contemporaneous_syndicated_news,2025-11-14,Philadelphia 76ers,Detroit Pistons,,https://sports.yahoo.com/article/sixers-schedule-nba-cup-group-181855855.html
+2025-26,2025-08-13,,Philadelphia 76ers,contemporaneous_syndicated_news,2025-11-25,Orlando Magic,Philadelphia 76ers,,https://sports.yahoo.com/article/sixers-schedule-nba-cup-group-181855855.html
+2025-26,2025-08-13,,Philadelphia 76ers,contemporaneous_syndicated_news,2025-11-28,Philadelphia 76ers,Brooklyn Nets,,https://sports.yahoo.com/article/sixers-schedule-nba-cup-group-181855855.html

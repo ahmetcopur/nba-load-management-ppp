@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-10",
+  "scope": "Freshly rebuilt original player-game core -> original source-coded All-Star star panel -> newly implemented game-level Cup-lookup enrichment; three full decoded CSVs independently generated, not copied from the frozen Cup outputs.",
+  "source_cup_zip": "nba_player_game_at_risk_star_cup_v1.zip",
+  "source_cup_zip_sha256": "65c4756b86dfb5757bb84b6be13eafb952375aaa6ce49fc1ddddc6224a4faf70",
+  "source_cup_lookup_member": "nba_player_game_at_risk_star_cup_v1/cup_game_lookup.csv",
+  "source_lookup_game_ids": 7230,
+  "original_archived_builder_status": "Historical build_cup_flags_v1.py is a non-executable 418-byte explanatory stub. A new deterministic generator was implemented and tested against the original lookup and all three frozen panel outputs.",
+  "reconstruction_rules": {
+    "join": "Many player-game rows to one unique original game-level Cup lookup on exact game_id; preserve original row order and existing source columns.",
+    "cup_pending": "Set cup_game_pending=False for every player-game record after applying the official-date lookup.",
+    "cup_round_order": {
+      "none": 0,
+      "group_play": 1,
+      "quarterfinal": 2,
+      "semifinal": 3
+    },
+    "cup_flag_version": "official_dates_v1",
+    "unique_player_team_game_id": "game_id | team | nba_player_id (concatenated with literal '|')",
+    "interactions": [
+      "star_PPP_it AND postPPP",
+      "star_PPP_it AND postPPP AND announced_tv_primary",
+      "star_PPP_it AND cup_game",
+      "star_PPP_it AND postPPP AND cup_game"
+    ],
+    "spells": "Join historical Cup lookup on original start_game_id and derive onset_cup_* flags and start_game_date_from_panel."
+  },
+  "source_cup_games_by_season": {
+    "2023-24": 66,
+    "2024-25": 66,
+    "2025-26": 66
+  },
+  "source_cup_stage_games_each_cup_season": {
+    "group_play": 60,
+    "quarterfinal": 4,
+    "semifinal": 2
+  },
+  "exact_output_files": [
+    {
+      "filename": "player_game_panel_star_cup.csv.gz",
+      "rows": 248730,
+      "columns": 115,
+      "decoded_bytes": 289931827,
+      "decoded_sha256": "1e78983ec73b4206bc851c50d8853973966e2116a7a1b61c61e3412c64cd4ba5",
+      "identical_to_frozen": true
+    },
+    {
+      "filename": "player_game_panel_model_at_risk_star_cup.csv.gz",
+      "rows": 180829,
+      "columns": 61,
+      "decoded_bytes": 123327470,
+      "decoded_sha256": "a1d843daa9f54366d9ee998e05ef904ff5d10695b18b0dd968a4a098b9e587c5",
+      "identical_to_frozen": true
+    },
+    {
+      "filename": "absence_spells_provisional_star_cup.csv.gz",
+      "rows": 13723,
+      "columns": 37,
+      "decoded_bytes": 5971266,
+      "decoded_sha256": "0a5bfa6d71a8209b100f3b5f314917071a8f7704a5d283e1834e1cea9f1a3a35",
+      "identical_to_frozen": true
+    }
+  ],
+  "all_three_decoded_csv_outputs_exact": true,
+  "scientific_boundaries": {
+    "original_cup_lookup_input_inherited_from_frozen_package": true,
+    "historical_original_cup_builder_executable": false,
+    "original_nba_schedule_announcement_dates_independently_reconstructed": false,
+    "original_pdf_to_selected_report_rows_fully_connected": false,
+    "awards_input_history_independently_verified": false,
+    "full_analysis_ready_taxonomy_and_model_outputs_regenerated": false,
+    "published_frozen_artifacts_modified": false,
+    "private_raw_data_pushed_to_github": false
+  },
+  "github_workflow": "scripts/data_rebuild/run_connected_cup_enrichment.py",
+  "main_command": "scripts/data_rebuild/reproduce_core_and_stars.py --with-cup"
+}

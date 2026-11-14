@@ -1,0 +1,91 @@
+{
+  "status": "Independent faithful reimplementation of original released August preferred stronger player+team-season FE onset estimators and original baseline injury wording mechanism (player+season FE). Two-way clustering player+physical game. Corrected outcome/report/chronology. Not original executable with byte-identical environment.",
+  "benchmark": "Released August core manuscript anchor coefficients and sample sizes match to 1e-13; SE deviations in available environment up to 0.00063583 pp, so do not claim exact original statistical output bytes.",
+  "runtime": {
+    "python": "3.13.5",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "statsmodels": "0.14.6"
+  },
+  "source_frozen_uncompressed_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+  "source_corrected_uncompressed_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+  "results": {
+    "national_partner": {
+      "released": {
+        "n": 180695,
+        "estimate_pp": 3.14925625567831,
+        "se_pp": 1.31564272555179,
+        "p": 0.0166793068180634
+      },
+      "replay_frozen": {
+        "n": 180695,
+        "estimate_pp": 3.1492562556783095,
+        "se_pp": 1.3156390846169495,
+        "p": 0.01667900560707767
+      },
+      "corrected": {
+        "n": 180697,
+        "estimate_pp": 3.1955108067528046,
+        "se_pp": 1.3161486537690976,
+        "ci_low_pp": 0.615859445365374,
+        "ci_high_pp": 5.775162168140236,
+        "p": 0.015185464531139732
+      },
+      "estimate_delta_pp": 0.046254551074495165,
+      "n_delta": 2,
+      "released_frozen_se_absolute_deviation_pp": 0.0000036409348405097575
+    },
+    "harmonized_linear": {
+      "released": {
+        "n": 180695,
+        "estimate_pp": 1.7746566172121114,
+        "se_pp": 1.313416621212169,
+        "p": 0.1766391580366461
+      },
+      "replay_frozen": {
+        "n": 180695,
+        "estimate_pp": 1.7746566172121108,
+        "se_pp": 1.3134129864378727,
+        "p": 0.17663796050643965
+      },
+      "corrected": {
+        "n": 180697,
+        "estimate_pp": 1.8204017426030072,
+        "se_pp": 1.3136345423110827,
+        "ci_low_pp": -0.7543219603267148,
+        "ci_high_pp": 4.395125445532729,
+        "p": 0.16581565688088817
+      },
+      "estimate_delta_pp": 0.04574512539089648,
+      "n_delta": 2,
+      "released_frozen_se_absolute_deviation_pp": 0.0000036347742962128393
+    },
+    "vague_vs_specific_conditional": {
+      "released": {
+        "n": 6256,
+        "estimate_pp": -8.416720679962859,
+        "se_pp": 7.92847960295119,
+        "p": 0.2884260933964732
+      },
+      "replay_frozen": {
+        "n": 6256,
+        "estimate_pp": -8.416720679962836,
+        "se_pp": 7.927843773157171,
+        "p": 0.2883874260490701
+      },
+      "corrected": {
+        "n": 6259,
+        "estimate_pp": -7.906070944334907,
+        "se_pp": 7.910077500719781,
+        "ci_low_pp": -23.409822845745676,
+        "ci_high_pp": 7.5976809570758626,
+        "p": 0.31755569253412563
+      },
+      "estimate_delta_pp": 0.5106497356279291,
+      "n_delta": 3,
+      "released_frozen_se_absolute_deviation_pp": 0.0006358297940183277
+    }
+  },
+  "limits": "Corrected panel inherits historical star/award and Cup flags; game_id remains historical date encoded, source-specific TV release was not independently rebuilt; full August taxonomy/heterogeneity/manuscript still outstanding."
+}

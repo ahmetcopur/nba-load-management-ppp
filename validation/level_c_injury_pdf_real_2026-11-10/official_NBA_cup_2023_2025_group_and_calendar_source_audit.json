@@ -1,0 +1,117 @@
+{
+  "audit_date": "2026-11-11",
+  "status": "PASS_INDEPENDENT_ORIGINAL_NBA_CUP_PRIMARY_SOURCE_GROUP_AND_CALENDAR_VALIDATION",
+  "scope": "Independent comparison of the immutable original six-season research Cup game-stage lookup to contemporaneous official NBA.com group draws and tournament schedules; 2023, 2024 and 2025 tournaments",
+  "original_historical_Cup_source": "nba_player_game_at_risk_star_cup_v1.zip: nba_player_game_at_risk_star_cup_v1/cup_game_lookup.csv",
+  "original_source_archive_sha256": "65c4756b86dfb5757bb84b6be13eafb952375aaa6ce49fc1ddddc6224a4faf70",
+  "archived_original_game_rows": 7230,
+  "original_regular_season_Cup_games_checked": 198,
+  "distinct_official_NBA_5_team_groups_checked": 18,
+  "group_round_robin_opponent_pairings_checked_against_official_NBA_groups": 180,
+  "knockout_quarterfinal_and_semifinal_games_on_official_dates_checked": 18,
+  "actual_first_party_NBA_source_comparisons": {
+    "dates_and_stages": true,
+    "all_180_group_opponent_pairs": true,
+    "every_team_2_home_2_away_in_group": true,
+    "all_66_per_tournament": true
+  },
+  "result_by_season": [
+    {
+      "season": "2023-24",
+      "original_official_NBA_sources": {
+        "original_five_team_groups": "https://www.nba.com/news/2023-in-season-tournament-group-play",
+        "original_cup_tournament_dates": "https://www.nba.com/news/nba-in-season-tournament-key-dates-schedule"
+      },
+      "original_66_games_as_regular_season": true,
+      "official_six_groups_of_five_distinct_NBA_teams": true,
+      "each_of_30_teams_plays_four_different_intra_group_opponents": true,
+      "each_team_two_home_two_away_group_games": true,
+      "all_60_distinct_unordered_official_group_fixture_pairs_present_once": true,
+      "actual_group_game_counts_on_official_dates": {
+        "2023-11-03": 7,
+        "2023-11-10": 9,
+        "2023-11-14": 10,
+        "2023-11-17": 11,
+        "2023-11-21": 5,
+        "2023-11-24": 10,
+        "2023-11-28": 8
+      },
+      "quarterfinal_games_on_official_dates": {
+        "2023-12-04": 2,
+        "2023-12-05": 2
+      },
+      "semifinal_games_on_official_dates": {
+        "2023-12-07": 2
+      },
+      "championship_non_regular_season_excluded": true
+    },
+    {
+      "season": "2024-25",
+      "original_official_NBA_sources": {
+        "original_five_team_groups": "https://www.nba.com/news/2024-nba-cup-group-draw-results",
+        "original_cup_tournament_dates": "https://www.nba.com/news/2024-emirates-nba-cup-tracker"
+      },
+      "original_66_games_as_regular_season": true,
+      "official_six_groups_of_five_distinct_NBA_teams": true,
+      "each_of_30_teams_plays_four_different_intra_group_opponents": true,
+      "each_team_two_home_two_away_group_games": true,
+      "all_60_distinct_unordered_official_group_fixture_pairs_present_once": true,
+      "actual_group_game_counts_on_official_dates": {
+        "2024-11-12": 8,
+        "2024-11-15": 12,
+        "2024-11-19": 6,
+        "2024-11-22": 8,
+        "2024-11-26": 5,
+        "2024-11-29": 10,
+        "2024-12-03": 11
+      },
+      "quarterfinal_games_on_official_dates": {
+        "2024-12-10": 2,
+        "2024-12-11": 2
+      },
+      "semifinal_games_on_official_dates": {
+        "2024-12-14": 2
+      },
+      "championship_non_regular_season_excluded": true
+    },
+    {
+      "season": "2025-26",
+      "original_official_NBA_sources": {
+        "original_five_team_groups": "https://www.nba.com/news/2025-nba-cup-group-draw-results",
+        "original_cup_tournament_dates": "https://www.nba.com/news/in-season-tournament-101"
+      },
+      "original_66_games_as_regular_season": true,
+      "official_six_groups_of_five_distinct_NBA_teams": true,
+      "each_of_30_teams_plays_four_different_intra_group_opponents": true,
+      "each_team_two_home_two_away_group_games": true,
+      "all_60_distinct_unordered_official_group_fixture_pairs_present_once": true,
+      "actual_group_game_counts_on_official_dates": {
+        "2025-10-31": 8,
+        "2025-11-07": 11,
+        "2025-11-14": 9,
+        "2025-11-21": 9,
+        "2025-11-25": 3,
+        "2025-11-26": 9,
+        "2025-11-28": 11
+      },
+      "quarterfinal_games_on_official_dates": {
+        "2025-12-09": 2,
+        "2025-12-10": 2
+      },
+      "semifinal_games_on_official_dates": {
+        "2025-12-13": 2
+      },
+      "championship_non_regular_season_excluded": true
+    }
+  ],
+  "research_scope_boundaries": {
+    "no_original_private_player_level_records_uploaded": true,
+    "all_individual_original_matchups_matched_against_the_exact_official_per_day_home_away_schedule": false,
+    "official_TV_broadcast_provider_schedule_independently_verified": false,
+    "original_Cup_historical_source_lookup_independently_generated_from_raw_NBA_schedule_files": false,
+    "original_championship_is_not_a_regular_season_game": true,
+    "original_research_frozen_dataset_or_manuscript_modified": false
+  },
+  "source_code": "scripts/data_rebuild/verify_official_NBA_cup_groups.py",
+  "evidence_detail": "Actual private 7,230-game Cup source ZIP opened and source SHA-256 pinned. Every 2023–25 group fixture verified as one of the 10 exact unordered pairs within its contemporaneous NBA five-team group; each team's 4 opponents and 2 home/2 away checked. Round/date classification validated against original NBA 2023, 2024, 2025 Cup-night and knockout calendars. Per-fixture broadcaster and exact original official 198-row schedule datasets were not independently fetched or compared."
+}

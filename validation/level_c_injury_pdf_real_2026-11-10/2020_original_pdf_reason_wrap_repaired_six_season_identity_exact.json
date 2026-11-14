@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-10",
+  "status": "pass_2020_parsed_and_six_season_player_identity",
+  "source_2020": {
+    "original_raw_zip_sha256": "e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c",
+    "original_corrected_reference_zip_sha256": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8",
+    "immutable_original_parser_sha256": "77fb85d6e0634c01d0ddb0739294c0ed044671b5b93b0affbbf9ec943a7ef6ee",
+    "pdfplumber_layout_x_density": 5,
+    "original_pdfs_reparsed_in_previous_real_full_source_diagnostic": 617,
+    "raw_source_rows": 41780,
+    "original_source_fields_checked": 15,
+    "prior_reason_mismatch_rows": 93,
+    "prior_affected_PDFs": 44,
+    "printed_reason_continuation_fragments_moved_back": 44,
+    "earlier_rows_with_recovered_reason_tails": 49,
+    "all_41780_reparsed_original_rows_match_every_archived_source_field": true,
+    "canonical_game_choices": 1080,
+    "selected_report_rows": 8591,
+    "all_8591_selected_source_rows_match_every_archived_22_fields": true,
+    "remaining_source_reason_mismatch_rows": 0,
+    "borrowed_frozen_reason_values_for_repair": false,
+    "original_canonical_report_choices_inherited": true
+  },
+  "six_season_source": {
+    "selected_report_rows": 73547,
+    "all_73547_original_selected_rows_equal_as_22_field_complete_row_multisets": true,
+    "original_resolved_player_rows": 73438,
+    "full_original_identity_fields_compared": 33,
+    "all_33_identity_fields_exact": true,
+    "unresolved_before_dedup": 0,
+    "direct_crosswalk_matches": 72819,
+    "reviewed_alias_fallback_matches": 606,
+    "unique_official_roster_fallback_matches": 15,
+    "independent_six_season_source_to_identity_replay_executed": true
+  },
+  "repair_rule": "For a reason line that has a text continuation before the next player's official reason classification ('Injury/Illness -', 'G League -', or standalone 'Health and Safety Protocols' following 'Management'), reattach that prefix to the previous source PDF and matchup injury-reason row, including any consecutive identical clipped same-team reasons. Never consult reference reason strings to choose correction content.",
+  "caveats": {
+    "fresh_new_617_PDF_standalone_invocation_completed_today": false,
+    "fresh_new_617_PDF_standalone_invocation_timed_out": true,
+    "earlier_complete_617_PDF_real_source_diagnostic_reparse_used": true,
+    "six_season_selected_rows_and_identity_rebuilt_and_compared": true,
+    "six_season_new_core_finalizer_rerun_in_this_specific_execution": false,
+    "new_GitHub_master_CLI_direct_private_input_acceptance": false,
+    "original_archived_PDF_collection_completeness_unverified": true,
+    "human_reviewed_aliases_taxonomy_and_award_Cup_TV_source_accuracy_inherited": true,
+    "frozen_source_data_or_manuscript_modified": false,
+    "private_player_report_rows_committed": false
+  },
+  "source_script": "scripts/data_rebuild/rebuild_2020_selected_from_pdfs.py",
+  "six_season_master_option": "--from-original-2020-2025-pdfs"
+}

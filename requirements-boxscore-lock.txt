@@ -1,0 +1,14 @@
+# Historical V2 roster archive reproduction environment (NOT corrected science).
+# Inferred from the user's Mac .venv-brew; original exact installation provenance
+# is not independently preserved. Independently confirmed 2026-11-08 by the
+# supplied full-run report and a fresh Python 3.12 environment.
+#
+# pandas 3 datetime int64 units are microseconds. Original mapping code
+# divides by 3.6e12 assuming nanoseconds, underreporting time mismatches 1000x.
+# This pin matches the historical archive, including two 48-hour schedule errors.
+# DO NOT use this file for the earlier cadence-builder stage (pandas 2 required)
+# or for a scientifically corrected fixture-date sensitivity.
+numpy==2.5.1
+pandas==3.0.5
+scipy==1.18.0
+requests==2.34.2

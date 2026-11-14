@@ -1,0 +1,153 @@
+{
+  "date": "2026-11-11",
+  "status": "PASS_INDEPENDENT_FIRST_PARTY_NBA_BROADCAST_SOURCE_REEXTRACTION",
+  "actual_private_source_method": "Independently parse PDF word coordinate columns from original saved NBA preseason by-date source PDFs (season-specific layouts, no frozen source rows consulted during parsing). Independently parse original ESPN/ABC and Warner Bros. Discovery original first/second half 2020-21 newsroom HTML tables (including Christmas platform and TBD filtering). Compare every resulting original announced date, visiting team, home team, and network to the immutable frozen source CSV. Then verify the played-game mapping's network and primary treatment flags, preserving unknown matchups and unknown 2020 NBA TV coverage.",
+  "original_source_archives": {
+    "original_NBA_Historical_Source_Inventory_zip_sha256": "365e86f47078b093585445ab8dd6143b74b14df3afdfc1af4e4f063305823d1f",
+    "original_final_reproducibility_freeze_zip_sha256": "621ebcd45f2fe886ae87749e9d45b6b8416cfc8fcad5edb3e50a8c4486f670e1",
+    "original_03_announced_tv_six_seasons_nested_zip_sha256": "13c6a13bace590e4116046f3258d666c1c62e0768a910051bca7883429078867",
+    "all_five_original_PDF_bytes_identical_across_inventory_and_frozen_research_package": true,
+    "all_six_original_2020_HTML_bytes_identical_across_inventory_and_frozen_research_package": true,
+    "five_original_preseason_PDF_SHA256": {
+      "2021-22": "bbfb82f61ccd23714b61c78ce0dcabdf2b64d67655590fcfaeffb176b9b2e027",
+      "2022-23": "f98d5b6273d3c7793a74b356f1fceba1f1a47656572b2825645bf5794ac9ef81",
+      "2023-24": "7e31cf6d8ca00f92fab8b28bd973b90d0f2c4f6beead11bcf4e487f9e63ed29a",
+      "2024-25": "a6ad5d18e773d24d885c5b376df6d7fc44578590996e679f611049fc3b9687f0",
+      "2025-26": "98a06493d0a107cc410853ad230e67d48858777a2baf76ac77d089cbeaf2435d"
+    },
+    "six_original_2020_HTML_SHA256": {
+      "espn_abc_first": "ad8d3332882037a27e469a51270ef874d1c51782be4532838f9799c47f08af73",
+      "espn_abc_second": "a47e5fc96c579f7bfb0af90beaa89a2ba378b01265bc811a8a388205e537ac3a",
+      "tnt_first": "50edda58484c5ddc6f69bf7fc90e86fc2c9a9c2a1b3276122d7235568c90a0f6",
+      "tnt_second": "5301ae5b894f2ba9d7b63c8aeea8f3821ae3e49d4052d0e8c6916e6507787367",
+      "nbatv_first": "bd5985b91e4a96fa96c92528bbbf8f23496264a19e2b139f1403b4192942f288",
+      "nbatv_second": "e124eba45fea2d0ceb2420b12f58f5f50fcd3cfdddf1cb37ad20ecbc616ef366"
+    },
+    "official_NBA_schedule_announcement_pages": {
+      "2021-22": "https://pr.nba.com/2021-22-nba-schedule-75th-anniversary-season/",
+      "2022-23": "https://pr.nba.com/2022-23-nba-schedule/",
+      "2023-24": "https://pr.nba.com/2023-24-nba-regular-season-schedule/",
+      "2024-25": "https://pr.nba.com/2024-25-nba-regular-season-schedule/",
+      "2025-26": "https://pr.nba.com/2025-26-nba-regular-season-schedule/"
+    }
+  },
+  "source_2021_2025": {
+    "PDF_pages_extracted": "23+23+24+23+23",
+    "original_PDF_schedule_rows_by_season": {
+      "2021-22": 1230,
+      "2022-23": 1230,
+      "2023-24": 1200,
+      "2024-25": 1200,
+      "2025-26": 1200
+    },
+    "all_original_6060_PDF_away_home_date_network_fields_exact": true,
+    "all_6060_original_source_rows_join_to_played_fixture_releases_one_to_one": true,
+    "original_PDF_network_row_disagreements": 0,
+    "original_PDF_date_away_home_row_disagreements": 0,
+    "mapped_games_in_final_five_season_treatment": 6150,
+    "preseason_listed_away_home_games": 6060,
+    "unannounced_Cup_determined_games": 90,
+    "unannounced_Cup_games_by_season": {
+      "2023-24": 30,
+      "2024-25": 30,
+      "2025-26": 30
+    },
+    "all_90_unknown_Cup_matchups_correctly_not_assigned_false_non_national_at_preseason_release": true,
+    "original_primary_networks_through_2024_25": [
+      "ABC",
+      "ABC/ESPN",
+      "ESPN",
+      "TNT"
+    ],
+    "original_primary_networks_2025_26": [
+      "ABC",
+      "ABC/ESPN",
+      "ESPN",
+      "NBC/Peacock",
+      "Peacock",
+      "Prime"
+    ],
+    "primary_TV_game_counts_exact_per_season": {
+      "2021-22": 162,
+      "2022-23": 163,
+      "2023-24": 160,
+      "2024-25": 163,
+      "2025-26": 237
+    },
+    "NBA_TV_separate_sensitivity_game_counts": {
+      "2021-22": 107,
+      "2022-23": 107,
+      "2023-24": 106,
+      "2024-25": 103,
+      "2025-26": 0
+    },
+    "original_primary_TV_2021_2025_total": 885,
+    "original_primary_TV_classification_mismatches": 0,
+    "original_separate_NBA_TV_classification_mismatches": 0
+  },
+  "source_2020_21": {
+    "original_first_party_broadcaster_HTML_pages_read": 6,
+    "original_PDF_source_schedule_is_two_separate_half_season_releases_not_a_preseason_full_year_source": true,
+    "original_original_HTML_specified_broadcast_rows": 219,
+    "HTML_source_rows_by_public_announcement": {
+      "espn_abc_first": 49,
+      "espn_abc_second": 46,
+      "tnt_first": 36,
+      "tnt_second": 27,
+      "nbatv_first": 61,
+      "nbatv_second_complete_static_table": 0
+    },
+    "original_2020_release_HTML_independently_extracted_date_team_network_field_disagreements": 0,
+    "unique_first_party_2020_broadcast_matchup_announcements": 218,
+    "unique_announced_matchups_joined_to_realized_fixtures": 217,
+    "unplayed_announced_fixture_at_original_date": {
+      "announced_date_et": "2021-02-03",
+      "away": "New Orleans Pelicans",
+      "home": "Phoenix Suns",
+      "network": "ESPN"
+    },
+    "original_national_primary_fixtures_exclusively_matchup_announced": 156,
+    "original_2020_21_first_half_NBA_TV_confirmed_matches": 61,
+    "original_2020_21_second_half_NBA_TV_unknown_flag_count": 542,
+    "original_2020_21_final_week_TNT_unknown_matchups": 4,
+    "original_2020_21_final_week_ESPN_unknown_matchups": 5,
+    "unannounced_matchups_not_backfilled_from_eventual_TV_appearance": true,
+    "complete_original_2020_NBA_TV_second_half_schedule_recovered": false,
+    "broadcaster_original_press_pages": {
+      "ESPN ABC first": "https://espnpressroom.com/press-release/espn-abc-combine-to-nationally-televise-49-games-during-first-half-of-2020-21-nba-regular-season/",
+      "ESPN ABC second": "https://espnpressroom.com/press-release/espn-and-abc-combine-to-nationally-televise-49-nba-games-in-second-half-of-2020-21-regular-season/",
+      "TNT first": "https://press.wbd.com/us/media-release/nba-tnts-2020-21-regular-season-schedule-feature-66-games-highlighted-marquee-0",
+      "TNT second": "https://press.wbd.com/ca/media-release/tnt-sports/nba-tnt/nba-tnts-2020-21-regular-season-second-half-schedule-feature-31-games-televised"
+    }
+  },
+  "six_seasons": {
+    "historical_played_games": 7230,
+    "six_season_original_primary_advance_announced_TV_games": 1041,
+    "primary_advance_announced_TV_per_season": {
+      "2020-21": 156,
+      "2021-22": 162,
+      "2022-23": 163,
+      "2023-24": 160,
+      "2024-25": 163,
+      "2025-26": 237
+    },
+    "original_2020_21_ABC_TNT_ESPN_plus_2021_2025_preseason_pdf_primary_flags_mismatched": 0,
+    "all_five_pdfs_and_six_html_files_compared_from_original_archived_source_bytes": true
+  },
+  "research_limitations": {
+    "archive_PDF_SHA256s_verified_against_original_inventoried_NBA_source_URL_digests": true,
+    "fresh_direct_re_download_and_binary_SHA_match_against_live_NBA_CDN_not_completed": true,
+    "original_saved_network_source_rows_independently_extracted_and_fields_reconciled": true,
+    "first_party_official_public_announcement_provenance_urls_checked": true,
+    "all_2020_21_NBA_TV_sensitivity_games_knowable_from_saved_release": false,
+    "historic_2020_flex_unknown_matchups_not_backfilled": true,
+    "game_by_game_postponed_announcement_to_original_official_played_fixture_mapping_independently_validated_from_NBA_live_log": false,
+    "all_external_2020_broadcaster_URL_HTML_hashes_freshly_rechecked_from_live_origin": false,
+    "original_TV_announcements_prove_treatment_exposure_not_causality_or_model_identification": true,
+    "human_reviewed_player_aliases_star_awards_and_taxonomy_not_independently_validated": true,
+    "private_NBA_original_source_ZIPs_player_rows_never_committed": true,
+    "historical_frozen_data_manuscript_unchanged": true
+  },
+  "reusable_source": "scripts/data_rebuild/verify_official_nba_tv_announcements.py",
+  "note": "The PDF+HTML parsing and row-field comparisons were performed on all immutable saved original input bytes privately. Public evidence contains only aggregate counts, authentic source SHA-256s and original first-party URLs. The new packaged public verifier's direct execution is a separate engineering acceptance step until run in a fresh checkout with both original source ZIPs."
+}

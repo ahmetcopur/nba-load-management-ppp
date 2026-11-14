@@ -1,0 +1,9 @@
+--- archived:repair_boxscore_rosters.py
++++ executed:repair_boxscore_rosters.py
+@@ -416,6 +416,7 @@
+         "complete": len(mapping) == len(fixtures) and len(unmatched) == 0 and len(counts) == 2 * len(fixtures) and (players.empty or players["nba_player_id"].isna().sum() == 0) and (players.empty or players.duplicated(["game_id", "team", "nba_player_id"]).sum() == 0),
+         "repair_principle": "Official game IDs come from each JSON payload and are mapped to realized fixtures by ordered teams and tip time; source_match_number is retained only as a source field.",
+     }
++    summary["complete"] = bool(summary["complete"])
+     (output / "qa_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+     print(json.dumps(summary, indent=2), flush=True)

@@ -1,0 +1,201 @@
+{
+  "scope": "SENSITIVITY: two corrected 2021-22 game dates, injury-report assignments and player histories; frozen references unchanged",
+  "verification": "Independent original 13-archive Level-B root copied in fresh isolated location; original covariate functions and original builder plus separate original fast regression executable; supplied patch outputs were matched numerically and on every changed risk/onset/designation ID.",
+  "replay_environment": {
+    "python": "3.13.5",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "statsmodels": "0.14.6",
+    "execution": "original historical code with path-only redirection; model subprocess errors fail closed"
+  },
+  "source_covariates_zip_sha256": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+  "original_covariate_script_sha256": "268140c52c68a1f19ed1ab756f772519c460dc552938281e6ee62a1cbe087862",
+  "original_fast_model_script_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
+  "independently_rebuilt_panel_sha256_after_gzip_decompression": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+  "independently_rebuilt_panel_uncompressed_bytes": 122664634,
+  "base_panel_cells_changed": {
+    "tip_utc": {
+      "rows": 68,
+      "games": 2
+    },
+    "game_date_et": {
+      "rows": 68,
+      "games": 2
+    },
+    "team_elo_pre": {
+      "rows": 185154,
+      "games": 5354
+    },
+    "opponent_elo_pre": {
+      "rows": 185159,
+      "games": 5354
+    },
+    "signed_elo_advantage": {
+      "rows": 185503,
+      "games": 5351
+    },
+    "signed_elo_advantage_with_location": {
+      "rows": 185503,
+      "games": 5351
+    },
+    "team_win_probability_elo": {
+      "rows": 139898,
+      "games": 4058
+    },
+    "team_game_number": {
+      "rows": 102,
+      "games": 4
+    },
+    "rest_days_between_games": {
+      "rows": 83,
+      "games": 5
+    },
+    "back_to_back": {
+      "rows": 67,
+      "games": 3
+    },
+    "back_to_back_type": {
+      "rows": 67,
+      "games": 3
+    },
+    "travel_km_since_previous_game": {
+      "rows": 118,
+      "games": 6
+    },
+    "absolute_timezone_shift_hours": {
+      "rows": 69,
+      "games": 4
+    },
+    "games_in_last_7_days_including_current": {
+      "rows": 51,
+      "games": 3
+    },
+    "three_games_in_four_days": {
+      "rows": 68,
+      "games": 4
+    },
+    "four_games_in_six_days": {
+      "rows": 100,
+      "games": 6
+    },
+    "five_games_in_seven_days": {
+      "rows": 51,
+      "games": 3
+    },
+    "travel_km_last_7_days": {
+      "rows": 219,
+      "games": 11
+    },
+    "road_trip_game_number": {
+      "rows": 52,
+      "games": 3
+    },
+    "homestand_game_number": {
+      "rows": 49,
+      "games": 3
+    },
+    "opponent_rest_days_between_games": {
+      "rows": 88,
+      "games": 5
+    },
+    "opponent_back_to_back": {
+      "rows": 70,
+      "games": 3
+    },
+    "rest_advantage_days": {
+      "rows": 171,
+      "games": 5
+    },
+    "travel_disadvantage_km": {
+      "rows": 205,
+      "games": 6
+    }
+  },
+  "panel_vs_frozen": {
+    "reference_rows": 248778,
+    "rebuilt_rows": 248778,
+    "only_reference": 0,
+    "only_rebuilt": 0,
+    "changed_rows": 185547,
+    "changed_rows_in_the_two_games": 66,
+    "changed_games": 5351,
+    "changed_cells_by_column": {
+      "game_date_et": 66,
+      "tip_utc": 66,
+      "team_game_number": 100,
+      "back_to_back": 66,
+      "three_games_in_four_days": 68,
+      "four_games_in_six_days": 100,
+      "travel_km_since_previous_game": 117,
+      "absolute_timezone_shift_hours": 68,
+      "road_trip_game_number": 51,
+      "signed_elo_advantage": 185547,
+      "opponent_back_to_back": 68,
+      "rest_advantage_days": 169,
+      "travel_disadvantage_km": 203,
+      "designation_status": 20,
+      "designation_reason": 20,
+      "at_risk_for_new_onset_harm": 10,
+      "absence_onset_harm": 2,
+      "games_played_before_game_harm": 58,
+      "minutes_sum_prior_10_roster_games_harm": 136,
+      "dist_to_65_before_game_harm": 58,
+      "snapshot_basename": 20,
+      "snapshot_timestamp_utc": 20
+    },
+    "risk_rows": 180664,
+    "onsets": 12729
+  },
+  "stage6_models": [
+    {
+      "definition": "legacy_primary",
+      "controls": "full",
+      "n_frozen": 180530,
+      "n_corrected": 180530,
+      "estimate_pp_frozen": 2.6304485901569383,
+      "estimate_pp_corrected": 2.6742317292365767,
+      "change_pp": 0.04378313907963838,
+      "se_pp_corrected": 1.3191241730815737,
+      "p_frozen": 0.0460764656930466,
+      "p_corrected": 0.0426339657858416
+    },
+    {
+      "definition": "legacy_primary",
+      "controls": "none",
+      "n_frozen": 180664,
+      "n_corrected": 180664,
+      "estimate_pp_frozen": 2.6327687803815247,
+      "estimate_pp_corrected": 2.676885495644326,
+      "change_pp": 0.044116715262801254,
+      "se_pp_corrected": 1.3261286428452468,
+      "p_frozen": 0.0470407344780248,
+      "p_corrected": 0.0435317747821202
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "full",
+      "n_frozen": 180530,
+      "n_corrected": 180530,
+      "estimate_pp_frozen": 1.2389703651133357,
+      "estimate_pp_corrected": 1.2823694527266445,
+      "change_pp": 0.043399087613308795,
+      "se_pp_corrected": 1.3188109296530377,
+      "p_frozen": 0.3474532856699015,
+      "p_corrected": 0.3308675408175164
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "none",
+      "n_frozen": 180664,
+      "n_corrected": 180664,
+      "estimate_pp_frozen": 1.251112606497564,
+      "estimate_pp_corrected": 1.2948513321879846,
+      "change_pp": 0.0437387256904207,
+      "se_pp_corrected": 1.326850906341709,
+      "p_frozen": 0.3456936764034376,
+      "p_corrected": 0.3291224141374449
+    }
+  ],
+  "additional_scope_limitations": "Not a full replacement of August models or original six-season raw source-to-paper Level C; frozen game IDs intentionally still encode old schedule dates for stable comparison; need further corrected canonical ID / player-history analysis."
+}

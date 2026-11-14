@@ -1,0 +1,99 @@
+{
+  "date": "2026-11-09",
+  "research_stage": "August 2026 original predeclared heterogeneity v1 — frozen public archive reproducibility",
+  "github_actions_run": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42565348218",
+  "action_job": "Rerun unchanged August four-predeclared-group 8-model heterogeneity release",
+  "pinned_shared_repo": "OEKundakcioglu/nba-ppp-star-availability",
+  "pinned_shared_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "original_script": "scripts/portable/run_predeclared_heterogeneity.py",
+  "original_benchmark": "results/heterogeneity_results.csv",
+  "frozen_risk_panel_decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+  "model_count": 8,
+  "predeclared_comparisons": [
+    "back_to_back",
+    "weak_opponent",
+    "high_recent_workload",
+    "near_65_threshold"
+  ],
+  "tv_families": [
+    "announced_tv_primary",
+    "tv_harmonized_linear"
+  ],
+  "multiple_testing": "BH FDR among exactly four four-way interactions per TV definition",
+  "passed": true,
+  "largest_absolute_numerical_deviations": {
+    "ddd_h0_pp": 2.7533531010703882e-14,
+    "ddd_h1_pp": 1.1102230246251565e-14,
+    "difference_h1_minus_h0_pp": 2.4868995751603507e-14,
+    "ddd_h0_se_pp": 0.000008831636937767229,
+    "ddd_h1_se_pp": 0.000014292075773525426,
+    "difference_se_pp": 0.000014358360230559697,
+    "heterogeneity_p": 0.0000016234273347848216,
+    "heterogeneity_q_bh": 0.000002554390226616743
+  },
+  "archived_four_way_heterogeneity": {
+    "back_to_back": {
+      "legacy": {
+        "difference_pp": -5.483515556444701,
+        "p": 0.29054377836806355,
+        "q": 0.3926644476472738,
+        "n": 180695
+      },
+      "harmonized": {
+        "difference_pp": -6.246869654135699,
+        "p": 0.22045984075366398,
+        "q": 0.44091968150732797,
+        "n": 180695
+      }
+    },
+    "weak_opponent": {
+      "legacy": {
+        "difference_pp": 1.6331521883574445,
+        "p": 0.6755283496681723,
+        "q": 0.6755283496681723,
+        "n": 180695
+      },
+      "harmonized": {
+        "difference_pp": 3.5084194719462594,
+        "p": 0.37748621964400786,
+        "q": 0.5033149595253438,
+        "n": 180695
+      }
+    },
+    "high_recent_workload": {
+      "legacy": {
+        "difference_pp": 3.6388731883517296,
+        "p": 0.2050264254037445,
+        "q": 0.3926644476472738,
+        "n": 139535
+      },
+      "harmonized": {
+        "difference_pp": 4.126030649143901,
+        "p": 0.15058527395827387,
+        "q": 0.44091968150732797,
+        "n": 139535
+      }
+    },
+    "near_65_threshold": {
+      "legacy": {
+        "difference_pp": 5.330486085177187,
+        "p": 0.29449833573545536,
+        "q": 0.3926644476472738,
+        "n": 22443
+      },
+      "harmonized": {
+        "difference_pp": 2.1431069352177583,
+        "p": 0.6715728970565941,
+        "q": 0.6715728970565941,
+        "n": 22443
+      }
+    }
+  },
+  "scientific_limits": [
+    "No eight four-way heterogeneity contrasts pass 5% BH FDR; within-H1 high-workload legacy DDD has unadjusted p=.0176 but the H1-minus-H0 interaction has p=.2050.",
+    "Age/career-stage was explicitly not estimated because source lacks reliable career experience or age metadata; do not impute using six-season panel.",
+    "Only original frozen runner executed in public CI; corrected 180831-row August risk panel is absent from GitHub and accessible connected files.",
+    "Corrected runtime stages original source and fixes precisely two TV physical-game date/tip lookup keys without editing original as-announced networks.",
+    "Corrected August sensitivity retains original award/star and Cup flags and frozen date-encoded game IDs; not Level C all-source rebuild."
+  ]
+}
