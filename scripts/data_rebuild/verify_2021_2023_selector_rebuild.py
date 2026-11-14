@@ -157,10 +157,13 @@ def source_snapshot_counts(rows: pd.DataFrame, manifest: pd.DataFrame,
 
 
 def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
-           log_2021: Path | None) -> dict:
+           log_2021: Path | None, generated_dir: Path | None = None) -> dict:
     if not seasons or len(set(seasons)) != len(seasons) or not set(seasons) <= set(SEASONS):
         raise ValueError("Select valid unique seasons from 2021–22 through 2023–24")
+    if generated_dir is not None and seasons != ("2021-22",):
+        raise ValueError("Generated downstream export currently requires 2021–22 alone")
     needed = {"nba_canonical_snapshot_selector_v1.zip"}
+    generated = {}
     for season in seasons:
         stem = season.replace("-", "_")
         needed.add(f"audit_{stem}_s4_join_results.zip")
@@ -239,6 +242,17 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
             if len(reference_metric) != 1:
                 raise ValueError(f"Missing or duplicate original metric row {season}/{name}")
             metric_result = check_metrics(actual_metric, reference_metric.iloc[0])
+            if generated_dir is not None:
+                canonical_team = csv_from_zip(archive_dir,
+                    ("nba_canonical_snapshot_selector_v1.zip",
+                     f"nba_canonical_snapshot_selector_v1/{season}_team_game_status_{panel}_canonical.csv"))
+                computed_team = teams.copy()
+                computed_team["panel"] = name
+                computed_team["selector_version"] = "canonical_v1_latest_verified_pdf_strictly_before_tip"
+                computed_team = computed_team[list(canonical_team.columns)]
+                normalized_frame_equal(computed_team, canonical_team, ["game_id","team_role"], strict_schema=True)
+                generated[f"{season}_game_snapshot_join_{panel}_canonical.csv"] = games
+                generated[f"{season}_team_game_status_{panel}_canonical.csv"] = computed_team
             assert metric_result["metrics_compared"] == METRIC_FIELDS
             report["panels"].append({
                 "season": season, "panel": panel,
@@ -248,6 +262,23 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
                 "clean_game_source_fallback_ids": fallbacks,
             })
     report["all_replays_exact"] = True
+    if generated_dir is not None:
+        if generated_dir.exists() or archive_dir.resolve() in generated_dir.resolve().parents:
+            raise ValueError("Generated selector directory must be fresh and outside original archives")
+        generated_dir.mkdir(parents=True)
+        report["generated_files"] = {}
+        for name, frame in generated.items():
+            path=generated_dir/name;frame.to_csv(path,index=False)
+            report["generated_files"][name]={"rows":len(frame),"sha256":file_sha256(path)}
+        if "2021-22" in seasons:
+            reference_log = csv_from_zip(archive_dir,("audit_2021_22_cadence_outputs.zip","s1_parse_log_harmonized.csv"))
+            harmonized = raw.loc[raw.source_file.isin(set(reference_log.source_file))].copy()
+            path=generated_dir/"2021-22_fresh_harmonized_rows.csv"
+            harmonized.to_csv(path,index=False)
+            report["generated_files"][path.name]={"rows":len(harmonized),"sha256":file_sha256(path)}
+            report["full_candidate_rows_sha256"]=file_sha256(rows_2021)
+            report["full_candidate_log_sha256"]=file_sha256(log_2021)
+        (generated_dir/"selector_acceptance.json").write_text(json.dumps(report,indent=2)+"\n")
     return report
 
 
@@ -258,9 +289,10 @@ def main():
     p.add_argument("--reparsed-2021-rows", type=Path)
     p.add_argument("--reparsed-2021-log", type=Path)
     p.add_argument("--output", type=Path)
+    p.add_argument("--generated-dir", type=Path)
     a = p.parse_args()
     report = verify(a.archive_dir, tuple(a.seasons),
-                    a.reparsed_2021_rows, a.reparsed_2021_log)
+                    a.reparsed_2021_rows, a.reparsed_2021_log,a.generated_dir)
     result = json.dumps(report, indent=2) + "\n"
     if a.output:
         if a.output.exists():

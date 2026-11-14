@@ -34,13 +34,20 @@ def decoded_hash(path):
     return digest.hexdigest()
 
 
-def run(archives, prior, output, fresh_source=None):
+def run(archives, prior, output, fresh_source=None, season="2020-21"):
+    if season not in ("2020-21","2021-22"):
+        raise ValueError("Unsupported raw-source targeted season")
     archives, prior, output = map(lambda p: p.resolve(), (archives, prior, output))
     if file_sha256(SCRIPT) != "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272":
         raise ValueError("Original October builder source SHA-256 differs")
     if prior == output or prior in output.parents or output in prior.parents:
         raise ValueError("Prior acceptance run and new output must be disjoint")
     preflight(archives, output, True, rebuild_2020_2024_selectors=True)
+    if season=="2021-22":
+        from scripts.data_rebuild.verify_2021_2023_selector_rebuild import PINNED
+        name="audit_2021_22_s4_join_results.zip"
+        if not (archives/name).is_file() or file_sha256(archives/name)!=PINNED[name]:
+            raise ValueError("Original 2021 S4 schedule/status ZIP missing or hash differs")
     manifest = json.loads((prior/"final/final_dataset_manifest.json").read_text())
     if manifest.get("status") != "pass" or len(manifest.get("stage_logs", {})) != 9:
         raise ValueError("Expected the accepted nine-stage private run manifest")
@@ -61,19 +68,34 @@ def run(archives, prior, output, fresh_source=None):
         raise ValueError("Prior frozen cadence output differs from immutable reference")
     output.mkdir()
     if fresh_source is None:
-        fresh_source = output/"fresh_2020"
-        rebuild(archives, fresh_source, workers=4, emit_full_source_rows=True)
+        fresh_source = output/("fresh_2020" if season=="2020-21" else "fresh_2021")
+        if season=="2020-21":
+            rebuild(archives, fresh_source, workers=4, emit_full_source_rows=True)
+        else:
+            from scripts.data_rebuild.rebuild_2021_full_candidates import rebuild as parse_2021
+            parse_2021(archives,fresh_source)
     generated = output/"generated_selectors"
-    verify(archives, generated_dir=generated,
-           fresh_2020_rows=fresh_source/FULL_SOURCE_FILE,
-           fresh_2020_acceptance=fresh_source/"2020_21_original_pdf_source_acceptance.json")
+    if season=="2020-21":
+        verify(archives, generated_dir=generated,
+               fresh_2020_rows=fresh_source/FULL_SOURCE_FILE,
+               fresh_2020_acceptance=fresh_source/"2020_21_original_pdf_source_acceptance.json")
+    else:
+        from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify as select_2021
+        select_2021(archives,("2021-22",),fresh_source/"full_candidate_rows.csv",
+                    fresh_source/"full_candidate_parse_log.csv",generated)
     work = output/"historical_inputs"
     shutil.copytree(historical, work)
     # A prior optional handoff report is evidence only for its own prior run.
-    handoff = inject(generated, work, output/"generated_selector_handoff.json", require_raw_2020=True)
-    names = [str(RAW_2020_TARGET), *[str(RELATIVE/name) for name in (
-        "2020-21_game_snapshot_join_harmonized_canonical.csv",
-        "2020-21_team_game_status_harmonized_canonical.csv")]]
+    if season=="2020-21":
+        handoff = inject(generated, work, output/"generated_selector_handoff.json", require_raw_2020=True)
+        names = [str(RAW_2020_TARGET), *[str(RELATIVE/name) for name in (
+            "2020-21_game_snapshot_join_harmonized_canonical.csv",
+            "2020-21_team_game_status_harmonized_canonical.csv")]]
+    else:
+        from scripts.data_rebuild.inject_2021_generated_inputs import inject as inject_2021,FILES
+        handoff=inject_2021(generated,fresh_source,work)
+        names=[str(x) for x in FILES.values()]
+        (output/"generated_selector_handoff.json").write_text(json.dumps(handoff,indent=2)+"\n")
     hashes = {name:file_sha256(work/name) for name in names}
     required = output/"required_generated_inputs.json"
     required.write_text(json.dumps(hashes, indent=2)+"\n")
@@ -99,9 +121,10 @@ def run(archives, prior, output, fresh_source=None):
          "--output",output/"panel_invariants.json")
     call("replay_stage6_from_frozen.py","--panel",panel,"--output-dir",output/"models")
     result = {
-        "status":"pass","scope":"Targeted raw-2020 original October builder and frozen models; other seasons reused",
-        "new_full_final_dataset_run":False,"fresh_2020_source_reused":fresh_source != output/"fresh_2020",
-        "source_file_sha256":file_sha256(fresh_source/FULL_SOURCE_FILE),
+        "status":"pass","scope":f"Targeted raw-{season} original October builder and frozen models; other seasons reused",
+        "season":season,"new_full_final_dataset_run":False,
+        "fresh_source_reused":fresh_source not in (output/"fresh_2020",output/"fresh_2021"),
+        "source_file_sha256":file_sha256(fresh_source/(FULL_SOURCE_FILE if season=="2020-21" else "full_candidate_rows.csv")),
         "original_builder_consumption":json.loads((rebuilt/"replay_environment.json").read_text())["generated_input_consumption"],
         "intermediate_decoded_byte_comparisons":comparisons,"handoff":handoff,
         "october_frozen_panel_decoded_sha256":decoded_hash(panel),
@@ -116,9 +139,10 @@ def main():
     p.add_argument("--archive-dir",type=Path,required=True)
     p.add_argument("--prior-run-root",type=Path,required=True)
     p.add_argument("--output-root",type=Path,required=True)
-    p.add_argument("--fresh-2020-source-dir",type=Path)
+    p.add_argument("--fresh-2020-source-dir","--fresh-source-dir",dest="fresh_source",type=Path)
+    p.add_argument("--season",choices=("2020-21","2021-22"),default="2020-21")
     a=p.parse_args()
-    print(json.dumps(run(a.archive_dir,a.prior_run_root,a.output_root,a.fresh_2020_source_dir),indent=2))
+    print(json.dumps(run(a.archive_dir,a.prior_run_root,a.output_root,a.fresh_source,a.season),indent=2))
 
 
 if __name__=="__main__":
