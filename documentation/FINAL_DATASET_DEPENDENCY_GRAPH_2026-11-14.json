@@ -136,8 +136,8 @@
     },
     {
       "id": "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
-      "original_source": "Original season injury PDF ZIP",
-      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "original_source": "Original full candidate injury PDF ZIP",
+      "generating_script": "rebuild_2021_full_candidates.py",
       "upstream_dependencies": [
         "audit_2021_22_cadence_outputs.zip"
       ],
@@ -148,12 +148,12 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
     },
     {
       "id": "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
-      "original_source": "Original season injury PDF ZIP",
-      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "original_source": "Original full candidate injury PDF ZIP",
+      "generating_script": "rebuild_2021_full_candidates.py",
       "upstream_dependencies": [
         "audit_2022_23_pre_s4_outputs.zip"
       ],
@@ -164,7 +164,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
     },
     {
       "id": "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
@@ -232,7 +232,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Requires full 5,567 hourly original-PDF reparse and submitted-placeholder precedence."
+      "remaining_limitation": "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
@@ -250,7 +250,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected."
+      "remaining_limitation": "Fresh full regular-season PDF parser and original selector pass in isolation; actual targeted October acceptance and canonical integration remain pending."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
@@ -340,7 +340,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Requires full 5,567 hourly original-PDF reparse and submitted-placeholder precedence."
+      "remaining_limitation": "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",

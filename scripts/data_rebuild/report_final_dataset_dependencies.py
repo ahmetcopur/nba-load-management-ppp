@@ -24,6 +24,9 @@ def classification(path: str) -> tuple[str, str, str, str]:
                 "B with optional raw-PDF-derived full-row consumption",
                 "Publication clocks/manifests inherited; raw-PDF full row and selector handoffs are opt-in.")
     if path.startswith("cadence_work/season_parsed/"):
+        if "/2021-22/" in path or "/2022-23/" in path:
+            return ("Original full candidate injury PDF ZIP","rebuild_2021_full_candidates.py",
+                    "C","Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected.")
         return ("Original season injury PDF ZIP", "rebuild_2021_2024_selected_from_pdfs.py",
                 "C", "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected.")
     if path.startswith("cadence_work/s4/"):
@@ -45,10 +48,12 @@ def selector_class(name: str) -> tuple[str, str]:
         return ("B with optional raw-PDF-derived full-row consumption", "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited.")
     if season=="2024-25":
         return ("B", "Original algorithm executes on archived parsed rows and schedules; raw-PDF candidate rows not connected.")
-    if season in ("2022-23","2023-24"):
+    if season=="2022-23":
+        return ("C","Fresh full regular-season PDF parser and original selector pass in isolation; actual targeted October acceptance and canonical integration remain pending.")
+    if season=="2023-24":
         return ("C", "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected.")
     if season=="2021-22":
-        return ("C", "Requires full 5,567 hourly original-PDF reparse and submitted-placeholder precedence.")
+        return ("C", "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     return ("E", "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections.")
 
 

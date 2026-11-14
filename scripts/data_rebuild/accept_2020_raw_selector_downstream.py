@@ -35,7 +35,7 @@ def decoded_hash(path):
 
 
 def run(archives, prior, output, fresh_source=None, season="2020-21"):
-    if season not in ("2020-21","2021-22"):
+    if season not in ("2020-21","2021-22","2022-23"):
         raise ValueError("Unsupported raw-source targeted season")
     archives, prior, output = map(lambda p: p.resolve(), (archives, prior, output))
     if file_sha256(SCRIPT) != "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272":
@@ -68,12 +68,12 @@ def run(archives, prior, output, fresh_source=None, season="2020-21"):
         raise ValueError("Prior frozen cadence output differs from immutable reference")
     output.mkdir()
     if fresh_source is None:
-        fresh_source = output/("fresh_2020" if season=="2020-21" else "fresh_2021")
+        fresh_source = output/("fresh_"+season[:4])
         if season=="2020-21":
             rebuild(archives, fresh_source, workers=4, emit_full_source_rows=True)
         else:
             from scripts.data_rebuild.rebuild_2021_full_candidates import rebuild as parse_2021
-            parse_2021(archives,fresh_source)
+            parse_2021(archives,fresh_source,season=season)
     generated = output/"generated_selectors"
     if season=="2020-21":
         verify(archives, generated_dir=generated,
@@ -81,8 +81,9 @@ def run(archives, prior, output, fresh_source=None, season="2020-21"):
                fresh_2020_acceptance=fresh_source/"2020_21_original_pdf_source_acceptance.json")
     else:
         from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify as select_2021
-        select_2021(archives,("2021-22",),fresh_source/"full_candidate_rows.csv",
-                    fresh_source/"full_candidate_parse_log.csv",generated)
+        select_2021(archives,(season,),fresh_source/"full_candidate_rows.csv",
+                    fresh_source/"full_candidate_parse_log.csv",generated,
+                    fresh_candidate_dir=fresh_source if season=="2022-23" else None)
     work = output/"historical_inputs"
     shutil.copytree(historical, work)
     # A prior optional handoff report is evidence only for its own prior run.
@@ -92,9 +93,9 @@ def run(archives, prior, output, fresh_source=None, season="2020-21"):
             "2020-21_game_snapshot_join_harmonized_canonical.csv",
             "2020-21_team_game_status_harmonized_canonical.csv")]]
     else:
-        from scripts.data_rebuild.inject_2021_generated_inputs import inject as inject_2021,FILES
-        handoff=inject_2021(generated,fresh_source,work)
-        names=[str(x) for x in FILES.values()]
+        from scripts.data_rebuild.inject_2021_generated_inputs import inject as inject_2021,input_files
+        handoff=inject_2021(generated,fresh_source,work,season=season)
+        names=[str(x) for x in input_files(season).values()]
         (output/"generated_selector_handoff.json").write_text(json.dumps(handoff,indent=2)+"\n")
     hashes = {name:file_sha256(work/name) for name in names}
     required = output/"required_generated_inputs.json"
@@ -123,7 +124,7 @@ def run(archives, prior, output, fresh_source=None, season="2020-21"):
     result = {
         "status":"pass","scope":f"Targeted raw-{season} original October builder and frozen models; other seasons reused",
         "season":season,"new_full_final_dataset_run":False,
-        "fresh_source_reused":fresh_source not in (output/"fresh_2020",output/"fresh_2021"),
+        "fresh_source_reused":fresh_source != output/("fresh_"+season[:4]),
         "source_file_sha256":file_sha256(fresh_source/(FULL_SOURCE_FILE if season=="2020-21" else "full_candidate_rows.csv")),
         "original_builder_consumption":json.loads((rebuilt/"replay_environment.json").read_text())["generated_input_consumption"],
         "intermediate_decoded_byte_comparisons":comparisons,"handoff":handoff,
@@ -140,7 +141,7 @@ def main():
     p.add_argument("--prior-run-root",type=Path,required=True)
     p.add_argument("--output-root",type=Path,required=True)
     p.add_argument("--fresh-2020-source-dir","--fresh-source-dir",dest="fresh_source",type=Path)
-    p.add_argument("--season",choices=("2020-21","2021-22"),default="2020-21")
+    p.add_argument("--season",choices=("2020-21","2021-22","2022-23"),default="2020-21")
     a=p.parse_args()
     print(json.dumps(run(a.archive_dir,a.prior_run_root,a.output_root,a.fresh_source,a.season),indent=2))
 
