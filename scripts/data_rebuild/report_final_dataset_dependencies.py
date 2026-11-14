@@ -49,7 +49,7 @@ def selector_class(name: str) -> tuple[str, str]:
     if season=="2024-25":
         return ("B", "Original algorithm executes on archived parsed rows and schedules; raw-PDF candidate rows not connected.")
     if season=="2022-23":
-        return ("C","Fresh full regular-season PDF parser and original selector pass in isolation; actual targeted October acceptance and canonical integration remain pending.")
+        return ("C","Fresh full regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     if season=="2023-24":
         return ("C", "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected.")
     if season=="2021-22":
