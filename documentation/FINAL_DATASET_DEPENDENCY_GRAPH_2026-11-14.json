@@ -168,8 +168,8 @@
     },
     {
       "id": "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
-      "original_source": "Original season injury PDF ZIP",
-      "generating_script": "rebuild_2021_2024_selected_from_pdfs.py",
+      "original_source": "Original full candidate injury PDF ZIP",
+      "generating_script": "rebuild_2021_full_candidates.py",
       "upstream_dependencies": [
         "audit_2023_24_pre_s4_outputs.zip"
       ],
@@ -180,7 +180,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected."
+      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
     },
     {
       "id": "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
@@ -268,7 +268,7 @@
       "classification": "C",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected."
+      "remaining_limitation": "Full original regular-season parser and selector passed in isolation; targeted builder consumption and canonical integration remain pending."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",

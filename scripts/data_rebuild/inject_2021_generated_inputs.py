@@ -1,4 +1,4 @@
-"""Strict full-candidate 2021/2022 source/selector handoff into private October inputs."""
+"""Strict full-candidate 2021–23 source/selector handoff into private October inputs."""
 from collections import Counter
 import io
 import json
@@ -19,7 +19,13 @@ FILES={
 
 def input_files(season):
     if season=="2021-22":return FILES
-    if season!="2022-23":raise ValueError("Unsupported fresh source handoff season")
+    if season not in ("2022-23","2023-24"):raise ValueError("Unsupported fresh source handoff season")
+    if season=="2023-24":
+        return {
+            "2023-24_game_snapshot_join_harmonized_canonical.csv":RELATIVE/"2023-24_game_snapshot_join_harmonized_canonical.csv",
+            "2023-24_team_game_status_harmonized_canonical.csv":Path("cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv"),
+            "2023-24_fresh_candidate_rows.csv":Path("cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv"),
+        }
     return {
         "2022-23_game_snapshot_join_harmonized_canonical.csv":RELATIVE/"2022-23_game_snapshot_join_harmonized_canonical.csv",
         "2022-23_team_game_status_harmonized_canonical.csv":Path("cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv"),
@@ -29,7 +35,7 @@ def input_files(season):
 
 def inject(generated, source, historical, season="2021-22"):
     files=input_files(season)
-    pdfs,count=(4101,354146) if season=="2022-23" else (5567,398715)
+    pdfs,count={"2021-22":(5567,398715),"2022-23":(4101,354146),"2023-24":(4097,388878)}[season]
     report=json.loads((generated/"selector_acceptance.json").read_text())
     raw=json.loads((source/"candidate_acceptance.json").read_text())
     if (raw.get("status")!="pass" or raw.get("fresh_original_PDF_execution") is not True
@@ -52,7 +58,7 @@ def inject(generated, source, historical, season="2021-22"):
             def rows(frame):
                 d=pd.read_csv(io.StringIO(frame.to_csv(index=False)),dtype=str,keep_default_na=False)
                 return Counter(d.itertuples(index=False,name=None))
-            if list(a)!=list(b) or len(a)!=(354146 if season=="2022-23" else 58631) or rows(a)!=rows(b):
+            if list(a)!=list(b) or len(a)!=(count if season!="2021-22" else 58631) or rows(a)!=rows(b):
                 raise ValueError("2021 harmonized source complete records differ")
         else:
             normalized_frame_equal(a,b,["game_id"] if "game_snapshot" in name else ["game_id","team_role"],strict_schema=True)

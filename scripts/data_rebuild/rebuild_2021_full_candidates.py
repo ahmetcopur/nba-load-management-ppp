@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parse complete original 2021 or 2022 selector candidates with the pinned parser."""
+"""Parse complete original 2021–23 selector candidates with pinned historical parsers."""
 import argparse
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
@@ -16,6 +16,12 @@ from scripts.data_rebuild.verify_2021_2023_selector_rebuild import (
 )
 from scripts.data_rebuild.verify_canonical_selector_replay import file_sha256, member_bytes
 from scripts.data_rebuild.reproduce_final_datasets import SOURCE_HASHES
+
+REGULAR={
+    "2022-23":{"start":"2022-10-18","end":"2023-04-09","pdfs":4101,"rows":354146,"prefix":""},
+    "2023-24":{"start":"2023-10-24","end":"2024-04-14","pdfs":4097,"rows":388878,"prefix":"audit_2023_24_pre_s4_outputs/"},
+}
+LATE_PARSER_SHA="197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06"
 
 
 def candidate_inventory(manifest, names, expected_pdfs=5567):
@@ -37,23 +43,25 @@ def csv_records(frame):
     return Counter(normalized.itertuples(index=False,name=None))
 
 
-def verify_2022_reference(archives,frame,log):
-    archive=archives/"audit_2022_23_pre_s4_outputs.zip"
-    reference=pd.read_csv(io.BytesIO(member_bytes(archive,"s1_snapshot_rows_regular_season.csv")),low_memory=False)
-    reference_log=pd.read_csv(io.BytesIO(member_bytes(archive,"s1_parse_log_regular_season.csv")))
-    for actual,expected,count in ((frame,reference,354146),(log,reference_log,4101)):
+def verify_2022_reference(archives,frame,log,season="2022-23"):
+    spec=REGULAR[season]
+    archive=archives/("audit_"+season.replace("-","_")+"_pre_s4_outputs.zip")
+    reference=pd.read_csv(io.BytesIO(member_bytes(archive,spec["prefix"]+"s1_snapshot_rows_regular_season.csv")),low_memory=False)
+    reference_log=pd.read_csv(io.BytesIO(member_bytes(archive,spec["prefix"]+"s1_parse_log_regular_season.csv")))
+    for actual,expected,count in ((frame,reference,spec["rows"]),(log,reference_log,spec["pdfs"])):
         if list(actual)!=list(expected) or len(actual)!=count or csv_records(actual)!=csv_records(expected):
-            raise ValueError("Fresh 2022 full candidate rows/log records differ from original")
-    return {"total_parsed_pdfs":4101,"total_parsed_rows":354146,
+            raise ValueError(f"Fresh {season} full candidate rows/log records differ from original")
+    return {"total_parsed_pdfs":spec["pdfs"],"total_parsed_rows":spec["rows"],
             "all_regular_season_rows_and_logs_exact":True}
 
 
 def rebuild(archives, output, workers=4, season="2021-22"):
-    if season not in ("2021-22","2022-23"):
+    if season not in ("2021-22",*REGULAR):
         raise ValueError("Unsupported complete candidate season")
-    is2022=season=="2022-23"
-    raw_zip="audit_2022_23_upload.zip" if is2022 else "audit_2021_22_upload.zip"
-    dependencies=(raw_zip,"audit_2022_23_pre_s4_outputs.zip","nba_player_game_at_risk_core_v1.zip") if is2022 else (raw_zip,"audit_2021_22_cadence_outputs.zip")
+    regular=season in REGULAR
+    raw_zip="audit_"+season.replace("-","_")+"_upload.zip"
+    dependencies=(raw_zip,"audit_"+season.replace("-","_")+"_pre_s4_outputs.zip","nba_player_game_at_risk_core_v1.zip") if regular else (raw_zip,"audit_2021_22_cadence_outputs.zip")
+    parser_sha=LATE_PARSER_SHA if season=="2023-24" else EXPECTED_2021_PARSER
     archives,output=archives.resolve(),output.resolve()
     if output.exists() or archives==output or archives in output.parents:
         raise ValueError("Fresh private output must be absent and outside original archives")
@@ -63,23 +71,23 @@ def rebuild(archives, output, workers=4, season="2021-22"):
         raise ValueError("workers must be 1..16")
     for name in dependencies:
         if file_sha256(archives/name)!=SOURCE_HASHES[name]:
-            raise ValueError("Original 2021 ZIP hash differs: "+name)
+            raise ValueError("Original source ZIP hash differs: "+name)
     parser=(member_bytes(archives/"nba_player_game_at_risk_core_v1.zip",
-                         "nba_player_game_at_risk_core_v1/parsers/parser_2021_2022.py")
-            if is2022 else member_bytes(archives/"audit_2021_22_cadence_outputs.zip","nba_injury_fitz_parser_v3.py"))
-    if hashlib.sha256(parser).hexdigest()!=EXPECTED_2021_PARSER:
-        raise ValueError("Original 2021 parser SHA-256 differs")
+                         "nba_player_game_at_risk_core_v1/parsers/"+("parser_2023plus.py" if season=="2023-24" else "parser_2021_2022.py"))
+            if regular else member_bytes(archives/"audit_2021_22_cadence_outputs.zip","nba_injury_fitz_parser_v3.py"))
+    if hashlib.sha256(parser).hexdigest()!=parser_sha:
+        raise ValueError("Original season parser SHA-256 differs")
     rows=[]; logs=[]
     with ZipFile(archives/raw_zip) as archive, tempfile.TemporaryDirectory(prefix="nba_candidate_pdfs_") as temporary:
         pdfs=[n for n in archive.namelist() if n.endswith(".pdf")]
         if len(pdfs)!=len(set(pdfs)):
             raise ValueError("Duplicate original PDF archive members")
         manifest=pd.read_csv(io.BytesIO(archive.read("audit_"+season.replace("-","_")+"/report_manifest.csv")))
-        if is2022:
-            manifest=manifest.loc[manifest.report_date.between("2022-10-18","2023-04-09")]
+        if regular:
+            manifest=manifest.loc[manifest.report_date.between(REGULAR[season]["start"],REGULAR[season]["end"])]
             wanted=set(manifest.loc[manifest.exists.astype(str).str.lower().isin(("true","1"))].local_path)
             pdfs=[name for name in pdfs if name in wanted]
-        present=candidate_inventory(manifest,pdfs,4101 if is2022 else 5567)
+        present=candidate_inventory(manifest,pdfs,REGULAR[season]["pdfs"] if regular else 5567)
         parser_path=Path(temporary)/"parser.py";parser_path.write_bytes(parser)
         tasks=[]
         for record in present.to_dict("records"):
@@ -109,11 +117,11 @@ def rebuild(archives, output, workers=4, season="2021-22"):
     output.mkdir(parents=True,exist_ok=False)
     full=output/"full_candidate_rows.csv"; logfile=output/"full_candidate_parse_log.csv"
     frame.to_csv(full,index=False);log.to_csv(logfile,index=False)
-    comparison=verify_2022_reference(archives,frame,log) if is2022 else verify_2021_harmonized_reference(archives,frame,log)
+    comparison=verify_2022_reference(archives,frame,log,season) if regular else verify_2021_harmonized_reference(archives,frame,log)
     report={"status":"pass","fresh_original_PDF_execution":True,"pdfs":len(log),
             "season":season,"source_archive_sha256":{name:SOURCE_HASHES[name] for name in dependencies},
             "rows":len(frame),"original_publication_metadata_inherited":True,
-            "original_parser_sha256":EXPECTED_2021_PARSER,"comparison":comparison,
+            "original_parser_sha256":parser_sha,"comparison":comparison,
             "full_candidate_rows_sha256":file_sha256(full),"full_candidate_log_sha256":file_sha256(logfile)}
     (output/"candidate_acceptance.json").write_text(json.dumps(report,indent=2)+"\n")
     return report
@@ -124,7 +132,7 @@ def main():
     p.add_argument("--archive-dir",type=Path,required=True)
     p.add_argument("--output-dir",type=Path,required=True)
     p.add_argument("--workers",type=int,default=4)
-    p.add_argument("--season",choices=("2021-22","2022-23"),default="2021-22")
+    p.add_argument("--season",choices=("2021-22",*REGULAR),default="2021-22")
     a=p.parse_args();print(json.dumps(rebuild(a.archive_dir,a.output_dir,a.workers,a.season),indent=2))
 
 

@@ -43,9 +43,13 @@ def canonical_export_order(games, teams):
     """Preserve the historical CSV interface's deterministic tie ordering."""
     games=games.copy()
     games["tip_timestamp_utc"]=pd.to_datetime(games.tip_timestamp_utc,utc=True).map(lambda value:value.isoformat())
+    if "tip_timestamp_et" in games:
+        games["tip_timestamp_et"]=games.tip_timestamp_et.map(lambda value:pd.Timestamp(value).isoformat())
     games=games.sort_values(["tip_timestamp_utc","Match Number"],kind="stable").reset_index(drop=True)
     rank={key:i for i,key in enumerate(games.game_id)}
     teams=teams.copy()
+    if "tip_timestamp_et" in teams:
+        teams["tip_timestamp_et"]=teams.tip_timestamp_et.map(lambda value:pd.Timestamp(value).isoformat())
     teams["_game_order"]=teams.game_id.map(rank)
     if teams["_game_order"].isna().any():
         raise ValueError("Export team references unknown game")
@@ -175,10 +179,10 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
            fresh_candidate_dir: Path | None = None) -> dict:
     if not seasons or len(set(seasons)) != len(seasons) or not set(seasons) <= set(SEASONS):
         raise ValueError("Select valid unique seasons from 2021–22 through 2023–24")
-    if generated_dir is not None and seasons not in (("2021-22",),("2022-23",)):
+    if generated_dir is not None and len(seasons)!=1:
         raise ValueError("Generated downstream export currently requires 2021–22 alone")
-    if generated_dir is not None and seasons==("2022-23",) and fresh_candidate_dir is None:
-        raise ValueError("2022 generated selectors require fresh full candidate source")
+    if generated_dir is not None and seasons[0] in ("2022-23","2023-24") and fresh_candidate_dir is None:
+        raise ValueError("Generated selectors require fresh full candidate source")
     needed = {"nba_canonical_snapshot_selector_v1.zip"}
     generated = {}
     for season in seasons:
@@ -217,19 +221,19 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
             prefix = f"audit_{stem}_pre_s4_outputs/" if season == "2023-24" else ""
             manifest = csv_from_zip(archive_dir, (pre, prefix + "report_manifest_regular_season.csv"))
             raw = csv_from_zip(archive_dir, (pre, prefix + "s1_snapshot_rows_regular_season.csv"))
-            if season=="2022-23" and fresh_candidate_dir is not None:
+            if season in ("2022-23","2023-24") and fresh_candidate_dir is not None:
                 from scripts.data_rebuild.rebuild_2021_full_candidates import verify_2022_reference
                 accepted=json.loads((fresh_candidate_dir/"candidate_acceptance.json").read_text())
                 rows_2021=fresh_candidate_dir/"full_candidate_rows.csv"
                 log_2021=fresh_candidate_dir/"full_candidate_parse_log.csv"
-                if (accepted.get("status")!="pass" or accepted.get("season")!="2022-23"
+                if (accepted.get("status")!="pass" or accepted.get("season")!=season
                         or accepted.get("fresh_original_PDF_execution") is not True
                         or file_sha256(rows_2021)!=accepted.get("full_candidate_rows_sha256")
                         or file_sha256(log_2021)!=accepted.get("full_candidate_log_sha256")):
-                    raise ValueError("2022 fresh source provenance missing or hash differs")
+                    raise ValueError(f"{season} fresh source provenance missing or hash differs")
                 raw=pd.read_csv(rows_2021,low_memory=False)
                 logs=pd.read_csv(log_2021)
-                report["fresh_2022_pdf_reparse"]=verify_2022_reference(archive_dir,raw,logs)
+                report["fresh_candidate_pdf_reparse"]=verify_2022_reference(archive_dir,raw,logs,season)
         schedule = csv_from_zip(archive_dir, (archive_s4, f"s4_games_{stem}_normalized.csv"))
         if len(schedule) != 1230:
             raise ValueError(f"Expected 1,230 NBA games in {season}")
@@ -273,11 +277,11 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
                 raise ValueError(f"Missing or duplicate original metric row {season}/{name}")
             metric_result = check_metrics(actual_metric, reference_metric.iloc[0])
             if generated_dir is not None:
-                canonical_team = (original_team if season=="2022-23" else csv_from_zip(archive_dir,
+                canonical_team = (original_team if season in ("2022-23","2023-24") else csv_from_zip(archive_dir,
                     ("nba_canonical_snapshot_selector_v1.zip",
                      f"nba_canonical_snapshot_selector_v1/{season}_team_game_status_{panel}_canonical.csv")))
                 computed_team = teams.copy()
-                if season!="2022-23":
+                if season=="2021-22":
                     computed_team["panel"] = name
                     computed_team["selector_version"] = "canonical_v1_latest_verified_pdf_strictly_before_tip"
                 computed_team = computed_team[list(canonical_team.columns)]
@@ -305,11 +309,13 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
             # The original 2022 S4 csv.writer output used CRLF.
             frame.to_csv(path,index=False,lineterminator="\r\n" if name.startswith("2022-23_team_") else "\n")
             report["generated_files"][name]={"rows":len(frame),"sha256":file_sha256(path)}
-        if seasons in (("2021-22",),("2022-23",)):
-            is2022=seasons==("2022-23",)
+        if len(seasons)==1:
+            season=seasons[0]
+            regular=season in ("2022-23","2023-24")
+            prefix="audit_2023_24_pre_s4_outputs/" if season=="2023-24" else ""
             reference_log = csv_from_zip(archive_dir,(
-                "audit_2022_23_pre_s4_outputs.zip" if is2022 else "audit_2021_22_cadence_outputs.zip",
-                "s1_parse_log_regular_season.csv" if is2022 else "s1_parse_log_harmonized.csv"))
+                "audit_"+season.replace("-","_")+"_pre_s4_outputs.zip" if regular else "audit_2021_22_cadence_outputs.zip",
+                prefix+"s1_parse_log_regular_season.csv" if regular else "s1_parse_log_harmonized.csv"))
             harmonized = raw.loc[raw.source_file.isin(set(reference_log.source_file))].copy()
             if reference_log.source_file.duplicated().any():
                 raise ValueError("Duplicate original parse-log source ordering")
@@ -319,7 +325,7 @@ def verify(archive_dir: Path, seasons: tuple[str, ...], rows_2021: Path | None,
             harmonized["_source_order"]=harmonized.source_file.map(rank)
             harmonized=harmonized.sort_values("_source_order",kind="stable").drop(columns="_source_order")
             report["historical_source_file_order_inherited_from_parse_log"]=True
-            path=generated_dir/("2022-23_fresh_candidate_rows.csv" if is2022 else "2021-22_fresh_harmonized_rows.csv")
+            path=generated_dir/(season+"_fresh_candidate_rows.csv" if regular else "2021-22_fresh_harmonized_rows.csv")
             harmonized.to_csv(path,index=False)
             report["generated_files"][path.name]={"rows":len(harmonized),"sha256":file_sha256(path)}
             report["full_candidate_rows_sha256"]=file_sha256(rows_2021)

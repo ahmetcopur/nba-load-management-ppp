@@ -24,7 +24,7 @@ def classification(path: str) -> tuple[str, str, str, str]:
                 "B with optional raw-PDF-derived full-row consumption",
                 "Publication clocks/manifests inherited; raw-PDF full row and selector handoffs are opt-in.")
     if path.startswith("cadence_work/season_parsed/"):
-        if "/2021-22/" in path or "/2022-23/" in path:
+        if any("/"+season+"/" in path for season in ("2021-22","2022-23","2023-24")):
             return ("Original full candidate injury PDF ZIP","rebuild_2021_full_candidates.py",
                     "C","Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected.")
         return ("Original season injury PDF ZIP", "rebuild_2021_2024_selected_from_pdfs.py",
@@ -51,7 +51,7 @@ def selector_class(name: str) -> tuple[str, str]:
     if season=="2022-23":
         return ("C","Fresh full regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     if season=="2023-24":
-        return ("C", "Original selector function and original PDFs exist; fresh all-candidate rows/status handoff is not connected.")
+        return ("C", "Full original regular-season parser and selector passed in isolation; targeted builder consumption and canonical integration remain pending.")
     if season=="2021-22":
         return ("C", "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
     return ("E", "Only selected 2025 PDFs are freshly parsed; candidate inventory/acquisition clocks remain historical selections.")

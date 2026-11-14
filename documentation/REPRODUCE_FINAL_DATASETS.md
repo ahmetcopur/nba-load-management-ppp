@@ -12,6 +12,8 @@ The [supplied authentic targeted October execution](AUTHENTIC_2020_OCTOBER_DOWNS
 
 ## The generated final files
 
+Use `--season 2023-24` on the same targeted acceptance command for the complete 4,097-PDF regular-season candidate set. All required original ZIPs are in the existing inventory. The runner uses the pinned later parser, original selector and documented clean-game fallback, replaces the actual S4 team-status and nested parsed-row paths, and traces the original October builder's consumption. See [authentic isolated 2023 results and pending downstream gate](ORIGINAL_2023_CANDIDATE_SELECTOR_2026-11-14.md). Choose a fresh output root.
+
 The targeted acceptance command also supports `--season 2022-23`. It reparses all 4,101 original regular-season candidates, generates the game selector, the actual S4 team-status input, and full regular-season parsed rows, then traces their use by October. The required sources are already in the existing private ZIP inventory. See [authentic isolated 2022 parser/selector results and pending downstream gate](ORIGINAL_2022_CANDIDATE_SELECTOR_2026-11-14.md). Select a new output root for the test.
 
 For the next targeted season, the same acceptance command accepts `--season 2021-22`. Supply the original `audit_2021_22_s4_join_results.zip` alongside the existing archive inventory and choose a new output root. It parses all 5,567 original hourly PDFs, exports verified full/harmonized selectors, and substitutes the new harmonized rows and game/team tables before tracing their use by October. See [authentic isolated 2021 source/selector results and outstanding downstream gate](ORIGINAL_2021_CANDIDATE_SELECTOR_2026-11-14.md). This does not run the three corrected final datasets.
