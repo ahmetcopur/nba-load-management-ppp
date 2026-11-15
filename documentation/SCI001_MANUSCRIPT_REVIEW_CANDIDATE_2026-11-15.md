@@ -113,3 +113,7 @@ not supplied by successful computation. They have no fabricated signatures.
 The candidate is prepared for that review. No release tag, merge, issue closure
 or submission was performed. The missing full-source run and blocked physical
 sensitivity remain accurately disclosed rather than being called completed.
+
+## Final validation receipt
+
+All **697 local tests** passed. [GitHub Actions run 43751705484](https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/43751705484), testing implementation commit `db06d466fa0b580759dbd706e1b4d54f319ff9ee`, passed **11/11 jobs**. The follow-up commit changes only this receipt and the candidate manifest; no executable or dataset is changed. CI is separate from the actual private-input execution evidence above.

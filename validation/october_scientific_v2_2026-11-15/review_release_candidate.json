@@ -92,7 +92,61 @@
   "validation": {
     "local_tests_passed": 697,
     "new_contract_tests": 3,
-    "ci_for_new_commit": "pending"
+    "ci_for_new_commit": {
+      "tested_commit": "db06d466fa0b580759dbd706e1b4d54f319ff9ee",
+      "run_id": 43751705484,
+      "url": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/43751705484",
+      "jobs_passed": 11,
+      "jobs_failed": 0,
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Independently rerun original August 10 event coefficients, 2 pretrend tests and 4 fake-policy pla...",
+          "conclusion": "success"
+        },
+        {
+          "name": "Rerun executed August stage 02, 04 and 05 scripts against archived packages; verify release-PDF TV",
+          "conclusion": "success"
+        },
+        {
+          "name": "Historical pandas-2 builder / exact-clock unit tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Independently reproduce released August latest-pre-tip TV and wording model coefficients",
+          "conclusion": "success"
+        },
+        {
+          "name": "Independent Stage-6 model replay from published frozen data",
+          "conclusion": "success"
+        },
+        {
+          "name": "offline-tooling-tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Independently rerun unchanged August category FDR release executable and 8 archived estimates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Level-C raw JSON verifier fail-closed tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Independently rerun all ten Oct scripts and 33 archived outputs",
+          "conclusion": "success"
+        },
+        {
+          "name": "October 2026 release replay comparison tests (pandas 3)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Rerun unchanged August four-predeclared-group 8-model heterogeneity release",
+          "conclusion": "success"
+        }
+      ],
+      "scope": "CI verifies tooling and historical public replays; authentic private SCI-001 execution and newly refreshed subsets are separately evidenced."
+    }
   },
   "reference_evidence": {
     "prior_primary_commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
