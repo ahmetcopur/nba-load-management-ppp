@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-15",
+  "status": "SCI001_computational_closeout_human_review_pending",
+  "results_commit": "7ea2474518c7d0d431fe4d8f11a3be9da3e42582",
+  "actual_corrected_builder_commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
+  "actual_frozen_case_commit": "21b6f617f08d4403b3a6f24f19dccdfacdf2a4e9",
+  "ci": {
+    "tested_commit": "7ea2474518c7d0d431fe4d8f11a3be9da3e42582",
+    "run_id": 43745074847,
+    "url": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/43745074847",
+    "jobs_passed": 11,
+    "jobs_failed": 0,
+    "jobs": [
+      {
+        "name": "offline-tooling-tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independent Stage-6 model replay from published frozen data",
+        "conclusion": "success"
+      },
+      {
+        "name": "October 2026 release replay comparison tests (pandas 3)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Level-C raw JSON verifier fail-closed tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rerun unchanged August four-predeclared-group 8-model heterogeneity release",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently reproduce released August latest-pre-tip TV and wording model coefficients",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun original August 10 event coefficients, 2 pretrend tests and 4 fake-policy pla...",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rerun executed August stage 02, 04 and 05 scripts against archived packages; verify release-PDF TV",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun all ten Oct scripts and 33 archived outputs",
+        "conclusion": "success"
+      },
+      {
+        "name": "Historical pandas-2 builder / exact-clock unit tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged August category FDR release executable and 8 archived estimates",
+        "conclusion": "success"
+      }
+    ],
+    "scope": "Tooling tests and historical frozen replays; authentic scientific execution is separately documented."
+  },
+  "local_tests": {
+    "passed": 694,
+    "failed": 0,
+    "scientific_version_tests": 37
+  },
+  "scientific_output_verdict": "SCI001_primary_passed_actual_builder_all_rows_four_models_and_all_downstream_outputs",
+  "historical_artifact_verdict": "retained_legacy_intermediates_inherited_not_six_season_raw_reexecution",
+  "new_corrected_panel_decoded_sha256": "9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f",
+  "changed_cells": {
+    "star_PPP_it": 49,
+    "other_columns": 0
+  },
+  "private_evidence": {
+    "filename": "NBA_SCI001_Actual_Builder_Evidence_2026-11-15.zip",
+    "bytes": 384464011,
+    "sha256": "7cbd8037ecd6e73049ef1453e2e7dcbbe99beab637c1b447b788a0a7c9fc477a",
+    "hashed_members": 485,
+    "persisted": true,
+    "private_player_level_data_committed": false
+  },
+  "figures": {
+    "home_road": "saved_and_visually_inspected",
+    "raw_TV_rates": "saved_and_visually_inspected"
+  },
+  "remaining": {
+    "SCI002": "Physical-game sensitivities blocked on six simultaneous traded-player timestamp groups; original roster-row primary rule retained.",
+    "expanded_raw_sources": "No new all-candidate PDF+JSON execution. Acquisition/award/Cup/TV/classification/identity inputs remain inherited as documented.",
+    "manuscript": "Unchanged; numerical proposal supplied for owner approval.",
+    "release": "Independent human review and scientific freeze approval pending."
+  },
+  "PR_4": "draft_unmerged",
+  "Issue_5": "open"
+}
