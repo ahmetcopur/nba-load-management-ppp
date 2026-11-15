@@ -1,3 +1,5 @@
+**Scientific validity gate (November 15):** the historical runner reproduces a known report-only star-classification error. A matching legacy hash is not acceptance of the stated eligibility definition. Read [the scientific audit](SCIENTIFIC_INTEGRITY_AUDIT_2026-11-15.md) and run the new read-only star semantic check before considering a scientific freeze. No historical targets were altered.
+
 Current combined-mode command, remaining acceptance gate, and release checklist: [final reproducibility review](FINAL_REPRODUCIBILITY_RELEASE_REVIEW_2026-11-15.md). Older execution sections below retain the scope of their dated runs.
 
 # Reproduce the final corrected NBA analysis datasets

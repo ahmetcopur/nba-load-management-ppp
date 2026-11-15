@@ -1,0 +1,54 @@
+{
+  "status": "FAIL_DECLARED_STAR_DEFINITION",
+  "rows": 248778,
+  "mismatched_rows": 49,
+  "mismatched_report_only_rows": 49,
+  "mismatched_at_risk_rows": 12,
+  "mismatched_onsets": 12,
+  "by_season": [
+    {
+      "season": "2020-21",
+      "mismatched_rows": 13,
+      "at_risk": 7,
+      "onsets": 7
+    },
+    {
+      "season": "2021-22",
+      "mismatched_rows": 5,
+      "at_risk": 0,
+      "onsets": 0
+    },
+    {
+      "season": "2022-23",
+      "mismatched_rows": 8,
+      "at_risk": 2,
+      "onsets": 2
+    },
+    {
+      "season": "2023-24",
+      "mismatched_rows": 8,
+      "at_risk": 3,
+      "onsets": 3
+    },
+    {
+      "season": "2024-25",
+      "mismatched_rows": 9,
+      "at_risk": 0,
+      "onsets": 0
+    },
+    {
+      "season": "2025-26",
+      "mismatched_rows": 6,
+      "at_risk": 0,
+      "onsets": 0
+    }
+  ],
+  "rule": "opening star OR (selected current-season All-Star AND date >= effective date)",
+  "scope": "Semantic comparison against versioned calendar; not primary-source award verification",
+  "analysis_panel_modified": false,
+  "source_sha256": {
+    "panel": "9ebbb75afd35154eb582bb4206f36857cff8b3122086dc40d916b0a3e06a8d33",
+    "calendar": "7b581e327abc64c736d24c732c107481156f6dae6dd4b04a8f7204495164915f"
+  },
+  "inputs_unchanged": true
+}

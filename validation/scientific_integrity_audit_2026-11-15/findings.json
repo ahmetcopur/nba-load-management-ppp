@@ -1,0 +1,187 @@
+{
+  "reviewed_commit": "31fcef0d32bf88233c7dd994307c64ee2b4d3777",
+  "findings": [
+    {
+      "id": "SCI-001",
+      "severity": "high",
+      "kind": "verified defect",
+      "affected": [
+        "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:227-235",
+        "October star_PPP_it for report-only additions"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/star_definition_check.json",
+        "validation/scientific_integrity_audit_2026-11-15/star_rule_sensitivity.json"
+      ],
+      "scientific_impact": "Missing current_season_all_star predicate falsely labels 49 nonstar report-only rows, including 12 at-risk onsets (9 pre, 3 post). Full-control national estimate changes 2.674231729 -> 3.063532484 pp; linear-only 1.282369453 -> 1.661214200 pp, N unchanged.",
+      "reproducibility_impact": "Legacy hashes reproduce this semantic error; numerical compatibility cannot certify the declared star rule.",
+      "recommended_action": "Block scientific freeze. Add the missing current-season selection predicate in a separately versioned scientific correction; execute the actual October builder with verified retained inputs and refresh all affected star-stratified results. Keep frozen artifacts/targets intact.",
+      "execution_based_verification_still_needed": true
+    },
+    {
+      "id": "SCI-002",
+      "severity": "medium",
+      "kind": "verified measurement/order dependence",
+      "affected": [
+        "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:268-271"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/workload_tie_check.json"
+      ],
+      "scientific_impact": "Prior-ten-row workload can count the second record of the current physical game and depend on tie order. No same-game played minutes were observed leaking: all duplicate rows have zero minutes.",
+      "reproducibility_impact": "Player-team-game keys remain valid; sorting tied player/game records changes some calculated controls.",
+      "recommended_action": "Clarify whether window counts physical games or roster rows; use a simultaneous/unique-player-game history for a new scientific version, or show the tiny affected-control sensitivity. Do not rewrite the frozen panel.",
+      "execution_based_verification_still_needed": true
+    },
+    {
+      "id": "SCI-003",
+      "severity": "low",
+      "kind": "verified numerical redundancy",
+      "affected": [
+        "scripts/executed/06_cadence_harmonized_identification/run_cadence_models_fast.py:35-44"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/independent_numeric_checks.json"
+      ],
+      "scientific_impact": "Full-control design has rank 21 for 22 columns because dist_to_65 = 65 - prior_games. Dropping the redundant column preserves fitted values to <1e-15 and primary coefficients to numerical precision; only a tiny finite-sample covariance correction changes.",
+      "reproducibility_impact": "OLS pseudoinverse yields reproducible focal estimates but the two individual slopes are not separately identified.",
+      "recommended_action": "Document redundancy; in a new estimator version drop one redundant column and record the covariance convention. No change to frozen executables is required.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "SCI-004",
+      "severity": "medium",
+      "kind": "identification limitation already acknowledged",
+      "affected": [
+        "Current manuscript sections 4.4 and 6",
+        "Primary triple-difference model"
+      ],
+      "evidence": [
+        "https://pr.nba.com/nba-board-of-governors-approves-player-participation-policy",
+        "https://doi.org/10.1093/ectj/utac010",
+        "validation/october_corrected_chronology_2026-11-08/joint_tests_frozen_vs_corrected.csv"
+      ],
+      "scientific_impact": "PPP, award eligibility and Cup regime overlap; TV/star status and risk-set membership are nonrandom. Differential star-TV trends, spillovers and roster composition are unverified. Null pretrend/placebo tests do not prove identification.",
+      "reproducibility_impact": "Does not prevent conditional numerical reproduction.",
+      "recommended_action": "Retain observational/regime-association interpretation; no isolated PPP causal claim or equivalence inference from nonsignificance. No new model campaign is required.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "SCI-005",
+      "severity": "medium",
+      "kind": "risk-set interpretation limitation",
+      "affected": [
+        "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py:257-279",
+        "Current manuscript section 3.2"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/independent_numeric_checks.json"
+      ],
+      "scientific_impact": "At-risk rule reconstructs exactly, but 798 risk rows follow a previous roster game without a usable injury report. Previous availability may rely on boxscore information. Coach-decision DNPs are not coded absent; onset is not a medically confirmed injury or a direct measure of illicit rest.",
+      "reproducibility_impact": "An explicitly defined observed-roster/report-availability estimand is reproducible, not a full census of all contracted-player health states.",
+      "recommended_action": "Describe both current-report requirement and prior boxscore-based status, trade/reentry censoring, coach DNP treatment, and roster selection. Quantify missingness by season; do not equate onsets with verified discretionary rest.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "SCI-006",
+      "severity": "medium",
+      "kind": "inference and multiplicity limitation",
+      "affected": [
+        "scripts/executed/06_cadence_harmonized_identification/run_cadence_models_fast.py:42-46",
+        "Current manuscript sections 4.3-4.4 and 5.2"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/independent_numeric_checks.json"
+      ],
+      "scientific_impact": "Player/game clustering is reasonable for the stated dependence structure but not all team/time shocks. Original full national p=.042634, player/date p=.047485, player/team-season p=.033487; linear remains nonsignificant. No preregistration/global multiplicity correction is established.",
+      "reproducibility_impact": "Point estimates, N, SE and CIs independently reproduce; alternative covariance checks are exploratory, not a replacement specification.",
+      "recommended_action": "Report nominal p-values, all TV definitions, uncertainty and within-family BH scope; do not infer a significant difference between the two estimates merely from different significance labels.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "PROV-001",
+      "severity": "medium",
+      "kind": "unverified expanded execution",
+      "affected": [
+        "scripts/data_rebuild/reproduce_final_datasets.py",
+        "documentation/FINAL_REPRODUCIBILITY_RELEASE_REVIEW_2026-11-15.md"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/execution_evidence_check.json"
+      ],
+      "scientific_impact": "No new evidence of wrong scientific values arises from the missing combined JSON run, apart from SCI-001 independently found.",
+      "reproducibility_impact": "Seven-stage PDF execution is supported by receipts and output bytes; authentic combined nine-stage PDF+JSON execution is not established.",
+      "recommended_action": "Keep Release B unverified. Supply original cache and run the existing combination when the expanded scope is pursued; do not require this provenance work to repair SCI-001.",
+      "execution_based_verification_still_needed": true
+    },
+    {
+      "id": "PROV-002",
+      "severity": "low",
+      "kind": "declared inherited inputs",
+      "affected": [
+        "documentation/FINAL_DATASET_DEPENDENCY_GRAPH_2026-11-14.json"
+      ],
+      "evidence": [
+        "documentation/FINAL_REPRODUCIBILITY_RELEASE_REVIEW_2026-11-15.md"
+      ],
+      "scientific_impact": "Covariates, crosswalk/award/Cup/TV enrichments, reviewed taxonomy and timing observations remain partly inherited. Computational leaves must not be mislabeled human decisions.",
+      "reproducibility_impact": "Conditional exact replay is supported; unrestricted primary-source reconstruction and acquisition authenticity are not.",
+      "recommended_action": "Release with a source/input ledger and rights/access route. Reconnect only a computational leaf whose scientific benefit justifies the cost; no blanket reconstruction campaign.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "PROV-003",
+      "severity": "informational",
+      "kind": "established metadata exception",
+      "affected": [
+        "documentation/CONTROLLED_2025_TEAM_METADATA_EXPERIMENT.md"
+      ],
+      "evidence": [
+        "validation/2025_team_metadata_experiment_2026-11-15/",
+        "2025 metadata fields: 1598 rows, 3196 cells"
+      ],
+      "scientific_impact": "Controlled experiment found no change to tested scientific panels/models. No contradictory evidence emerged in this audit.",
+      "reproducibility_impact": "Original S4 join and exact historical team artifact remain unresolved.",
+      "recommended_action": "Preserve separate historical-artifact verdict. Do not reopen this exception because of the unrelated SCI-001 star defect.",
+      "execution_based_verification_still_needed": false
+    },
+    {
+      "id": "PRIV-001",
+      "severity": "high",
+      "kind": "publication/permissions unresolved",
+      "affected": [
+        "data_final/*.csv.gz",
+        "data_intermediate/player_team_game_harmonized_cadence.csv.gz",
+        "validation/taxonomy_validation_sample_300_original.csv",
+        "packages/07_taxonomy_validation_scored.zip",
+        "validation/taxonomy_scoring_package_mechanical_agreement.zip",
+        "validation/fixture_date_chronology_2026-11-08/changed_*.csv"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/publication_inventory.json",
+        "https://www.nba.com/termsofuse"
+      ],
+      "scientific_impact": "No implication that public athlete facts are automatically confidential; the issue is redistribution basis, scope and research commitments. Existing public bulk records expose more than the four diagnostics.",
+      "reproducibility_impact": "No new player records were committed in this audit. Current terms do not establish the applicable historical permissions or a blanket redistribution license.",
+      "recommended_action": "Owner must document publication basis for bulk data and PRIVATE-named members. Prefer aggregate diagnostics where identifiers add no needed verification. Do not delete/redact/rewrite history without explicit approval.",
+      "execution_based_verification_still_needed": true
+    },
+    {
+      "id": "DOC-001",
+      "severity": "low",
+      "kind": "stale/mixed provenance documents",
+      "affected": [
+        "documentation/TAXONOMY_VALIDATION_PROVENANCE.md",
+        "Current manuscript section 3.3"
+      ],
+      "evidence": [
+        "validation/scientific_integrity_audit_2026-11-15/independent_numeric_checks.json",
+        "Private NBA_Coding_Agreement.zip: Encoded1.csv and Encoded2.txt, source hashes recorded"
+      ],
+      "scientific_impact": "The separate supplied human files genuinely yield 260/300 agreement and kappa .834881321. Human identities/blinding are owner-attested; medical truth and held-out validation are not established. Older Claude 300/300 provenance describes a different exercise.",
+      "reproducibility_impact": "Agreement math is independently checked; coder independence is conditional on the recorded attestation.",
+      "recommended_action": "Cross-reference the two distinct exercises and qualify provenance. Do not falsely call the human numbers fabricated or conflate them with the LLM result.",
+      "execution_based_verification_still_needed": false
+    }
+  ]
+}

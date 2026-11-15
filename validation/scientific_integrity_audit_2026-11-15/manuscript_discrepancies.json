@@ -1,0 +1,79 @@
+{
+  "manuscript": "NBA_PPP_Manuscript.pdf, November 13 version",
+  "source_library_id": "libfile_caa8c58a8310819181f0b226217eec0e",
+  "review_scope": "Current PDF directly read; October 25 values are historical, not treated as current manuscript errors",
+  "entries": [
+    {
+      "id": "M-01",
+      "location": "Section 3.1, Table 2",
+      "status": "verified against legacy corrected outputs",
+      "original": "248,728 / 180,831 / 12,707 latest-pre-tip; 248,778 / 180,664 / 12,729 cadence",
+      "proposed": "Keep total counts; explain the semantic star-status issue separately. Star-only recoding does not change these total counts.",
+      "evidence": "execution_evidence_check.json"
+    },
+    {
+      "id": "M-02",
+      "location": "Section 3.3 star definition; Table 3; Figure 2",
+      "status": "implementation contradicts stated definition",
+      "original": "A player selected as an All-Star during the current season becomes a star after the All-Star break.",
+      "proposed": "Retain the definition, correct the missing selection predicate in the report-only branch, then regenerate star-stratified counts and the plot. Current counts match the legacy panel but include 49 wrongly tagged rows, 12 at-risk onsets.",
+      "evidence": "star_definition_check.json"
+    },
+    {
+      "id": "M-03",
+      "location": "Abstract; Section 5.1; Table 4; Conclusion",
+      "status": "legacy numerical agreement, scientific update blocked by SCI-001",
+      "original": "2.67 pp [0.09, 5.26], p=.043; linear-only 1.28 pp [-1.30,3.87], p=.331, N=180,530",
+      "proposed": "Do not automatically replace manuscript numbers. The audit-only star-rule variant gives 3.064 pp [0.511,5.616], p=.01866 and 1.661 pp [-0.892,4.215], p=.20230. A separately versioned actual-builder execution and review are required before adopting new estimates.",
+      "evidence": "star_rule_sensitivity.json"
+    },
+    {
+      "id": "M-04",
+      "location": "Section 3.2 absence onsets",
+      "status": "implementation detail needs clarification",
+      "original": "A player is at risk of onset only when the previous team game is observed and he was available in it.",
+      "proposed": "Specify consecutive observed roster records within player-season-team, a usable current team report, previous coded nonabsence that may use boxscore information even if its injury report was unavailable, and exclusion of coach-decision DNPs from coded absence.",
+      "evidence": "independent_numeric_checks.json (798 risk rows follow missing prior report)"
+    },
+    {
+      "id": "M-05",
+      "location": "Section 3.3 injury wording",
+      "status": "agreement numbers supported, provenance conditional",
+      "original": "Two people then labeled ... 260 ... Cohen kappa=0.835.",
+      "proposed": "Keep the agreement values. Add that independent/blinded human coding is owner-attested, identities/dates are not recorded, the sample was used in taxonomy development, and agreement does not validate medical truth. Distinguish this September 27 archive from the separate Claude 300/300 exercise.",
+      "evidence": "independent_numeric_checks.json; NBA_Coding_Agreement.zip"
+    },
+    {
+      "id": "M-06",
+      "location": "Sections 4.4, 5.2 and 6",
+      "status": "causal limitations already appropriately stated",
+      "original": "It does not identify whether ... PPP, the 65-game threshold, or changes in injury incidence.",
+      "proposed": "Retain this qualification; describe nominal multiple-comparison-sensitive inference. Do not infer equivalence from nonsignificance, or a significant difference between TV definitions from their separate p-values.",
+      "evidence": "independent_numeric_checks.json; reviewed current PDF"
+    },
+    {
+      "id": "M-07",
+      "location": "Section 6 chronology/source-acceptance note",
+      "status": "dated statement needs scope update at next revision",
+      "original": "A fresh fully independent raw-source corrected reconstruction is still an acceptance requirement.",
+      "proposed": "Separate the demonstrated six-season PDF plus pinned-input computational replay, the unexecuted combined original-JSON scope, and the newly detected star-definition failure. This sentence was historically reasonable when the PDF was built on November 13.",
+      "evidence": "execution_evidence_check.json; star_definition_check.json"
+    },
+    {
+      "id": "M-08",
+      "location": "All cadence star-stratified home/road, return and timing analyses",
+      "status": "effect of star-rule correction not yet reexecuted",
+      "original": "Current corrected-chronology figures and outcome-specific estimates",
+      "proposed": "Refresh only affected analyses after versioning the star fix. This audit did not reestimate these secondary models under the corrected star rule; do not assume they are unchanged. Keep August latest-pre-tip and October cadence constructions distinct.",
+      "evidence": "SCI-001; manuscript Tables 4-5 and supplementary analyses"
+    },
+    {
+      "id": "M-09",
+      "location": "Abstract and overall star-onset description",
+      "status": "star-rule-dependent descriptive counts",
+      "original": "10.6% before versus 9.2% after 2023",
+      "proposed": "The RAM-only star-rule variant has 816/7,781=10.49% pre and 806/8,789=9.17% post (approximately 10.5% and 9.2%). Confirm through the versioned builder before adopting a new descriptive figure.",
+      "evidence": "star_rule_sensitivity.json raw_eight_cells"
+    }
+  ]
+}

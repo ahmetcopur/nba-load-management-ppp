@@ -1,0 +1,250 @@
+{
+  "scope": "Independent read-only scientific diagnostics on accepted corrected evidence; no source rebuild",
+  "decoded_panel_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+  "rows": 248778,
+  "games": 7230,
+  "players": 1125,
+  "duplicates": 0,
+  "risk": 180664,
+  "onsets": 12729,
+  "independent_risk_rule_mismatches": 0,
+  "onset_rule_mismatches": 0,
+  "post_indicator_mismatches": 0,
+  "listed_report_rows_at_or_after_tip": 0,
+  "negative_team_report_lead_rows": 0,
+  "report_only_rows": 207,
+  "risk_after_previous_missing_report": 798,
+  "season_observability": [
+    {
+      "season": "2020-21",
+      "rows": 35688,
+      "report_observed": 34856,
+      "risk": 26825,
+      "onsets": 1403
+    },
+    {
+      "season": "2021-22",
+      "rows": 41986,
+      "report_observed": 41986,
+      "risk": 30306,
+      "onsets": 2114
+    },
+    {
+      "season": "2022-23",
+      "rows": 40971,
+      "report_observed": 40971,
+      "risk": 30735,
+      "onsets": 2098
+    },
+    {
+      "season": "2023-24",
+      "rows": 43435,
+      "report_observed": 43435,
+      "risk": 31426,
+      "onsets": 2276
+    },
+    {
+      "season": "2024-25",
+      "rows": 43399,
+      "report_observed": 43120,
+      "risk": 30690,
+      "onsets": 2398
+    },
+    {
+      "season": "2025-26",
+      "rows": 43299,
+      "report_observed": 43299,
+      "risk": 30682,
+      "onsets": 2440
+    }
+  ],
+  "raw_eight_cells": [
+    {
+      "star_PPP_it": false,
+      "postPPP": false,
+      "announced_tv_primary": false,
+      "at_risk": 69715,
+      "onsets": 4248
+    },
+    {
+      "star_PPP_it": false,
+      "postPPP": false,
+      "announced_tv_primary": true,
+      "at_risk": 10370,
+      "onsets": 551
+    },
+    {
+      "star_PPP_it": false,
+      "postPPP": true,
+      "announced_tv_primary": false,
+      "at_risk": 71686,
+      "onsets": 5421
+    },
+    {
+      "star_PPP_it": false,
+      "postPPP": true,
+      "announced_tv_primary": true,
+      "at_risk": 12323,
+      "onsets": 887
+    },
+    {
+      "star_PPP_it": true,
+      "postPPP": false,
+      "announced_tv_primary": false,
+      "at_risk": 6341,
+      "onsets": 718
+    },
+    {
+      "star_PPP_it": true,
+      "postPPP": false,
+      "announced_tv_primary": true,
+      "at_risk": 1440,
+      "onsets": 98
+    },
+    {
+      "star_PPP_it": true,
+      "postPPP": true,
+      "announced_tv_primary": false,
+      "at_risk": 7156,
+      "onsets": 680
+    },
+    {
+      "star_PPP_it": true,
+      "postPPP": true,
+      "announced_tv_primary": true,
+      "at_risk": 1633,
+      "onsets": 126
+    }
+  ],
+  "dynamic_star_mismatches_vs_versioned_calendar": 0,
+  "missing_star_calendar_rows": 0,
+  "independent_models": [
+    {
+      "definition": "national_partner",
+      "controls": "full",
+      "n": 180530,
+      "estimate_pp": 3.0635324843150475,
+      "se_pp": 1.302399615151713,
+      "p": 0.018661654408615117,
+      "low_pp": 0.51082923861769,
+      "high_pp": 5.616235730012405,
+      "columns": 22,
+      "rank": 21,
+      "absorption_iterations": 98,
+      "maximum_residual_group_mean": 9.868026396020469e-11,
+      "missing_rows_by_term": {
+        "rest_advantage_days": 134,
+        "travel_disadv": 134
+      },
+      "drop_redundant_dist65": {
+        "rank": 21,
+        "estimate_pp": 3.063532484315053,
+        "se_pp": 1.3023960075714325,
+        "p": 0.018661327501876643,
+        "max_fitted_difference": 2.636779683484747e-16
+      },
+      "supplemental_covariance_same_fit": {
+        "player_teamseason": {
+          "clusters_2": 180,
+          "se_pp": 1.3101664141036211,
+          "normal_p": 0.019372863880595097
+        },
+        "player_calendar_date": {
+          "clusters_2": 940,
+          "se_pp": 1.3395626187708003,
+          "normal_p": 0.022197880901341855
+        }
+      }
+    },
+    {
+      "definition": "national_partner",
+      "controls": "none",
+      "n": 180664,
+      "estimate_pp": 3.0642844372556213,
+      "se_pp": 1.3099685107720178,
+      "p": 0.019324844334102493,
+      "low_pp": 0.49674615614246664,
+      "high_pp": 5.631822718368776,
+      "columns": 6,
+      "rank": 6,
+      "absorption_iterations": 87,
+      "maximum_residual_group_mean": 8.884282198806659e-11,
+      "missing_rows_by_term": {}
+    },
+    {
+      "definition": "linear_only",
+      "controls": "full",
+      "n": 180530,
+      "estimate_pp": 1.6612142002147576,
+      "se_pp": 1.3028846603110773,
+      "p": 0.20229939204046077,
+      "low_pp": -0.8924397339949538,
+      "high_pp": 4.21486813442447,
+      "columns": 22,
+      "rank": 21,
+      "absorption_iterations": 98,
+      "maximum_residual_group_mean": 9.868026396020469e-11,
+      "missing_rows_by_term": {
+        "rest_advantage_days": 134,
+        "travel_disadv": 134
+      },
+      "drop_redundant_dist65": {
+        "rank": 21,
+        "estimate_pp": 1.6612142002147743,
+        "se_pp": 1.302881051387247,
+        "p": 0.20229814202235452,
+        "max_fitted_difference": 3.8163916471489756e-16
+      },
+      "supplemental_covariance_same_fit": {
+        "player_teamseason": {
+          "clusters_2": 180,
+          "se_pp": 1.3371438429655693,
+          "normal_p": 0.21410371858444044
+        },
+        "player_calendar_date": {
+          "clusters_2": 940,
+          "se_pp": 1.3348778939591348,
+          "normal_p": 0.2133269900948075
+        }
+      }
+    },
+    {
+      "definition": "linear_only",
+      "controls": "none",
+      "n": 180664,
+      "estimate_pp": 1.6718696324489035,
+      "se_pp": 1.3115841903791305,
+      "p": 0.20241726508863855,
+      "low_pp": -0.8988353806941924,
+      "high_pp": 4.242574645592,
+      "columns": 6,
+      "rank": 6,
+      "absorption_iterations": 86,
+      "maximum_residual_group_mean": 9.97866081068896e-11,
+      "missing_rows_by_term": {}
+    }
+  ],
+  "audit_only_star_reclassification": {
+    "rows": 49,
+    "risk_rows": 12,
+    "onsets": 12
+  },
+  "independent_human_agreement": {
+    "n": 300,
+    "agree": 260,
+    "kappa": 0.8348813209494325,
+    "provenance": {
+      "basis": "Owner-attested independent/blinded human coding in NBA_Coding_Agreement.zip; identities and coding dates not supplied",
+      "held_out_validation": false,
+      "medical_truth_validation": false
+    },
+    "archive_sha256": "a060fa7e5be29939041bdedf479f391666bf5dbc2abe47bf445a523c6bddff42"
+  },
+  "input_sha256": {
+    "compressed_panel": "9ebbb75afd35154eb582bb4206f36857cff8b3122086dc40d916b0a3e06a8d33",
+    "star_archive": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70",
+    "coding_archive": "a060fa7e5be29939041bdedf479f391666bf5dbc2abe47bf445a523c6bddff42"
+  },
+  "inputs_unchanged": true,
+  "analysis_panel_modified": false
+}

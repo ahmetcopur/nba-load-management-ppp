@@ -1,0 +1,16 @@
+# Current manuscript reconciliation — November 15
+
+Reviewed directly: **NBA_PPP_Manuscript.pdf**, modified November 13, 20 pages, privately supplied by the owner. Its SHA-256 is recorded in [review scope](../validation/scientific_integrity_audit_2026-11-15/review_scope.json). The current TeX/build tree is not in this repository and was not reconstructed. No manuscript edits or compilation were performed. The October 25 PDF's superseded values were not misreported as current errors.
+
+| Location | Current text/results | Audit result and recommended revision |
+|---|---|---|
+| §3.1, Table 2 | August 248,728 / 180,831 / 12,707; October 248,778 / 180,664 / 12,729 | Match accepted total counts. Star-only recoding leaves these totals unchanged. |
+| §3.3, Table 3, Figure 2 | Stars require prior awards or actual current-season selection after the break; eight raw cells use legacy star flags | Written definition is appropriate, implementation is not: SCI-001 finds 49 erroneous report-only flags. Correct the branch, then regenerate the affected cells and figure. Do not manually relabel the picture. |
+| Abstract, §5.1, Table 4, conclusion | +2.67 pp [.09,5.26], p=.043; linear +1.28 pp [-1.30,3.87], p=.331, N=180,530 | Numerically match the legacy corrected panel. Audit-only star-rule variant gives +3.064 pp [.511,5.616], p=.01866 and +1.661 pp [-.892,4.215], p=.20230. Do not adopt these as final without actual-builder/versioned acceptance. |
+| §3.2 | Previous game is observed and player available | Add current-report requirement, prior boxscore-based status even when its report is unavailable, coach-DNP convention, and player-team reentry censoring. There are 798 relevant risk observations following a missing prior report. |
+| §3.3 wording validation | Two people, 260/300, κ=.835 | Counts independently supported by the September 27 coding archive. Qualify owner-attested independence/blinding, missing identities/dates, and development-sample status. Distinguish the earlier Claude exercise; do not claim external held-out medical validation. |
+| §§4.4, 5.2, 6 | PPP cannot be separated from concurrent reforms; no preregistration; linear-only uncertain | Appropriate qualifications to retain. Add explicit nominal/multiple-family inference language if the revision otherwise suggests a confirmed television mechanism. |
+| §6 source acceptance | Fresh independent raw-source correction remains an acceptance requirement | Historically reasonable on November 13. A new revision should separate the completed PDF-plus-pinned-input replay, unexecuted combined JSON scope, and the newly failed star semantic gate. |
+| Cadence star-stratified home/road, return, timing analyses and figures | Corrected-chronology secondary findings | Their response to the star-rule repair has not been executed here. Refresh only affected analyses; do not assume unchanged values or mix in August latest-pre-tip results. |
+
+The complete machine-readable register retains original wording and proposed changes: [manuscript_discrepancies.json](../validation/scientific_integrity_audit_2026-11-15/manuscript_discrepancies.json). These are recommendations, not automatic changes to the manuscript or a new result selection based on p-values. The current paper already fairly states many causal, nonsignificance and taxonomy limitations.

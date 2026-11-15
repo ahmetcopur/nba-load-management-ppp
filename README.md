@@ -1,5 +1,8 @@
 # NBA Disguised Load Management Project — Final Analysis Freeze
 
+> **Scientific audit, November 15:** a verified report-only star-status defect affects 49 rows (12 at-risk onsets). Legacy hashes and regressions reproduce, but scientific release is blocked pending a versioned correction. [Audit and evidence](documentation/SCIENTIFIC_INTEGRITY_AUDIT_2026-11-15.md) · [Release A/B decisions](documentation/RELEASE_SCOPE_DECISION_2026-11-15.md). Frozen data and manuscript remain unchanged.
+
+
 Freeze date: **2026-08-12**
 
 This package freezes the completed empirical analysis for the six-season NBA Player Participation Policy project.

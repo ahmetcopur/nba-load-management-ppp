@@ -1,0 +1,47 @@
+{
+  "evidence_zip_sha256": "d8d0ea9895b0dbf8e52fcff8e9c79294d40d380fa528a3795fff44ded78dff91",
+  "scope": "Read prior execution receipts and directly rehash archived output bytes; NOT a fresh reconstruction",
+  "stage_events": 14,
+  "finished_stages": 7,
+  "all_finished_zero": true,
+  "input_consumption": {
+    "frozen": {
+      "count": 18,
+      "unchanged": true
+    },
+    "corrected": {
+      "count": 18,
+      "unchanged": true
+    }
+  },
+  "outputs": {
+    "august_latest_pre_tip_at_risk": {
+      "compressed_bytes": 8614271,
+      "compressed_sha256": "63e5b0c83a1711b1110ed4223879ccdb4e576719cc5bc2441abc576c7b728f10",
+      "decoded_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+      "onsets": 12707,
+      "risk": 180831,
+      "rows": 180831
+    },
+    "august_latest_pre_tip_full": {
+      "compressed_bytes": 18874726,
+      "compressed_sha256": "f5c0451aab063c3beb8ce7d152671b8527f58598a61e6acd4280231446b49ee7",
+      "decoded_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+      "onsets": 12707,
+      "risk": 180831,
+      "rows": 248728
+    },
+    "october_cadence_player_games": {
+      "compressed_bytes": 18279451,
+      "compressed_sha256": "9ebbb75afd35154eb582bb4206f36857cff8b3122086dc40d916b0a3e06a8d33",
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+      "onsets": 12729,
+      "risk": 180664,
+      "rows": 248778
+    }
+  },
+  "raw_JSON_executed": null,
+  "scientific_output_verdict_in_historical_manifest": "pass",
+  "historical_artifact_verdict": "2025_metadata_exception_unresolved",
+  "current_scientific_semantic_verdict": "FAIL_REPORT_ONLY_STAR_ELIGIBILITY"
+}

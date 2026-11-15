@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only tied-order workload diagnostic on the accepted corrected panel",
+  "input_decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+  "duplicate_player_physical_game_rows": 8,
+  "duplicated_player_game_pairs": 4,
+  "duplicate_rows_with_nonzero_current_minutes": 0,
+  "risk_rows_among_duplicates": 2,
+  "recomputed_workload_mismatches": 6,
+  "at_risk_workload_mismatches": 2,
+  "method": "Sort by player, season, game_date_et, tip_utc, game_id; within player-season shift minutes by one row and rolling(10,min_periods=1).sum; compare >1e-9. The tied player/game rows have no team tie breaker.",
+  "conclusion": "Row-order/physical-game versus row-window ambiguity; no nonzero same-game minutes leakage observed."
+}
