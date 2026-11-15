@@ -9,9 +9,19 @@ from unittest.mock import patch
 from scripts.data_rebuild import reproduce_final_datasets as final
 from scripts.data_rebuild import rebuild_six_season_october_sources as six
 from scripts.data_rebuild.fixture_date_chronology_sensitivity import chronology_generated_hashes, SEL
+from scripts.data_rebuild.inject_2021_generated_inputs import exact_csv_rows
 
 
 class SixSeasonTests(unittest.TestCase):
+    def test_byte_identity_fast_path_checks_every_CSV_record_without_pandas(self):
+        with tempfile.TemporaryDirectory() as folder:
+            a,b=Path(folder)/'a.csv',Path(folder)/'b.csv'
+            a.write_text('id,reason\n1,"two\nlines"\n2,other\n');b.write_bytes(a.read_bytes())
+            self.assertTrue(exact_csv_rows(a,b,2))
+            with self.assertRaisesRegex(ValueError,'row count'):exact_csv_rows(a,b,3)
+            b.write_text('id,reason\n1,different\n2,other\n')
+            self.assertFalse(exact_csv_rows(a,b,2))
+
     def test_canonical_plan_connects_sources_before_both_builders(self):
         plan=final.stage_commands(Path('/sources'),Path('/output'),verify_original_pdfs=True,six_season_sources=True)
         names=[name for name,_ in plan];commands=dict(plan)

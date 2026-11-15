@@ -21,7 +21,7 @@ from scripts.data_rebuild.verify_2021_2023_selector_rebuild import verify as sel
 from scripts.data_rebuild.generate_2024_selector_inputs import generate as select_2024
 from scripts.data_rebuild.generate_2025_selector_inputs import generate as audit_2025
 from scripts.data_rebuild.inject_generated_canonical_selectors import inject as inject_2020, RAW_2020_TARGET, RELATIVE
-from scripts.data_rebuild.inject_2021_generated_inputs import inject as inject_recent, input_files
+from scripts.data_rebuild.inject_2021_generated_inputs import input_files
 from scripts.data_rebuild.experiment_2025_team_metadata import require_team_only_difference, GAME, TEAM, ROWS, tree_hashes, panel_summary, FROZEN_HASH
 from scripts.data_rebuild.restore_historical_layout import build_plan, restore
 from scripts.data_rebuild.run_historical_cadence_builder import verify_required_inputs
@@ -158,7 +158,14 @@ def inject(archives,sources,historical):
     # selectors. They are replaced by fresh 2024 sources BEFORE any builder runs.
     for season in SEASONS[1:5]:
         source,generated=cases[season]
-        records[season]=inject_recent(generated,source,historical,season=season)
+        report_path=historical/(season+"_generated_source_handoff.json")
+        # Release each season's CSV comparison allocations before starting the
+        # next. Scientific comparisons remain the existing original handoff.
+        subprocess.run([sys.executable,"-m","scripts.data_rebuild.inject_2021_generated_inputs",
+                        "--generated-dir",str(generated),"--source-dir",str(source),
+                        "--historical-root",str(historical),"--season",season,"--report",str(report_path)],
+                       cwd=Path(__file__).resolve().parents[2],check=True)
+        records[season]=json.loads(report_path.read_text())
         paths.extend(str(x) for x in input_files(season).values())
     source,generated=cases["2025-26"]
     provenance=json.loads((generated/"scientific_source_handoff.json").read_text())
@@ -210,6 +217,7 @@ def consumption(historical,builder_output):
 
 
 def cumulative(archives,sources,output):
+    orchestrator_sha256=file_sha256(Path(__file__))
     archives,sources,output=archives.resolve(),sources.resolve(),output.resolve()
     safe_output(archives,output);safe_output(sources,output);originals(archives)
     output.mkdir(parents=True);historical=output/"historical_inputs"
@@ -222,7 +230,10 @@ def cumulative(archives,sources,output):
     opened=consumption(historical,output/"october")
     summary=panel_summary(output/"october/player_team_game_harmonized_cadence.csv.gz")
     if summary["decoded_sha256"]!=FROZEN_HASH:raise ValueError("Cumulative scientific panel decoded hash differs")
+    if file_sha256(Path(__file__))!=orchestrator_sha256:raise ValueError("Orchestrator changed during cumulative execution")
+    revision=subprocess.run(["git","rev-parse","HEAD"],cwd=Path(__file__).resolve().parents[2],capture_output=True,text=True)
     result={"scientific_output_verdict":"pass","historical_artifact_verdict":"2025_metadata_exception_unresolved",
+            "orchestrator_sha256":orchestrator_sha256,"repository_head":revision.stdout.strip() if revision.returncode==0 else None,
             "all_six_original_PDF_sources_consumed":True,"panel":summary,"actual_consumption":opened,
             "handoff":handoff,"command":cmd,"corrected_final_datasets_rebuilt":False}
     save(output/"cumulative_acceptance.json",result)

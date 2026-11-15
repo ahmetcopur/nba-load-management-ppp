@@ -1,5 +1,7 @@
 """Strict full-candidate 2021–23 source/selector handoff into private October inputs."""
 from collections import Counter
+import argparse
+import csv
 import io
 import json
 from pathlib import Path
@@ -39,6 +41,21 @@ def input_files(season):
     }
 
 
+def exact_csv_rows(source,target,expected_rows):
+    """Stronger byte-identity fast path with bounded-memory CSV shape/count checks."""
+    if file_sha256(source)!=file_sha256(target):return False
+    with source.open(newline="") as stream:
+        rows=csv.reader(stream);header=next(rows,None)
+        if not header or len(header)!=len(set(header)):
+            raise ValueError("Fresh source CSV schema differs")
+        count=0
+        for row in rows:
+            if len(row)!=len(header):raise ValueError("Fresh source CSV record width differs")
+            count+=1
+    if count!=expected_rows:raise ValueError("Fresh source CSV row count differs")
+    return True
+
+
 def inject(generated, source, historical, season="2021-22"):
     files=input_files(season)
     pdfs,count={"2021-22":(5567,398715),"2022-23":(4101,354146),"2023-24":(4097,388878),"2024-25":(4078,418059)}[season]
@@ -59,16 +76,23 @@ def inject(generated, source, historical, season="2021-22"):
             raise ValueError("Missing/symlinked generated or restored 2021 input")
         if file_sha256(src)!=report.get("generated_files",{}).get(name,{}).get("sha256"):
             raise ValueError("Generated 2021 input hash differs")
-        a,b=pd.read_csv(src,low_memory=False),pd.read_csv(dst,low_memory=False)
-        if name.endswith(("fresh_harmonized_rows.csv","fresh_candidate_rows.csv")):
+        raw_rows=name.endswith(("fresh_harmonized_rows.csv","fresh_candidate_rows.csv"))
+        expected_rows=count if season!="2021-22" else 58631
+        if raw_rows and exact_csv_rows(src,dst,expected_rows):
+            observed_rows=expected_rows
+        elif raw_rows:
+            a,b=pd.read_csv(src,low_memory=False),pd.read_csv(dst,low_memory=False)
             def rows(frame):
                 d=pd.read_csv(io.StringIO(frame.to_csv(index=False)),dtype=str,keep_default_na=False)
                 return Counter(d.itertuples(index=False,name=None))
             if list(a)!=list(b) or len(a)!=(count if season!="2021-22" else 58631) or rows(a)!=rows(b):
                 raise ValueError("2021 harmonized source complete records differ")
+            observed_rows=len(a)
         else:
+            a,b=pd.read_csv(src,low_memory=False),pd.read_csv(dst,low_memory=False)
             normalized_frame_equal(a,b,["game_id"] if "game_snapshot" in name else ["game_id","team_role"],strict_schema=True)
-        records.append({"path":str(relative),"source_sha256":file_sha256(src),"rows":len(a)})
+            observed_rows=len(a)
+        records.append({"path":str(relative),"source_sha256":file_sha256(src),"rows":observed_rows})
     for name,relative in files.items():
         dst=historical/relative
         temporary=dst.with_name(dst.name+".generated.tmp")
@@ -78,3 +102,22 @@ def inject(generated, source, historical, season="2021-22"):
     return {"season":season,"fresh_original_candidate_PDFs":pdfs,
             "generated_rows_and_selectors_substituted":True,"tables":records,
             "publication_metadata_inherited":True}
+
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--generated-dir",type=Path,required=True)
+    p.add_argument("--source-dir",type=Path,required=True)
+    p.add_argument("--historical-root",type=Path,required=True)
+    p.add_argument("--season",choices=("2021-22","2022-23","2023-24","2024-25"),required=True)
+    p.add_argument("--report",type=Path,required=True)
+    a=p.parse_args()
+    from scripts.data_rebuild.reproduce_final_datasets import under_git
+    if any(under_git(path) or path.is_symlink() for path in (a.generated_dir,a.source_dir,a.historical_root,a.report)):
+        raise ValueError("Private source handoff paths must be real and outside Git")
+    if a.report.exists():raise FileExistsError(a.report)
+    result=inject(a.generated_dir,a.source_dir,a.historical_root,a.season)
+    a.report.write_text(json.dumps(result,indent=2)+"\n")
+
+
+if __name__=="__main__":main()
