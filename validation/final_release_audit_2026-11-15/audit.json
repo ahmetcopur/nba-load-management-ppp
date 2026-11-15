@@ -1,0 +1,132 @@
+{
+  "scope": "Final engineering audit; no new combined authentic PDF+JSON run",
+  "reviewed_head_commit": "c0ce14f2765fc1da7968a786b220ee16c4655349",
+  "accepted_executed_code_commit": "ddef0b805bc3615cec8caa19c798e36e4c4df9be",
+  "combined_authentic_execution": {
+    "performed": false,
+    "stages_executed": 0,
+    "stage_plan_count": 9,
+    "archived_roster_fallback_permitted": false,
+    "blocker": "Authentic 7,185 V1 JSON payloads and original download log plus 45 discovery JSON payloads unavailable in this workspace; documented user-machine paths are not mounted"
+  },
+  "cache_search": {
+    "loose_official_game_JSON_payload_files": 0,
+    "unique_archive_name_size_pairs_inspected": 43,
+    "archives_with_official_game_JSON_payloads": [],
+    "invalid_or_partial_archives": [],
+    "scope": "Current accessible workspace only; absence does not establish loss from the user computer"
+  },
+  "prior_six_PDF_run": {
+    "stages": 7,
+    "outputs": {
+      "august_latest_pre_tip_at_risk": {
+        "compressed_bytes": 8614271,
+        "compressed_sha256": "63e5b0c83a1711b1110ed4223879ccdb4e576719cc5bc2441abc576c7b728f10",
+        "decoded_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+        "onsets": 12707,
+        "risk": 180831,
+        "rows": 180831,
+        "rehashed_existing_output_not_new_reconstruction": true
+      },
+      "august_latest_pre_tip_full": {
+        "compressed_bytes": 18874726,
+        "compressed_sha256": "f5c0451aab063c3beb8ce7d152671b8527f58598a61e6acd4280231446b49ee7",
+        "decoded_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+        "onsets": 12707,
+        "risk": 180831,
+        "rows": 248728,
+        "rehashed_existing_output_not_new_reconstruction": true
+      },
+      "october_cadence_player_games": {
+        "compressed_bytes": 18279451,
+        "compressed_sha256": "9ebbb75afd35154eb582bb4206f36857cff8b3122086dc40d916b0a3e06a8d33",
+        "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+        "onsets": 12729,
+        "risk": 180664,
+        "rows": 248778,
+        "rehashed_existing_output_not_new_reconstruction": true
+      }
+    },
+    "all_26_archives_rehashed_unchanged": true,
+    "actual_source_inputs_consumed_per_builder": 18,
+    "scientific_output_verdict": "pass",
+    "historical_artifact_verdict": "2025_metadata_exception_unresolved",
+    "stage6_corrected_models": {
+      "linear_beta_pp": 1.2823694527266445,
+      "models": 4,
+      "primary_beta_pp": 2.6742317292365767
+    }
+  },
+  "prior_JSON_verification_report_sha256": "586d124b754dc1baaaa6764843d1cce562a88cefed8d1dc3bf6e625b7288566e",
+  "original_download_SHA256_available": false,
+  "engineering_tests": {
+    "command": "python -m unittest discover -s tests -q",
+    "passed": 652,
+    "synthetic_tests_are_not_authentic_combined_acceptance": true
+  },
+  "private_data_review": {
+    "base_commit": "fb67ba6f41fdfb64f5d06c63583577ce569f3027",
+    "reviewed_head_changed_files": 298,
+    "raw_payload_or_archive_files_added": false,
+    "credential_pattern_matches": 0,
+    "limitations": "Pattern inspection is not a credential-leak guarantee. Existing published diagnostic player rows require owner publication/privacy review; no deletion or history rewrite performed.",
+    "existing_diagnostic_csv_rows": {
+      "validation/fixture_date_chronology_2026-11-08/changed_absence_now_harm.csv": 0,
+      "validation/fixture_date_chronology_2026-11-08/changed_absence_onset_harm.csv": 2,
+      "validation/fixture_date_chronology_2026-11-08/changed_at_risk_for_new_onset_harm.csv": 10,
+      "validation/fixture_date_chronology_2026-11-08/changed_designation_status.csv": 20
+    }
+  },
+  "release_freeze_recommended_now": false,
+  "independent_review_ready_with_declared_limitations": true,
+  "remaining_release_gates": [
+    "Authentic fresh nine-stage PDF+JSON run and independent final hashes/scientific model cell checks",
+    "Publication/privacy decision on existing diagnostic CSV rows",
+    "Approval of declared inherited dependencies and 2025 metadata exception",
+    "Record immutable execution image/environment identity and final CI at chosen freeze commit",
+    "Explicit owner approval before tag/merge"
+  ],
+  "authentic_original_finalizer_probe": {
+    "scope": "Actual original August finalizer probe with pinned historical inputs, NOT raw JSON or a combined full run",
+    "decoded_core_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+    "qa": {
+      "fixture_games": 7230,
+      "team_game_status_rows": 14460,
+      "boxscore_roster_rows": 248571,
+      "report_only_roster_additions": 159,
+      "final_player_game_rows": 248730,
+      "unique_players": 1125,
+      "selected_report_player_rows": 73438,
+      "unmatched_report_player_rows": 0,
+      "unusable_team_games": 51,
+      "rows_with_observed_report_outcome": 247898,
+      "at_risk_rows": 180829,
+      "absence_onsets": 12710,
+      "observed_absence_spells": 13723,
+      "left_censored_spells": 992,
+      "missing_game_covariate_rows": 0,
+      "missing_player_id_rows": 0,
+      "duplicate_player_game_keys": 0,
+      "taxonomy_status": "provisional keyword taxonomy; 300-spell review sample included",
+      "remaining_major_inputs": [
+        "star_PPP_it award history",
+        "NBA Cup game flag",
+        "age / biographical controls",
+        "comparison-group inputs"
+      ]
+    },
+    "input_consumption": {
+      "required_sha256": {
+        "nba_player_game_at_risk_core_v1/selected_report_player_rows.csv": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a",
+        "nba_boxscore_roster_frame_v2_output/game_roster_players.csv": "58cadf09bafaceec2f1f0766bd33598b4f84ee6f8040fe6331ad57cd2c3a2415"
+      },
+      "original_finalizer_opened_paths": [
+        "nba_boxscore_roster_frame_v2_output/game_roster_players.csv",
+        "nba_player_game_at_risk_core_v1/selected_report_player_rows.csv"
+      ],
+      "pre_and_post_execution_hashes_match": true
+    }
+  },
+  "new_combined_scientific_output_verdict": "not_executed_missing_authentic_JSON_cache",
+  "historical_artifact_verdict": "2025_metadata_exception_unresolved"
+}

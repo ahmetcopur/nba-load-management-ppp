@@ -490,10 +490,24 @@ def verified_boxscore_handoff(root: Path) -> dict:
     august = json.loads((root / "01_august_core/august_core_source_correction_report.json").read_text())
     handoff = august.get("raw_original_boxscore_roster_handoff")
     if (raw.get("scope") != "full 7,230-game cache" or not raw.get("matched")
+            or not raw.get("original_inputs_unchanged_after_execution")
             or not handoff or not handoff.get("exact_non_path_cell_equality_to_archived_roster")
             or not handoff.get("both_source_paths_identify_same_season_and_game_json")
             or handoff.get("rows") != 248571):
         raise ValueError("Original NBA JSON roster handoff was not fully verified")
+    consumption = {}
+    required = {"nba_player_game_at_risk_core_v1/selected_report_player_rows.csv",
+                "nba_boxscore_roster_frame_v2_output/game_roster_players.csv"}
+    for label, directory in (("baseline", "baseline"), ("corrected", "corrected_source")):
+        proof = august.get(label + "_finalizer_input_consumption", {})
+        hashes = proof.get("required_sha256", {})
+        if (set(hashes) != required or set(proof.get("original_finalizer_opened_paths", [])) != required
+                or not proof.get("pre_and_post_execution_hashes_match")
+                or any(sha256_file(root / "01_august_core" / directory / name) != value
+                       for name, value in hashes.items())):
+            raise ValueError("Original August finalizer consumption proof missing or corrupted")
+        consumption[label] = proof
+    raw["august_finalizer_input_consumption"] = consumption
     return raw
 
 

@@ -106,13 +106,38 @@ def run_original_finalizer(root: Path):
     if text.count('ROOT=Path("/mnt/data")') != 1:
         raise RuntimeError("Original executable path marker changed")
     executable = root / "execute_original_august_finalizer.py"
-    executable.write_text(text.replace(
-        'ROOT=Path("/mnt/data")', "ROOT=Path(" + repr(str(root)) + ")"))
+    required = ["nba_player_game_at_risk_core_v1/selected_report_player_rows.csv",
+                "nba_boxscore_roster_frame_v2_output/game_roster_players.csv"]
+    before = {name: digest(root / name) for name in required}
+    trace = root / "finalizer_opened_inputs.json"
+    trace.unlink(missing_ok=True)  # A corrected private copy may contain baseline evidence.
+    wanted = {str((root / name).resolve()): name for name in required}
+    prefix = (
+        "import sys as _s, os as _o, json as _j, atexit as _a\n"
+        f"_wanted = {wanted!r}\n_seen = set()\n"
+        "def _opened(event, args):\n"
+        "    if event == 'open' and isinstance(args[0], (str, bytes)):\n"
+        "        path = _o.path.realpath(_o.fsdecode(args[0]))\n"
+        "        if path in _wanted and (args[1] is None or 'r' in args[1]): _seen.add(_wanted[path])\n"
+        "_s.addaudithook(_opened)\n"
+        f"def _save():\n    with open({str(trace)!r}, 'w') as f: _j.dump(sorted(_seen), f)\n"
+        "_a.register(_save)\n"
+    )
+    redirected = text.replace('ROOT=Path("/mnt/data")', "ROOT=Path(" + repr(str(root)) + ")")
+    executable.write_text(prefix + f"exec(compile({redirected!r}, {str(executable)!r}, 'exec'))\n")
     envroot = root / "nba_player_game_at_risk_core_v1"
     with (root / "finalizer_stdout.txt").open("w") as out, \
          (root / "finalizer_stderr.txt").open("w") as err:
         subprocess.run([sys.executable, str(executable)],
                        stdout=out, stderr=err, cwd=root, check=True, timeout=1500)
+    opened = json.loads(trace.read_text()) if trace.is_file() else []
+    if set(opened) != set(required):
+        raise RuntimeError("Original August finalizer did not read every required report/roster input")
+    if any(digest(root / name) != checksum for name, checksum in before.items()):
+        raise RuntimeError("Original August finalizer source inputs changed during execution")
+    (root / "finalizer_input_consumption.json").write_text(json.dumps({
+        "required_sha256": before, "original_finalizer_opened_paths": opened,
+        "pre_and_post_execution_hashes_match": True}, indent=2) + "\n")
     qa = json.loads((envroot / "qa_summary.json").read_text())
     if (qa.get("missing_game_covariate_rows") != 0
             or qa.get("duplicate_player_game_keys") != 0
@@ -416,6 +441,8 @@ def main():
         "raw_original_pdf_selected_player_rows_handoff": raw_pdf_handoff,
         "raw_original_boxscore_roster_handoff": raw_boxscore_handoff,
         "historical_finalizer_sha256": FINALIZER_SHA,
+        "baseline_finalizer_input_consumption": json.loads((baseline / "finalizer_input_consumption.json").read_text()),
+        "corrected_finalizer_input_consumption": json.loads((variant / "finalizer_input_consumption.json").read_text()),
         "frozen_original_csv_reproduced_exactly_uncompressed_sha256": BASELINE_UNCOMPRESSED_SHA,
         "baseline_qa": baseline_qa,
         "corrected_qa": variant_qa,

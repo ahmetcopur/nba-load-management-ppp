@@ -51,7 +51,7 @@ Supply the actual original files via these CLI arguments:
 - --repair-zip: nba_boxscore_roster_frame_v2_repair.zip
 - --reference-zip: nba_boxscore_roster_frame_v2_output_upload.zip
 - --base-panel: defaults to published data_final/player_game_panel_analysis_ready.csv.gz
-- --output: an ignored scratch output directory such as data_rebuild/output/boxscore_raw_verification
+- --output: a fresh private output directory OUTSIDE Git, such as "$HOME/nba-boxscore-verification-001"
 
 Example complete command (paths must be adjusted to actual local files):
 
@@ -61,11 +61,11 @@ Example complete command (paths must be adjusted to actual local files):
       --fixtures "$HOME/nba-load-audit/nba_game_covariates_v1/game_level_covariates.csv" \
       --repair-zip "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_repair.zip" \
       --reference-zip "$HOME/nba-load-audit/nba_boxscore_roster_frame_v2_output_upload.zip" \
-      --output "data_rebuild/output/boxscore_raw_verification"
+      --output "$HOME/nba-boxscore-verification-001"
 
 Run --allow-partial only on deliberately isolated small sample folders, while keeping the full original fixture CSV, download log, reference V2 ZIP and base-panel reference. The historical repair script intentionally exits with code 2 if the complete 7,230-fixture frame is missing; sample mode accepts it only when all sample game IDs map to valid fixtures and all applicable output rows match. Full mode requires repair exit 0.
 
-Output to keep under the ignored output folder:
+Outputs retained in the private output folder:
 - boxscore_json_sha256_manifest.csv — new per-file SHA-256, size, payload game ID, season, source endpoint when logged
 - boxscore_cache_verification.json — match verdict, detailed per-table comparison and complete/sample QA
 - repair_stdout.txt and repair_stderr.txt — original historical executable output
@@ -87,3 +87,7 @@ The complete original JSON cache has not been supplied in this ChatGPT environme
 
 Primary GitHub: https://github.com/ahmetcopur/nba-load-management-ppp  
 Current draft PR: https://github.com/ahmetcopur/nba-load-management-ppp/pull/4
+
+## November 15 safety update
+
+The standalone verifier now rejects existing output directories, locations within Git, source/output overlap and symlinked output paths. Raw JSON payload symlinks, missing V1 download-log records and any full-mode partition other than 7,185 V1 plus 45 discovery files are rejected. All JSON bytes and source metadata/reference files are rehashed after repair before acceptance. These new checks do not supply missing historical download hashes. Older finalized runs without the new consumption/immutability reports cannot be promoted as executions of these safeguards using `--finalize-existing`; perform a fresh combined run instead.

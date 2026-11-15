@@ -24,6 +24,10 @@ import numpy as np
 import pandas as pd
 
 REPO = Path(__file__).resolve().parents[2]
+try:
+    from scripts.data_rebuild.private_source_paths import under_git
+except ModuleNotFoundError:  # Direct script invocation from a clean checkout.
+    from private_source_paths import under_git
 GAME_ID_RE = re.compile(r"^002(\d{2})(\d{5})$")
 OUTPUTS = {
     "game_roster_players.csv": ["game_id", "team", "nba_player_id"],
@@ -51,6 +55,34 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def validate_output(output: Path, inputs: list[Path]) -> Path:
+    """Reject destructive standalone use, as well as canonical-runner use."""
+    lexical = output.absolute()
+    if any(p.is_symlink() for p in (lexical, *lexical.parents)):
+        raise ValueError("Boxscore output must not traverse symlinks")
+    target = lexical.resolve()
+    if target.exists():
+        raise FileExistsError("Boxscore output must be a fresh, absent directory")
+    if under_git(target):
+        raise ValueError("Private boxscore output must be OUTSIDE Git")
+    for source in inputs:
+        source = source.resolve()
+        if target == source or target in source.parents or source in target.parents:
+            raise ValueError("Boxscore output and source paths must be disjoint")
+    return target
+
+
+def verify_unchanged_sources(before: pd.DataFrame, roots: dict[str, Path],
+                             log: Path, input_hashes: dict[Path, str]):
+    """Re-read actual inputs after execution; a prior manifest is not sufficient."""
+    after = hash_cache(roots, log)
+    if not before.equals(after):
+        raise RuntimeError("Original NBA JSON cache changed during reconstruction")
+    for path, expected in input_hashes.items():
+        if sha256(path) != expected:
+            raise RuntimeError(f"Original boxscore input changed during reconstruction: {path.name}")
+
+
 def download_log_index(log_path: Path):
     log = pd.read_csv(log_path, dtype=str, keep_default_na=False)
     needed = {"status", "raw_json_path", "bytes", "endpoint_name"}
@@ -76,9 +108,14 @@ def hash_cache(roots: dict[str, Path], log_path: Path) -> pd.DataFrame:
     logged = download_log_index(log_path)
     rows = []
     for source, root in roots.items():
+        if root.is_symlink():
+            raise ValueError("Raw NBA JSON cache root must not be a symlink")
         if not root.is_dir():
             raise FileNotFoundError(f"Raw NBA JSON cache directory missing: {root}")
         for path in sorted(root.rglob("boxscore_*.json")):
+            if path.is_symlink() or any((root / parent).is_symlink()
+                                       for parent in path.relative_to(root).parents):
+                raise ValueError("Raw NBA JSON cache member must not traverse symlinks")
             raw = path.read_bytes()
             try:
                 payload = json.loads(raw)
@@ -299,11 +336,14 @@ def cache_stats(manifest: pd.DataFrame, partial: bool):
         "logged_endpoints": source.logged_endpoint.value_counts(dropna=False).to_dict(),
     }
     if (result["name_payload_mismatches"] or result["season_payload_mismatches"]
+            or result["v1_files_missing_from_log"]
             or result["v1_size_differs_from_log"]
             or unique_game_ids != len(manifest)):
         raise RuntimeError(f"Raw JSON cache mismatches or duplicate IDs: {result}")
     if not partial and len(manifest) != 7230:
         raise RuntimeError(f"Expected exactly 7,230 official raw game JSONs, found {len(manifest)}")
+    if not partial and (result["v1_files"] != 7185 or result["discovery_files"] != 45):
+        raise RuntimeError("Expected original cache partition: 7,185 V1 and 45 discovery JSONs")
     return result
 
 
@@ -382,14 +422,19 @@ def main():
     parser.add_argument("--allow-partial", action="store_true",
                         help="sample only; archive/base comparisons are restricted to supplied game IDs")
     args = parser.parse_args()
-    v1, discovery, out_dir = (
-        args.v1_output.resolve(), args.discovery.resolve(), args.output.resolve())
-    out_dir.mkdir(parents=True, exist_ok=True)
+    v1, discovery = args.v1_output.resolve(), args.discovery.resolve()
+    inputs = [v1 / "download_log.csv", args.fixtures, args.repair_zip,
+              args.reference_zip, args.base_panel]
+    if args.repair_script:
+        inputs.append(args.repair_script)
+    out_dir = validate_output(args.output, [v1, discovery, *inputs])
+    input_hashes = {path.resolve(): sha256(path) for path in inputs}
+    roots = {"v1_raw_json": v1 / "raw_json", "v2_discovery": discovery}
     manifest = hash_cache(
-        {"v1_raw_json": v1 / "raw_json", "v2_discovery": discovery},
-        v1 / "download_log.csv")
-    manifest.to_csv(out_dir / "boxscore_json_sha256_manifest.csv", index=False)
+        roots, v1 / "download_log.csv")
     cache = cache_stats(manifest, args.allow_partial)
+    out_dir.mkdir(parents=True, exist_ok=False)
+    manifest.to_csv(out_dir / "boxscore_json_sha256_manifest.csv", index=False)
     with tempfile.TemporaryDirectory(prefix="nba_boxscore_verify_") as scratch:
         scratch_dir = Path(scratch)
         rebuilt, script_sha, qa, code = run_repair(
@@ -400,6 +445,7 @@ def main():
         archive = compare_with_archive(rebuilt, args.reference_zip.resolve(), args.allow_partial)
         base = compare_with_base(rebuilt, args.base_panel.resolve())
         true_times = audit_true_tip_time_differences(rebuilt, args.allow_partial)
+        verify_unchanged_sources(manifest, roots, v1 / "download_log.csv", input_hashes)
         for basename in OUTPUTS:
             (out_dir / basename).write_bytes((rebuilt / basename).read_bytes())
         (out_dir / "repair_stdout.txt").write_text((scratch_dir / "repair_stdout.txt").read_text())
@@ -412,6 +458,8 @@ def main():
     report = {
         "scope": "sample" if args.allow_partial else "full 7,230-game cache",
         "matched": match,
+        "original_inputs_unchanged_after_execution": True,
+        "input_file_sha256": {str(path): value for path, value in input_hashes.items()},
         "cache": cache,
         "archived_repair_script_sha256": REPAIR_ARCHIVED_SHA256,
         "original_repair_script_sha256": script_sha,

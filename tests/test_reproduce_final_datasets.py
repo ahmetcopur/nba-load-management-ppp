@@ -23,6 +23,37 @@ from scripts.data_rebuild import reproduce_final_datasets as final
 
 
 class FinalDatasetEntrypointTests(unittest.TestCase):
+    def test_August_subprocess_must_read_inputs_without_changing_them(self):
+        from scripts.data_rebuild.rebuild_august_core_from_source_archives import run_original_finalizer
+        for mode in ('read', 'skip_roster', 'mutate'):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                core = root / 'nba_player_game_at_risk_core_v1'
+                core.mkdir()
+                roster = root / 'nba_boxscore_roster_frame_v2_output/game_roster_players.csv'
+                roster.parent.mkdir()
+                roster.write_text('synthetic roster\n')
+                (core / 'selected_report_player_rows.csv').write_text('synthetic reports\n')
+                program = ('from pathlib import Path\nimport json\nROOT=Path("/mnt/data")\n'
+                    'core=ROOT/"nba_player_game_at_risk_core_v1"\n'
+                    '(core/"selected_report_player_rows.csv").read_text()\n'
+                    'roster=ROOT/"nba_boxscore_roster_frame_v2_output/game_roster_players.csv"\n')
+                if mode != 'skip_roster':
+                    program += 'roster.read_text()\n'
+                if mode == 'mutate':
+                    program += 'roster.write_text("changed")\n'
+                program += '(core/"qa_summary.json").write_text(json.dumps({"missing_game_covariate_rows":0,"duplicate_player_game_keys":0,"unmatched_report_player_rows":0}))\n'
+                (core / 'finalize_player_game_panel.py').write_text(program)
+                if mode == 'read':
+                    run_original_finalizer(root)
+                    proof = json.loads((root / 'finalizer_input_consumption.json').read_text())
+                    self.assertEqual(len(proof['original_finalizer_opened_paths']), 2)
+                    self.assertTrue(proof['pre_and_post_execution_hashes_match'])
+                else:
+                    with self.assertRaisesRegex(RuntimeError, 'did not read|inputs changed'):
+                        run_original_finalizer(root)
+                    self.assertFalse((root / 'finalizer_input_consumption.json').exists())
+
     def test_expected_final_artifacts_are_distinct_and_pinned(self):
         self.assertEqual(len(final.EXPECTED), 3)
         self.assertEqual(len({v["filename"] for v in final.EXPECTED.values()}), 3)
@@ -149,13 +180,29 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
             for directory in (raw, source, decoy):
                 directory.mkdir()
             (raw / "boxscore_cache_verification.json").write_text(json.dumps({
-                "scope": "full 7,230-game cache", "matched": True}))
+                "scope": "full 7,230-game cache", "matched": True,
+                "original_inputs_unchanged_after_execution": True}))
             report = {"raw_original_boxscore_roster_handoff": {
                 "rows": 248571, "exact_non_path_cell_equality_to_archived_roster": True,
                 "both_source_paths_identify_same_season_and_game_json": True}}
+            for label, folder in (("baseline", "baseline"), ("corrected", "corrected_source")):
+                hashes = {}
+                for name in ("nba_player_game_at_risk_core_v1/selected_report_player_rows.csv",
+                             "nba_boxscore_roster_frame_v2_output/game_roster_players.csv"):
+                    file = source / folder / name
+                    file.parent.mkdir(parents=True, exist_ok=True)
+                    file.write_text("synthetic input\n")
+                    hashes[name] = final.sha256_file(file)
+                report[label + "_finalizer_input_consumption"] = {
+                    "required_sha256": hashes, "original_finalizer_opened_paths": list(hashes),
+                    "pre_and_post_execution_hashes_match": True}
             (source / "august_core_source_correction_report.json").write_text(json.dumps(report))
             (decoy / "august_core_source_correction_report.json").write_text("bad")
             self.assertTrue(final.verified_boxscore_handoff(p)["matched"])
+            report["baseline_finalizer_input_consumption"]["original_finalizer_opened_paths"] = []
+            (source / "august_core_source_correction_report.json").write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError, "consumption proof"):
+                final.verified_boxscore_handoff(p)
             report["raw_original_boxscore_roster_handoff"]["rows"] = 10
             (source / "august_core_source_correction_report.json").write_text(json.dumps(report))
             with self.assertRaisesRegex(ValueError, "not fully verified"):

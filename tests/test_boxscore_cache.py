@@ -45,6 +45,74 @@ def fixture(tmp, bad=False):
 
 
 class RawCacheTests(unittest.TestCase):
+    def test_missing_original_download_log_entry_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            v1, discovery = fixture(d)
+            (v1 / "download_log.csv").write_text("status,bytes,endpoint_name,raw_json_path\n")
+            rows = verify.hash_cache({"v1_raw_json": v1 / "raw_json",
+                                      "v2_discovery": discovery}, v1 / "download_log.csv")
+            with self.assertRaisesRegex(RuntimeError, "mismatches"):
+                verify.cache_stats(rows, True)
+
+    def test_symlinked_payload_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            v1, discovery = fixture(d)
+            path = next((v1 / "raw_json").rglob("boxscore_*.json"))
+            original = Path(d) / "original.json"
+            path.rename(original)
+            path.symlink_to(original)
+            with self.assertRaisesRegex(ValueError, "symlinks"):
+                verify.hash_cache({"v1_raw_json": v1 / "raw_json",
+                                   "v2_discovery": discovery}, v1 / "download_log.csv")
+
+    def test_post_execution_json_and_metadata_changes_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            v1, discovery = fixture(d)
+            log = v1 / "download_log.csv"
+            roots = {"v1_raw_json": v1 / "raw_json", "v2_discovery": discovery}
+            rows = verify.hash_cache(roots, log)
+            hashes = {log: verify.sha256(log)}
+            verify.verify_unchanged_sources(rows, roots, log, hashes)
+            path = next((v1 / "raw_json").rglob("boxscore_*.json"))
+            saved = path.read_bytes()
+            path.write_bytes(saved + b" ")
+            with self.assertRaisesRegex(RuntimeError, "cache changed"):
+                verify.verify_unchanged_sources(rows, roots, log, hashes)
+            path.write_bytes(saved)
+            log.write_bytes(log.read_bytes() + b"\n")
+            with self.assertRaisesRegex(RuntimeError, "input changed"):
+                verify.verify_unchanged_sources(rows, roots, log, hashes)
+
+    def test_output_must_be_private_fresh_disjoint_and_without_symlinks(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = root / "source"
+            source.mkdir()
+            self.assertEqual(verify.validate_output(root / "new", [source]), root / "new")
+            with self.assertRaises(FileExistsError):
+                verify.validate_output(source, [source])
+            with self.assertRaisesRegex(ValueError, "disjoint"):
+                verify.validate_output(source / "nested", [source])
+            repository = root / "repo"
+            (repository / ".git").mkdir(parents=True)
+            (repository / ".git/HEAD").write_text("ref: refs/heads/main\n")
+            with self.assertRaisesRegex(ValueError, "OUTSIDE"):
+                verify.validate_output(repository / "private", [source])
+            (root / "link").symlink_to(source, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlinks"):
+                verify.validate_output(root / "link/new", [source])
+
+    def test_full_cache_requires_original_source_partition(self):
+        rows = pd.DataFrame([{
+            "source": "v1_raw_json", "payload_game_id": str(i),
+            "name_matches_payload": True, "season_matches_payload": True,
+            "logged_bytes": 20, "bytes": 20, "logged_endpoint": "cache",
+        } for i in range(7230)])
+        with self.assertRaisesRegex(RuntimeError, "7,185 V1 and 45"):
+            verify.cache_stats(rows, False)
+        rows.loc[7185:, "source"] = "v2_discovery"
+        self.assertEqual(verify.cache_stats(rows, False)["discovery_files"], 45)
+
     def test_valid_json_has_hash_and_log_provenance(self):
         with tempfile.TemporaryDirectory() as d:
             v1, discovery = fixture(d)

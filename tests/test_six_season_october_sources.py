@@ -13,6 +13,47 @@ from scripts.data_rebuild.inject_2021_generated_inputs import exact_csv_rows
 
 
 class SixSeasonTests(unittest.TestCase):
+    def test_combined_JSON_and_six_season_plan_is_one_connected_nine_stage_run(self):
+        plan = final.stage_commands(Path('/sources'), Path('/output'),
+            verify_original_pdfs=True, six_season_sources=True,
+            boxscore_v1=Path('/v1'), boxscore_discovery=Path('/discovery'),
+            boxscore_repair_zip=Path('/repair.zip'), boxscore_python=Path('/json-env/python'))
+        self.assertEqual(len(plan), 9)
+        commands = dict(plan)
+        self.assertEqual(plan[1][0], '00b_original_nba_json_boxscore_roster')
+        self.assertEqual(plan[1][1][0], '/json-env/python')
+        self.assertIn('/output/00b_original_boxscore/game_roster_players.csv',
+                      commands['01_august_source_correction'])
+        self.assertIn('/output/01_august_core/baseline/nba_player_game_at_risk_core_v1/player_game_panel_core.csv.gz',
+                      commands['01b_json_pdf_original_reviewed_base'])
+        self.assertIn('/output/01b_json_pdf_reviewed_base/player_game_panel_analysis_ready.csv.gz',
+                      commands['03b_pdf_derived_october_base_handoff'])
+        self.assertIn('--six-season-sources-dir', commands['03_frozen_cadence'])
+        self.assertIn('--required-input-hashes', commands['04_corrected_cadence'])
+        self.assertNotIn('--allow-partial', plan[1][1])
+
+    def test_failed_JSON_stage_prevents_any_later_builder_or_accepted_manifest(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / 'new'
+            reached = []
+            def stage(root, name, command):
+                reached.append(name)
+                if name == '00b_original_nba_json_boxscore_roster':
+                    raise RuntimeError('raw JSON failed; no archived fallback')
+                return 'synthetic log'
+            with patch.object(final, 'preflight', return_value=[]), \
+                 patch.object(final, 'preflight_original_boxscores', return_value=True), \
+                 patch('importlib.metadata.version', return_value='2.2.3'), \
+                 patch.object(final, 'run_stage', side_effect=stage):
+                with self.assertRaisesRegex(RuntimeError, 'no archived fallback'):
+                    final.build(Path('/sources'), output, verify_original_pdfs=True,
+                        six_season_sources=True, boxscore_v1=Path('/v1'),
+                        boxscore_discovery=Path('/discovery'), boxscore_repair_zip=Path('/repair.zip'),
+                        boxscore_python=Path('/json-env/python'))
+            self.assertEqual(reached, ['00_independent_original_six_pdf_baseline',
+                                      '00b_original_nba_json_boxscore_roster'])
+            self.assertFalse((output / 'final').exists())
+
     def test_byte_identity_fast_path_checks_every_CSV_record_without_pandas(self):
         with tempfile.TemporaryDirectory() as folder:
             a,b=Path(folder)/'a.csv',Path(folder)/'b.csv'
