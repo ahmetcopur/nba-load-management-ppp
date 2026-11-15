@@ -86,6 +86,28 @@ The original NBA JSON cache is not required for this localized correction.
 
 ## Private Linux amd64 execution
 
+### Explicit earlier retained-intermediate alternative
+
+The owner subsequently supplied the complete November 14
+`linux-amd64-json-selectors-003` input tree. Its separately pinned source profile
+is `validation/october_scientific_v2_2026-11-15/retained_003_source_profile.json`.
+Fifteen of eighteen inputs have the same bytes as November 15. The older 2020
+rows and 2025 team table match actual original archive members; the 2025 selected
+rows have successful historical receipts for 355 reports/47,187 records. Their
+original PDF bytes are rehashed against both SHA-pinned source ZIPs. This is an
+explicit **inherited-intermediate** scope, not a new complete candidate-PDF run.
+The six-season raw-source gate above is unchanged and never falls back to it.
+
+For this exact bundle, add `--retained-intermediates`, point `--retained-run` at
+its separately extracted directory and `--retained-evidence` at the owner's
+original uploaded ZIP. The remaining command and scientific gates are identical.
+The archive directory needs the original pinned covariates, star calendar,
+2020 corrected rows, canonical selector and player-crosswalk ZIPs. The two
+original 2025 ZIPs and historical parse receipts are already inside this bundle.
+All eight actual builder cases and their models must still pass before this
+scope can produce a primary acceptance manifest. It cannot assert recovery of
+the lost November 15 source trees or fresh full-candidate execution.
+
 Use a clean committed checkout on Python 3.12 / Linux amd64. Keep originals
 read-only (for example read-only container mounts); create a new private output
 root outside every Git checkout. Set these variables to actual existing private

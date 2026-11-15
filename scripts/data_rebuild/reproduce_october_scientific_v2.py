@@ -96,6 +96,7 @@ def code_identity():
         raise ValueError('Scientific acceptance requires a clean committed checkout')
     files=[SOURCE,Path(__file__),REPO/'scripts/data_rebuild/october_scientific_v2_rules.py',
            REPO/'scripts/data_rebuild/october_scientific_v2_compare.py',
+           REPO/'scripts/data_rebuild/retained_scientific_inputs.py',
            REPO/'scripts/data_rebuild/audit_star_status_against_calendar.py',
            REPO/'scripts/data_rebuild/fixture_date_chronology_sensitivity.py',
            REPO/'scripts/data_rebuild/audit_fixture_date_swap_covariates.py']
@@ -339,8 +340,12 @@ def model_deltas(old,new):
     return result
 
 
-def build(retained,evidence,archives,output,*,workload_sensitivities=False):
-    auth=preflight(retained,evidence,archives,output);environment=runtime();code=code_identity()
+def build(retained,evidence,archives,output,*,workload_sensitivities=False,retained_intermediates=False):
+    if retained_intermediates:
+        from scripts.data_rebuild.retained_scientific_inputs import preflight as older_preflight
+        auth=older_preflight(retained,evidence,archives,output)
+    else:auth=preflight(retained,evidence,archives,output)
+    environment=runtime();code=code_identity()
     output.mkdir(parents=True,exist_ok=False)
     events=output/'stages.jsonl'
     def event(value):
@@ -418,7 +423,8 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False):
                   'source_manifest_sha256':auth['source_manifest_sha256'],'original_archives_sha256':auth['original_archives'],
                   'input_files_unchanged':True,'all_cases':cases,'within_version_chronology_comparisons':comparisons,
                   'legacy_chronology_check':legacy_chron,'chronology_base_changes':base_changes,'adjusted_generated_hashes':adjusted,
-                  'historical_artifact_verdict':'not_exact_2025_metadata_only_exception_preserved','metadata_only_exception':auth['metadata_only_exception'],
+                  'historical_artifact_verdict':auth.get('historical_artifact_verdict','not_exact_2025_metadata_only_exception_preserved'),'metadata_only_exception':auth['metadata_only_exception'],
+                  'source_profile':{k:auth[k] for k in ('source_scope','source_profile_sha256','bundle_sha256','verified_original_archives_in_this_execution','November15_input_comparison','selected_2025_PDF_hash_audit') if k in auth},
                   'workload_definition_adopted':False,'secondary_results_status':'not_yet_verified','human_approval':'pending',
                   'limitations':['Original JSON+PDF combination not established','Versioned reviewed/clock inputs inherited','SCI-002 physical-game rule is a sensitivity, not an inferred historical intention']}
         save(output/'scientific_version_manifest.json',manifest)
@@ -433,14 +439,18 @@ def main():
     for n in ['retained-run','retained-evidence','archive-dir','output-root']:p.add_argument('--'+n,type=Path,required=True)
     p.add_argument('--check-only',action='store_true')
     p.add_argument('--include-workload-sensitivities',action='store_true')
+    p.add_argument('--retained-intermediates',action='store_true',help='Explicit owner-uploaded November14 intermediate profile; --retained-evidence is its ZIP. Not the six-season raw-source mode.')
     a=p.parse_args()
     for name in ('retained_run','retained_evidence','archive_dir','output_root'):
         setattr(a,name,getattr(a,name).absolute())
     try:
         if a.check_only:
-            preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
+            if a.retained_intermediates:
+                from scripts.data_rebuild.retained_scientific_inputs import preflight as older_preflight
+                older_preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
+            else:preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
             print(json.dumps({'status':'preflight_pass','no_builder_executed':True,'output_root_untouched':True}));return
-        m=build(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root,workload_sensitivities=a.include_workload_sensitivities)
+        m=build(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root,workload_sensitivities=a.include_workload_sensitivities,retained_intermediates=a.retained_intermediates)
         print(json.dumps({'status':m['status'],'manifest':str(a.output_root/'scientific_version_manifest.json')}))
     except (ValueError,FileNotFoundError,RuntimeError) as e:
         print(json.dumps({'status':'blocked','reason':str(e),'scientific_acceptance':False}),file=sys.stderr)

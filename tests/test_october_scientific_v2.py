@@ -13,6 +13,33 @@ from scripts.data_rebuild import october_scientific_v2_rules as rules
 from scripts.data_rebuild import reproduce_october_scientific_v2 as run
 from scripts.data_rebuild.october_scientific_v2_compare import compare
 from scripts.data_rebuild import run_october_scientific_v2_suite as secondary
+from scripts.data_rebuild import retained_scientific_inputs as retained
+
+
+class RetainedProfileTests(unittest.TestCase):
+    def test_exact_owner_profile_is_pinned_and_corruption_rejected(self):
+        value=retained.verify_profile(run.REPO)
+        self.assertEqual(len(value['input_sha256']),21)
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);p=root/retained.PROFILE;p.parent.mkdir(parents=True)
+            p.write_text(json.dumps(value)+'\n')
+            with self.assertRaisesRegex(ValueError,'profile was changed'):retained.verify_profile(root)
+
+    def test_missing_or_wrong_bundle_never_falls_back(self):
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)
+            with self.assertRaisesRegex(ValueError,'bundle SHA-256 differs'):
+                retained.preflight(p/'retained',p/'missing.zip',p/'originals',p/'output')
+            self.assertFalse((p/'output').exists())
+
+    def test_earlier_profile_requires_explicit_selection(self):
+        args=[Path('/private/retained'),Path('/private/evidence'),Path('/private/archives'),Path('/private/new')]
+        for explicit in (False,True):
+            with patch.object(run,'preflight',side_effect=ValueError('new-source-gate')) as new, \
+                 patch.object(retained,'preflight',side_effect=ValueError('retained-gate')) as old:
+                with self.assertRaisesRegex(ValueError,'retained-gate' if explicit else 'new-source-gate'):
+                    run.build(*args,retained_intermediates=explicit)
+                self.assertEqual(old.call_count,int(explicit));self.assertEqual(new.call_count,int(not explicit))
 
 
 class EligibilityTests(unittest.TestCase):
