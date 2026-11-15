@@ -98,6 +98,16 @@ original PDF bytes are rehashed against both SHA-pinned source ZIPs. This is an
 explicit **inherited-intermediate** scope, not a new complete candidate-PDF run.
 The six-season raw-source gate above is unchanged and never falls back to it.
 
+An actual frozen SCI-001 case passed on this bundle. The optional physical-game
+sensitivity then encountered distinct traded-player game associations at the
+same tip time. That rule remains blocked for review; no arbitrary order is
+invented. The primary calculation continues independently. An interrupted run's
+completed cases can be reused with `--reuse-completed-cases-from PATH` and
+`--reuse-code-commit SHA`, only after revalidating scientific code/function
+identity, full panel/model bytes, required-input identities, real original
+execution/read receipts, semantic checks and complete authorized differences.
+Reused cases and original executed commit are explicit in the new manifest.
+
 For this exact bundle, add `--retained-intermediates`, point `--retained-run` at
 its separately extracted directory and `--retained-evidence` at the owner's
 original uploaded ZIP. The remaining command and scientific gates are identical.

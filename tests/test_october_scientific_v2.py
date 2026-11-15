@@ -14,9 +14,30 @@ from scripts.data_rebuild import reproduce_october_scientific_v2 as run
 from scripts.data_rebuild.october_scientific_v2_compare import compare
 from scripts.data_rebuild import run_october_scientific_v2_suite as secondary
 from scripts.data_rebuild import retained_scientific_inputs as retained
+from scripts.data_rebuild import scientific_case_checkpoint as checkpoints
 
 
 class RetainedProfileTests(unittest.TestCase):
+    def test_missing_checkpoint_never_substitutes_a_panel(self):
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t);out=p/'new'
+            self.assertIsNone(checkpoints.reuse_case(p/'old','unused','frozen','legacy',{},out))
+            self.assertFalse(out.exists())
+
+    def test_checkpoint_destination_and_scientific_source_tampering_rejected(self):
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t);out=p/'new';out.mkdir()
+            with self.assertRaises(FileExistsError):checkpoints.reuse_case(p/'old','unused','frozen','legacy',{},out)
+            old=p/'old/frozen__legacy';old.mkdir(parents=True);(old/'case_manifest.json').write_text('{}')
+            with patch.object(checkpoints.subprocess,'check_output',return_value=b'changed scientific source'):
+                with self.assertRaisesRegex(ValueError,'scientific code differs'):
+                    checkpoints.reuse_case(p/'old','original','frozen','legacy',{},p/'out')
+            self.assertFalse((p/'out').exists())
+
+    def test_resume_arguments_must_be_paired(self):
+        with self.assertRaisesRegex(ValueError,'both reuse'):
+            run.build(Path('/retained'),Path('/evidence'),Path('/originals'),Path('/out'),reuse_from=Path('/previous'))
+
     def test_exact_owner_profile_is_pinned_and_corruption_rejected(self):
         value=retained.verify_profile(run.REPO)
         self.assertEqual(len(value['input_sha256']),21)

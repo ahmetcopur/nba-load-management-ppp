@@ -340,7 +340,8 @@ def model_deltas(old,new):
     return result
 
 
-def build(retained,evidence,archives,output,*,workload_sensitivities=False,retained_intermediates=False):
+def build(retained,evidence,archives,output,*,workload_sensitivities=False,retained_intermediates=False,reuse_from=None,reuse_commit=None):
+    if bool(reuse_from)!=bool(reuse_commit):raise ValueError('Specify both reuse directory and original code commit')
     if retained_intermediates:
         from scripts.data_rebuild.retained_scientific_inputs import preflight as older_preflight
         auth=older_preflight(retained,evidence,archives,output)
@@ -368,7 +369,7 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
         raise ValueError('Chronology changed an unauthorized input or failed to change its declared inputs')
     versions=['legacy',PRIMARY]
     if workload_sensitivities:versions+=list(rules.VERSIONS)[2:]
-    cases={}; comparisons={}
+    cases={}; comparisons={};blocked={}
     try:
         for phase,root,hashes in [('frozen',frozen,input_hashes),('chronology',corrected,corrected_hashes)]:
             for version in versions:
@@ -376,6 +377,25 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
                 event({'stage':name,'event':'start','scientific_version':version})
                 source=rules.render_source(original,version)
                 required={n:h for n,h in hashes.items() if n!=CALENDAR or star}
+                if work:
+                    # Do not invent an order for traded-player associations in
+                    # distinct simultaneous games. This OPTIONAL sensitivity is
+                    # separately blocked; the primary remains unchanged.
+                    try:rules.physical_history(pd.read_csv(output/(phase+'__legacy')/PANEL))
+                    except ValueError as e:
+                        if str(e)!='Simultaneous distinct physical games require review':raise
+                        frame=pd.read_csv(output/(phase+'__legacy')/PANEL,usecols=['nba_player_id','season','game_id','tip_utc','minutes_played'])
+                        unique=frame.drop_duplicates(['nba_player_id','season','game_id'])
+                        ambiguous=unique[unique.duplicated(['nba_player_id','season','tip_utc'],keep=False)]
+                        blocked[name]={'status':'blocked_ambiguous_simultaneous_physical_games','reason':str(e),'no_sensitivity_models_accepted':True,
+                                       'ambiguous_player_timestamp_groups':ambiguous.groupby(['nba_player_id','season','tip_utc']).ngroups,
+                                       'distinct_player_game_rows':len(ambiguous),'rows_with_positive_minutes':int(ambiguous.minutes_played.gt(0).sum())}
+                        event({'stage':name,'event':'blocked','reason':str(e)});continue
+                if reuse_from:
+                    from scripts.data_rebuild.scientific_case_checkpoint import reuse_case
+                    reused=reuse_case(reuse_from,reuse_commit,phase,version,required,case)
+                    if reused:
+                        cases[name]=reused;event({'stage':name,'event':'finish','exit_code':0,'completed_case_reused':True});continue
                 receipt=execute(source,root,case,required,allow_legacy_crash=(version=='legacy'))
                 (case/'scientific_patch.diff').write_text(''.join(difflib.unified_diff(original.decode().splitlines(True),source.decode().splitlines(True),fromfile='immutable_original',tofile=version)))
                 panel=case/PANEL;stats=summary(panel)
@@ -411,6 +431,7 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
                 cases[name]=result;save(case/'case_manifest.json',result)
                 event({'stage':name,'event':'finish','exit_code':0})
         for version in versions:
+            if 'frozen__'+version in blocked or 'chronology__'+version in blocked:continue
             a=output/('frozen__'+version)/PANEL;b=output/('chronology__'+version)/PANEL
             # Date boundary crossings are evaluated by every-row semantics on BOTH versions.
             comparisons[version]=compare(a,b,None,output/('private_chronology_changes__'+version+'.jsonl'))
@@ -422,6 +443,7 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
                   'code':code,'environment':environment,'original_builder_sha256':rules.ORIGINAL_SHA256,'original_model_sha256':chronology.FAST_SOURCE_SHA,
                   'source_manifest_sha256':auth['source_manifest_sha256'],'original_archives_sha256':auth['original_archives'],
                   'input_files_unchanged':True,'all_cases':cases,'within_version_chronology_comparisons':comparisons,
+                  'blocked_optional_sensitivities':blocked,
                   'legacy_chronology_check':legacy_chron,'chronology_base_changes':base_changes,'adjusted_generated_hashes':adjusted,
                   'historical_artifact_verdict':auth.get('historical_artifact_verdict','not_exact_2025_metadata_only_exception_preserved'),'metadata_only_exception':auth['metadata_only_exception'],
                   'source_profile':{k:auth[k] for k in ('source_scope','source_profile_sha256','bundle_sha256','verified_original_archives_in_this_execution','November15_input_comparison','selected_2025_PDF_hash_audit') if k in auth},
@@ -440,6 +462,8 @@ def main():
     p.add_argument('--check-only',action='store_true')
     p.add_argument('--include-workload-sensitivities',action='store_true')
     p.add_argument('--retained-intermediates',action='store_true',help='Explicit owner-uploaded November14 intermediate profile; --retained-evidence is its ZIP. Not the six-season raw-source mode.')
+    p.add_argument('--reuse-completed-cases-from',type=Path)
+    p.add_argument('--reuse-code-commit')
     a=p.parse_args()
     for name in ('retained_run','retained_evidence','archive_dir','output_root'):
         setattr(a,name,getattr(a,name).absolute())
@@ -450,7 +474,7 @@ def main():
                 older_preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
             else:preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
             print(json.dumps({'status':'preflight_pass','no_builder_executed':True,'output_root_untouched':True}));return
-        m=build(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root,workload_sensitivities=a.include_workload_sensitivities,retained_intermediates=a.retained_intermediates)
+        m=build(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root,workload_sensitivities=a.include_workload_sensitivities,retained_intermediates=a.retained_intermediates,reuse_from=a.reuse_completed_cases_from.absolute() if a.reuse_completed_cases_from else None,reuse_commit=a.reuse_code_commit)
         print(json.dumps({'status':m['status'],'manifest':str(a.output_root/'scientific_version_manifest.json')}))
     except (ValueError,FileNotFoundError,RuntimeError) as e:
         print(json.dumps({'status':'blocked','reason':str(e),'scientific_acceptance':False}),file=sys.stderr)
