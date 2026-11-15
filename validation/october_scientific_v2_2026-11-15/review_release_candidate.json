@@ -1,0 +1,102 @@
+{
+  "status": "review_candidate_prepared_not_frozen_or_approved",
+  "date": "2026-11-15",
+  "scientific_version": "october_scientific_v2",
+  "scientific_output_verdict": "SCI-001 authentic localized builder, four original models, ten downstream scripts and five existing manuscript subset checks accepted",
+  "historical_artifact_verdict": "Legacy files preserved; inherited clocks, decisions and 2025 two-field team-metadata exception remain separately declared; no fresh combined candidate-PDF plus original-JSON run claimed",
+  "source_scope": "Owner-authenticated retained-intermediate bundle; explicit versioned calendar and reviewed decisions",
+  "corrected_scientific_panel_decoded_sha256": "9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f",
+  "corrected_legacy_panel_decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+  "rows": 248778,
+  "risk": 180664,
+  "onsets": 12729,
+  "primary_complete_cases": 180530,
+  "workload_scope": {
+    "primary": "Original roster-record convention retained and explicitly disclosed",
+    "physical_game_sensitivity": "blocked; no claimed estimates",
+    "diagnostic": {
+      "groups": 6,
+      "distinct_player_game_rows": 12,
+      "at_risk_rows": 4,
+      "onsets": 4,
+      "positive_minutes_rows": 1,
+      "groups_with_positive_minutes": 1,
+      "zero_minute_associations_at_risk_in_positive_minutes_groups": 1
+    },
+    "original_omission_models": [
+      {
+        "name": "remove_outcome_affected_workload",
+        "N": "180530",
+        "coef_pp": "3.0529955169341862",
+        "se_pp": "1.3064330102221733",
+        "CI_low_pp": "0.49238681689872665",
+        "CI_high_pp": "5.613604216969645",
+        "p": "0.01944469426236286",
+        "iterations": "81",
+        "converged": "True",
+        "seconds": "2.5",
+        "dropped_terms": ""
+      },
+      {
+        "name": "remove_workload_linear_tv",
+        "N": "180530",
+        "coef_pp": "1.6630726826155942",
+        "se_pp": "1.3094619424824905",
+        "CI_low_pp": "-0.9034727246500871",
+        "CI_high_pp": "4.229618089881275",
+        "p": "0.2040693928475461",
+        "iterations": "81",
+        "converged": "True",
+        "seconds": "2.7",
+        "dropped_terms": ""
+      }
+    ],
+    "interpretation": "Omitting the entire workload/progress family gives similar focal estimates; does not recover a unique physical-history definition or resolve trade chronology"
+  },
+  "manuscript": {
+    "status": "compiled_and_all_21_pages_visually_inspected",
+    "pages": 21,
+    "baseline_compiled_text_equals_original_pdf": true,
+    "original_pdf_sha256": "49fc65224072ef3ff63f2e84058b237469dcddf5e874c57cb0779f6dc922d0bd",
+    "original_tex_sha256": "5615a070f7164fc69d55ca06fca8703cb771d1d79a18f29cd4325547ba5266bc",
+    "revised_tex_sha256": "4344a7e717e12e6a45d0290b5801d571f6264f0efd9ddde8449fab9418158e4e",
+    "revised_pdf_sha256": "feb3b773dc03451590132096d64190c73ba68783057f3f89d1f1142a4254297a",
+    "original_files_unchanged": true,
+    "compiler": "pdfTeX 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian)",
+    "undefined_references_or_citations": false,
+    "missing_glyphs_or_overfull_boxes": false,
+    "figures": "Both empirical figures regenerated from accepted aggregate counts with descriptive Wilson 95% intervals",
+    "visual_checks": [
+      "all 21 pages in four contact sheets",
+      "full-page Table 4, home/road Figure 3 and Table 5; no clipped cells or missing glyphs"
+    ],
+    "scope": "Separate private review copy; no submission, public manuscript publication, owner signature or independent human review claimed"
+  },
+  "new_subset_execution": {
+    "models_per_version": 5,
+    "versions": 2,
+    "private_report_sha256": "4e06473b0f0dc98d8d20aee780b406fb0bc0ef9fe52e74a14759973d674c29a0",
+    "legacy_comparison": "Exact sample sizes; coefficients at original manuscript published two-decimal precision, not archived CSV byte identity",
+    "original_model_functions_unchanged": true,
+    "actual_input_opens_and_pre_post_hashes_verified": true
+  },
+  "release_gates": {
+    "independent_human_scientific_review": null,
+    "owner_final_approval": null,
+    "publication_rights_review": null,
+    "pending_203_description_adjudication": "not completed; no new labels invented",
+    "release_tag_created": false,
+    "pr_4": "draft_unmerged",
+    "issue_5": "open"
+  },
+  "validation": {
+    "local_tests_passed": 697,
+    "new_contract_tests": 3,
+    "ci_for_new_commit": "pending"
+  },
+  "reference_evidence": {
+    "prior_primary_commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
+    "prior_results_commit": "7ea2474518c7d0d431fe4d8f11a3be9da3e42582",
+    "private_primary_evidence_library_id": "libfile_0334dd211f548191b64143895cc8ea62"
+  }
+}

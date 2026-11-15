@@ -34,6 +34,7 @@ on:
       - "tests/test_six_season_october_sources.py"
       - "tests/test_star_status_semantic_audit.py"
       - "tests/test_october_scientific_v2.py"
+      - "tests/test_manuscript_subset_checks.py"
       - "tests/test_october_scientific_paper_impact.py"
       - "tests/test_private_source_paths.py"
       - "tests/test_2025_manifest_selector.py"
@@ -332,7 +333,7 @@ jobs:
       - name: Require original October subprocess to open regenerated inputs
         run: python -m unittest discover -s tests -p test_october_generated_input_consumption.py -v
       - name: Test separate SCI-001 version, workload sensitivity, actual input reads and original four models
-        run: python -m unittest tests.test_october_scientific_v2 tests.test_october_scientific_paper_impact -v
+        run: python -m unittest tests.test_october_scientific_v2 tests.test_october_scientific_paper_impact tests.test_manuscript_subset_checks -v
   boxscore-json-tests:
     name: Level-C raw JSON verifier fail-closed tests
     runs-on: ubuntu-latest

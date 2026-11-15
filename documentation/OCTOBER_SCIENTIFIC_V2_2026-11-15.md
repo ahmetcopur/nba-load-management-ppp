@@ -10,8 +10,11 @@ source tree was unavailable. The owner subsequently supplied an earlier
 authenticated intermediate bundle, and its explicitly scoped execution now
 has new observed hashes and original model results. The original missing-source
 restriction remains applicable to a fresh complete-candidate reconstruction. PR #4 remains draft;
-Issue #5 remains open. No manuscript, historical dataset, original executed
-script, historical acceptance target, release tag or Git history is modified.
+Issue #5 remains open. The original manuscript, historical datasets, original executed
+scripts and historical acceptance targets are preserved. A separate private
+[SCI-001 manuscript/review candidate](SCI001_MANUSCRIPT_REVIEW_CANDIDATE_2026-11-15.md)
+now reflects the executed results and bounded workload decision; no release tag
+or scientific approval is claimed.
 
 ## Scientific versions
 
@@ -47,6 +50,14 @@ No model, covariance formula, fixed effect, control, SCI-003 redundant regressor
 or complete-case rule is edited.
 
 ## SCI-002 definition decision
+
+Current authentic scope: the optional physical-game execution failed closed on
+simultaneous traded-player associations; it is not an accepted sensitivity.
+The primary roster-record convention remains unchanged. The review-candidate
+report above records the already executed omission of all three workload/progress
+controls (+3.053/+1.663 pp); this does not resolve a unique physical-history rule.
+The description below defines the proposed optional algorithm, not a successful
+physical-game run.
 
 The original code literally shifts and rolls over **roster observations** within
 player-season. The manuscript's general recent-workload wording does not settle

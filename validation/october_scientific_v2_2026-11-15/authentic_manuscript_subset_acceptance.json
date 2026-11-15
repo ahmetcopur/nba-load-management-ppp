@@ -1,0 +1,243 @@
+{
+  "status": "passed_original_function_and_historical_rounded_baseline_gates",
+  "original_source_sha256": "8f8264ecb0ac8b12e6927141a70984029b71f454b463df8c397672cec6178b73",
+  "original_source_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "environment": {
+    "python": "3.12.14",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "statsmodels": "0.14.6"
+  },
+  "comparison_scope": "Legacy N exact; legacy coefficients at original manuscript rounded precision. All complete original model output tables retained.",
+  "scope": "Five already documented manuscript subset checks; no specification search",
+  "results": {
+    "legacy": {
+      "models": [
+        {
+          "name": "exclude_2025",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2020-21",
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 149873,
+          "estimate_pp": 2.2213881418894124,
+          "se_pp": 1.3644825426253118,
+          "low_pp": -0.45299764165619844,
+          "high_pp": 4.895773925435024,
+          "p": 0.10352324437834745,
+          "iterations": 91,
+          "converged": true
+        },
+        {
+          "name": "exclude_pandemic_linear",
+          "tv": "tv_harmonized_linear",
+          "seasons": [
+            "2022-23",
+            "2023-24",
+            "2024-25",
+            "2025-26"
+          ],
+          "n": 123449,
+          "estimate_pp": 2.2371414960723577,
+          "se_pp": 1.737387859254738,
+          "low_pp": -1.1681387080669292,
+          "high_pp": 5.642421700211645,
+          "p": 0.19786902477274226,
+          "iterations": 111,
+          "converged": true
+        },
+        {
+          "name": "exclude_pandemic_partner",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2022-23",
+            "2023-24",
+            "2024-25",
+            "2025-26"
+          ],
+          "n": 123449,
+          "estimate_pp": 3.678924434086482,
+          "se_pp": 1.6608053930868598,
+          "low_pp": 0.42374586363623723,
+          "high_pp": 6.934103004536726,
+          "p": 0.02675012712623604,
+          "iterations": 111,
+          "converged": true
+        },
+        {
+          "name": "common_sample_partner",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 123074,
+          "estimate_pp": 1.9426658151903544,
+          "se_pp": 1.4737039705414214,
+          "low_pp": -0.9457939670708314,
+          "high_pp": 4.83112559745154,
+          "p": 0.18743006514582172,
+          "iterations": 131,
+          "converged": true
+        },
+        {
+          "name": "common_sample_add_nba_tv",
+          "tv": "partner_plus_nba_tv",
+          "seasons": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 123074,
+          "estimate_pp": 0.8528526906798987,
+          "se_pp": 1.107169891427012,
+          "low_pp": -1.317200296517045,
+          "high_pp": 3.0229056778768424,
+          "p": 0.4411221045936824,
+          "iterations": 131,
+          "converged": true
+        }
+      ],
+      "AllStar_only_vs_PPP_at_risk_differences": 50,
+      "missing_exact_AllStar_only_join_before_fill": 60,
+      "original_model_functions_unchanged": true,
+      "actual_execution": {
+        "executed_sha256": "37b87582e22e64c65c9f945594bb87f200bc2a3972f95bd2a061ff1c6c5cfd63",
+        "canonical_source_sha256": "676ba2dafde502bba99d47979af2aec48cb52a97588ed79f66848376428628c8",
+        "exit_code": 0,
+        "outcome": "completed",
+        "actual_opened_inputs": [
+          "data_final/player_game_panel_analysis_ready.csv.gz",
+          "data_intermediate/player_team_game_harmonized_cadence.csv.gz"
+        ],
+        "required_input_sha256": {
+          "data_intermediate/player_team_game_harmonized_cadence.csv.gz": "8c8355b2b1e9e5cba16a50adb74490b475dd1cb441702ca5c17d51e74b0a2d13",
+          "data_final/player_game_panel_analysis_ready.csv.gz": "5aa6a93bebf99d2a2c8260e97c68c55d979e3a00ea1c6340f0afbdb4f0bd6663"
+        },
+        "pre_and_post_hashes_equal": true
+      }
+    },
+    "october_scientific_v2": {
+      "models": [
+        {
+          "name": "exclude_2025",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2020-21",
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 149873,
+          "estimate_pp": 2.604135402216835,
+          "se_pp": 1.3526811343885499,
+          "low_pp": -0.047119621184723084,
+          "high_pp": 5.255390425618392,
+          "p": 0.054208624363595054,
+          "iterations": 91,
+          "converged": true
+        },
+        {
+          "name": "exclude_pandemic_linear",
+          "tv": "tv_harmonized_linear",
+          "seasons": [
+            "2022-23",
+            "2023-24",
+            "2024-25",
+            "2025-26"
+          ],
+          "n": 123449,
+          "estimate_pp": 2.197735615496988,
+          "se_pp": 1.7373028572542697,
+          "low_pp": -1.207377984721381,
+          "high_pp": 5.602849215715357,
+          "p": 0.2058615267432805,
+          "iterations": 111,
+          "converged": true
+        },
+        {
+          "name": "exclude_pandemic_partner",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2022-23",
+            "2023-24",
+            "2024-25",
+            "2025-26"
+          ],
+          "n": 123449,
+          "estimate_pp": 3.6477122716766313,
+          "se_pp": 1.660786429886739,
+          "low_pp": 0.3925708690986234,
+          "high_pp": 6.902853674254638,
+          "p": 0.028065006885510207,
+          "iterations": 111,
+          "converged": true
+        },
+        {
+          "name": "common_sample_partner",
+          "tv": "announced_tv_primary",
+          "seasons": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 123074,
+          "estimate_pp": 1.9517963711797623,
+          "se_pp": 1.4726947127998302,
+          "low_pp": -0.9346852659079048,
+          "high_pp": 4.83827800826743,
+          "p": 0.18506399945898777,
+          "iterations": 131,
+          "converged": true
+        },
+        {
+          "name": "common_sample_add_nba_tv",
+          "tv": "partner_plus_nba_tv",
+          "seasons": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "n": 123074,
+          "estimate_pp": 0.8631188464929329,
+          "se_pp": 1.1045779872629864,
+          "low_pp": -1.30185400854252,
+          "high_pp": 3.028091701528386,
+          "p": 0.43456641559015796,
+          "iterations": 131,
+          "converged": true
+        }
+      ],
+      "AllStar_only_vs_PPP_at_risk_differences": 38,
+      "missing_exact_AllStar_only_join_before_fill": 60,
+      "original_model_functions_unchanged": true,
+      "actual_execution": {
+        "executed_sha256": "58a6140bab4751b0f32752716c8e28d576bed71b2b74c7cb2bcc79aec9f3f308",
+        "canonical_source_sha256": "60521095cc13bf599951eb3e278c2195fc0da74b9b51e30b9f56be175d46bd33",
+        "exit_code": 0,
+        "outcome": "completed",
+        "actual_opened_inputs": [
+          "data_final/player_game_panel_analysis_ready.csv.gz",
+          "data_intermediate/player_team_game_harmonized_cadence.csv.gz"
+        ],
+        "required_input_sha256": {
+          "data_intermediate/player_team_game_harmonized_cadence.csv.gz": "89a809d607bc368b47464cb637c25688716efe8479e7bc82c1b90a583f245eca",
+          "data_final/player_game_panel_analysis_ready.csv.gz": "5aa6a93bebf99d2a2c8260e97c68c55d979e3a00ea1c6340f0afbdb4f0bd6663"
+        },
+        "pre_and_post_hashes_equal": true
+      }
+    }
+  },
+  "unredacted_private_report_sha256": "4e06473b0f0dc98d8d20aee780b406fb0bc0ef9fe52e74a14759973d674c29a0"
+}
