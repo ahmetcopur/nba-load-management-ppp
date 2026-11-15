@@ -22,6 +22,11 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import re
 import sys
 from tempfile import TemporaryDirectory
@@ -89,7 +94,7 @@ def safe_private_directory(raw_dir: Path, output_dir: Path) -> None:
         raise FileExistsError(f"Refusing to overwrite private source rows: {out}")
     if raw == out or raw in out.parents or out in raw.parents:
         raise ValueError("Private selected-report outputs must be outside raw archives")
-    if any((p / ".git").exists() for p in (out, *out.parents)):
+    if under_git(out):
         raise ValueError("Refusing private original NBA player-report rows inside Git checkout")
 
 

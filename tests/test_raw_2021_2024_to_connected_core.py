@@ -166,6 +166,7 @@ class HistoricalOriginalPDFConnectorTests(unittest.TestCase):
     def test_raw_player_rows_cannot_be_generated_in_git_checkout(self):
         git = self.root / "repo"
         (git / ".git").mkdir(parents=True)
+        (git / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
         with self.assertRaisesRegex(ValueError, "inside Git checkout"):
             mod.safe_private_directory(self.archives, git / "private")
 

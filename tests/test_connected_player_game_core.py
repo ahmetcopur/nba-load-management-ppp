@@ -57,6 +57,7 @@ class ConnectedCoreRunnerTests(unittest.TestCase):
     def test_git_checkout_output_is_refused_even_when_nonexisting(self):
         repo_root = self.root / "repository"
         (repo_root / ".git").mkdir(parents=True)
+        (repo_root / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
         with self.assertRaisesRegex(ValueError, "outside any Git checkout"):
             check_private_output_path(self.archives, repo_root / "private-output")
 

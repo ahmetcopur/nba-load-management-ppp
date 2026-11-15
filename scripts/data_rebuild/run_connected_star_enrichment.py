@@ -17,6 +17,11 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import os
 import subprocess
 import sys
@@ -72,7 +77,7 @@ def validate_private_star_destination(archive_dir: Path, core_run_dir: Path) -> 
         raise FileNotFoundError("Original ZIP directory and completed private core-run directory required")
     if archive_dir == core_run_dir or archive_dir in core_run_dir.parents:
         raise ValueError("Private star run cannot be inside the original source ZIP directory")
-    if any((parent / ".git").exists() for parent in (core_run_dir, *core_run_dir.parents)):
+    if under_git(core_run_dir):
         raise ValueError("Private player-level outputs cannot be written in a Git checkout")
     if (core_run_dir / "nba_player_game_at_risk_star_v1").exists():
         raise FileExistsError("A star-enriched output directory already exists; refusing destructive historical rebuild")

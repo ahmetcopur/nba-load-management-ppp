@@ -225,8 +225,8 @@ def verify_raw_pdf_baseline_link(root: Path) -> dict:
 
 
 def under_git(path: Path) -> bool:
-    return any((m.is_file() or (m.is_dir() and (m / "HEAD").is_file()))
-               for node in (path, *path.parents) for m in (node / ".git",))
+    from scripts.data_rebuild.private_source_paths import under_git as private_boundary
+    return private_boundary(path)
 
 
 def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,

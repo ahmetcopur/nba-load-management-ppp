@@ -22,6 +22,11 @@ import io
 import importlib.util
 import json
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import re
 import sys
 from tempfile import TemporaryDirectory
@@ -63,7 +68,7 @@ def verify_safe_destination(archive_dir: Path, output_dir: Path):
         raise FileExistsError(f"Private output path already exists: {out}")
     if out == raw or raw in out.parents or out in raw.parents:
         raise ValueError("Generated report rows must be outside source archive folder")
-    if any((p / ".git").exists() for p in (out, *out.parents)):
+    if under_git(out):
         raise ValueError("Refusing to place private player-level report rows inside Git checkout")
 
 

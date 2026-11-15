@@ -7,6 +7,11 @@ import hashlib
 import io
 import json
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import tempfile
 from zipfile import ZipFile
 import pandas as pd
@@ -70,7 +75,7 @@ def rebuild(archives, output, workers=4, season="2021-22"):
     archives,output=archives.resolve(),output.resolve()
     if output.exists() or archives==output or archives in output.parents:
         raise ValueError("Fresh private output must be absent and outside original archives")
-    if any((p/".git").exists() for p in (output,*output.parents)):
+    if under_git(output):
         raise ValueError("Private candidate rows cannot be written in Git")
     if not 1<=workers<=16:
         raise ValueError("workers must be 1..16")

@@ -36,6 +36,7 @@ class OctoberOriginalSourceBuilderTests(unittest.TestCase):
     def test_no_private_player_source_in_git_checkout(self):
         repo = self.root / "repo"
         (repo / ".git").mkdir(parents=True)
+        (repo / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
         with self.assertRaisesRegex(ValueError, "Git checkout"):
             m.verify_safe_private_output(self.raw, self.panel, repo / "raw_player_rows")
 

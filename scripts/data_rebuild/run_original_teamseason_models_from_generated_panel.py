@@ -20,6 +20,11 @@ import io
 import json
 import os
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import subprocess
 import sys
 from zipfile import ZipFile
@@ -73,7 +78,7 @@ def validate_private_result_path(output_dir: Path, repo_root: Path) -> None:
         raise FileExistsError(f"Refusing to overwrite existing original model output: {output_dir}")
     if output_dir == repo_root or repo_root in output_dir.parents:
         raise ValueError("Private model rerun output must be outside the Git repository")
-    if any((p / ".git").exists() for p in (output_dir, *output_dir.parents)):
+    if under_git(output_dir):
         raise ValueError("Private modeling input/output cannot be stored inside another Git checkout")
 
 

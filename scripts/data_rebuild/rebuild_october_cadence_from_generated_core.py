@@ -28,6 +28,11 @@ import io
 import json
 import os
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import shutil
 import subprocess
 import sys
@@ -114,9 +119,9 @@ def verify_safe_private_output(archives: Path, panel: Path, output: Path) -> Non
         raise FileExistsError("New October source-run directory must not exist")
     if output == sources or sources in output.parents or output in sources.parents:
         raise ValueError("Output must be outside original source ZIP directory")
-    if any((p / ".git").exists() for p in (output, *output.parents)):
+    if under_git(output):
         raise ValueError("Refusing private player-level data inside Git checkout")
-    if any((p / ".git").exists() for p in panel.parents):
+    if under_git(panel):
         raise ValueError("Refusing private rebuilt panel inside Git checkout")
 
 

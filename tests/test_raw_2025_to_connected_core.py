@@ -138,6 +138,7 @@ class OriginalPDF2025InputTests(unittest.TestCase):
     def test_private_source_output_cannot_be_in_git_checkout(self):
         git = self.root / "repo"
         (git / ".git").mkdir(parents=True)
+        (git / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
         with self.assertRaisesRegex(ValueError, "inside Git checkout"):
             source.verify_safe_destination(self.archives, git / "raw-player-csv")
 

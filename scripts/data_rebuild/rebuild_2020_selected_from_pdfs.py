@@ -22,6 +22,11 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import sys
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
@@ -157,7 +162,7 @@ def safe_output(source: Path, output: Path):
         raise FileExistsError("Original 2020 source rebuild output directory already exists")
     if not source.is_dir() or source in output.parents or output in source.parents or source == output:
         raise ValueError("Original ZIPs and output must use separate private directories")
-    if any((p / ".git").exists() for p in (output, *output.parents)):
+    if under_git(output):
         raise ValueError("Private source rows must not be created inside Git checkout")
 
 
@@ -200,7 +205,7 @@ def rebuild(archive_dir: Path, output_dir: Path, *,
         raise ValueError("Original 2020 source must comprise all 617 saved PDFs")
     if previous_reparse_csv is not None:
         previous = Path(previous_reparse_csv).resolve()
-        if any((p / ".git").exists() for p in previous.parents):
+        if under_git(previous):
             raise ValueError("Private raw PDF reparse cannot be inside Git")
         raw = pd.read_csv(previous, low_memory=False)
         if list(raw.columns) != list(original_full.columns):

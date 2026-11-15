@@ -20,6 +20,11 @@ import io
 import json
 import os
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import shutil
 import subprocess
 import sys
@@ -103,7 +108,7 @@ def check_private_output_path(archive_dir: Path, output_dir: Path) -> None:
         raise ValueError("Output must be outside the original archive directory")
     if output.exists():
         raise FileExistsError(f"Refusing to overwrite any existing output: {output}")
-    if any((parent / ".git").exists() for parent in (output, *output.parents)):
+    if under_git(output):
         raise ValueError("Output must be outside any Git checkout (it contains private rows)")
     if not source.is_dir():
         raise FileNotFoundError(f"Original ZIP directory not found: {source}")
@@ -218,7 +223,7 @@ def inject_fresh_2025_selected_rows(original: pd.DataFrame,
     selected_path = pdf_selected_csv.resolve()
     if not selected_path.is_file():
         raise FileNotFoundError(f"Raw-2025 generated selected-report rows not found: {selected_path}")
-    if any((directory / ".git").exists() for directory in selected_path.parents):
+    if under_git(selected_path):
         raise ValueError("Original NBA player-report rows cannot be stored inside a Git checkout")
     fresh = pd.read_csv(selected_path, low_memory=False)
     if "season" not in fresh or not fresh.season.eq("2025-26").all():
@@ -258,7 +263,7 @@ def inject_reparsed_seasons(original: pd.DataFrame,
         file = Path(original_pdf_csvs[season]).resolve()
         if not file.is_file():
             raise FileNotFoundError(f"Original PDF selected-report CSV missing: {file}")
-        if any((parent / ".git").exists() for parent in file.parents):
+        if under_git(file):
             raise ValueError("Original player-level report rows cannot be read from a Git checkout")
         rebuilt = pd.read_csv(file, low_memory=False)
         if not rebuilt.season.eq(season).all():

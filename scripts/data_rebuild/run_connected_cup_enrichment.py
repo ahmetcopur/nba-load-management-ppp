@@ -18,6 +18,11 @@ import io
 import json
 import os
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import shutil
 import subprocess
 import sys
@@ -174,7 +179,7 @@ def check_private_run(archive_dir: Path, work_dir: Path) -> None:
         raise FileNotFoundError("Original source ZIPs and prior private core+star output required")
     if archive_dir == work_dir or archive_dir in work_dir.parents:
         raise ValueError("Cup output cannot be written in original source archive folder")
-    if any((parent / ".git").exists() for parent in (work_dir, *work_dir.parents)):
+    if under_git(work_dir):
         raise ValueError("Private Cup player-level rows cannot be written into a Git checkout")
     for file, marker in (
         ("connected_core_reproduction_report.json", "all_ten_outputs_identical_after_gzip_decoding"),

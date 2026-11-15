@@ -22,6 +22,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+
+if __package__:
+    from .private_source_paths import under_git
+else:
+    from private_source_paths import under_git
 import subprocess
 import sys
 
@@ -55,7 +60,7 @@ def check_private_destination(shared: Path, source_panel: Path, output: Path) ->
         raise ValueError("October replay cannot overwrite or nest in the original shared checkout")
     if output == source_panel or output in source_panel.parents or source_panel in output.parents:
         raise ValueError("October replay output must not overlap the source-generated panel")
-    if any((p / ".git").exists() for p in (output, *output.parents)):
+    if under_git(output):
         raise ValueError("Private output must not be written inside any Git checkout")
 
 
@@ -70,7 +75,7 @@ def verify_source_generated_panel(source_panel: Path) -> dict:
     report_path = source_root / SOURCE_REPORT_NAME
     if not report_path.is_file():
         raise FileNotFoundError(f"Source-generated October acceptance report missing: {report_path}")
-    if any((p / ".git").exists() for p in (source_panel, *source_panel.parents)):
+    if under_git(source_panel):
         raise ValueError("Private October source-generated panel may not reside in Git checkout")
     record = json.loads(report_path.read_text(encoding="utf-8"))
     if record.get("status") != "pass":
