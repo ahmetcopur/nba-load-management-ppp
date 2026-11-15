@@ -2,6 +2,8 @@
 
 > **Scientific audit, November 15:** a verified report-only star-status defect affects 49 rows (12 at-risk onsets). Legacy hashes and regressions reproduce, but scientific release is blocked pending a versioned correction. [Audit and evidence](documentation/SCIENTIFIC_INTEGRITY_AUDIT_2026-11-15.md) · [Release A/B decisions](documentation/RELEASE_SCOPE_DECISION_2026-11-15.md). Frozen data and manuscript remain unchanged.
 
+> **Separate scientific implementation:** `reproduce_october_scientific_v2.py` implements SCI-001 without changing historical commands, with SCI-002 available only as a separate sensitivity. Authentic execution is **pending missing retained six-season source files**; no new dataset hash or model estimate is accepted. [Exact setup, commands and limitations](documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md).
+
 
 Freeze date: **2026-08-12**
 

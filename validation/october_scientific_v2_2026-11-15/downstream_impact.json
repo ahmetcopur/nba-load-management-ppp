@@ -1,0 +1,236 @@
+{
+  "scientific_version": "october_scientific_v2",
+  "actual_secondary_execution": false,
+  "original_executable_csv_count": 33,
+  "all_original_ten_scripts_affected": true,
+  "outputs": {
+    "allstar_only_announced_tv_primary.csv": {
+      "original_script": "run_base.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "allstar_only_tv_harmonized_linear.csv": {
+      "original_script": "run_base.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "baseline_announced_tv_primary.csv": {
+      "original_script": "run_base.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "baseline_tv_harmonized_linear.csv": {
+      "original_script": "run_base.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "event_announced_tv_primary.csv": {
+      "original_script": "run_event.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "event_tv_harmonized_linear.csv": {
+      "original_script": "run_event.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "event_window_joint_tests_linear.csv": {
+      "original_script": "run_event_window_harmonized.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "event_window_joint_tests_national_partner.csv": {
+      "original_script": "run_event_window_legacy.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_onset_announced_tv_primary.csv": {
+      "original_script": "run_event_window_legacy.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_onset_tv_harmonized_linear.csv": {
+      "original_script": "run_event_window_harmonized.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_prevalence_announced_tv_primary.csv": {
+      "original_script": "run_event_window_legacy.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_prevalence_tv_harmonized_linear.csv": {
+      "original_script": "run_event_window_harmonized.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_repair_announced_tv_primary.csv": {
+      "original_script": "run_event_window_legacy.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "evt_repair_tv_harmonized_linear.csv": {
+      "original_script": "run_event_window_harmonized.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "home_longer.csv": {
+      "original_script": "run_home.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "home_onegame.csv": {
+      "original_script": "run_home.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "home_onegame_allstar_only.csv": {
+      "original_script": "run_home_extra.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "home_onegame_no_cup.csv": {
+      "original_script": "run_home_extra.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "home_onegame_post_covid_sample.csv": {
+      "original_script": "run_home_extra.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "joint_pretrend.csv": {
+      "original_script": "run_event.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "next_tv_one_game_announced_tv_primary.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "next_tv_one_game_tv_harmonized_linear.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "placebo_announced_tv_primary_2021-22.csv": {
+      "original_script": "run_placebo.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "placebo_announced_tv_primary_2022-23.csv": {
+      "original_script": "run_placebo.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "placebo_tv_harmonized_linear_2021-22.csv": {
+      "original_script": "run_placebo.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "placebo_tv_harmonized_linear_2022-23.csv": {
+      "original_script": "run_placebo.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "repair_announced_tv_primary.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "repair_rates_cadence.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "repair_tv_harmonized_linear.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "within2_tv_short_announced_tv_primary.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "within2_tv_short_tv_harmonized_linear.csv": {
+      "original_script": "run_timing.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "audit/cluster_sensitivity.csv": {
+      "original_script": "audit_cluster.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    },
+    "audit/coefficient_sensitivity.csv": {
+      "original_script": "audit_models.py",
+      "status": "pending_authentic_scientific_builder_then_original_suite",
+      "actual_change": null,
+      "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
+    }
+  },
+  "additional_paper_statistics": {
+    "raw_eight_TV_cells_and_DDD": "pending_new_primary_panel",
+    "completed_spells_duration": "pending_verification_of_star_stratified_cells",
+    "paired_onegame_minus_longer_home_contrast": "pending_version_aware_reexecution",
+    "home_road_raw_rates": "pending_new_primary_panel"
+  },
+  "manuscript": [
+    {
+      "location": "Section 3.1 / Table 2",
+      "status": "total_counts_expected_unchanged_star_partition_pending"
+    },
+    {
+      "location": "Section 3.3 / Table 3 / Figure 2",
+      "status": "star_cells_and_figure_regeneration_pending"
+    },
+    {
+      "location": "Abstract / Section 5.1 / Table 4 / conclusion",
+      "status": "all_four_estimates_SE_CI_p_N_pending_no_replacement_values_accepted"
+    },
+    {
+      "location": "Cadence home/road, return, timing, event-study tables and figures",
+      "status": "pending_authentic_recomputation_and_visual_inspection"
+    }
+  ],
+  "independent_August_latest_pre_tip_analyses": {
+    "status": "outside_star_only_patch_unmodified",
+    "note": "Do not mix August outcomes with October correction; inherited August All-Star-only auxiliary used by October scripts is explicitly preserved"
+  },
+  "manuscript_modified": false,
+  "release_A": "blocked_pending_authentic_execution_and_human_review"
+}

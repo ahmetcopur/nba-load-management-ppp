@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-15",
+  "base_audit_commit": "dbc12ddf6f51161b583f51e358c3e48aac0f5543",
+  "scientific_version": "october_scientific_v2",
+  "scientific_output_verdict": "pending_authentic_retained_source_execution",
+  "historical_artifact_verdict": "not_exact_2025_metadata_only_exception_preserved",
+  "authentic_builder_executed": false,
+  "preflight": {
+    "executed": true,
+    "exit_code": 2,
+    "output_root_created": false,
+    "expected_failure": "required authentic retained source-stage files unavailable"
+  },
+  "source_availability": {
+    "reviewed_evidence_zip_sha256": "d8d0ea9895b0dbf8e52fcff8e9c79294d40d380fa528a3795fff44ded78dff91",
+    "independently_rehashed_matches_prior_evidence": true,
+    "zip_members": 37,
+    "complete_retained_parsed_row_payloads_in_evidence_zip": 0,
+    "required_generated_input_files": 18,
+    "retained_source_tree_available": false,
+    "complete_original_archive_directory_available": false,
+    "silent_archived_input_fallback": false
+  },
+  "executed_synthetic_scope": [
+    "calendar semantics and actual rendered branch",
+    "physical-game sensitivity invariance and negative chronology cases",
+    "complete keyed scientific cell comparison",
+    "actual subprocess input reads and source-write rejection",
+    "actual pinned original four regression programs on synthetic data",
+    "secondary input environment/read audit and complete keyed output comparator"
+  ],
+  "new_decoded_panel_sha256": null,
+  "new_four_model_results": null,
+  "new_authentic_secondary_results": null,
+  "workload_scientific_definition_adopted": "historical roster-row history for SCI-001-only primary; physical-game alternative unadopted sensitivity",
+  "preserved": {
+    "original_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+    "original_fast_models_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
+    "original_star_archive_sha256": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70",
+    "frozen_files_changed": false,
+    "manuscript_changed": false,
+    "legacy_commands_redirected": false,
+    "PR_4": "draft_unmerged",
+    "Issue_5": "open"
+  },
+  "release_A_ready": false,
+  "limitations": [
+    "No new panel built from authentic retained sources in this session",
+    "No authentic SCI-002 model consequences established",
+    "All 33 secondary analyses, additional paper statistics and figures pending",
+    "Expanded original NBA JSON plus six-season PDF run still unverified; not a prerequisite for localized SCI-001 correction",
+    "Human classifications, precise original metadata, award/source validation and publication decisions remain inherited or open as previously documented"
+  ],
+  "local_tests": {
+    "full_suite_passed": 685,
+    "full_suite_failed": 0,
+    "new_tests_passed": 28,
+    "new_tests_failed": 0,
+    "authentic_scientific_acceptance": false
+  },
+  "github_actions": "pending_new_commit_CI"
+}
