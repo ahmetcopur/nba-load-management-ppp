@@ -2,7 +2,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import pandas as pd
-from scripts.data_rebuild.experiment_2025_team_metadata import compare_csv, require_team_only_difference, tree_hashes, stage
+from scripts.data_rebuild.experiment_2025_team_metadata import compare_csv, compare_models, require_team_only_difference, tree_hashes, stage, resumed_identity
 from scripts.data_rebuild.generate_2025_selector_inputs import generate
 
 
@@ -66,6 +66,26 @@ class MetadataExperimentTests(unittest.TestCase):
             (out/"data").write_text("tampered")
             with self.assertRaisesRegex(ValueError,"checkpoint"):
                 stage(root,"test",cmd,out,True)
+
+    def test_only_original_runtime_seconds_can_differ_between_models(self):
+        with tempfile.TemporaryDirectory() as folder:
+            a,b=Path(folder)/"a.csv",Path(folder)/"b.csv"
+            rows=[{"definition":d,"controls":c,"n":10,"estimate_pp":"1.23456789012345","seconds":1}
+                  for d in ("legacy_primary","harmonized_linear") for c in ("full","none")]
+            frame=pd.DataFrame(rows);frame.to_csv(a,index=False)
+            frame["seconds"]=2;frame.to_csv(b,index=False)
+            result=compare_models(a,b)
+            self.assertFalse(result["exact_decoded_bytes"])
+            self.assertTrue(result["scientific_model_cells_exact"])
+            frame.loc[0,"estimate_pp"]="1.23456789012346";frame.to_csv(b,index=False)
+            with self.assertRaisesRegex(ValueError,"Scientific model"):
+                compare_models(a,b)
+
+    def test_resume_cannot_ignore_unknown_code_changes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(ValueError,"identity changed"):
+                resumed_identity({"code_hashes":{"unknown":"old"}},
+                                 {"code_hashes":{"unknown":"new"}},Path(folder))
 
 
 if __name__=="__main__":unittest.main()

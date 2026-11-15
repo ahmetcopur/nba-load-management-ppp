@@ -1,5 +1,7 @@
 # October report-selector dependency audit — 2026-11-14
 
+**November 15 update:** the [authentic controlled 2025 experiment](CONTROLLED_2025_TEAM_METADATA_EXPERIMENT.md) passed complete frozen and corrected scientific-panel equality and exact statistical-field equality across all four models. Only the historical team metadata and model execution durations differ. The original S4 team-join provenance remains unresolved, but it is no longer evidence of a scientific-output blocker. The six seasons still require cumulative canonical integration and a new authentic combined run.
+
 The historical October cadence builder consumes six `*_game_snapshot_join_harmonized_canonical.csv` files. It also consumes the corresponding 2020–21, 2021–22, 2024–25 and 2025–26 canonical team-status files and 2022–23/2023–24 S4 team-status tables. `restore_historical_layout.py` currently stages the canonical tables from `nba_canonical_snapshot_selector_v1.zip`; the two other team-status tables come from their S4 ZIPs. The August latest-pre-tip report selection is a separate scientific input and must not be substituted for October's harmonized 01PM/05PM/08PM cadence.
 
 | Season | Historical selector input | Rebuild status and earliest currently connected input |

@@ -30,6 +30,7 @@ TEAM = SELECTOR_DEST + "/2025-26_team_game_status_harmonized_canonical.csv"
 GAME = SELECTOR_DEST + "/2025-26_game_snapshot_join_harmonized_canonical.csv"
 ROWS = "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv"
 DISPUTED = {"team_final_status", "inferred_no_listed_players"}
+LEGACY_ORCHESTRATOR_SHA = "40f84f830ef08c81ddf5773a3b632c38da222a67e35e3cb4725b80fe2697068b"
 
 
 def save(path, value):
@@ -82,6 +83,43 @@ def require_team_only_difference(control, experimental):
     return result
 
 
+def compare_models(control, experimental):
+    """Preserve CSV hash inequality; exclude only original time.time() duration."""
+    result = compare_csv(control, experimental, ["definition", "controls"])
+    if not result["schema_equal"] or not result["aligned_identities_equal"] or result["control_rows"]!=4:
+        raise ValueError("Model schemas or four specification identities differ")
+    a=pd.read_csv(control,dtype=str,keep_default_na=False).set_index(["definition","controls"]).sort_index()
+    b=pd.read_csv(experimental,dtype=str,keep_default_na=False).set_index(["definition","controls"]).sort_index()
+    expected={(d,c) for d in ("legacy_primary","harmonized_linear") for c in ("full","none")}
+    if set(a.index)!=expected or "seconds" not in a:
+        raise ValueError("Original four model specifications or runtime column missing")
+    for frame in (a,b):
+        seconds=pd.to_numeric(frame.seconds,errors="raise")
+        if not seconds.ge(0).all() or not seconds.lt(float("inf")).all():
+            raise ValueError("Invalid model execution duration")
+    scientific=a.drop(columns="seconds").eq(b.drop(columns="seconds")).to_numpy().all()
+    result.update(scientific_model_cells_exact=bool(scientific), excluded_execution_metadata=["seconds"],
+                  excluded_metadata_definition="Original SHA-pinned fast program: seconds=time.time()-t")
+    if not scientific:
+        raise ValueError("Scientific model results differ")
+    return result
+
+
+def resumed_identity(previous, current, output):
+    if previous==current:
+        return previous
+    # Commit 70ebe218 executed all four scientific stages, then rejected only
+    # their different time.time() durations. Permit re-evaluation of those
+    # exact completed stages, never changed scientific code, sources or files.
+    legacy=json.loads(json.dumps(current))
+    key="scripts/data_rebuild/experiment_2025_team_metadata.py"
+    legacy["code_hashes"][key]=LEGACY_ORCHESTRATOR_SHA
+    if previous!=legacy or not all((output/(name+".execution.json")).is_file() for name in (
+            "control_frozen","experimental_frozen","control_corrected","experimental_corrected")):
+        raise ValueError("Original source, archive, or code identity changed before resume")
+    return previous
+
+
 def panel_summary(path):
     frame = pd.read_csv(path, low_memory=False)
     if frame.player_team_game_id.duplicated().any():
@@ -132,9 +170,9 @@ def run(archives, source, output, resume=False):
     identity = {"source_hashes":tree_hashes(source), "archive_hashes":original,
                 "code_hashes":{str(p.relative_to(TOOLS.parents[1])):file_sha256(p) for p in code_paths}}
     if resume:
-        if json.loads((output/"experiment_identity.json").read_text())!=identity:
-            raise ValueError("Original source, archive, or code identity changed before resume")
+        execution_identity=resumed_identity(json.loads((output/"experiment_identity.json").read_text()),identity,output)
     else:
+        execution_identity=identity
         output.mkdir(parents=True); save(output/"experiment_identity.json", identity)
         frames = {}
         audit = generate(archives, source, output/"source_audit", audit_only=True, diagnostic_frames=frames)
@@ -202,16 +240,18 @@ def run(archives, source, output, resume=False):
         model_checks[name]=verify_model_report(corrected[name]/"fixture_date_chronology_sensitivity.json")
     panel = compare_csv(corrected["control"]/"player_team_game_harmonized_cadence.csv.gz",
                         corrected["experimental"]/"player_team_game_harmonized_cadence.csv.gz",["player_team_game_id"])
-    models = compare_csv(corrected["control"]/"stage6_models/cadence_harmonized_model_results.csv",
-                         corrected["experimental"]/"stage6_models/cadence_harmonized_model_results.csv",["definition","controls"])
-    if not panel["exact_decoded_bytes"] or panel["control_decoded_sha256"]!=CORRECTED_SHA or not models["exact_decoded_bytes"] or models["control_rows"]!=4:
+    models = compare_models(corrected["control"]/"stage6_models/cadence_harmonized_model_results.csv",
+                            corrected["experimental"]/"stage6_models/cadence_harmonized_model_results.csv")
+    if not panel["exact_decoded_bytes"] or panel["control_decoded_sha256"]!=CORRECTED_SHA:
         raise ValueError("Corrected panel or all four models differ")
     if any(tree_hashes(root)!=fingerprints[name] for name,root in conditions.items()) or tree_hashes(source)!=identity["source_hashes"] or any(file_sha256(archives/k)!=v for k,v in original.items()):
         raise ValueError("Original condition inputs or sources changed during experiment")
     result = {"status":"pass","outcome":"metadata_only_for_executed_scientific_outputs",
         "historical_team_artifact_equivalence":False,"original_S4_team_join_recovered":False,
         "cumulative_six_season_raw_source_execution":False,"other_seasons_inherit_pinned_historical_inputs":True,
-        "identity":identity,"input_fingerprints":fingerprints,"input_difference":json.loads((output/"input_difference.json").read_text()),
+        "identity":execution_identity,"acceptance_evaluator_identity":identity,
+        "completed_scientific_stages_reused":resume,
+        "input_fingerprints":fingerprints,"input_difference":json.loads((output/"input_difference.json").read_text()),
         "execution":execution,"frozen_outputs":comparisons,"frozen_panels":frozen_summaries,
         "corrected_panel":panel,"corrected_panels":{n:panel_summary(p/"player_team_game_harmonized_cadence.csv.gz") for n,p in corrected.items()},
         "corrected_models":models,"model_target_checks":model_checks,

@@ -1,0 +1,944 @@
+{
+  "status": "pass",
+  "outcome": "metadata_only_for_executed_scientific_outputs",
+  "historical_team_artifact_equivalence": false,
+  "original_S4_team_join_recovered": false,
+  "cumulative_six_season_raw_source_execution": false,
+  "other_seasons_inherit_pinned_historical_inputs": true,
+  "identity": {
+    "source_hashes": {
+      "candidate_acceptance.json": "12cce453b4586c19525799333c28571b22a0562419b93a875feb3b5ed40f26a4",
+      "candidate_inventory.csv": "51f544e7aaf0859d50100a2cb2cc98e999fc66dbc5ded0761a6d07ddd7bb7e82",
+      "full_candidate_parse_log.csv": "200711efe1b1836c37f07c2648c4a4111c77c79ae0f24eac5d63c1ec69269579",
+      "full_candidate_rows.csv": "38d5ba587ac1109585014190841d8d7a495c8ae3fb87871e351342c6ada375ac"
+    },
+    "archive_hashes": {
+      "audit_2020_21_corrected_outputs.zip": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8",
+      "audit_2021_22_cadence_outputs.zip": "861ccc5ea82834632b6fc9c477be318aaa09ea9a243d4a990f93051af148b420",
+      "audit_2022_23_pre_s4_outputs.zip": "dd750f6f95e907ed55cf673ce08ee321062aac03b09ec79aa4abffadae94513b",
+      "audit_2022_23_s4_join_results.zip": "fbbdcca334f0c904ae48f76551dc50319db346f487e90a77eacacd5839df97c6",
+      "audit_2023_24_pre_s4_outputs.zip": "edd411a4dd1ad113f32492d2e9fd96a842727628566d56b9b797c3913d19abbf",
+      "audit_2023_24_s4_join_results.zip": "9d59f4f0dde7aed9b8dacfd3706b55f24c1aa9a17cf1e6bdc093eb498570d5e7",
+      "audit_2024_25_pre_s4_outputs_corrected.zip": "6b569b2f39b9f2e73087dffd3e83f11d32c5ac09fb92661d4c4b467d5b3bdcb8",
+      "audit_2025_26_s4_join_results.zip": "6ad1013984693abc852b4a8cf2fcf3aad6dc1a9eb555ef35d121f95ca4c9989c",
+      "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "nba_canonical_snapshot_selector_v1.zip": "fa724ee6cd341b0322c311258f472f0ad7dfeeea4683cf2e406a48fe0d1f94a7",
+      "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+      "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+      "nba_player_game_analysis_ready_v1.zip": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+      "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
+    },
+    "code_hashes": {
+      "scripts/data_rebuild/experiment_2025_team_metadata.py": "40f84f830ef08c81ddf5773a3b632c38da222a67e35e3cb4725b80fe2697068b",
+      "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "scripts/data_rebuild/generate_2025_selector_inputs.py": "d0d83116b280a8d232a605bc218cb99fe2e6e2c65f9f78505b42c809a682a6a4",
+      "scripts/data_rebuild/run_historical_cadence_builder.py": "cb24e4b906954dab715b193ed70040a45ed86c65b88d899380169f7c9c18b6f5",
+      "scripts/data_rebuild/fixture_date_chronology_sensitivity.py": "de51beff86756fefdf282ea4c69bc7d5440f89ea806b788bbf7c417d69438ae4"
+    }
+  },
+  "acceptance_evaluator_identity": {
+    "source_hashes": {
+      "candidate_acceptance.json": "12cce453b4586c19525799333c28571b22a0562419b93a875feb3b5ed40f26a4",
+      "candidate_inventory.csv": "51f544e7aaf0859d50100a2cb2cc98e999fc66dbc5ded0761a6d07ddd7bb7e82",
+      "full_candidate_parse_log.csv": "200711efe1b1836c37f07c2648c4a4111c77c79ae0f24eac5d63c1ec69269579",
+      "full_candidate_rows.csv": "38d5ba587ac1109585014190841d8d7a495c8ae3fb87871e351342c6ada375ac"
+    },
+    "archive_hashes": {
+      "audit_2020_21_corrected_outputs.zip": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8",
+      "audit_2021_22_cadence_outputs.zip": "861ccc5ea82834632b6fc9c477be318aaa09ea9a243d4a990f93051af148b420",
+      "audit_2022_23_pre_s4_outputs.zip": "dd750f6f95e907ed55cf673ce08ee321062aac03b09ec79aa4abffadae94513b",
+      "audit_2022_23_s4_join_results.zip": "fbbdcca334f0c904ae48f76551dc50319db346f487e90a77eacacd5839df97c6",
+      "audit_2023_24_pre_s4_outputs.zip": "edd411a4dd1ad113f32492d2e9fd96a842727628566d56b9b797c3913d19abbf",
+      "audit_2023_24_s4_join_results.zip": "9d59f4f0dde7aed9b8dacfd3706b55f24c1aa9a17cf1e6bdc093eb498570d5e7",
+      "audit_2024_25_pre_s4_outputs_corrected.zip": "6b569b2f39b9f2e73087dffd3e83f11d32c5ac09fb92661d4c4b467d5b3bdcb8",
+      "audit_2025_26_s4_join_results.zip": "6ad1013984693abc852b4a8cf2fcf3aad6dc1a9eb555ef35d121f95ca4c9989c",
+      "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "nba_canonical_snapshot_selector_v1.zip": "fa724ee6cd341b0322c311258f472f0ad7dfeeea4683cf2e406a48fe0d1f94a7",
+      "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+      "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+      "nba_player_game_analysis_ready_v1.zip": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+      "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
+    },
+    "code_hashes": {
+      "scripts/data_rebuild/experiment_2025_team_metadata.py": "17538b104d811c564b3d83d56c83d3abe6cfea41158e52362fc446221244d554",
+      "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "scripts/data_rebuild/generate_2025_selector_inputs.py": "d0d83116b280a8d232a605bc218cb99fe2e6e2c65f9f78505b42c809a682a6a4",
+      "scripts/data_rebuild/run_historical_cadence_builder.py": "cb24e4b906954dab715b193ed70040a45ed86c65b88d899380169f7c9c18b6f5",
+      "scripts/data_rebuild/fixture_date_chronology_sensitivity.py": "de51beff86756fefdf282ea4c69bc7d5440f89ea806b788bbf7c417d69438ae4"
+    }
+  },
+  "completed_scientific_stages_reused": true,
+  "input_fingerprints": {
+    "control": {
+      "cadence_2025/player_crosswalk_final.csv": "90e89597a26d013c729cef3253b25ff96b0a77e9efec64e4fd43190aabf53907",
+      "cadence_2025/audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "cadence_2025/audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "cadence_work/player_alias_table.csv": "29a4bd935038efbcd600359edbbc8f9a92cd9fc9de49a24445861edd3d181fb1",
+      "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz": "5aa6a93bebf99d2a2c8260e97c68c55d979e3a00ea1c6340f0afbdb4f0bd6663",
+      "cadence_core_full/nba_player_game_at_risk_core_v1/parsers/parser_2023plus.py": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv": "4ffdbe4c4b7c0205405702e23c831d1cf6d87e3ec56c6a1b3b4ba56576238110",
+      "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv": "ab5df0f94dfb7dfcdd1f5a4b584d7beb6841042f507321fd58825071fd8d2296",
+      "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv": "0c9556a521433686952b9632cb216863d1145b88fdb88f56a841e32b523b1e37",
+      "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv": "d88ca6be27612515b97f1417b590b30b0d769ea07cdb22fbf3cd49a1a275661f",
+      "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv": "c71832d9935a774625638d5c9987ca1bd005553bdecaf2ef60143cf61e1c734e",
+      "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv": "4c7b9fb396163b6491f1d49ba67be46c70f9b167f9561425fe8ab12f3a0e4165",
+      "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+      "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv": "e8e5af4e55118e3ec9ac4fd1146f12f6cf8ec0fbf7f90d25ca5fa576ed9c2e37",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv": "9b48449e5a096b21166ca97f407d4a9dcf5ebedca3e057ede3c5d9d618a30b85",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv": "dd1e7b5f4ade4c4f6aa1a0802f40dad9c531ef2d3ecce932d5d807eeb6f72a74",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv": "f7322d22edcdf96b74448d2849a2b29ccaa6453b9968ced65427e55461751af4",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv": "b14508fd5f5ca446cbcd657435523a503afbdb6cf1354656a630455132776171",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv": "1849e96a96ce0ac0353ee6e695dde0c61fefdccf16c4c0eb08edd22ff51dbdf6",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv": "163cf8526d5c36a932eba0d975a90580512ad08d69d5ef0fca2d9165b3a8708f",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv": "d8dc24a0effbbcc02592d7fe704c7adfc2b08d78090786fa3523d4f4cb9caf61",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv": "80625b8351ede91229fca4cd7044c5da44438ec7c112820a8851c266535cdd66",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "da368b27fa62a8d7be4b1cea20e6df2a6f4f13f7fdd8c5634aae3d48a505b0d4"
+    },
+    "experimental": {
+      "cadence_2025/player_crosswalk_final.csv": "90e89597a26d013c729cef3253b25ff96b0a77e9efec64e4fd43190aabf53907",
+      "cadence_2025/audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "cadence_2025/audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+      "cadence_work/player_alias_table.csv": "29a4bd935038efbcd600359edbbc8f9a92cd9fc9de49a24445861edd3d181fb1",
+      "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz": "5aa6a93bebf99d2a2c8260e97c68c55d979e3a00ea1c6340f0afbdb4f0bd6663",
+      "cadence_core_full/nba_player_game_at_risk_core_v1/parsers/parser_2023plus.py": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+      "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv": "4ffdbe4c4b7c0205405702e23c831d1cf6d87e3ec56c6a1b3b4ba56576238110",
+      "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv": "ab5df0f94dfb7dfcdd1f5a4b584d7beb6841042f507321fd58825071fd8d2296",
+      "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv": "0c9556a521433686952b9632cb216863d1145b88fdb88f56a841e32b523b1e37",
+      "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv": "d88ca6be27612515b97f1417b590b30b0d769ea07cdb22fbf3cd49a1a275661f",
+      "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv": "c71832d9935a774625638d5c9987ca1bd005553bdecaf2ef60143cf61e1c734e",
+      "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv": "4c7b9fb396163b6491f1d49ba67be46c70f9b167f9561425fe8ab12f3a0e4165",
+      "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+      "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv": "e8e5af4e55118e3ec9ac4fd1146f12f6cf8ec0fbf7f90d25ca5fa576ed9c2e37",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv": "9b48449e5a096b21166ca97f407d4a9dcf5ebedca3e057ede3c5d9d618a30b85",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv": "dd1e7b5f4ade4c4f6aa1a0802f40dad9c531ef2d3ecce932d5d807eeb6f72a74",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv": "f7322d22edcdf96b74448d2849a2b29ccaa6453b9968ced65427e55461751af4",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv": "b14508fd5f5ca446cbcd657435523a503afbdb6cf1354656a630455132776171",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv": "1849e96a96ce0ac0353ee6e695dde0c61fefdccf16c4c0eb08edd22ff51dbdf6",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv": "163cf8526d5c36a932eba0d975a90580512ad08d69d5ef0fca2d9165b3a8708f",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv": "d8dc24a0effbbcc02592d7fe704c7adfc2b08d78090786fa3523d4f4cb9caf61",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv": "80625b8351ede91229fca4cd7044c5da44438ec7c112820a8851c266535cdd66",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58"
+    }
+  },
+  "input_difference": {
+    "control_decoded_sha256": "da368b27fa62a8d7be4b1cea20e6df2a6f4f13f7fdd8c5634aae3d48a505b0d4",
+    "experimental_decoded_sha256": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58",
+    "control_rows": 2460,
+    "experimental_rows": 2460,
+    "schema_equal": true,
+    "only_control_columns": [],
+    "only_experimental_columns": [],
+    "key_columns": [
+      "game_id",
+      "team_role"
+    ],
+    "row_order_equal": true,
+    "exact_decoded_bytes": false,
+    "only_control_keys": 0,
+    "only_experimental_keys": 0,
+    "aligned_identities_equal": true,
+    "differing_rows": 1598,
+    "differing_cells": 3196,
+    "differences_by_column": {
+      "team_final_status": 1598,
+      "inferred_no_listed_players": 1598
+    }
+  },
+  "execution": {
+    "control": {
+      "command": [
+        "$PYTHON",
+        "$REPO/scripts/data_rebuild/run_historical_cadence_builder.py",
+        "--historical-root",
+        "$EXPERIMENT_ROOT/control_inputs",
+        "--output",
+        "$EXPERIMENT_ROOT/control_frozen",
+        "--required-input-hashes",
+        "$EXPERIMENT_ROOT/control_required_inputs.json"
+      ],
+      "wrapper_exit_status": 0,
+      "output_sha256": {
+        "replay_environment.json": "4a45a9957b63025742bb6796219ae8a1e1fb9caab3b6afa41bfec0f54b82a501",
+        "snapshot_selection_comparison.csv": "2314502aca91e35d66b4821351300a4fc2cb37682521aa598917ba88890ba6a9",
+        "cadence_panel_counts_by_season.csv": "5980c8ffa57b255c4928275830e044c0f962010ddf80a1a2d9c11b973c8df47e",
+        "player_team_game_harmonized_cadence.csv.gz": "00af0be4ad6569c99f47d58878b11cb957fd9edc6ebbd942fb85094aade632ef",
+        "harmonized_selected_report_player_rows.csv.gz": "1bf3267cef52783b15d923a9bbd2936a541123b193507fd903b62b3c0900fb0b",
+        "harmonized_unmatched_report_players.csv": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+        "harmonized_selected_report_rows_all.csv.gz": "18a5f9bc339e2cd5da2cbdd26b0202ce3a9fbed5d5e84a3c27f89c1b9477b757",
+        "harmonized_team_game_report_status.csv": "bbc0f2c55a4aa605ea0774361d95fd0835aa75b26540fdb765908b23dab50043",
+        "harmonized_game_snapshot_map.csv": "eec4eb2791ae038e7f18ac0433225320ef6dadd013f273d32bef5719c08ed6c5"
+      }
+    },
+    "experimental": {
+      "command": [
+        "$PYTHON",
+        "$REPO/scripts/data_rebuild/run_historical_cadence_builder.py",
+        "--historical-root",
+        "$EXPERIMENT_ROOT/experimental_inputs",
+        "--output",
+        "$EXPERIMENT_ROOT/experimental_frozen",
+        "--required-input-hashes",
+        "$EXPERIMENT_ROOT/experimental_required_inputs.json"
+      ],
+      "wrapper_exit_status": 0,
+      "output_sha256": {
+        "replay_environment.json": "e02fcfe3fc1002fb5e5187c6cf163670a684e9579acb430f07136d451726e644",
+        "snapshot_selection_comparison.csv": "2314502aca91e35d66b4821351300a4fc2cb37682521aa598917ba88890ba6a9",
+        "cadence_panel_counts_by_season.csv": "5980c8ffa57b255c4928275830e044c0f962010ddf80a1a2d9c11b973c8df47e",
+        "player_team_game_harmonized_cadence.csv.gz": "2effc462463095acc8ee38bd403d87ae7b31316ea9a4d14fbf8885f784a62696",
+        "harmonized_selected_report_player_rows.csv.gz": "e75977d83679211cc6f281091f93c334fe17597d784da689b129385e6df8e73a",
+        "harmonized_unmatched_report_players.csv": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+        "harmonized_selected_report_rows_all.csv.gz": "e56f2e94887a611db18047146dacccd74b9a759900cd4fc8d3766f763a87c231",
+        "harmonized_team_game_report_status.csv": "0ea41159f1c6f2866abdc7b7851650001709714340c21d830681a8da4daf7002",
+        "harmonized_game_snapshot_map.csv": "eec4eb2791ae038e7f18ac0433225320ef6dadd013f273d32bef5719c08ed6c5"
+      }
+    },
+    "control_corrected": {
+      "command": [
+        "$PYTHON",
+        "$REPO/scripts/data_rebuild/fixture_date_chronology_sensitivity.py",
+        "--replay-root",
+        "$EXPERIMENT_ROOT/control_inputs",
+        "--variant-root",
+        "$EXPERIMENT_ROOT/control_chronology_inputs",
+        "--output",
+        "$EXPERIMENT_ROOT/control_corrected",
+        "--covariates-zip",
+        "$ARCHIVE_DIR/nba_game_covariates_v1.zip",
+        "--required-input-hashes",
+        "$EXPERIMENT_ROOT/control_required_inputs.json"
+      ],
+      "wrapper_exit_status": 0,
+      "output_sha256": {
+        "fixture_date_chronology_sensitivity.json": "010ddbc684c2835996475bf138d2739949397f79bebd218801259ef33582d2cd",
+        "changed_designation_status.csv": "fa94b82434e10899694c03e0b6b161b8aec28738fa3ac56b1ec0dc15b792c9ad",
+        "changed_absence_onset_harm.csv": "531e6f949763d9a5a43eb0cab020beb63f23025384fec3364c678ea56ac295fb",
+        "changed_at_risk_for_new_onset_harm.csv": "3d7289545d3bbe9654fe0b4000321bb27c1f854902d6b57df82a993a0926b5bb",
+        "changed_absence_now_harm.csv": "070b37443c1fd2519117646f2592050422d0185ac45628213543a9aeaf6721c3",
+        "replay_environment.json": "f1752380e911e8c756855c4ff3e887f31545c271c82ea21c61aa928ca98952d8",
+        "snapshot_selection_comparison.csv": "bec56672c3f2b48e497c3565fadba78f60327fb04b96e1a3fd936c3c0d552a5b",
+        "cadence_panel_counts_by_season.csv": "88fbde7762c1e8bb6b9f069da9e3607461b18948195edd871fc2de8a4314fa1f",
+        "player_team_game_harmonized_cadence.csv.gz": "6cf67d366b0c09a9ba21452576d601a5d785e52136722d2a1cfff15866dc127d",
+        "harmonized_selected_report_player_rows.csv.gz": "eb9e6fd87630ecfdff6330219976ed0ffa6476b056f3baa7f946e6ec48ff03df",
+        "harmonized_unmatched_report_players.csv": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+        "harmonized_selected_report_rows_all.csv.gz": "d2d846044b68b8522d4590f2110ae1189cdfb43e3cdb68d9baea733f0894b320",
+        "harmonized_team_game_report_status.csv": "b1ab1d343ad094d87de4a35784afa14ed97a33e9dadbd3c6477302d5c8606a6b",
+        "harmonized_game_snapshot_map.csv": "5b50ff63588902065815f58056be474bc430446e8bea06857793022715cca4e5",
+        "stage6_models/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stage6_models/stdout.txt": "5c6097acd37d157db1826da4e834e6bc453d7e95b8c98a188a9c7e8b419a9aa7",
+        "stage6_models/cadence_harmonized_model_results.csv": "cc21087bc96b20aaebac46341193871639b39b4bf93fb900d0531063fe2b4bc8"
+      }
+    },
+    "experimental_corrected": {
+      "command": [
+        "$PYTHON",
+        "$REPO/scripts/data_rebuild/fixture_date_chronology_sensitivity.py",
+        "--replay-root",
+        "$EXPERIMENT_ROOT/experimental_inputs",
+        "--variant-root",
+        "$EXPERIMENT_ROOT/experimental_chronology_inputs",
+        "--output",
+        "$EXPERIMENT_ROOT/experimental_corrected",
+        "--covariates-zip",
+        "$ARCHIVE_DIR/nba_game_covariates_v1.zip",
+        "--required-input-hashes",
+        "$EXPERIMENT_ROOT/experimental_required_inputs.json"
+      ],
+      "wrapper_exit_status": 0,
+      "output_sha256": {
+        "fixture_date_chronology_sensitivity.json": "010ddbc684c2835996475bf138d2739949397f79bebd218801259ef33582d2cd",
+        "changed_designation_status.csv": "fa94b82434e10899694c03e0b6b161b8aec28738fa3ac56b1ec0dc15b792c9ad",
+        "changed_absence_onset_harm.csv": "531e6f949763d9a5a43eb0cab020beb63f23025384fec3364c678ea56ac295fb",
+        "changed_at_risk_for_new_onset_harm.csv": "3d7289545d3bbe9654fe0b4000321bb27c1f854902d6b57df82a993a0926b5bb",
+        "changed_absence_now_harm.csv": "070b37443c1fd2519117646f2592050422d0185ac45628213543a9aeaf6721c3",
+        "replay_environment.json": "e84f2bc29234f7602c33cb6737068d73daaa1889afd1e03911c0a1177e330168",
+        "snapshot_selection_comparison.csv": "bec56672c3f2b48e497c3565fadba78f60327fb04b96e1a3fd936c3c0d552a5b",
+        "cadence_panel_counts_by_season.csv": "88fbde7762c1e8bb6b9f069da9e3607461b18948195edd871fc2de8a4314fa1f",
+        "player_team_game_harmonized_cadence.csv.gz": "a6c7a102e6537214288362d192c17949fffc908190f33fe84cbf6b26d2972e7b",
+        "harmonized_selected_report_player_rows.csv.gz": "77a9579996b92fd29bd924ba0f54cef4ac0152597f5f36d772de52b148dcdcfb",
+        "harmonized_unmatched_report_players.csv": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+        "harmonized_selected_report_rows_all.csv.gz": "52c62a0af12ae3e1cac92984a9ec92f414f99d368da9761c03bb54cbecc936b8",
+        "harmonized_team_game_report_status.csv": "8aa647761fe1704e4eba2e4fc89520e2761ff049d73ab7482e8338c985a27a26",
+        "harmonized_game_snapshot_map.csv": "5b50ff63588902065815f58056be474bc430446e8bea06857793022715cca4e5",
+        "stage6_models/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stage6_models/stdout.txt": "6380dbc3ee51bf3c0dc013b86ed41dfd50091268781151bf97e81eb87d358ca1",
+        "stage6_models/cadence_harmonized_model_results.csv": "378fca591bebf69472888f2142e872fbe805fe6776c48cba3d471f4de6399889"
+      }
+    }
+  },
+  "frozen_outputs": {
+    "harmonized_game_snapshot_map.csv": {
+      "control_decoded_sha256": "eec4eb2791ae038e7f18ac0433225320ef6dadd013f273d32bef5719c08ed6c5",
+      "experimental_decoded_sha256": "eec4eb2791ae038e7f18ac0433225320ef6dadd013f273d32bef5719c08ed6c5",
+      "control_rows": 7230,
+      "experimental_rows": 7230,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "harmonized_team_game_report_status.csv": {
+      "control_decoded_sha256": "bbc0f2c55a4aa605ea0774361d95fd0835aa75b26540fdb765908b23dab50043",
+      "experimental_decoded_sha256": "0ea41159f1c6f2866abdc7b7851650001709714340c21d830681a8da4daf7002",
+      "control_rows": 14460,
+      "experimental_rows": 14460,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": [
+        "game_id",
+        "team_role"
+      ],
+      "row_order_equal": true,
+      "exact_decoded_bytes": false,
+      "only_control_keys": 0,
+      "only_experimental_keys": 0,
+      "aligned_identities_equal": true,
+      "differing_rows": 1598,
+      "differing_cells": 3196,
+      "differences_by_column": {
+        "team_final_status": 1598,
+        "inferred_no_listed_players": 1598
+      }
+    },
+    "harmonized_selected_report_rows_all.csv.gz": {
+      "control_decoded_sha256": "9ae635620dd14267e845d0da05e7b0f00a17ef6b75874c3a5f98601999365db6",
+      "experimental_decoded_sha256": "9ae635620dd14267e845d0da05e7b0f00a17ef6b75874c3a5f98601999365db6",
+      "control_rows": 72695,
+      "experimental_rows": 72695,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "harmonized_unmatched_report_players.csv": {
+      "control_decoded_sha256": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+      "experimental_decoded_sha256": "1a4468b6a233c431d128e5e8f5d29034eb74a3319c73c23eba78fd888cf2b59a",
+      "control_rows": 0,
+      "experimental_rows": 0,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "harmonized_selected_report_player_rows.csv.gz": {
+      "control_decoded_sha256": "9a2976332cebce026b35c1170ae894d417c75be0eae6512a955319deee901824",
+      "experimental_decoded_sha256": "9a2976332cebce026b35c1170ae894d417c75be0eae6512a955319deee901824",
+      "control_rows": 72590,
+      "experimental_rows": 72590,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "player_team_game_harmonized_cadence.csv.gz": {
+      "control_decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
+      "experimental_decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
+      "control_rows": 248778,
+      "experimental_rows": 248778,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": [
+        "player_team_game_id"
+      ],
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "only_control_keys": 0,
+      "only_experimental_keys": 0,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "cadence_panel_counts_by_season.csv": {
+      "control_decoded_sha256": "5980c8ffa57b255c4928275830e044c0f962010ddf80a1a2d9c11b973c8df47e",
+      "experimental_decoded_sha256": "5980c8ffa57b255c4928275830e044c0f962010ddf80a1a2d9c11b973c8df47e",
+      "control_rows": 6,
+      "experimental_rows": 6,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    },
+    "snapshot_selection_comparison.csv": {
+      "control_decoded_sha256": "2314502aca91e35d66b4821351300a4fc2cb37682521aa598917ba88890ba6a9",
+      "experimental_decoded_sha256": "2314502aca91e35d66b4821351300a4fc2cb37682521aa598917ba88890ba6a9",
+      "control_rows": 7230,
+      "experimental_rows": 7230,
+      "schema_equal": true,
+      "only_control_columns": [],
+      "only_experimental_columns": [],
+      "key_columns": null,
+      "row_order_equal": true,
+      "exact_decoded_bytes": true,
+      "aligned_identities_equal": true,
+      "differing_rows": 0,
+      "differing_cells": 0,
+      "differences_by_column": {}
+    }
+  },
+  "frozen_panels": {
+    "control": {
+      "rows": 248778,
+      "games": 7230,
+      "at_risk": 180664,
+      "onsets": 12731,
+      "columns": [
+        "player_team_game_id",
+        "game_id",
+        "season",
+        "source_match_number",
+        "game_date_et",
+        "tip_utc",
+        "team",
+        "opponent",
+        "team_norm",
+        "nba_player_id",
+        "nba_player_name",
+        "from_boxscore_roster",
+        "played_bool",
+        "minutes_played",
+        "team_game_number",
+        "star_PPP_it",
+        "postPPP",
+        "cup_game",
+        "announced_tv_primary",
+        "network_announced",
+        "tv_harmonized_linear",
+        "is_home",
+        "back_to_back",
+        "three_games_in_four_days",
+        "four_games_in_six_days",
+        "travel_km_since_previous_game",
+        "absolute_timezone_shift_hours",
+        "road_trip_game_number",
+        "signed_elo_advantage",
+        "opponent_bottom_quartile_pre",
+        "opponent_back_to_back",
+        "rest_advantage_days",
+        "travel_disadvantage_km",
+        "designation_status",
+        "designation_reason",
+        "report_outcome_observed",
+        "absence_now_harm",
+        "at_risk_for_new_onset_harm",
+        "absence_onset_harm",
+        "games_played_before_game_harm",
+        "minutes_sum_prior_10_roster_games_harm",
+        "dist_to_65_before_game_harm",
+        "snapshot_basename",
+        "snapshot_timestamp_utc",
+        "team_snapshot_minutes_before_tip"
+      ],
+      "decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac"
+    },
+    "experimental": {
+      "rows": 248778,
+      "games": 7230,
+      "at_risk": 180664,
+      "onsets": 12731,
+      "columns": [
+        "player_team_game_id",
+        "game_id",
+        "season",
+        "source_match_number",
+        "game_date_et",
+        "tip_utc",
+        "team",
+        "opponent",
+        "team_norm",
+        "nba_player_id",
+        "nba_player_name",
+        "from_boxscore_roster",
+        "played_bool",
+        "minutes_played",
+        "team_game_number",
+        "star_PPP_it",
+        "postPPP",
+        "cup_game",
+        "announced_tv_primary",
+        "network_announced",
+        "tv_harmonized_linear",
+        "is_home",
+        "back_to_back",
+        "three_games_in_four_days",
+        "four_games_in_six_days",
+        "travel_km_since_previous_game",
+        "absolute_timezone_shift_hours",
+        "road_trip_game_number",
+        "signed_elo_advantage",
+        "opponent_bottom_quartile_pre",
+        "opponent_back_to_back",
+        "rest_advantage_days",
+        "travel_disadvantage_km",
+        "designation_status",
+        "designation_reason",
+        "report_outcome_observed",
+        "absence_now_harm",
+        "at_risk_for_new_onset_harm",
+        "absence_onset_harm",
+        "games_played_before_game_harm",
+        "minutes_sum_prior_10_roster_games_harm",
+        "dist_to_65_before_game_harm",
+        "snapshot_basename",
+        "snapshot_timestamp_utc",
+        "team_snapshot_minutes_before_tip"
+      ],
+      "decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac"
+    }
+  },
+  "corrected_panel": {
+    "control_decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+    "experimental_decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+    "control_rows": 248778,
+    "experimental_rows": 248778,
+    "schema_equal": true,
+    "only_control_columns": [],
+    "only_experimental_columns": [],
+    "key_columns": [
+      "player_team_game_id"
+    ],
+    "row_order_equal": true,
+    "exact_decoded_bytes": true,
+    "only_control_keys": 0,
+    "only_experimental_keys": 0,
+    "aligned_identities_equal": true,
+    "differing_rows": 0,
+    "differing_cells": 0,
+    "differences_by_column": {}
+  },
+  "corrected_panels": {
+    "control": {
+      "rows": 248778,
+      "games": 7230,
+      "at_risk": 180664,
+      "onsets": 12729,
+      "columns": [
+        "player_team_game_id",
+        "game_id",
+        "season",
+        "source_match_number",
+        "game_date_et",
+        "tip_utc",
+        "team",
+        "opponent",
+        "team_norm",
+        "nba_player_id",
+        "nba_player_name",
+        "from_boxscore_roster",
+        "played_bool",
+        "minutes_played",
+        "team_game_number",
+        "star_PPP_it",
+        "postPPP",
+        "cup_game",
+        "announced_tv_primary",
+        "network_announced",
+        "tv_harmonized_linear",
+        "is_home",
+        "back_to_back",
+        "three_games_in_four_days",
+        "four_games_in_six_days",
+        "travel_km_since_previous_game",
+        "absolute_timezone_shift_hours",
+        "road_trip_game_number",
+        "signed_elo_advantage",
+        "opponent_bottom_quartile_pre",
+        "opponent_back_to_back",
+        "rest_advantage_days",
+        "travel_disadvantage_km",
+        "designation_status",
+        "designation_reason",
+        "report_outcome_observed",
+        "absence_now_harm",
+        "at_risk_for_new_onset_harm",
+        "absence_onset_harm",
+        "games_played_before_game_harm",
+        "minutes_sum_prior_10_roster_games_harm",
+        "dist_to_65_before_game_harm",
+        "snapshot_basename",
+        "snapshot_timestamp_utc",
+        "team_snapshot_minutes_before_tip"
+      ],
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67"
+    },
+    "experimental": {
+      "rows": 248778,
+      "games": 7230,
+      "at_risk": 180664,
+      "onsets": 12729,
+      "columns": [
+        "player_team_game_id",
+        "game_id",
+        "season",
+        "source_match_number",
+        "game_date_et",
+        "tip_utc",
+        "team",
+        "opponent",
+        "team_norm",
+        "nba_player_id",
+        "nba_player_name",
+        "from_boxscore_roster",
+        "played_bool",
+        "minutes_played",
+        "team_game_number",
+        "star_PPP_it",
+        "postPPP",
+        "cup_game",
+        "announced_tv_primary",
+        "network_announced",
+        "tv_harmonized_linear",
+        "is_home",
+        "back_to_back",
+        "three_games_in_four_days",
+        "four_games_in_six_days",
+        "travel_km_since_previous_game",
+        "absolute_timezone_shift_hours",
+        "road_trip_game_number",
+        "signed_elo_advantage",
+        "opponent_bottom_quartile_pre",
+        "opponent_back_to_back",
+        "rest_advantage_days",
+        "travel_disadvantage_km",
+        "designation_status",
+        "designation_reason",
+        "report_outcome_observed",
+        "absence_now_harm",
+        "at_risk_for_new_onset_harm",
+        "absence_onset_harm",
+        "games_played_before_game_harm",
+        "minutes_sum_prior_10_roster_games_harm",
+        "dist_to_65_before_game_harm",
+        "snapshot_basename",
+        "snapshot_timestamp_utc",
+        "team_snapshot_minutes_before_tip"
+      ],
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67"
+    }
+  },
+  "corrected_models": {
+    "control_decoded_sha256": "cc21087bc96b20aaebac46341193871639b39b4bf93fb900d0531063fe2b4bc8",
+    "experimental_decoded_sha256": "378fca591bebf69472888f2142e872fbe805fe6776c48cba3d471f4de6399889",
+    "control_rows": 4,
+    "experimental_rows": 4,
+    "schema_equal": true,
+    "only_control_columns": [],
+    "only_experimental_columns": [],
+    "key_columns": [
+      "definition",
+      "controls"
+    ],
+    "row_order_equal": true,
+    "exact_decoded_bytes": false,
+    "only_control_keys": 0,
+    "only_experimental_keys": 0,
+    "aligned_identities_equal": true,
+    "differing_rows": 4,
+    "differing_cells": 4,
+    "differences_by_column": {
+      "seconds": 4
+    },
+    "scientific_model_cells_exact": true,
+    "excluded_execution_metadata": [
+      "seconds"
+    ],
+    "excluded_metadata_definition": "Original SHA-pinned fast program: seconds=time.time()-t"
+  },
+  "model_target_checks": {
+    "control": {
+      "models": 4,
+      "primary_beta_pp": 2.6742317292365767,
+      "linear_beta_pp": 1.2823694527266445
+    },
+    "experimental": {
+      "models": 4,
+      "primary_beta_pp": 2.6742317292365767,
+      "linear_beta_pp": 1.2823694527266445
+    }
+  },
+  "model_results": {
+    "control": [
+      {
+        "definition": "harmonized_linear",
+        "controls": "full",
+        "n_frozen": 180530,
+        "n_corrected": 180530,
+        "estimate_pp_frozen": 1.2389703651133357,
+        "estimate_pp_corrected": 1.2823694527266445,
+        "change_pp": 0.043399087613308795,
+        "se_pp_corrected": 1.3188109296530377,
+        "p_frozen": 0.3474532856699015,
+        "p_corrected": 0.3308675408175164
+      },
+      {
+        "definition": "harmonized_linear",
+        "controls": "none",
+        "n_frozen": 180664,
+        "n_corrected": 180664,
+        "estimate_pp_frozen": 1.251112606497564,
+        "estimate_pp_corrected": 1.2948513321879846,
+        "change_pp": 0.0437387256904207,
+        "se_pp_corrected": 1.326850906341709,
+        "p_frozen": 0.3456936764034376,
+        "p_corrected": 0.3291224141374449
+      },
+      {
+        "definition": "legacy_primary",
+        "controls": "full",
+        "n_frozen": 180530,
+        "n_corrected": 180530,
+        "estimate_pp_frozen": 2.6304485901569383,
+        "estimate_pp_corrected": 2.6742317292365767,
+        "change_pp": 0.04378313907963838,
+        "se_pp_corrected": 1.3191241730815737,
+        "p_frozen": 0.0460764656930466,
+        "p_corrected": 0.0426339657858416
+      },
+      {
+        "definition": "legacy_primary",
+        "controls": "none",
+        "n_frozen": 180664,
+        "n_corrected": 180664,
+        "estimate_pp_frozen": 2.6327687803815247,
+        "estimate_pp_corrected": 2.676885495644326,
+        "change_pp": 0.044116715262801254,
+        "se_pp_corrected": 1.3261286428452468,
+        "p_frozen": 0.0470407344780248,
+        "p_corrected": 0.0435317747821202
+      }
+    ],
+    "experimental": [
+      {
+        "definition": "harmonized_linear",
+        "controls": "full",
+        "n_frozen": 180530,
+        "n_corrected": 180530,
+        "estimate_pp_frozen": 1.2389703651133357,
+        "estimate_pp_corrected": 1.2823694527266445,
+        "change_pp": 0.043399087613308795,
+        "se_pp_corrected": 1.3188109296530377,
+        "p_frozen": 0.3474532856699015,
+        "p_corrected": 0.3308675408175164
+      },
+      {
+        "definition": "harmonized_linear",
+        "controls": "none",
+        "n_frozen": 180664,
+        "n_corrected": 180664,
+        "estimate_pp_frozen": 1.251112606497564,
+        "estimate_pp_corrected": 1.2948513321879846,
+        "change_pp": 0.0437387256904207,
+        "se_pp_corrected": 1.326850906341709,
+        "p_frozen": 0.3456936764034376,
+        "p_corrected": 0.3291224141374449
+      },
+      {
+        "definition": "legacy_primary",
+        "controls": "full",
+        "n_frozen": 180530,
+        "n_corrected": 180530,
+        "estimate_pp_frozen": 2.6304485901569383,
+        "estimate_pp_corrected": 2.6742317292365767,
+        "change_pp": 0.04378313907963838,
+        "se_pp_corrected": 1.3191241730815737,
+        "p_frozen": 0.0460764656930466,
+        "p_corrected": 0.0426339657858416
+      },
+      {
+        "definition": "legacy_primary",
+        "controls": "none",
+        "n_frozen": 180664,
+        "n_corrected": 180664,
+        "estimate_pp_frozen": 2.6327687803815247,
+        "estimate_pp_corrected": 2.676885495644326,
+        "change_pp": 0.044116715262801254,
+        "se_pp_corrected": 1.3261286428452468,
+        "p_frozen": 0.0470407344780248,
+        "p_corrected": 0.0435317747821202
+      }
+    ]
+  },
+  "consumption": {
+    "control": {
+      "historical_executed_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+      "package_versions": {
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0",
+        "statsmodels": "0.14.6",
+        "scikit-learn": "1.8.0",
+        "pdfplumber": "0.11.9",
+        "pymupdf": "1.26.7"
+      },
+      "input_root": "$EXPERIMENT_ROOT/control_inputs",
+      "output": "$EXPERIMENT_ROOT/control_frozen",
+      "thread_settings": {
+        "OPENBLAS_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2"
+      },
+      "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction.",
+      "generated_input_consumption": {
+        "required_sha256": {
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "da368b27fa62a8d7be4b1cea20e6df2a6f4f13f7fdd8c5634aae3d48a505b0d4"
+        },
+        "original_builder_opened_paths": [
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+        ],
+        "pre_and_post_execution_hashes_match": true
+      },
+      "builder_outcome": "panel written; model section stopped at known historical norm.sf error",
+      "original_process_returncode": 1
+    },
+    "experimental": {
+      "historical_executed_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+      "package_versions": {
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0",
+        "statsmodels": "0.14.6",
+        "scikit-learn": "1.8.0",
+        "pdfplumber": "0.11.9",
+        "pymupdf": "1.26.7"
+      },
+      "input_root": "$EXPERIMENT_ROOT/experimental_inputs",
+      "output": "$EXPERIMENT_ROOT/experimental_frozen",
+      "thread_settings": {
+        "OPENBLAS_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2"
+      },
+      "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction.",
+      "generated_input_consumption": {
+        "required_sha256": {
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58"
+        },
+        "original_builder_opened_paths": [
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+        ],
+        "pre_and_post_execution_hashes_match": true
+      },
+      "builder_outcome": "panel written; model section stopped at known historical norm.sf error",
+      "original_process_returncode": 1
+    },
+    "control_corrected": {
+      "historical_executed_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+      "package_versions": {
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0",
+        "statsmodels": "0.14.6",
+        "scikit-learn": "1.8.0",
+        "pdfplumber": "0.11.9",
+        "pymupdf": "1.26.7"
+      },
+      "input_root": "$EXPERIMENT_ROOT/control_chronology_inputs",
+      "output": "$EXPERIMENT_ROOT/control_corrected",
+      "thread_settings": {
+        "OPENBLAS_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2"
+      },
+      "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction.",
+      "generated_input_consumption": {
+        "required_sha256": {
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "da368b27fa62a8d7be4b1cea20e6df2a6f4f13f7fdd8c5634aae3d48a505b0d4"
+        },
+        "original_builder_opened_paths": [
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+        ],
+        "pre_and_post_execution_hashes_match": true
+      },
+      "builder_outcome": "panel written; model section stopped at known historical norm.sf error",
+      "original_process_returncode": 1
+    },
+    "experimental_corrected": {
+      "historical_executed_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+      "package_versions": {
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0",
+        "statsmodels": "0.14.6",
+        "scikit-learn": "1.8.0",
+        "pdfplumber": "0.11.9",
+        "pymupdf": "1.26.7"
+      },
+      "input_root": "$EXPERIMENT_ROOT/experimental_chronology_inputs",
+      "output": "$EXPERIMENT_ROOT/experimental_corrected",
+      "thread_settings": {
+        "OPENBLAS_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2"
+      },
+      "warning": "Historical replay uses upstream intermediate data, not raw source reconstruction.",
+      "generated_input_consumption": {
+        "required_sha256": {
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58"
+        },
+        "original_builder_opened_paths": [
+          "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+          "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+        ],
+        "pre_and_post_execution_hashes_match": true
+      },
+      "builder_outcome": "panel written; model section stopped at known historical norm.sf error",
+      "original_process_returncode": 1
+    }
+  },
+  "execution_paths_redacted": true
+}

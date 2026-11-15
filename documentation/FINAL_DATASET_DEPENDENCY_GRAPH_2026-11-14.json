@@ -301,10 +301,10 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "B/E",
-      "regenerated_value_consumed_downstream": true,
+      "classification": "C/E",
+      "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "All 5,023 saved candidate PDFs parsed and both game selections match; archived team metadata contradicts game counts in 800 games per panel. Original S4 team-join program is unrecovered, so strict handoff is blocked."
+      "remaining_limitation": "Controlled fresh-source October executions produce identical frozen/corrected scientific panels and all four statistical model fields; only team metadata and model runtime seconds differ. Historical team equivalence remains unresolved; cumulative canonical connection is pending."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
@@ -373,10 +373,10 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "B/E",
-      "regenerated_value_consumed_downstream": true,
+      "classification": "C/E",
+      "regenerated_value_consumed_downstream": false,
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "All 5,023 saved candidate PDFs parsed and both game selections match; archived team metadata contradicts game counts in 800 games per panel. Original S4 team-join program is unrecovered, so strict handoff is blocked."
+      "remaining_limitation": "Controlled fresh-source October executions produce identical frozen/corrected scientific panels and all four statistical model fields; only team metadata and model runtime seconds differ. Historical team equivalence remains unresolved; cumulative canonical connection is pending."
     },
     {
       "id": "game covariates, Elo, rest, travel",
@@ -478,10 +478,10 @@
       "current_input": {
         "archive": "audit_2025_26_upload.zip"
       },
-      "classification": "B/E",
+      "classification": "C/E",
       "regenerated_value_consumed_downstream": false,
       "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
-      "remaining_limitation": "All saved selection choices and original 3,526-request plan reproduced; original download timing remains historical metadata and legacy team join blocks handoff."
+      "remaining_limitation": "Controlled fresh-source downstream experiment passed scientific panel and four-model equivalence; original clocks and conflicting legacy team metadata provenance remain limitations, not a demonstrated scientific-output discrepancy."
     }
   ],
   "final_dataset_decoded_sha256": {
@@ -491,9 +491,17 @@
   },
   "final_stage": "reproduce_final_datasets.py",
   "strict_six_season_raw_source_acceptance": false,
+  "controlled_2025_metadata_experiment": {
+    "evidence": "validation/2025_team_metadata_experiment_2026-11-15/experiment_acceptance.json",
+    "frozen_and_corrected_scientific_panels_exact": true,
+    "all_four_statistical_model_fields_exact": true,
+    "model_execution_seconds_excluded_and_reported": true,
+    "historical_team_artifact_equivalence": false,
+    "cumulative_six_season_execution": false
+  },
   "remaining_computational_tasks": [
     "Connect full all-candidate original PDF parser rows and canonical selector for 2021\u201324.",
-    "Recover original 2025 S4 team-join program or establish provenance of the contradictory legacy team metadata; do not force source rows to match it.",
+    "Connect source-derived 2025 inputs with an explicit metadata-only historical-artifact exception; retain unresolved S4 team-join provenance without claiming scientific-output disagreement.",
     "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
     "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks."
   ]

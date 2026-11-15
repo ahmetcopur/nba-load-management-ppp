@@ -1,5 +1,7 @@
 # Reproduce the final corrected NBA analysis datasets
 
+The [November 15 controlled 2025 team-metadata experiment](CONTROLLED_2025_TEAM_METADATA_EXPERIMENT.md) actually executed both original October builders, both chronology corrections and all four models per condition. The disputed team fields do not change the complete scientific panel or statistical model values. Exact historical team-artifact equivalence remains unresolved; cumulative six-season canonical integration is still a separate gate. The experiment command and private checkpoint/resume workflow are documented there.
+
 This is the canonical entry point for the February 2022 Toronto corrected chronology:
 
 **[scripts/data_rebuild/reproduce_final_datasets.py](../scripts/data_rebuild/reproduce_final_datasets.py)**
