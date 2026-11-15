@@ -35,7 +35,9 @@ def archived_metadata_inconsistencies(games,teams):
     return int(observed.ne(games.inferred_clean_teams).sum())
 
 
-def generate(archives,source,output,prior_parse_log=None,audit_only=False):
+def generate(archives,source,output,prior_parse_log=None,audit_only=False,diagnostic_frames=None):
+    if diagnostic_frames is not None and not audit_only:
+        raise ValueError("Diagnostic frames require explicit audit-only mode")
     archives,source,output=archives.resolve(),source.resolve(),output.resolve()
     safe_output(archives,output)
     safe_output(source,output)
@@ -134,6 +136,8 @@ def generate(archives,source,output,prior_parse_log=None,audit_only=False):
                 "original_S4_team_join_program_not_recovered":True}
         output.mkdir(parents=True)
         (output/"source_selection_audit.json").write_text(json.dumps(result,indent=2)+"\n")
+        if diagnostic_frames is not None:
+            diagnostic_frames.update(frames)
         return result
     chosen=raw.loc[raw.source_file.map(lambda name:Path(name).name).isin(selected_names)].copy()
     if prior_parse_log is not None:

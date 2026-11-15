@@ -170,6 +170,7 @@ def main():
     if outcome is None:
         raise SystemExit(f"Historical cadence builder failed (exit {run.returncode}); see stderr above")
     provenance["builder_outcome"] = outcome
+    provenance["original_process_returncode"] = run.returncode
     (out / "replay_environment.json").write_text(json.dumps(provenance, indent=2) + "\n")
     print("Historical outputs:", out, "|", outcome)
 

@@ -293,6 +293,8 @@ def main():
     p.add_argument("--variant-root", required=True, type=Path)
     p.add_argument("--output", required=True, type=Path)
     p.add_argument("--covariates-zip", required=True, type=Path)
+    p.add_argument("--required-input-hashes", type=Path,
+                   help="Trace unchanged generated inputs in the corrected builder")
     p.add_argument("--reference", type=Path,
                    default=REPO / "data_intermediate/player_team_game_harmonized_cadence.csv.gz")
     p.add_argument("--stage6-zip", type=Path,
@@ -319,7 +321,8 @@ def main():
     base_changes = fix_base(variant / BASE, before, after, cov_changes)
     fix_selectors(variant)
     invoke("run_historical_cadence_builder.py", "--historical-root", variant,
-           "--output", output)
+           "--output", output,
+           *(["--required-input-hashes", a.required_input_hashes.resolve()] if a.required_input_hashes else []))
     candidate = output / "player_team_game_harmonized_cadence.csv.gz"
     if not candidate.is_file():
         raise RuntimeError("Historical builder did not produce corrected cadence panel")
