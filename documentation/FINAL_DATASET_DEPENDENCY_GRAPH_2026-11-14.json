@@ -37,6 +37,34 @@
     "audit_2020_21_s4_join_results_rechecked.zip",
     "audit_2024_25_s4_join_results.zip"
   ],
+  "required_six_season_source_zip_names": [
+    "audit_2020_21_corrected_outputs.zip",
+    "audit_2020_21_s4_join_results_rechecked.zip",
+    "audit_2020_21_upload.zip",
+    "audit_2021_22_cadence_outputs.zip",
+    "audit_2021_22_s4_join_results.zip",
+    "audit_2021_22_upload.zip",
+    "audit_2022_23_pre_s4_outputs.zip",
+    "audit_2022_23_s4_join_results.zip",
+    "audit_2022_23_upload.zip",
+    "audit_2023_24_pre_s4_outputs.zip",
+    "audit_2023_24_s4_join_results.zip",
+    "audit_2023_24_upload.zip",
+    "audit_2024_25_pre_s4_outputs_corrected.zip",
+    "audit_2024_25_s4_join_results.zip",
+    "audit_2024_25_upload.zip",
+    "audit_2025_26_s4_join_results.zip",
+    "audit_2025_26_targeted_upload.zip",
+    "audit_2025_26_upload.zip",
+    "nba_boxscore_roster_frame_v2_output_upload.zip",
+    "nba_canonical_snapshot_selector_v1.zip",
+    "nba_game_covariates_v1.zip",
+    "nba_player_crosswalk_final_v1.zip",
+    "nba_player_game_analysis_ready_v1.zip",
+    "nba_player_game_at_risk_core_v1.zip",
+    "nba_player_game_at_risk_star_cup_v1.zip",
+    "nba_player_game_at_risk_star_v1.zip"
+  ],
   "nodes": [
     {
       "id": "analysis/nba_player_game_analysis_ready_v1/player_game_panel_analysis_ready.csv.gz",
@@ -88,7 +116,7 @@
     },
     {
       "id": "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv",
-      "original_source": "Original S4 report statuses and schedules",
+      "original_source": "Original injury PDFs, manifests and S4 schedules",
       "generating_script": "verify_2021_2023_selector_rebuild.py",
       "upstream_dependencies": [
         "audit_2022_23_s4_join_results.zip"
@@ -97,14 +125,14 @@
         "archive": "audit_2022_23_s4_join_results.zip",
         "member": "team_game_final_pre_tip_status_harmonized.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Historical team status remains archived at the October builder input."
+      "remaining_limitation": "Source-derived team status is consumed in six-source mode; original timing metadata remains inherited."
     },
     {
       "id": "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv",
-      "original_source": "Original S4 report statuses and schedules",
+      "original_source": "Original injury PDFs, manifests and S4 schedules",
       "generating_script": "verify_2021_2023_selector_rebuild.py",
       "upstream_dependencies": [
         "audit_2023_24_s4_join_results.zip"
@@ -113,10 +141,10 @@
         "archive": "audit_2023_24_s4_join_results.zip",
         "member": "team_game_final_pre_tip_status_harmonized.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Historical team status remains archived at the October builder input."
+      "remaining_limitation": "Source-derived team status is consumed in six-source mode; original timing metadata remains inherited."
     },
     {
       "id": "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv",
@@ -129,10 +157,10 @@
         "archive": "audit_2020_21_corrected_outputs.zip",
         "member": "s1_snapshot_rows_corrected.csv"
       },
-      "classification": "B with optional raw-PDF-derived full-row consumption",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source or raw-2020 option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Publication clocks/manifests inherited; raw-PDF full row and selector handoffs are opt-in."
+      "remaining_limitation": "Fresh full rows feed October in the selected mode; original publication/acquisition clocks remain inherited."
     },
     {
       "id": "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
@@ -145,10 +173,10 @@
         "archive": "audit_2021_22_cadence_outputs.zip",
         "member": "s1_snapshot_rows_harmonized.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
+      "remaining_limitation": "Full candidates and generated selectors are consumed by the canonical six-source mode; default mode still inherits intermediates."
     },
     {
       "id": "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
@@ -161,10 +189,10 @@
         "archive": "audit_2022_23_pre_s4_outputs.zip",
         "member": "s1_snapshot_rows_regular_season.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
+      "remaining_limitation": "Full candidates and generated selectors are consumed by the canonical six-source mode; default mode still inherits intermediates."
     },
     {
       "id": "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
@@ -177,10 +205,10 @@
         "archive": "audit_2023_24_pre_s4_outputs.zip",
         "member": "s1_snapshot_rows_regular_season.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
+      "remaining_limitation": "Full candidates and generated selectors are consumed by the canonical six-source mode; default mode still inherits intermediates."
     },
     {
       "id": "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
@@ -193,10 +221,10 @@
         "archive": "audit_2024_25_pre_s4_outputs_corrected.zip",
         "member": "s1_snapshot_rows_regular_season_real.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Validated against frozen complete decoded CSV output and final panel hashes",
-      "remaining_limitation": "Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected."
+      "remaining_limitation": "Full candidates and generated selectors are consumed by the canonical six-source mode; default mode still inherits intermediates."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv",
@@ -211,10 +239,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2020-21_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "B with optional raw-PDF-derived full-row consumption",
+      "classification": "A/E (six-source option)",
       "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
@@ -229,10 +258,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2021-22_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
@@ -247,10 +277,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2022-23_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Fresh full regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
@@ -265,10 +296,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2023-24_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Full original regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
@@ -283,10 +315,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2024-25_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "B/C",
+      "classification": "A/E (six-source option)",
       "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
@@ -301,10 +334,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_game_snapshot_join_harmonized_canonical.csv"
       },
-      "classification": "C/E",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Controlled fresh-source October executions produce identical frozen/corrected scientific panels and all four statistical model fields; only team metadata and model runtime seconds differ. Historical team equivalence remains unresolved; cumulative canonical connection is pending."
+      "remaining_limitation": "All saved candidates feed source-derived selectors/statuses. Actual cumulative October consumption passed; two historical team fields remain a declared metadata-only artifact exception. Publication/acquisition metadata remains historical."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
@@ -319,10 +353,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2020-21_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "B with optional raw-PDF-derived full-row consumption",
+      "classification": "A/E (six-source option)",
       "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv",
@@ -337,10 +372,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2021-22_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "C",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",
@@ -355,10 +391,11 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2024-25_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "B/C",
+      "classification": "A/E (six-source option)",
       "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending."
+      "remaining_limitation": "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes."
     },
     {
       "id": "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv",
@@ -373,10 +410,29 @@
         "archive": "nba_canonical_snapshot_selector_v1.zip",
         "member": "2025-26_team_game_status_harmonized_canonical.csv"
       },
-      "classification": "C/E",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
       "expected_invariants": "1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
-      "remaining_limitation": "Controlled fresh-source October executions produce identical frozen/corrected scientific panels and all four statistical model fields; only team metadata and model runtime seconds differ. Historical team equivalence remains unresolved; cumulative canonical connection is pending."
+      "remaining_limitation": "All saved candidates feed source-derived selectors/statuses. Actual cumulative October consumption passed; two historical team fields remain a declared metadata-only artifact exception. Publication/acquisition metadata remains historical."
+    },
+    {
+      "id": "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+      "original_source": "All 5,023 saved original 2025 injury PDFs",
+      "generating_script": "rebuild_six_season_october_sources.py",
+      "upstream_dependencies": [
+        "audit_2025_26_upload.zip",
+        "audit_2025_26_targeted_upload.zip",
+        "original season manifest and S4 schedule"
+      ],
+      "current_input": {
+        "generated_in_six_source_mode": true
+      },
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
+      "generated_input_mode": "--rebuild-six-season-october-sources",
+      "expected_invariants": "355 selected reports derived from complete saved candidates; complete scientific panel SHA unchanged",
+      "remaining_limitation": "Original publication/acquisition observations remain inherited; unsaved reports are not invented."
     },
     {
       "id": "game covariates, Elo, rest, travel",
@@ -478,10 +534,10 @@
       "current_input": {
         "archive": "audit_2025_26_upload.zip"
       },
-      "classification": "C/E",
-      "regenerated_value_consumed_downstream": false,
+      "classification": "A/E (six-source option)",
+      "regenerated_value_consumed_downstream": true,
       "expected_invariants": "Original source ZIP SHA-256 and complete final output gates",
-      "remaining_limitation": "Controlled fresh-source downstream experiment passed scientific panel and four-model equivalence; original clocks and conflicting legacy team metadata provenance remain limitations, not a demonstrated scientific-output discrepancy."
+      "remaining_limitation": "Full saved candidate selection and the explicit source-derived metadata variant feed the cumulative builder; original clocks and exact legacy team-artifact equivalence remain unresolved."
     }
   ],
   "final_dataset_decoded_sha256": {
@@ -491,6 +547,38 @@
   },
   "final_stage": "reproduce_final_datasets.py",
   "strict_six_season_raw_source_acceptance": false,
+  "six_season_connected_mode": {
+    "flag": "--rebuild-six-season-october-sources",
+    "required_generated_input_opens_per_builder": 18,
+    "generated_input_paths": [
+      "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv",
+      "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv",
+      "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv",
+      "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
+      "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
+      "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
+      "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
+      "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+    ],
+    "complete_candidate_PDFs": 23483,
+    "complete_candidate_rows": 2200803,
+    "cumulative_original_October_scientific_verdict": "pass",
+    "cumulative_evidence": "validation/six_season_cumulative_2026-11-15/cumulative_acceptance.json",
+    "fresh_three_dataset_execution_evidence": "validation/six_season_end_to_end_2026-11-15/verification.json",
+    "fresh_three_dataset_scientific_verdict": "pass",
+    "historical_artifact_verdict": "2025_metadata_exception_unresolved",
+    "original_roster_and_reviewed_lookup_inputs_inherited_unless_separately_rebuilt": true
+  },
   "controlled_2025_metadata_experiment": {
     "evidence": "validation/2025_team_metadata_experiment_2026-11-15/experiment_acceptance.json",
     "frozen_and_corrected_scientific_panels_exact": true,
@@ -500,9 +588,9 @@
     "cumulative_six_season_execution": false
   },
   "remaining_computational_tasks": [
-    "Connect full all-candidate original PDF parser rows and canonical selector for 2021\u201324.",
-    "Connect source-derived 2025 inputs with an explicit metadata-only historical-artifact exception; retain unresolved S4 team-join provenance without claiming scientific-output disagreement.",
-    "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
-    "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks."
+    "Revalidate the optional original NBA JSON cache path when those primary payloads are available; the accepted six-PDF-source run used the pinned historical roster input.",
+    "Recover remaining historical source evidence, including exact 2025 S4 team metadata provenance, without equating that issue to scientific-output differences.",
+    "Connect remaining upstream game/venue, player-crosswalk and advance-TV/Cup/award source maps where authentic primary evidence and original rules are available.",
+    "Retain human-reviewed identity and medical-taxonomy decisions as versioned inputs; never algorithmically invent replacements."
   ]
 }

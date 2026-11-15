@@ -11,7 +11,7 @@ import argparse
 import json
 from pathlib import Path
 
-from scripts.data_rebuild.restore_historical_layout import FILES, SELECTOR_NAMES, SELECTOR_ZIP
+from scripts.data_rebuild.restore_historical_layout import FILES, SELECTOR_NAMES, SELECTOR_ZIP, SELECTOR_DEST
 from scripts.data_rebuild.reproduce_final_datasets import (
     REQUIRED_ZIPS, RAW_PDF_EXTRA_ZIPS, SELECTOR_SCHEDULE_EXTRA_ZIPS,
 )
@@ -21,17 +21,17 @@ def classification(path: str) -> tuple[str, str, str, str]:
     """Return source, generator, dependency class, and historical limitation."""
     if path.startswith("cadence_work/season_parsed/2020-21/"):
         return ("617 original 2020–21 injury PDFs", "rebuild_2020_selected_from_pdfs.py",
-                "B with optional raw-PDF-derived full-row consumption",
-                "Publication clocks/manifests inherited; raw-PDF full row and selector handoffs are opt-in.")
+                "A/E (six-source or raw-2020 option)",
+                "Fresh full rows feed October in the selected mode; original publication/acquisition clocks remain inherited.")
     if path.startswith("cadence_work/season_parsed/"):
         if any("/"+season+"/" in path for season in ("2021-22","2022-23","2023-24","2024-25")):
             return ("Original full candidate injury PDF ZIP","rebuild_2021_full_candidates.py",
-                    "C","Full fresh candidate parser and targeted downstream path exist; canonical final runner remains unconnected.")
+                    "A (six-source option)","Full candidates and generated selectors are consumed by the canonical six-source mode; default mode still inherits intermediates.")
         return ("Original season injury PDF ZIP", "rebuild_2021_2024_selected_from_pdfs.py",
                 "C", "Only previously selected PDFs are reparsed in the canonical runner; full selector candidates not connected.")
     if path.startswith("cadence_work/s4/"):
-        return ("Original S4 report statuses and schedules", "verify_2021_2023_selector_rebuild.py",
-                "C", "Historical team status remains archived at the October builder input.")
+        return ("Original injury PDFs, manifests and S4 schedules", "verify_2021_2023_selector_rebuild.py",
+                "A/E (six-source option)", "Source-derived team status is consumed in six-source mode; original timing metadata remains inherited.")
     if path.startswith("analysis/"):
         return ("Original injury PDFs, NBA JSONs and reviewed reasons", "build_analysis_ready_from_generated_core.py",
                 "A (with PDF + JSON options)", "Human reviewed taxonomy and annotations remain versioned original inputs.")
@@ -43,18 +43,9 @@ def classification(path: str) -> tuple[str, str, str, str]:
 
 
 def selector_class(name: str) -> tuple[str, str]:
-    season=name[:7]
-    if season=="2020-21":
-        return ("B with optional raw-PDF-derived full-row consumption", "Original selector consumes fresh full PDF-derived rows only with explicit raw-2020 option; report clocks stay inherited.")
-    if season=="2024-25":
-        return ("B/C", "Historical parsed-row option remains available; complete original-PDF parser, selector and supplied targeted October acceptance passed; canonical final integration remains pending.")
-    if season=="2022-23":
-        return ("C","Fresh full regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
-    if season=="2023-24":
-        return ("C", "Full original regular-season parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
-    if season=="2021-22":
-        return ("C", "Full 5,567-PDF parser, selector and supplied targeted October acceptance passed; canonical final runner still unconnected.")
-    return ("C/E", "Controlled fresh-source October executions produce identical frozen/corrected scientific panels and all four statistical model fields; only team metadata and model runtime seconds differ. Historical team equivalence remains unresolved; cumulative canonical connection is pending.")
+    if name.startswith("2025-26"):
+        return ("A/E (six-source option)", "All saved candidates feed source-derived selectors/statuses. Actual cumulative October consumption passed; two historical team fields remain a declared metadata-only artifact exception. Publication/acquisition metadata remains historical.")
+    return ("A/E (six-source option)", "Complete original-PDF candidate rows and original selector outputs feed the canonical six-source mode. All 18 generated inputs were opened in the cumulative gate. Original timing metadata remains inherited; default/legacy modes retain their narrower scopes.")
 
 
 def build_report() -> dict:
@@ -78,10 +69,21 @@ def build_report() -> dict:
                                  else "verify_2025_manifest_selector.py"),
             "upstream_dependencies":[SELECTOR_ZIP,"original season parsed report rows","original schedule and manifest"],
             "current_input":{"archive":SELECTOR_ZIP,"member":name},
-            "classification":status,"regenerated_value_consumed_downstream":status.startswith("B"),
+            "classification":status,"regenerated_value_consumed_downstream":status.startswith(("A","B")),
+            "generated_input_mode":"--rebuild-six-season-october-sources",
             "expected_invariants":"1,080 games (2020) or 1,230 games; exact keys/scientific fields and final panel hash",
             "remaining_limitation":limitation,
         })
+    fresh_2025_rows="cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv"
+    nodes.append({"id":fresh_2025_rows,"original_source":"All 5,023 saved original 2025 injury PDFs",
+                  "generating_script":"rebuild_six_season_october_sources.py",
+                  "upstream_dependencies":["audit_2025_26_upload.zip","audit_2025_26_targeted_upload.zip","original season manifest and S4 schedule"],
+                  "current_input":{"generated_in_six_source_mode":True},"classification":"A/E (six-source option)",
+                  "regenerated_value_consumed_downstream":True,"generated_input_mode":"--rebuild-six-season-october-sources",
+                  "expected_invariants":"355 selected reports derived from complete saved candidates; complete scientific panel SHA unchanged",
+                  "remaining_limitation":"Original publication/acquisition observations remain inherited; unsaved reports are not invented."})
+    generated_paths=sorted({p for p,_,_ in FILES if p.startswith(("cadence_work/season_parsed/","cadence_work/s4/"))}
+                           |{SELECTOR_DEST+"/"+n for n in SELECTOR_NAMES}|{fresh_2025_rows})
     upstream=[
         ("game covariates, Elo, rest, travel", "original NBA fixture and venue schedules", "nba_game_covariates_v1.zip", "run_connected_player_game_core.py", "C", "Original calculation replayed independently, but connected final correction still inherits non-date source inputs."),
         ("player participation and roster", "7,230 original NBA boxscore JSON files", "nba_boxscore_roster_frame_v2_output_upload.zip", "verify_boxscore_cache.py", "A with JSON option", "Historical raw_json_path prefix is preserved after confirming same game JSON."),
@@ -89,7 +91,7 @@ def build_report() -> dict:
         ("awards and star timeline", "NBA awards and All-Star records", "nba_player_game_at_risk_star_v1.zip", "run_connected_star_enrichment.py", "C/D", "Historical award lookup and reviewed identity decisions remain inherited."),
         ("NBA Cup and TV advance mapping", "Original NBA publication schedules and manual match decisions", "nba_player_game_at_risk_star_cup_v1.zip", "run_connected_cup_enrichment.py", "C/D/E", "Original announcement timing/nominal neutral hosts and some match decisions remain historical inputs."),
         ("reviewed taxonomy", "Original report text and human reviewed reason classifications", "nba_player_game_analysis_ready_v1.zip", "build_analysis_ready_from_generated_core.py", "D", "Never invent replacement human classifications."),
-        ("2025 candidate report selection", "5,023 original saved PDFs plus original targeted acquisition design", "audit_2025_26_upload.zip", "generate_2025_selector_inputs.py", "C/E", "Controlled fresh-source downstream experiment passed scientific panel and four-model equivalence; original clocks and conflicting legacy team metadata provenance remain limitations, not a demonstrated scientific-output discrepancy."),
+        ("2025 candidate report selection", "5,023 original saved PDFs plus original targeted acquisition design", "audit_2025_26_upload.zip", "generate_2025_selector_inputs.py", "A/E (six-source option)", "Full saved candidate selection and the explicit source-derived metadata variant feed the cumulative builder; original clocks and exact legacy team-artifact equivalence remain unresolved."),
     ]
     for id_,source,archive,generator,status,limitation in upstream:
         nodes.append({"id":id_,"original_source":source,"generating_script":generator,
@@ -112,9 +114,23 @@ def build_report() -> dict:
         "restored_file_count":len(FILES),"restored_selector_count":len(SELECTOR_NAMES),
         "required_source_zip_names":sorted(set(REQUIRED_ZIPS)|set(RAW_PDF_EXTRA_ZIPS)),
         "optional_selector_schedule_zip_names":sorted(SELECTOR_SCHEDULE_EXTRA_ZIPS),
+        "required_six_season_source_zip_names":sorted(set(REQUIRED_ZIPS)|set(RAW_PDF_EXTRA_ZIPS)|set(SELECTOR_SCHEDULE_EXTRA_ZIPS)
+                                                      |{"audit_2021_22_s4_join_results.zip","audit_2025_26_s4_join_results.zip"}),
         "nodes":nodes,"final_dataset_decoded_sha256":final_hashes,
         "final_stage":"reproduce_final_datasets.py",
         "strict_six_season_raw_source_acceptance":False,
+        "six_season_connected_mode":{
+            "flag":"--rebuild-six-season-october-sources",
+            "required_generated_input_opens_per_builder":18,
+            "generated_input_paths":generated_paths,
+            "complete_candidate_PDFs":23483,"complete_candidate_rows":2200803,
+            "cumulative_original_October_scientific_verdict":"pass",
+            "cumulative_evidence":"validation/six_season_cumulative_2026-11-15/cumulative_acceptance.json",
+            "fresh_three_dataset_execution_evidence":"validation/six_season_end_to_end_2026-11-15/verification.json",
+            "fresh_three_dataset_scientific_verdict":"pass",
+            "historical_artifact_verdict":"2025_metadata_exception_unresolved",
+            "original_roster_and_reviewed_lookup_inputs_inherited_unless_separately_rebuilt":True,
+        },
         "controlled_2025_metadata_experiment":{
             "evidence":"validation/2025_team_metadata_experiment_2026-11-15/experiment_acceptance.json",
             "frozen_and_corrected_scientific_panels_exact":True,
@@ -124,10 +140,10 @@ def build_report() -> dict:
             "cumulative_six_season_execution":False,
         },
         "remaining_computational_tasks":[
-            "Connect full all-candidate original PDF parser rows and canonical selector for 2021–24.",
-            "Connect source-derived 2025 inputs with an explicit metadata-only historical-artifact exception; retain unresolved S4 team-join provenance without claiming scientific-output disagreement.",
-            "Connect fresh selector-derived team statuses, game covariates and remaining computational source maps to October.",
-            "Re-run the full Linux amd64 pipeline only after newly connected stages pass isolated authentic checks.",
+            "Revalidate the optional original NBA JSON cache path when those primary payloads are available; the accepted six-PDF-source run used the pinned historical roster input.",
+            "Recover remaining historical source evidence, including exact 2025 S4 team metadata provenance, without equating that issue to scientific-output differences.",
+            "Connect remaining upstream game/venue, player-crosswalk and advance-TV/Cup/award source maps where authentic primary evidence and original rules are available.",
+            "Retain human-reviewed identity and medical-taxonomy decisions as versioned inputs; never algorithmically invent replacements.",
         ],
     }
 
