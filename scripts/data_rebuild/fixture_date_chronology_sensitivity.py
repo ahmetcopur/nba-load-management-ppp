@@ -24,7 +24,10 @@ import tempfile
 import zipfile
 
 import pandas as pd
-import audit_fixture_date_swap_covariates as cov
+if __package__:
+    from . import audit_fixture_date_swap_covariates as cov
+else:
+    import audit_fixture_date_swap_covariates as cov
 
 REPO = Path(__file__).resolve().parents[2]
 TOOLS = REPO / "scripts/data_rebuild"
@@ -34,6 +37,17 @@ MATCH_SWAPS = {430: 784, 784: 430}
 EXPECTED_MATCHUPS = {430: "MIA@TOR", 784: "CHI@TOR"}
 FAST_SOURCE_SHA = "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3"
 FAST_ROOT_LINE = "ROOT=Path('/mnt/data/nba_continue'); OUT=ROOT/'cadence_harmonized_results'"
+
+
+def chronology_generated_hashes(variant,initial):
+    allowed={SEL+"/2021-22_game_snapshot_join_harmonized_canonical.csv",
+             SEL+"/2021-22_team_game_status_harmonized_canonical.csv"}
+    if len(initial)!=18 or not allowed<=set(initial):
+        raise ValueError("Expected exactly 18 six-season generated inputs")
+    adjusted={name:cov.file_sha(variant/name) for name in initial}
+    if {name for name in initial if initial[name]!=adjusted[name]}!=allowed:
+        raise ValueError("Unexpected generated-source changes during chronology correction")
+    return adjusted
 
 
 def invoke(name: str, *arguments):
@@ -295,14 +309,22 @@ def main():
     p.add_argument("--covariates-zip", required=True, type=Path)
     p.add_argument("--required-input-hashes", type=Path,
                    help="Trace unchanged generated inputs in the corrected builder")
+    p.add_argument("--chronology-adjusted-generated-inputs", action="store_true",
+                   help="Verify all 18 frozen source hashes, then update only the two explicitly corrected 2021 selector hashes")
     p.add_argument("--reference", type=Path,
                    default=REPO / "data_intermediate/player_team_game_harmonized_cadence.csv.gz")
     p.add_argument("--stage6-zip", type=Path,
                    default=REPO / "packages/06_cadence_harmonized_identification.zip")
     a = p.parse_args()
+    if a.chronology_adjusted_generated_inputs and not a.required_input_hashes:
+        p.error("Chronology-adjusted input tracing requires --required-input-hashes")
     original, variant, output = (
         a.replay_root.resolve(), a.variant_root.resolve(), a.output.resolve()
     )
+    if a.required_input_hashes:
+        sys.path.insert(0,str(REPO))
+        from scripts.data_rebuild.run_historical_cadence_builder import verify_required_inputs
+        verify_required_inputs(original,json.loads(a.required_input_hashes.read_text()))
     if variant.exists():
         raise SystemExit(f"Corrected variant root must be newly created: {variant}")
     if original == variant or original in variant.parents or variant in original.parents:
@@ -320,9 +342,17 @@ def main():
     before, after, cov_changes = correct_team_games(a.covariates_zip.resolve())
     base_changes = fix_base(variant / BASE, before, after, cov_changes)
     fix_selectors(variant)
+    chronology_inputs=None
+    required_path=a.required_input_hashes.resolve() if a.required_input_hashes else None
+    if a.chronology_adjusted_generated_inputs:
+        initial=json.loads(a.required_input_hashes.read_text())
+        adjusted=chronology_generated_hashes(variant,initial)
+        required_path=output/"corrected_required_inputs.json"
+        required_path.write_text(json.dumps(adjusted,indent=2)+"\n")
+        chronology_inputs={"before_sha256":initial,"after_sha256":adjusted,"only_documented_2021_selector_tables_changed":True}
     invoke("run_historical_cadence_builder.py", "--historical-root", variant,
            "--output", output,
-           *(["--required-input-hashes", a.required_input_hashes.resolve()] if a.required_input_hashes else []))
+           *(["--required-input-hashes", required_path] if required_path else []))
     candidate = output / "player_team_game_harmonized_cadence.csv.gz"
     if not candidate.is_file():
         raise RuntimeError("Historical builder did not produce corrected cadence panel")
@@ -336,6 +366,7 @@ def main():
         "base_panel_cells_changed": base_changes,
         "panel_vs_frozen": panel_changes,
         "stage6_models": models,
+        "chronology_adjusted_generated_inputs":chronology_inputs,
         "not_rebuilt": "Other frozen analyses outside cadence Stage-6; all-six-season raw-source-to-paper Level C",
     }
     (output / "fixture_date_chronology_sensitivity.json").write_text(

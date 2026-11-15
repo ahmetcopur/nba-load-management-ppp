@@ -1,5 +1,7 @@
 # Reproduce the final corrected NBA analysis datasets
 
+**Connected six-season mode:** follow [SIX_SEASON_CONNECTED_REPRODUCTION.md](SIX_SEASON_CONNECTED_REPRODUCTION.md). First run one cumulative original October builder gate with all six newly generated season inputs; then run a fresh canonical reconstruction with `--verify-original-pdfs --rebuild-six-season-october-sources`. This mode requires 26 pinned ZIPs, traces 18 actual input opens in both builders, and preserves a separate unresolved 2025 historical-artifact verdict. The older default and partial-selector modes below retain their narrower scopes.
+
 The [November 15 controlled 2025 team-metadata experiment](CONTROLLED_2025_TEAM_METADATA_EXPERIMENT.md) actually executed both original October builders, both chronology corrections and all four models per condition. The disputed team fields do not change the complete scientific panel or statistical model values. Exact historical team-artifact equivalence remains unresolved; cumulative six-season canonical integration is still a separate gate. The experiment command and private checkpoint/resume workflow are documented there.
 
 This is the canonical entry point for the February 2022 Toronto corrected chronology:

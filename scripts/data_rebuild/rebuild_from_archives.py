@@ -43,9 +43,13 @@ def main():
                         help="After historical restoration, substitute independently regenerated 2020/2024 selectors with exact field/key gates; other seasons stay inherited")
     parser.add_argument("--require-raw-2020-selector", action="store_true",
                         help="Require the regenerated 2020 selector to consume verified fresh original-PDF parsed rows")
+    parser.add_argument("--six-season-sources-dir",type=Path,
+                        help="Consume all six independently generated PDF rows/selectors; explicit 2025 metadata exception, no archived parsed-row fallback")
     parser.add_argument("--check-only", action="store_true",
                         help="Check ZIP archive member mappings without writing/executing anything")
     args = parser.parse_args()
+    if args.six_season_sources_dir and (args.generated_selector_dir or args.require_raw_2020_selector or args.skip_2025_parse or args.reparse_2024_25_from_pdfs):
+        parser.error("Six-season inputs replace legacy selector and parser fallback modes")
     if args.require_raw_2020_selector and not args.generated_selector_dir:
         parser.error("--require-raw-2020-selector requires --generated-selector-dir")
     restore_args = ["--archive-dir", args.archive_dir,
@@ -72,7 +76,10 @@ def main():
               "--pre-s4-zip", args.archive_dir / "audit_2024_25_pre_s4_outputs.zip",
               "--selector-zip", args.archive_dir / "nba_canonical_snapshot_selector_v1.zip",
               "--metadata-dir", args.metadata_dir])
-    if args.skip_2025_parse:
+    if args.six_season_sources_dir:
+        call("rebuild_six_season_october_sources.py",["inject","--archive-dir",args.archive_dir,
+             "--sources-dir",args.six_season_sources_dir,"--historical-root",args.historical_root])
+    elif args.skip_2025_parse:
         existing = (args.historical_root /
                     "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv")
         if not existing.is_file():
@@ -83,7 +90,8 @@ def main():
             parse_args.extend(["--metadata-dir", args.metadata_dir])
         call("reparse_2025_selected.py", parse_args)
     call("run_historical_cadence_builder.py",
-         ["--historical-root", args.historical_root, "--output", args.output])
+         ["--historical-root", args.historical_root, "--output", args.output,
+          *(["--required-input-hashes",args.historical_root/"six_season_required_inputs.json"] if args.six_season_sources_dir else [])])
     candidate = args.output / "player_team_game_harmonized_cadence.csv.gz"
     call("compare_panels.py", ["--reference", args.reference, "--candidate", candidate,
                               "--output", args.output / "panel_comparison.json"])

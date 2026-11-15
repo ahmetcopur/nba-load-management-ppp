@@ -6,6 +6,8 @@ This package freezes the completed empirical analysis for the six-season NBA Pla
 
 ## Rebuild the final corrected analysis datasets
 
+For the connected **six-season original-PDF** workflow, use [the cumulative October gate and fresh final-run instructions](documentation/SIX_SEASON_CONNECTED_REPRODUCTION.md). It requires 26 pinned private ZIPs and adds `--rebuild-six-season-october-sources` alongside `--verify-original-pdfs`. Scientific-output acceptance is separate from the documented 2025 team-metadata artifact exception. The default 22-ZIP historical mode below remains available and does not establish six-season selector consumption.
+
 **Start here:** [One-command final dataset reconstruction](scripts/data_rebuild/reproduce_final_datasets.py) · [private source ZIP setup, expected outputs and exact SHA-256 checks](documentation/REPRODUCE_FINAL_DATASETS.md).
 
 Python 3.12: `python -m pip install -r requirements-builder-lock.txt`. Supply all 22 authentic private ZIPs listed by `--list-inputs` outside Git, then run `--check-only` and the full command with `--verify-original-pdfs`:

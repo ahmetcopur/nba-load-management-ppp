@@ -308,9 +308,9 @@ class FinalDatasetEntrypointTests(unittest.TestCase):
                            "estimate_pp_corrected": 1.2823694527266445,
                            "p_corrected": 0.3308675408175164},
                           {"definition": "legacy_primary", "controls": "none", "n_corrected": 180664,
-                           "estimate_pp_corrected": 2.676885, "p_corrected": 0.04353177},
+                           "estimate_pp_corrected": 2.676885495644326, "p_corrected": 0.0435317747821202},
                           {"definition": "harmonized_linear", "controls": "none", "n_corrected": 180664,
-                           "estimate_pp_corrected": 1.294851, "p_corrected": 0.32912241},
+                           "estimate_pp_corrected": 1.2948513321879846, "p_corrected": 0.3291224141374449},
                       ]}
             path.write_text(json.dumps(source), encoding="utf-8")
             self.assertEqual(final.verify_model_report(path)["models"], 4)

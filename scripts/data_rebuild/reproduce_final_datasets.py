@@ -36,6 +36,8 @@ import sys
 import zipfile
 
 REPO = Path(__file__).resolve().parents[2]
+if __package__ in (None, ""):
+    sys.path.insert(0,str(REPO))
 TOOLS = REPO / "scripts" / "data_rebuild"
 REFERENCE_CADENCE = REPO / "data_intermediate" / "player_team_game_harmonized_cadence.csv.gz"
 STAGE6_ZIP = REPO / "packages" / "06_cadence_harmonized_identification.zip"
@@ -99,6 +101,8 @@ EXPECTED = {
 EXPECTED_MODELS = {
     ("legacy_primary", "full"): (2.6742317292365767, 0.0426339657858416),
     ("harmonized_linear", "full"): (1.2823694527266445, 0.3308675408175164),
+    ("legacy_primary", "none"): (2.676885495644326, 0.0435317747821202),
+    ("harmonized_linear", "none"): (1.2948513321879846, 0.3291224141374449),
 }
 
 
@@ -166,7 +170,7 @@ def verify_model_report(report: Path) -> dict:
         raise ValueError("Corrected Stage-6 specification identities have changed")
     for key, (beta, p) in EXPECTED_MODELS.items():
         model = observed[key]
-        if model["n_corrected"] != 180530:
+        if model["n_corrected"] != (180530 if key[1]=="full" else 180664):
             raise ValueError(f"Wrong complete-case sample for {key}")
         if abs(float(model["estimate_pp_corrected"]) - beta) > 1e-8:
             raise ValueError(f"Corrected Stage-6 coefficient differs for {key}")
@@ -227,7 +231,10 @@ def under_git(path: Path) -> bool:
 
 def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,
               *, finalize_existing: bool = False,
-              rebuild_2020_2024_selectors: bool = False) -> list[str]:
+              rebuild_2020_2024_selectors: bool = False,
+              six_season_sources: bool = False) -> list[str]:
+    if six_season_sources and not verify_original_pdfs:
+        raise ValueError("Six-season source mode requires --verify-original-pdfs")
     if not archive_dir.is_dir() or archive_dir.is_symlink():
         raise FileNotFoundError("Private --archive-dir must be an existing real directory")
     if under_git(archive_dir) or under_git(output_root):
@@ -255,11 +262,19 @@ def preflight(archive_dir: Path, output_root: Path, verify_original_pdfs: bool,
         path = archive_dir / name
         if path.is_symlink() or sha256_file(path) != SOURCE_HASHES[name]:
             raise ValueError(f"Original ZIP SHA-256 differs or is symlinked: {name}")
-    if rebuild_2020_2024_selectors:
+    if rebuild_2020_2024_selectors or six_season_sources:
         for name, expected in SELECTOR_SCHEDULE_EXTRA_ZIPS.items():
             path = archive_dir / name
             if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
                 raise ValueError(f"Selector schedule ZIP missing/symlinked or SHA-256 differs: {name}")
+            required.append(name)
+    if six_season_sources:
+        from scripts.data_rebuild.rebuild_six_season_october_sources import EXTRA_ZIPS, controlled_exception
+        controlled_exception()
+        for name,expected in EXTRA_ZIPS.items():
+            path=archive_dir/name
+            if path.is_symlink() or not path.is_file() or sha256_file(path)!=expected:
+                raise ValueError("Six-season original schedule ZIP missing or SHA differs: "+name)
             required.append(name)
     return required
 
@@ -310,7 +325,10 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                    boxscore_repair_zip: Path | None = None,
                    boxscore_python: Path | None = None,
                    rebuild_2020_2024_selectors: bool = False,
-                   raw_2020_selector: bool = False) -> list[tuple[str, list[str]]]:
+                   raw_2020_selector: bool = False,
+                   six_season_sources: bool = False) -> list[tuple[str, list[str]]]:
+    if six_season_sources and (not verify_original_pdfs or rebuild_2020_2024_selectors or raw_2020_selector):
+        raise ValueError("Six-season source mode requires PDFs and replaces legacy selector switches")
     if raw_2020_selector and (not verify_original_pdfs or not rebuild_2020_2024_selectors):
         raise ValueError("Fresh 2020 selector requires original-PDF and selector replay stages")
     python = sys.executable
@@ -327,7 +345,7 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                           "--output-dir", root / "00_original_pdf_baseline",
                           "--from-original-2020-2025-pdfs", "--with-cup",
                           "--with-analysis-ready", "--with-october-cadence",
-                          *(["--emit-full-2020-source-rows"] if raw_2020_selector else []))))
+                          *(["--emit-full-2020-source-rows"] if raw_2020_selector or six_season_sources else []))))
     if boxscore_v1 is not None:
         if not all((boxscore_discovery, boxscore_repair_zip, boxscore_python)) or not verify_original_pdfs:
             raise ValueError("Original boxscore stage requires all cache paths and --verify-original-pdfs")
@@ -349,6 +367,11 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
                              "--fresh-2020-acceptance",
                              root / "00_original_pdf_baseline/2020_original_pdf_selector_source/2020_21_original_pdf_source_acceptance.json"]
                             if raw_2020_selector else []))))
+    if six_season_sources:
+        work.append(("00c_six_season_original_PDF_sources",
+                     tool("rebuild_six_season_october_sources.py", "build", "--archive-dir", archives,
+                          "--output-dir", root/"00c_six_season_sources",
+                          "--fresh-2020-source-dir", root/"00_original_pdf_baseline/2020_original_pdf_selector_source")))
     work.extend([
         ("01_august_source_correction",
          tool("rebuild_august_core_from_source_archives.py", "--archives", archives,
@@ -385,6 +408,13 @@ def stage_commands(archives: Path, root: Path, *, verify_original_pdfs: bool,
               "--output", correction, "--covariates-zip", archives / "nba_game_covariates_v1.zip",
               "--reference", REFERENCE_CADENCE, "--stage6-zip", STAGE6_ZIP)),
     ])
+    if six_season_sources:
+        for name,command in work:
+            if name=="03_frozen_cadence":
+                command.extend(["--six-season-sources-dir",str(root/"00c_six_season_sources")])
+            if name=="04_corrected_cadence":
+                command.extend(["--required-input-hashes",str(historical/"six_season_required_inputs.json"),
+                                "--chronology-adjusted-generated-inputs"])
     if verify_original_pdfs:
         work.insert(-1, ("03b_pdf_derived_october_base_handoff",
                          tool("inject_verified_october_base.py",
@@ -476,6 +506,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           boxscore_python: Path | None = None,
           rebuild_2020_2024_selectors: bool = False,
           raw_2020_selector: bool = False,
+          six_season_sources: bool = False,
           finalize_existing: bool = False) -> dict:
     if raw_2020_selector and (not verify_original_pdfs or not rebuild_2020_2024_selectors):
         raise ValueError("Fresh 2020 selector requires original-PDF and selector replay stages")
@@ -483,7 +514,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
     original_zips = preflight(archives, output, verify_original_pdfs,
                               finalize_existing=finalize_existing,
                               rebuild_2020_2024_selectors=rebuild_2020_2024_selectors,
-                              raw_2020_selector=raw_2020_selector)
+                              six_season_sources=six_season_sources)
     raw_boxscore = preflight_original_boxscores(
         boxscore_v1, boxscore_discovery, boxscore_repair_zip, boxscore_python,
         verify_original_pdfs=verify_original_pdfs, output=output)
@@ -499,7 +530,9 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
                               boxscore_v1=boxscore_v1, boxscore_discovery=boxscore_discovery,
                               boxscore_repair_zip=boxscore_repair_zip,
                               boxscore_python=boxscore_python,
-                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors)
+                              rebuild_2020_2024_selectors=rebuild_2020_2024_selectors,
+                              raw_2020_selector=raw_2020_selector,
+                              six_season_sources=six_season_sources)
     if not finalize_existing:
         output.mkdir(parents=True, exist_ok=False)
     try:
@@ -516,6 +549,24 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         inspected = {key: inspect_panel(source_paths[key], spec)
                      for key, spec in EXPECTED.items()}
         models = verify_model_report(cadence / "fixture_date_chronology_sensitivity.json")
+        six_consumption=None
+        if six_season_sources:
+            from scripts.data_rebuild.rebuild_six_season_october_sources import consumption
+            six_consumption=consumption(historical,output/"04_frozen_cadence")
+            correction_report=json.loads((cadence/"fixture_date_chronology_sensitivity.json").read_text())
+            corrected_open=json.loads((cadence/"replay_environment.json").read_text())["generated_input_consumption"]
+            adjusted=correction_report.get("chronology_adjusted_generated_inputs") or {}
+            before=six_consumption["required_sha256"]
+            after=adjusted.get("after_sha256",{})
+            allowed={"cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
+                     "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv"}
+            if (set(corrected_open.get("original_builder_opened_paths",[]))!=set(before)
+                    or adjusted.get("before_sha256")!=before or set(after)!=set(before)
+                    or {k for k in before if before[k]!=after.get(k)}!=allowed
+                    or corrected_open.get("required_sha256")!=after
+                    or not corrected_open.get("pre_and_post_execution_hashes_match")
+                    or not adjusted.get("only_documented_2021_selector_tables_changed")):
+                raise ValueError("Corrected builder did not trace all six generated source seasons")
         pdf_baseline = verify_raw_pdf_baseline_link(output) if verify_original_pdfs else None
         handoff = None
         if verify_original_pdfs:
@@ -557,6 +608,11 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         shutil.copy2(spells, final / "corrected_august_provisional_spells.csv.gz")
         manifest = {
             "status": "pass",
+            "scientific_output_verdict":"pass",
+            "historical_artifact_verdict":("2025_metadata_exception_unresolved" if six_season_sources else "inherited_source_artifacts"),
+            "six_original_PDF_season_inputs_consumed":six_season_sources,
+            "six_season_generated_input_consumption":six_consumption,
+            "six_season_metadata_only_exception":(json.loads((historical/"six_season_source_handoff.json").read_text())["metadata_only_exception"] if six_season_sources else None),
             "scope": "Pinned original historical source ZIP intermediates -> source-corrected August/latest-pre-tip and October/cadence final analysis panels",
             "source_level": ("six-season source-PDF-derived player report rows feed corrected August; "
                              "the PDF-derived original reviewed base feeds corrected October after exact hash validation; "
@@ -565,11 +621,12 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
                                 if raw_2020_selector else
                                 "2020/2024 October selectors replay the original algorithm from historical parsed rows; "
                                 if selector_handoff else "")
-                             + "other October season report selection, roster, covariates and reviewed decisions remain inherited"),
+                             + ("all six original-PDF season rows/selectors feed October; explicit 2025 metadata-only exception; clocks, roster, maps and reviewed decisions remain inherited"
+                                if six_season_sources else "other October season report selection, roster, covariates and reviewed decisions remain inherited")),
             "all_six_original_injury_PDF_baseline_rebuilt": verify_original_pdfs,
             "original_PDF_data_fed_directly_into_corrected_augmentation": False,
             "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": verify_original_pdfs,
-            "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": False,
+            "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": six_season_sources,
             "raw_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(handoff),
             "raw_NBA_JSON_and_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": bool(json_pdf_base_report),
             "raw_NBA_JSON_and_PDF_original_reviewed_base_report": json_pdf_base_report,
@@ -641,6 +698,8 @@ def main() -> None:
                         help="Regenerate and consume 2020/2024 selectors with pinned original algorithm and historical parsed-row/schedule inputs; NOT a raw-PDF selector rebuild; requires two extra S4 ZIPs")
     parser.add_argument("--rebuild-2020-selector-from-original-pdfs", action="store_true",
                         help="With PDF and selector stages, feed freshly parsed 617 original 2020 PDFs into its selector; historical report timestamps and 2024 parsed rows remain inherited")
+    parser.add_argument("--rebuild-six-season-october-sources",action="store_true",
+                        help="Generate and consume all six full original-PDF season inputs; requires PDFs and preserves the explicit 2025 metadata-only historical-artifact exception")
     parser.add_argument("--october-shared-repo", type=Path,
                         help="Optional clean shared October code checkout at immutable commit 0bd713d9...; rerun all 10 scripts")
     parser.add_argument("--october-python", type=Path,
@@ -651,10 +710,12 @@ def main() -> None:
                         help="Validate and manifest an already completed private run with all successful stage logs; never rerun stages or overwrite final/")
     args = parser.parse_args()
     if args.list_inputs:
+        from scripts.data_rebuild.rebuild_six_season_october_sources import EXTRA_ZIPS
         print(json.dumps({
             "required_historical_source_ZIPs": REQUIRED_ZIPS,
             "additional_if_verify_original_pdfs": RAW_PDF_EXTRA_ZIPS,
             "additional_if_rebuilding_2020_2024_selectors_from_historical_rows": SELECTOR_SCHEDULE_EXTRA_ZIPS,
+            "additional_if_rebuilding_six_season_october_sources": EXTRA_ZIPS,
             "sha256_by_zip": SOURCE_HASHES,
         }, indent=2))
         return
@@ -663,6 +724,10 @@ def main() -> None:
     archives, output = args.archive_dir.resolve(), args.output_root.resolve()
     if args.check_only and args.finalize_existing:
         parser.error("--check-only and --finalize-existing are mutually exclusive")
+    if args.rebuild_six_season_october_sources and (
+            not args.verify_original_pdfs or args.rebuild_2020_selector_from_original_pdfs
+            or args.rebuild_2020_2024_selectors_from_historical_rows):
+        parser.error("Six-season mode requires --verify-original-pdfs and replaces legacy selector switches")
     if args.rebuild_2020_selector_from_original_pdfs and (
             not args.verify_original_pdfs or
             not args.rebuild_2020_2024_selectors_from_historical_rows):
@@ -671,7 +736,8 @@ def main() -> None:
                        boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
         required = preflight(archives, output, args.verify_original_pdfs,
-                             rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows)
+                             rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows,
+                             six_season_sources=args.rebuild_six_season_october_sources)
         boxscore = preflight_original_boxscores(*raw_options.values(), verify_original_pdfs=args.verify_original_pdfs,
                                                 output=output)
         print(json.dumps({"status": "preflight-only", "required_zips_present_and_sha256_verified": required,
@@ -684,6 +750,7 @@ def main() -> None:
         october_python=args.october_python,
         rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows,
         raw_2020_selector=args.rebuild_2020_selector_from_original_pdfs,
+        six_season_sources=args.rebuild_six_season_october_sources,
         finalize_existing=args.finalize_existing,
         **raw_options,
     )
