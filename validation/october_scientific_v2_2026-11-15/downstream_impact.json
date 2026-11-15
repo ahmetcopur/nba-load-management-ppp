@@ -1,230 +1,362 @@
 {
   "scientific_version": "october_scientific_v2",
-  "actual_secondary_execution": false,
+  "actual_secondary_execution": true,
   "original_executable_csv_count": 33,
   "all_original_ten_scripts_affected": true,
   "outputs": {
     "allstar_only_announced_tv_primary.csv": {
       "original_script": "run_base.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 0,
+        "legacy_decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "scientific_v2_decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "allstar_only_tv_harmonized_linear.csv": {
       "original_script": "run_base.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 0,
+        "legacy_decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "scientific_v2_decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "baseline_announced_tv_primary.csv": {
       "original_script": "run_base.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "b38531db0df0ea0fa935146018bd432fe00949ad3f48963d0052c22dd53f2926",
+        "scientific_v2_decoded_sha256": "1eb68f685460a11bfa73a99e76e8fc2f16ef9a2a0fa29c223fa2fe589ccbf0f2"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "baseline_tv_harmonized_linear.csv": {
       "original_script": "run_base.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "ecb3640010c8b83398d54dfa0ec1bf0c29ef805a635d25586089c05ab401dee7",
+        "scientific_v2_decoded_sha256": "64bf123bf3507f420407c9dcf788ccb9430d2737ef63a652dd2b9b248eaca015"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "event_announced_tv_primary.csv": {
       "original_script": "run_event.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 33,
+        "legacy_decoded_sha256": "00005eecb9c315b18227b5961ab23b6f22724c3df01eca12dd182a86213b2761",
+        "scientific_v2_decoded_sha256": "218a1efa09b937053c20a568213aa4e0e195702c105795bc2ad7e3a3c570183a"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "event_tv_harmonized_linear.csv": {
       "original_script": "run_event.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 33,
+        "legacy_decoded_sha256": "bb78fc28c958b8cd8c24cafc6db67f0618d7c688b0b7de03eeab7e3051cb4e1d",
+        "scientific_v2_decoded_sha256": "d7228158ecd5181ce967abe513cce6850dd23ad992e2639022126ec5e47caa3c"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "event_window_joint_tests_linear.csv": {
       "original_script": "run_event_window_harmonized.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 3,
+        "legacy_decoded_sha256": "bdbf50792dfff193ae051fcf2cd8dee9dafda829223642f47e3db31143efee89",
+        "scientific_v2_decoded_sha256": "df21cf3efb16d81f823851f1c13c4348b1df50a9f8510d6142008e253c88edbc"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "event_window_joint_tests_national_partner.csv": {
       "original_script": "run_event_window_legacy.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 3,
+        "legacy_decoded_sha256": "ae1c935c91c9ef8628bd08372d49117d17181b27bbe937ba5988fae13bf1673d",
+        "scientific_v2_decoded_sha256": "73addebe78a4c162de6056ade55f3860917c379842a5d56cd98e14df92cfea84"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_onset_announced_tv_primary.csv": {
       "original_script": "run_event_window_legacy.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 41,
+        "legacy_decoded_sha256": "2afe945fa8f394bb9ca0246f4fc67403df0f234623c203680204ac3d11a80315",
+        "scientific_v2_decoded_sha256": "f6bb1a6a218d1a7a7677131f53f644c123f1ec0f381d1b1163ab892fb755aabf"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_onset_tv_harmonized_linear.csv": {
       "original_script": "run_event_window_harmonized.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 41,
+        "legacy_decoded_sha256": "29a9b9d56387c66e72f37db377c7612e59a24ec64fa48c00674299a1d9620b14",
+        "scientific_v2_decoded_sha256": "fab6f496e36f37bf6b94af3c9c376553668d0df76efae70283bd10823ca1529c"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_prevalence_announced_tv_primary.csv": {
       "original_script": "run_event_window_legacy.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 41,
+        "legacy_decoded_sha256": "70cd929bc44d62eb94cd8c9c73d20fe6628a49e64e0954b60328228f00ca3fcc",
+        "scientific_v2_decoded_sha256": "9a912161d8ba2d7038e2288e764b2426f12ad56ad601f4fb966719c7d0534327"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_prevalence_tv_harmonized_linear.csv": {
       "original_script": "run_event_window_harmonized.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 41,
+        "legacy_decoded_sha256": "73f57a14a956f6e5acdb7f87d7b90a514f8ff02249b72fe60d039d9065a971a6",
+        "scientific_v2_decoded_sha256": "fb03ad9292195a5d5f61030c2069fcd1400a869600f6101b1b8e797e6362616b"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_repair_announced_tv_primary.csv": {
       "original_script": "run_event_window_legacy.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 45,
+        "legacy_decoded_sha256": "8f844fbea8044e096ac9e3b93db8fff115a031dad935930272e4d37db842280a",
+        "scientific_v2_decoded_sha256": "e1632a9b303bc961cae76d42dbc86b51850c633311033e3fe5cee862765230d3"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "evt_repair_tv_harmonized_linear.csv": {
       "original_script": "run_event_window_harmonized.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 45,
+        "legacy_decoded_sha256": "57d7e2a23e97715a4674edb63dce9360ab754f8b98e2babeb20931f3ac8242b1",
+        "scientific_v2_decoded_sha256": "d8ebb65d76c9105358d289af0b411b712c5d95597c2346c9a06ccd75c92d6ea7"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "home_longer.csv": {
       "original_script": "run_home.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 14,
+        "legacy_decoded_sha256": "f017d3509408822515beb7491d803dbe39ff92df484c31272bda63b50243eacf",
+        "scientific_v2_decoded_sha256": "898ddd09456e7911d6ca0314026fecab0202cabbcc18d0d1316cc5ae6b93e064"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "home_onegame.csv": {
       "original_script": "run_home.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 14,
+        "legacy_decoded_sha256": "69f1ab64783b4af8ac7684597bd3ea7c6de512aad13f2ce1db7fe2744acd6c5b",
+        "scientific_v2_decoded_sha256": "1e6ca015c17fbb9ce97973ee5596da2a7a55aaa523189be999d98b4b7eed1ad1"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "home_onegame_allstar_only.csv": {
       "original_script": "run_home_extra.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 0,
+        "legacy_decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "scientific_v2_decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "home_onegame_no_cup.csv": {
       "original_script": "run_home_extra.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 14,
+        "legacy_decoded_sha256": "ba31670b5c4936a6b7427659b43ccb378361504fc9f27c61a582cff144568d66",
+        "scientific_v2_decoded_sha256": "41c4db28bfd60160f3d1735d567a170880cccc88de02065de8607bf1fcfe9751"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "home_onegame_post_covid_sample.csv": {
       "original_script": "run_home_extra.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 14,
+        "legacy_decoded_sha256": "54d34aaa93240d1b36c8e8eff60116e021b921c0a3c26ea618eb57c529e31d14",
+        "scientific_v2_decoded_sha256": "a8394c52e809ca0913899236ec275049da2b6bbf2fd795237c4aedae21ecdbd8"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "joint_pretrend.csv": {
       "original_script": "run_event.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 2,
+        "legacy_decoded_sha256": "a9cb6673db6893b5abcf8bd920b17fd2bc8b5a2a65a34bc30bb0545a3e79b305",
+        "scientific_v2_decoded_sha256": "b604e31ba1b49d1580b2864dece38053c400fca32a457c81b1cca19c0f8efe38"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "next_tv_one_game_announced_tv_primary.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "4f2586224190a6d2ac3e714440279c016f9d971bcec99e7fa688bc89a5130058",
+        "scientific_v2_decoded_sha256": "7175849fea0384b7623a25125bbccf52dc60f6ba092e10b3ee80e788aa8c1681"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "next_tv_one_game_tv_harmonized_linear.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "5483bd2bf8920e1e893a902921edc2ccaf85e5411656ffec783000291cb98257",
+        "scientific_v2_decoded_sha256": "6db338eb4cbcdb2a35dbee2259b227986a8071b4910ba7c7026db873988ef107"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "placebo_announced_tv_primary_2021-22.csv": {
       "original_script": "run_placebo.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 20,
+        "legacy_decoded_sha256": "d8c993127ec76cbb2128464507b77c2d37862a99725e80dee07cfdd29eaa18f3",
+        "scientific_v2_decoded_sha256": "93c8d7e0d6947d3abf1794c4c241454e3d53a1905ede0872f16415af9180d4c3"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "placebo_announced_tv_primary_2022-23.csv": {
       "original_script": "run_placebo.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 20,
+        "legacy_decoded_sha256": "0dd10255786e78d286ce8f7e80cf9beef63b7680525eade5cb427f3cec6b5b71",
+        "scientific_v2_decoded_sha256": "0b9f7f5ea39f8fce2f44c518c9ef0a56c9dc0206ecae564f98fdb09262f1c402"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "placebo_tv_harmonized_linear_2021-22.csv": {
       "original_script": "run_placebo.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 20,
+        "legacy_decoded_sha256": "e9ef51fd029821ef3f608871303dbcbe087b159855411de235eb161d6ced8626",
+        "scientific_v2_decoded_sha256": "ee7a925990f4876bf63b9c43b1d961be8601b9a4ad59d36a4507132c5eda5ba9"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "placebo_tv_harmonized_linear_2022-23.csv": {
       "original_script": "run_placebo.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 20,
+        "legacy_decoded_sha256": "b0fb0bb8d94cb08f8095e0f1b24ee179ec569f349812c31063f8e5423dec3927",
+        "scientific_v2_decoded_sha256": "1227c1855d32c24f1970d94129a5d5b03d2145b96430d16be2c0180d21ac09ff"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "repair_announced_tv_primary.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 28,
+        "legacy_decoded_sha256": "915eacef2d510d53c54d85f20528f3c94b58cb964ab4d0b381d8ecf4a0334463",
+        "scientific_v2_decoded_sha256": "733149aa9fedc65342c3e253743ca2ca7a479b444fbc85d9de370967c92c3562"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "repair_rates_cadence.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 18,
+        "legacy_decoded_sha256": "765bda6a194198c0109f980e8071225b3e6e1abe0c0776f26b2b51911db984dc",
+        "scientific_v2_decoded_sha256": "46e9c55cef57956f2c2a8b0a5d224f1112a60cdea7cf2324e65fefbea809e626"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "repair_tv_harmonized_linear.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 28,
+        "legacy_decoded_sha256": "d19e2a1a64a895d9269a7f6114484361145a28e17daa20b4a75a5bd76208a275",
+        "scientific_v2_decoded_sha256": "37420878750f6b41b9f21ce0290dac79d93d96563998e1af9e256a9ac2016a69"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "within2_tv_short_announced_tv_primary.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "ff0bd2da30d3da89e5308d310badb915a11d80d95f66892cd0d5c9ddf8c33442",
+        "scientific_v2_decoded_sha256": "e475487748e3e3f1482e2597e1c4be445c7ad2542961a21b16f5c87cb8dca8c5"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "within2_tv_short_tv_harmonized_linear.csv": {
       "original_script": "run_timing.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 21,
+        "legacy_decoded_sha256": "54a16084e860851acaed56641746d18149dbe2ee7167f39df94a2b169fd67328",
+        "scientific_v2_decoded_sha256": "cc44bbf8411d0590861392ee8bcc57a14e407e05ada32e5afa6a241f47063be7"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "audit/cluster_sensitivity.csv": {
       "original_script": "audit_cluster.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 2,
+        "legacy_decoded_sha256": "3f25c3be45eedeced381257c5c4b388057a32ecc463a027d24a8fedbaa8969c9",
+        "scientific_v2_decoded_sha256": "b9268e6c09e94f9eee64bae2460a1a1fe2696813e68a26c357653d1ee1f1dfca"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     },
     "audit/coefficient_sensitivity.csv": {
       "original_script": "audit_models.py",
-      "status": "pending_authentic_scientific_builder_then_original_suite",
-      "actual_change": null,
+      "status": "recomputed_compared_converged",
+      "actual_change": {
+        "changed_rows": 6,
+        "legacy_decoded_sha256": "b953006592824d9f6355d76de613a06113da8d35720f86a35956967cea978224",
+        "scientific_v2_decoded_sha256": "799ca4e71d98bf62964880cb2a7105fd9749a6a3c8ca0900d020656afda5bf2b"
+      },
       "reason": "Original analysis reads cadence star flags; effect must be measured, not assumed"
     }
   },
   "additional_paper_statistics": {
-    "raw_eight_TV_cells_and_DDD": "pending_new_primary_panel",
-    "completed_spells_duration": "pending_verification_of_star_stratified_cells",
-    "paired_onegame_minus_longer_home_contrast": "pending_version_aware_reexecution",
-    "home_road_raw_rates": "pending_new_primary_panel"
+    "raw_eight_TV_cells_and_DDD": "recomputed_with_original_pure_statistics_and_paired_model_functions",
+    "completed_spells_duration": "recomputed_with_original_pure_statistics_and_paired_model_functions",
+    "paired_onegame_minus_longer_home_contrast": "recomputed_with_original_pure_statistics_and_paired_model_functions",
+    "home_road_raw_rates": "recomputed_with_original_pure_statistics_and_paired_model_functions"
   },
   "manuscript": [
     {
       "location": "Section 3.1 / Table 2",
-      "status": "total_counts_expected_unchanged_star_partition_pending"
+      "status": "recomputed_values_available_pending_owner_approval"
     },
     {
       "location": "Section 3.3 / Table 3 / Figure 2",
-      "status": "star_cells_and_figure_regeneration_pending"
+      "status": "recomputed_values_available_pending_owner_approval"
     },
     {
       "location": "Abstract / Section 5.1 / Table 4 / conclusion",
-      "status": "all_four_estimates_SE_CI_p_N_pending_no_replacement_values_accepted"
+      "status": "recomputed_values_available_pending_owner_approval"
     },
     {
       "location": "Cadence home/road, return, timing, event-study tables and figures",
-      "status": "pending_authentic_recomputation_and_visual_inspection"
+      "status": "recomputed_values_available_pending_owner_approval"
     }
   ],
   "independent_August_latest_pre_tip_analyses": {
@@ -232,5 +364,9 @@
     "note": "Do not mix August outcomes with October correction; inherited August All-Star-only auxiliary used by October scripts is explicitly preserved"
   },
   "manuscript_modified": false,
-  "release_A": "blocked_pending_authentic_execution_and_human_review"
+  "release_A": "corrected_intermediate_scope_ready_for_independent_review_freeze_and_manuscript_approval_pending",
+  "figures": {
+    "home_road_onegame": "regenerated_PNG_PDF_SVG_and_visually_inspected",
+    "raw_TV_onset_rates": "regenerated_PNG_PDF_SVG_and_visually_inspected"
+  }
 }

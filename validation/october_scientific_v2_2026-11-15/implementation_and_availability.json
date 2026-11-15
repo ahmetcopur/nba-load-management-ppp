@@ -111,5 +111,8 @@
       }
     ],
     "scope": "Code tests and legacy frozen replays; not authentic scientific-v2 builder acceptance"
-  }
+  },
+  "subsequent_authenticated_retained_bundle_received": true,
+  "subsequent_execution_evidence": "authentic_primary_acceptance.json",
+  "historical_note": "The earlier missing-input preflight remains an accurate historical record. The owner later uploaded an earlier authenticated intermediate bundle; see the explicit retained_003 source profile and new execution evidence."
 }

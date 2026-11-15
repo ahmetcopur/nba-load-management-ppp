@@ -8,6 +8,12 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import pandas as pd
+
+
+def check_reported_models(path,reported):
+    if pd.read_csv(path).to_dict('records')!=reported:
+        raise ValueError('Checkpoint reported model values differ from actual CSV')
 
 
 def reuse_case(previous,commit,phase,version,hashes,destination):
@@ -39,6 +45,8 @@ def reuse_case(previous,commit,phase,version,hashes,destination):
         or receipt['canonical_source_sha256']!=hashlib.sha256(expected_source).hexdigest()
         or receipt['executed_sha256']!=run.sha(old/'builder.py')
         or receipt['pre_and_post_hashes_equal'] is not True):raise ValueError('Checkpoint builder source/receipt/input identity differs')
+    if json.loads((old/'opened_inputs.json').read_text())!=receipt['actual_opened_inputs']:
+        raise ValueError('Checkpoint builder read trace differs')
     if not set(hashes)-{'cadence_work/player_alias_table.csv'}<=set(receipt['actual_opened_inputs']):
         raise ValueError('Checkpoint did not consume all required inputs')
     original_inputs=previous/('inputs_frozen' if phase=='frozen' else 'inputs_chronology')
@@ -51,10 +59,13 @@ def reuse_case(previous,commit,phase,version,hashes,destination):
     full=model_root/'inputs/cadence_harmonized_results/cadence_harmonized_model_results.csv'
     if run.identities(full)!=models['complete_result_csv'] or run.identities(model_root/'model_results_scientific.csv')!=models['scientific_result_csv']:
         raise ValueError('Checkpoint model tables changed')
+    check_reported_models(full,models['models'])
     if run.sample_identities(panel)!=models['samples']:raise ValueError('Checkpoint model sample differs')
     model_receipt=json.loads((model_root/'execution/execution_receipt.json').read_text())
     if model_receipt!=models['execution'] or model_receipt['executed_sha256']!=run.sha(model_root/'execution/original_fast_models.py'):
         raise ValueError('Checkpoint model executable/receipt changed')
+    if json.loads((model_root/'execution/opened_inputs.json').read_text())!=model_receipt['actual_opened_inputs']:
+        raise ValueError('Checkpoint model read trace differs')
     if run.identities(model_root/'inputs/cadence_harmonized_results'/run.PANEL)!=run.identities(panel):
         raise ValueError('Checkpoint models did not use that complete panel')
     if version=='legacy':run.verify_legacy_models(models['models'],phase)

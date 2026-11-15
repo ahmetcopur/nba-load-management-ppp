@@ -1,0 +1,1197 @@
+{
+  "status": "calculations_compared_human_review_pending",
+  "actual_original_scripts_executed_per_version": 10,
+  "original_shared_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "code": {
+    "commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
+    "file_sha256": {
+      "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "scripts/data_rebuild/reproduce_october_scientific_v2.py": "f0b8bb7007ae3ab0f9763cd7349d66a405c7270b4b082fe4f36435f56a7fe8e8",
+      "scripts/data_rebuild/october_scientific_v2_rules.py": "ca21a8c9bc590ae2848167c42fe0042d9787485bedca770a278af112511975f4",
+      "scripts/data_rebuild/october_scientific_v2_compare.py": "73f6fdde238b5cf4389ea35962248e169edd98fdde1fc948c56b20d47588a2a9",
+      "scripts/data_rebuild/retained_scientific_inputs.py": "abbf6f17955550e66440d4f69788fbebd838d74d7739d3d83011c5200392c4ce",
+      "scripts/data_rebuild/audit_star_status_against_calendar.py": "26e729e1512d9fb755f0d7289883d305120acf7d95d328f51f99917eecd1125f",
+      "scripts/data_rebuild/fixture_date_chronology_sensitivity.py": "d7c51777ecee82899ac3a83695de64a9e7c017336d95994b07ee19e02deb80d6",
+      "scripts/data_rebuild/audit_fixture_date_swap_covariates.py": "69724b73b90531798240b437812aa02feba995f4d6741b59c6cf6ebce19463c4"
+    }
+  },
+  "environment": {
+    "python": "3.12.14",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "statsmodels": "0.14.6"
+  },
+  "tables_per_version": {
+    "legacy": 33,
+    "october_scientific_v2": 33
+  },
+  "source_input_reads_and_hash_immutability_verified": true,
+  "outputs": {
+    "legacy": {
+      "evt_prevalence_announced_tv_primary.csv": {
+        "compressed_sha256": "70cd929bc44d62eb94cd8c9c73d20fe6628a49e64e0954b60328228f00ca3fcc",
+        "decoded_sha256": "70cd929bc44d62eb94cd8c9c73d20fe6628a49e64e0954b60328228f00ca3fcc",
+        "bytes": 8448
+      },
+      "repair_announced_tv_primary.csv": {
+        "compressed_sha256": "915eacef2d510d53c54d85f20528f3c94b58cb964ab4d0b381d8ecf4a0334463",
+        "decoded_sha256": "915eacef2d510d53c54d85f20528f3c94b58cb964ab4d0b381d8ecf4a0334463",
+        "bytes": 5570
+      },
+      "home_onegame_allstar_only.csv": {
+        "compressed_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "bytes": 2847
+      },
+      "event_tv_harmonized_linear.csv": {
+        "compressed_sha256": "bb78fc28c958b8cd8c24cafc6db67f0618d7c688b0b7de03eeab7e3051cb4e1d",
+        "decoded_sha256": "bb78fc28c958b8cd8c24cafc6db67f0618d7c688b0b7de03eeab7e3051cb4e1d",
+        "bytes": 6585
+      },
+      "repair_tv_harmonized_linear.csv": {
+        "compressed_sha256": "d19e2a1a64a895d9269a7f6114484361145a28e17daa20b4a75a5bd76208a275",
+        "decoded_sha256": "d19e2a1a64a895d9269a7f6114484361145a28e17daa20b4a75a5bd76208a275",
+        "bytes": 5578
+      },
+      "next_tv_one_game_tv_harmonized_linear.csv": {
+        "compressed_sha256": "5483bd2bf8920e1e893a902921edc2ccaf85e5411656ffec783000291cb98257",
+        "decoded_sha256": "5483bd2bf8920e1e893a902921edc2ccaf85e5411656ffec783000291cb98257",
+        "bytes": 4507
+      },
+      "evt_onset_announced_tv_primary.csv": {
+        "compressed_sha256": "2afe945fa8f394bb9ca0246f4fc67403df0f234623c203680204ac3d11a80315",
+        "decoded_sha256": "2afe945fa8f394bb9ca0246f4fc67403df0f234623c203680204ac3d11a80315",
+        "bytes": 8258
+      },
+      "home_onegame_no_cup.csv": {
+        "compressed_sha256": "ba31670b5c4936a6b7427659b43ccb378361504fc9f27c61a582cff144568d66",
+        "decoded_sha256": "ba31670b5c4936a6b7427659b43ccb378361504fc9f27c61a582cff144568d66",
+        "bytes": 2761
+      },
+      "placebo_tv_harmonized_linear_2022-23.csv": {
+        "compressed_sha256": "b0fb0bb8d94cb08f8095e0f1b24ee179ec569f349812c31063f8e5423dec3927",
+        "decoded_sha256": "b0fb0bb8d94cb08f8095e0f1b24ee179ec569f349812c31063f8e5423dec3927",
+        "bytes": 4258
+      },
+      "home_longer.csv": {
+        "compressed_sha256": "f017d3509408822515beb7491d803dbe39ff92df484c31272bda63b50243eacf",
+        "decoded_sha256": "f017d3509408822515beb7491d803dbe39ff92df484c31272bda63b50243eacf",
+        "bytes": 2649
+      },
+      "evt_repair_tv_harmonized_linear.csv": {
+        "compressed_sha256": "57d7e2a23e97715a4674edb63dce9360ab754f8b98e2babeb20931f3ac8242b1",
+        "decoded_sha256": "57d7e2a23e97715a4674edb63dce9360ab754f8b98e2babeb20931f3ac8242b1",
+        "bytes": 8988
+      },
+      "within2_tv_short_announced_tv_primary.csv": {
+        "compressed_sha256": "ff0bd2da30d3da89e5308d310badb915a11d80d95f66892cd0d5c9ddf8c33442",
+        "decoded_sha256": "ff0bd2da30d3da89e5308d310badb915a11d80d95f66892cd0d5c9ddf8c33442",
+        "bytes": 4508
+      },
+      "evt_onset_tv_harmonized_linear.csv": {
+        "compressed_sha256": "29a9b9d56387c66e72f37db377c7612e59a24ec64fa48c00674299a1d9620b14",
+        "decoded_sha256": "29a9b9d56387c66e72f37db377c7612e59a24ec64fa48c00674299a1d9620b14",
+        "bytes": 8254
+      },
+      "placebo_announced_tv_primary_2021-22.csv": {
+        "compressed_sha256": "d8c993127ec76cbb2128464507b77c2d37862a99725e80dee07cfdd29eaa18f3",
+        "decoded_sha256": "d8c993127ec76cbb2128464507b77c2d37862a99725e80dee07cfdd29eaa18f3",
+        "bytes": 4261
+      },
+      "evt_repair_announced_tv_primary.csv": {
+        "compressed_sha256": "8f844fbea8044e096ac9e3b93db8fff115a031dad935930272e4d37db842280a",
+        "decoded_sha256": "8f844fbea8044e096ac9e3b93db8fff115a031dad935930272e4d37db842280a",
+        "bytes": 8982
+      },
+      "baseline_announced_tv_primary.csv": {
+        "compressed_sha256": "b38531db0df0ea0fa935146018bd432fe00949ad3f48963d0052c22dd53f2926",
+        "decoded_sha256": "b38531db0df0ea0fa935146018bd432fe00949ad3f48963d0052c22dd53f2926",
+        "bytes": 4328
+      },
+      "placebo_announced_tv_primary_2022-23.csv": {
+        "compressed_sha256": "0dd10255786e78d286ce8f7e80cf9beef63b7680525eade5cb427f3cec6b5b71",
+        "decoded_sha256": "0dd10255786e78d286ce8f7e80cf9beef63b7680525eade5cb427f3cec6b5b71",
+        "bytes": 4258
+      },
+      "baseline_tv_harmonized_linear.csv": {
+        "compressed_sha256": "ecb3640010c8b83398d54dfa0ec1bf0c29ef805a635d25586089c05ab401dee7",
+        "decoded_sha256": "ecb3640010c8b83398d54dfa0ec1bf0c29ef805a635d25586089c05ab401dee7",
+        "bytes": 4314
+      },
+      "event_window_joint_tests_national_partner.csv": {
+        "compressed_sha256": "ae1c935c91c9ef8628bd08372d49117d17181b27bbe937ba5988fae13bf1673d",
+        "decoded_sha256": "ae1c935c91c9ef8628bd08372d49117d17181b27bbe937ba5988fae13bf1673d",
+        "bytes": 264
+      },
+      "next_tv_one_game_announced_tv_primary.csv": {
+        "compressed_sha256": "4f2586224190a6d2ac3e714440279c016f9d971bcec99e7fa688bc89a5130058",
+        "decoded_sha256": "4f2586224190a6d2ac3e714440279c016f9d971bcec99e7fa688bc89a5130058",
+        "bytes": 4500
+      },
+      "within2_tv_short_tv_harmonized_linear.csv": {
+        "compressed_sha256": "54a16084e860851acaed56641746d18149dbe2ee7167f39df94a2b169fd67328",
+        "decoded_sha256": "54a16084e860851acaed56641746d18149dbe2ee7167f39df94a2b169fd67328",
+        "bytes": 4513
+      },
+      "evt_prevalence_tv_harmonized_linear.csv": {
+        "compressed_sha256": "73f57a14a956f6e5acdb7f87d7b90a514f8ff02249b72fe60d039d9065a971a6",
+        "decoded_sha256": "73f57a14a956f6e5acdb7f87d7b90a514f8ff02249b72fe60d039d9065a971a6",
+        "bytes": 8462
+      },
+      "allstar_only_announced_tv_primary.csv": {
+        "compressed_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "bytes": 4416
+      },
+      "event_window_joint_tests_linear.csv": {
+        "compressed_sha256": "bdbf50792dfff193ae051fcf2cd8dee9dafda829223642f47e3db31143efee89",
+        "decoded_sha256": "bdbf50792dfff193ae051fcf2cd8dee9dafda829223642f47e3db31143efee89",
+        "bytes": 267
+      },
+      "joint_pretrend.csv": {
+        "compressed_sha256": "a9cb6673db6893b5abcf8bd920b17fd2bc8b5a2a65a34bc30bb0545a3e79b305",
+        "decoded_sha256": "a9cb6673db6893b5abcf8bd920b17fd2bc8b5a2a65a34bc30bb0545a3e79b305",
+        "bytes": 151
+      },
+      "home_onegame_post_covid_sample.csv": {
+        "compressed_sha256": "54d34aaa93240d1b36c8e8eff60116e021b921c0a3c26ea618eb57c529e31d14",
+        "decoded_sha256": "54d34aaa93240d1b36c8e8eff60116e021b921c0a3c26ea618eb57c529e31d14",
+        "bytes": 2915
+      },
+      "home_onegame.csv": {
+        "compressed_sha256": "69f1ab64783b4af8ac7684597bd3ea7c6de512aad13f2ce1db7fe2744acd6c5b",
+        "decoded_sha256": "69f1ab64783b4af8ac7684597bd3ea7c6de512aad13f2ce1db7fe2744acd6c5b",
+        "bytes": 2647
+      },
+      "allstar_only_tv_harmonized_linear.csv": {
+        "compressed_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "bytes": 4427
+      },
+      "repair_rates_cadence.csv": {
+        "compressed_sha256": "765bda6a194198c0109f980e8071225b3e6e1abe0c0776f26b2b51911db984dc",
+        "decoded_sha256": "765bda6a194198c0109f980e8071225b3e6e1abe0c0776f26b2b51911db984dc",
+        "bytes": 1213
+      },
+      "placebo_tv_harmonized_linear_2021-22.csv": {
+        "compressed_sha256": "e9ef51fd029821ef3f608871303dbcbe087b159855411de235eb161d6ced8626",
+        "decoded_sha256": "e9ef51fd029821ef3f608871303dbcbe087b159855411de235eb161d6ced8626",
+        "bytes": 4261
+      },
+      "event_announced_tv_primary.csv": {
+        "compressed_sha256": "00005eecb9c315b18227b5961ab23b6f22724c3df01eca12dd182a86213b2761",
+        "decoded_sha256": "00005eecb9c315b18227b5961ab23b6f22724c3df01eca12dd182a86213b2761",
+        "bytes": 6607
+      },
+      "audit/coefficient_sensitivity.csv": {
+        "compressed_sha256": "b953006592824d9f6355d76de613a06113da8d35720f86a35956967cea978224",
+        "decoded_sha256": "b953006592824d9f6355d76de613a06113da8d35720f86a35956967cea978224",
+        "bytes": 942
+      },
+      "audit/cluster_sensitivity.csv": {
+        "compressed_sha256": "3f25c3be45eedeced381257c5c4b388057a32ecc463a027d24a8fedbaa8969c9",
+        "decoded_sha256": "3f25c3be45eedeced381257c5c4b388057a32ecc463a027d24a8fedbaa8969c9",
+        "bytes": 392
+      }
+    },
+    "october_scientific_v2": {
+      "evt_prevalence_announced_tv_primary.csv": {
+        "compressed_sha256": "9a912161d8ba2d7038e2288e764b2426f12ad56ad601f4fb966719c7d0534327",
+        "decoded_sha256": "9a912161d8ba2d7038e2288e764b2426f12ad56ad601f4fb966719c7d0534327",
+        "bytes": 8455
+      },
+      "repair_announced_tv_primary.csv": {
+        "compressed_sha256": "733149aa9fedc65342c3e253743ca2ca7a479b444fbc85d9de370967c92c3562",
+        "decoded_sha256": "733149aa9fedc65342c3e253743ca2ca7a479b444fbc85d9de370967c92c3562",
+        "bytes": 5568
+      },
+      "home_onegame_allstar_only.csv": {
+        "compressed_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "bytes": 2847
+      },
+      "event_tv_harmonized_linear.csv": {
+        "compressed_sha256": "d7228158ecd5181ce967abe513cce6850dd23ad992e2639022126ec5e47caa3c",
+        "decoded_sha256": "d7228158ecd5181ce967abe513cce6850dd23ad992e2639022126ec5e47caa3c",
+        "bytes": 6610
+      },
+      "repair_tv_harmonized_linear.csv": {
+        "compressed_sha256": "37420878750f6b41b9f21ce0290dac79d93d96563998e1af9e256a9ac2016a69",
+        "decoded_sha256": "37420878750f6b41b9f21ce0290dac79d93d96563998e1af9e256a9ac2016a69",
+        "bytes": 5575
+      },
+      "next_tv_one_game_tv_harmonized_linear.csv": {
+        "compressed_sha256": "6db338eb4cbcdb2a35dbee2259b227986a8071b4910ba7c7026db873988ef107",
+        "decoded_sha256": "6db338eb4cbcdb2a35dbee2259b227986a8071b4910ba7c7026db873988ef107",
+        "bytes": 4514
+      },
+      "evt_onset_announced_tv_primary.csv": {
+        "compressed_sha256": "f6bb1a6a218d1a7a7677131f53f644c123f1ec0f381d1b1163ab892fb755aabf",
+        "decoded_sha256": "f6bb1a6a218d1a7a7677131f53f644c123f1ec0f381d1b1163ab892fb755aabf",
+        "bytes": 8252
+      },
+      "home_onegame_no_cup.csv": {
+        "compressed_sha256": "41c4db28bfd60160f3d1735d567a170880cccc88de02065de8607bf1fcfe9751",
+        "decoded_sha256": "41c4db28bfd60160f3d1735d567a170880cccc88de02065de8607bf1fcfe9751",
+        "bytes": 2757
+      },
+      "placebo_tv_harmonized_linear_2022-23.csv": {
+        "compressed_sha256": "1227c1855d32c24f1970d94129a5d5b03d2145b96430d16be2c0180d21ac09ff",
+        "decoded_sha256": "1227c1855d32c24f1970d94129a5d5b03d2145b96430d16be2c0180d21ac09ff",
+        "bytes": 4256
+      },
+      "home_longer.csv": {
+        "compressed_sha256": "898ddd09456e7911d6ca0314026fecab0202cabbcc18d0d1316cc5ae6b93e064",
+        "decoded_sha256": "898ddd09456e7911d6ca0314026fecab0202cabbcc18d0d1316cc5ae6b93e064",
+        "bytes": 2652
+      },
+      "evt_repair_tv_harmonized_linear.csv": {
+        "compressed_sha256": "d8ebb65d76c9105358d289af0b411b712c5d95597c2346c9a06ccd75c92d6ea7",
+        "decoded_sha256": "d8ebb65d76c9105358d289af0b411b712c5d95597c2346c9a06ccd75c92d6ea7",
+        "bytes": 8998
+      },
+      "within2_tv_short_announced_tv_primary.csv": {
+        "compressed_sha256": "e475487748e3e3f1482e2597e1c4be445c7ad2542961a21b16f5c87cb8dca8c5",
+        "decoded_sha256": "e475487748e3e3f1482e2597e1c4be445c7ad2542961a21b16f5c87cb8dca8c5",
+        "bytes": 4511
+      },
+      "evt_onset_tv_harmonized_linear.csv": {
+        "compressed_sha256": "fab6f496e36f37bf6b94af3c9c376553668d0df76efae70283bd10823ca1529c",
+        "decoded_sha256": "fab6f496e36f37bf6b94af3c9c376553668d0df76efae70283bd10823ca1529c",
+        "bytes": 8247
+      },
+      "placebo_announced_tv_primary_2021-22.csv": {
+        "compressed_sha256": "93c8d7e0d6947d3abf1794c4c241454e3d53a1905ede0872f16415af9180d4c3",
+        "decoded_sha256": "93c8d7e0d6947d3abf1794c4c241454e3d53a1905ede0872f16415af9180d4c3",
+        "bytes": 4272
+      },
+      "evt_repair_announced_tv_primary.csv": {
+        "compressed_sha256": "e1632a9b303bc961cae76d42dbc86b51850c633311033e3fe5cee862765230d3",
+        "decoded_sha256": "e1632a9b303bc961cae76d42dbc86b51850c633311033e3fe5cee862765230d3",
+        "bytes": 8997
+      },
+      "baseline_announced_tv_primary.csv": {
+        "compressed_sha256": "1eb68f685460a11bfa73a99e76e8fc2f16ef9a2a0fa29c223fa2fe589ccbf0f2",
+        "decoded_sha256": "1eb68f685460a11bfa73a99e76e8fc2f16ef9a2a0fa29c223fa2fe589ccbf0f2",
+        "bytes": 4333
+      },
+      "placebo_announced_tv_primary_2022-23.csv": {
+        "compressed_sha256": "0b9f7f5ea39f8fce2f44c518c9ef0a56c9dc0206ecae564f98fdb09262f1c402",
+        "decoded_sha256": "0b9f7f5ea39f8fce2f44c518c9ef0a56c9dc0206ecae564f98fdb09262f1c402",
+        "bytes": 4256
+      },
+      "baseline_tv_harmonized_linear.csv": {
+        "compressed_sha256": "64bf123bf3507f420407c9dcf788ccb9430d2737ef63a652dd2b9b248eaca015",
+        "decoded_sha256": "64bf123bf3507f420407c9dcf788ccb9430d2737ef63a652dd2b9b248eaca015",
+        "bytes": 4330
+      },
+      "event_window_joint_tests_national_partner.csv": {
+        "compressed_sha256": "73addebe78a4c162de6056ade55f3860917c379842a5d56cd98e14df92cfea84",
+        "decoded_sha256": "73addebe78a4c162de6056ade55f3860917c379842a5d56cd98e14df92cfea84",
+        "bytes": 262
+      },
+      "next_tv_one_game_announced_tv_primary.csv": {
+        "compressed_sha256": "7175849fea0384b7623a25125bbccf52dc60f6ba092e10b3ee80e788aa8c1681",
+        "decoded_sha256": "7175849fea0384b7623a25125bbccf52dc60f6ba092e10b3ee80e788aa8c1681",
+        "bytes": 4516
+      },
+      "within2_tv_short_tv_harmonized_linear.csv": {
+        "compressed_sha256": "cc44bbf8411d0590861392ee8bcc57a14e407e05ada32e5afa6a241f47063be7",
+        "decoded_sha256": "cc44bbf8411d0590861392ee8bcc57a14e407e05ada32e5afa6a241f47063be7",
+        "bytes": 4507
+      },
+      "evt_prevalence_tv_harmonized_linear.csv": {
+        "compressed_sha256": "fb03ad9292195a5d5f61030c2069fcd1400a869600f6101b1b8e797e6362616b",
+        "decoded_sha256": "fb03ad9292195a5d5f61030c2069fcd1400a869600f6101b1b8e797e6362616b",
+        "bytes": 8475
+      },
+      "allstar_only_announced_tv_primary.csv": {
+        "compressed_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "bytes": 4416
+      },
+      "event_window_joint_tests_linear.csv": {
+        "compressed_sha256": "df21cf3efb16d81f823851f1c13c4348b1df50a9f8510d6142008e253c88edbc",
+        "decoded_sha256": "df21cf3efb16d81f823851f1c13c4348b1df50a9f8510d6142008e253c88edbc",
+        "bytes": 267
+      },
+      "joint_pretrend.csv": {
+        "compressed_sha256": "b604e31ba1b49d1580b2864dece38053c400fca32a457c81b1cca19c0f8efe38",
+        "decoded_sha256": "b604e31ba1b49d1580b2864dece38053c400fca32a457c81b1cca19c0f8efe38",
+        "bytes": 150
+      },
+      "home_onegame_post_covid_sample.csv": {
+        "compressed_sha256": "a8394c52e809ca0913899236ec275049da2b6bbf2fd795237c4aedae21ecdbd8",
+        "decoded_sha256": "a8394c52e809ca0913899236ec275049da2b6bbf2fd795237c4aedae21ecdbd8",
+        "bytes": 2912
+      },
+      "home_onegame.csv": {
+        "compressed_sha256": "1e6ca015c17fbb9ce97973ee5596da2a7a55aaa523189be999d98b4b7eed1ad1",
+        "decoded_sha256": "1e6ca015c17fbb9ce97973ee5596da2a7a55aaa523189be999d98b4b7eed1ad1",
+        "bytes": 2664
+      },
+      "allstar_only_tv_harmonized_linear.csv": {
+        "compressed_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "bytes": 4427
+      },
+      "repair_rates_cadence.csv": {
+        "compressed_sha256": "46e9c55cef57956f2c2a8b0a5d224f1112a60cdea7cf2324e65fefbea809e626",
+        "decoded_sha256": "46e9c55cef57956f2c2a8b0a5d224f1112a60cdea7cf2324e65fefbea809e626",
+        "bytes": 1236
+      },
+      "placebo_tv_harmonized_linear_2021-22.csv": {
+        "compressed_sha256": "ee7a925990f4876bf63b9c43b1d961be8601b9a4ad59d36a4507132c5eda5ba9",
+        "decoded_sha256": "ee7a925990f4876bf63b9c43b1d961be8601b9a4ad59d36a4507132c5eda5ba9",
+        "bytes": 4272
+      },
+      "event_announced_tv_primary.csv": {
+        "compressed_sha256": "218a1efa09b937053c20a568213aa4e0e195702c105795bc2ad7e3a3c570183a",
+        "decoded_sha256": "218a1efa09b937053c20a568213aa4e0e195702c105795bc2ad7e3a3c570183a",
+        "bytes": 6603
+      },
+      "audit/coefficient_sensitivity.csv": {
+        "compressed_sha256": "799ca4e71d98bf62964880cb2a7105fd9749a6a3c8ca0900d020656afda5bf2b",
+        "decoded_sha256": "799ca4e71d98bf62964880cb2a7105fd9749a6a3c8ca0900d020656afda5bf2b",
+        "bytes": 940
+      },
+      "audit/cluster_sensitivity.csv": {
+        "compressed_sha256": "b9268e6c09e94f9eee64bae2460a1a1fe2696813e68a26c357653d1ee1f1dfca",
+        "decoded_sha256": "b9268e6c09e94f9eee64bae2460a1a1fe2696813e68a26c357653d1ee1f1dfca",
+        "bytes": 392
+      }
+    }
+  },
+  "comparisons": {
+    "allstar_only_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 0,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.0,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "bytes": 4416
+      },
+      "versioned_identity": {
+        "compressed_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "decoded_sha256": "a53169667f09cd7f040ca9a1a831db8bd0823c174cdb448fa90a8911524f609d",
+        "bytes": 4416
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "allstar_only_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 0,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.0,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "bytes": 4427
+      },
+      "versioned_identity": {
+        "compressed_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "decoded_sha256": "b791478092da4ba998335c8dc19106efa9a656b04514593af5722fcac65c1fac",
+        "bytes": 4427
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "audit/cluster_sensitivity.csv": {
+      "key_columns": [
+        "name"
+      ],
+      "legacy_rows": 2,
+      "versioned_rows": 2,
+      "changed_rows": 2,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.4920246931996539,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "3f25c3be45eedeced381257c5c4b388057a32ecc463a027d24a8fedbaa8969c9",
+        "decoded_sha256": "3f25c3be45eedeced381257c5c4b388057a32ecc463a027d24a8fedbaa8969c9",
+        "bytes": 392
+      },
+      "versioned_identity": {
+        "compressed_sha256": "b9268e6c09e94f9eee64bae2460a1a1fe2696813e68a26c357653d1ee1f1dfca",
+        "decoded_sha256": "b9268e6c09e94f9eee64bae2460a1a1fe2696813e68a26c357653d1ee1f1dfca",
+        "bytes": 392
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "audit/coefficient_sensitivity.csv": {
+      "key_columns": [
+        "name"
+      ],
+      "legacy_rows": 6,
+      "versioned_rows": 6,
+      "changed_rows": 6,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.4220807977906294,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "b953006592824d9f6355d76de613a06113da8d35720f86a35956967cea978224",
+        "decoded_sha256": "b953006592824d9f6355d76de613a06113da8d35720f86a35956967cea978224",
+        "bytes": 942
+      },
+      "versioned_identity": {
+        "compressed_sha256": "799ca4e71d98bf62964880cb2a7105fd9749a6a3c8ca0900d020656afda5bf2b",
+        "decoded_sha256": "799ca4e71d98bf62964880cb2a7105fd9749a6a3c8ca0900d020656afda5bf2b",
+        "bytes": 940
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "baseline_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.42208079779061586,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "b38531db0df0ea0fa935146018bd432fe00949ad3f48963d0052c22dd53f2926",
+        "decoded_sha256": "b38531db0df0ea0fa935146018bd432fe00949ad3f48963d0052c22dd53f2926",
+        "bytes": 4328
+      },
+      "versioned_identity": {
+        "compressed_sha256": "1eb68f685460a11bfa73a99e76e8fc2f16ef9a2a0fa29c223fa2fe589ccbf0f2",
+        "decoded_sha256": "1eb68f685460a11bfa73a99e76e8fc2f16ef9a2a0fa29c223fa2fe589ccbf0f2",
+        "bytes": 4333
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "baseline_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.4100601489079867,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "ecb3640010c8b83398d54dfa0ec1bf0c29ef805a635d25586089c05ab401dee7",
+        "decoded_sha256": "ecb3640010c8b83398d54dfa0ec1bf0c29ef805a635d25586089c05ab401dee7",
+        "bytes": 4314
+      },
+      "versioned_identity": {
+        "compressed_sha256": "64bf123bf3507f420407c9dcf788ccb9430d2737ef63a652dd2b9b248eaca015",
+        "decoded_sha256": "64bf123bf3507f420407c9dcf788ccb9430d2737ef63a652dd2b9b248eaca015",
+        "bytes": 4330
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "event_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 33,
+      "versioned_rows": 33,
+      "changed_rows": 33,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.386937312144442,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "00005eecb9c315b18227b5961ab23b6f22724c3df01eca12dd182a86213b2761",
+        "decoded_sha256": "00005eecb9c315b18227b5961ab23b6f22724c3df01eca12dd182a86213b2761",
+        "bytes": 6607
+      },
+      "versioned_identity": {
+        "compressed_sha256": "218a1efa09b937053c20a568213aa4e0e195702c105795bc2ad7e3a3c570183a",
+        "decoded_sha256": "218a1efa09b937053c20a568213aa4e0e195702c105795bc2ad7e3a3c570183a",
+        "bytes": 6603
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "event_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 33,
+      "versioned_rows": 33,
+      "changed_rows": 33,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.387115283663047,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "bb78fc28c958b8cd8c24cafc6db67f0618d7c688b0b7de03eeab7e3051cb4e1d",
+        "decoded_sha256": "bb78fc28c958b8cd8c24cafc6db67f0618d7c688b0b7de03eeab7e3051cb4e1d",
+        "bytes": 6585
+      },
+      "versioned_identity": {
+        "compressed_sha256": "d7228158ecd5181ce967abe513cce6850dd23ad992e2639022126ec5e47caa3c",
+        "decoded_sha256": "d7228158ecd5181ce967abe513cce6850dd23ad992e2639022126ec5e47caa3c",
+        "bytes": 6610
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "event_window_joint_tests_linear.csv": {
+      "key_columns": [
+        "tv",
+        "outcome"
+      ],
+      "legacy_rows": 3,
+      "versioned_rows": 3,
+      "changed_rows": 3,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.5521070085926207,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "bdbf50792dfff193ae051fcf2cd8dee9dafda829223642f47e3db31143efee89",
+        "decoded_sha256": "bdbf50792dfff193ae051fcf2cd8dee9dafda829223642f47e3db31143efee89",
+        "bytes": 267
+      },
+      "versioned_identity": {
+        "compressed_sha256": "df21cf3efb16d81f823851f1c13c4348b1df50a9f8510d6142008e253c88edbc",
+        "decoded_sha256": "df21cf3efb16d81f823851f1c13c4348b1df50a9f8510d6142008e253c88edbc",
+        "bytes": 267
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "event_window_joint_tests_national_partner.csv": {
+      "key_columns": [
+        "tv",
+        "outcome"
+      ],
+      "legacy_rows": 3,
+      "versioned_rows": 3,
+      "changed_rows": 3,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.9614713248527731,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "ae1c935c91c9ef8628bd08372d49117d17181b27bbe937ba5988fae13bf1673d",
+        "decoded_sha256": "ae1c935c91c9ef8628bd08372d49117d17181b27bbe937ba5988fae13bf1673d",
+        "bytes": 264
+      },
+      "versioned_identity": {
+        "compressed_sha256": "73addebe78a4c162de6056ade55f3860917c379842a5d56cd98e14df92cfea84",
+        "decoded_sha256": "73addebe78a4c162de6056ade55f3860917c379842a5d56cd98e14df92cfea84",
+        "bytes": 262
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_onset_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 41,
+      "versioned_rows": 41,
+      "changed_rows": 41,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.9753890601335518,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "2afe945fa8f394bb9ca0246f4fc67403df0f234623c203680204ac3d11a80315",
+        "decoded_sha256": "2afe945fa8f394bb9ca0246f4fc67403df0f234623c203680204ac3d11a80315",
+        "bytes": 8258
+      },
+      "versioned_identity": {
+        "compressed_sha256": "f6bb1a6a218d1a7a7677131f53f644c123f1ec0f381d1b1163ab892fb755aabf",
+        "decoded_sha256": "f6bb1a6a218d1a7a7677131f53f644c123f1ec0f381d1b1163ab892fb755aabf",
+        "bytes": 8252
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_onset_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 41,
+      "versioned_rows": 41,
+      "changed_rows": 41,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.0190782838322212,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "29a9b9d56387c66e72f37db377c7612e59a24ec64fa48c00674299a1d9620b14",
+        "decoded_sha256": "29a9b9d56387c66e72f37db377c7612e59a24ec64fa48c00674299a1d9620b14",
+        "bytes": 8254
+      },
+      "versioned_identity": {
+        "compressed_sha256": "fab6f496e36f37bf6b94af3c9c376553668d0df76efae70283bd10823ca1529c",
+        "decoded_sha256": "fab6f496e36f37bf6b94af3c9c376553668d0df76efae70283bd10823ca1529c",
+        "bytes": 8247
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_prevalence_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 41,
+      "versioned_rows": 41,
+      "changed_rows": 41,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.0204588632101634,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "70cd929bc44d62eb94cd8c9c73d20fe6628a49e64e0954b60328228f00ca3fcc",
+        "decoded_sha256": "70cd929bc44d62eb94cd8c9c73d20fe6628a49e64e0954b60328228f00ca3fcc",
+        "bytes": 8448
+      },
+      "versioned_identity": {
+        "compressed_sha256": "9a912161d8ba2d7038e2288e764b2426f12ad56ad601f4fb966719c7d0534327",
+        "decoded_sha256": "9a912161d8ba2d7038e2288e764b2426f12ad56ad601f4fb966719c7d0534327",
+        "bytes": 8455
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_prevalence_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 41,
+      "versioned_rows": 41,
+      "changed_rows": 41,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.0542645453947495,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "73f57a14a956f6e5acdb7f87d7b90a514f8ff02249b72fe60d039d9065a971a6",
+        "decoded_sha256": "73f57a14a956f6e5acdb7f87d7b90a514f8ff02249b72fe60d039d9065a971a6",
+        "bytes": 8462
+      },
+      "versioned_identity": {
+        "compressed_sha256": "fb03ad9292195a5d5f61030c2069fcd1400a869600f6101b1b8e797e6362616b",
+        "decoded_sha256": "fb03ad9292195a5d5f61030c2069fcd1400a869600f6101b1b8e797e6362616b",
+        "bytes": 8475
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_repair_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 45,
+      "versioned_rows": 45,
+      "changed_rows": 45,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.38577450390708723,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "8f844fbea8044e096ac9e3b93db8fff115a031dad935930272e4d37db842280a",
+        "decoded_sha256": "8f844fbea8044e096ac9e3b93db8fff115a031dad935930272e4d37db842280a",
+        "bytes": 8982
+      },
+      "versioned_identity": {
+        "compressed_sha256": "e1632a9b303bc961cae76d42dbc86b51850c633311033e3fe5cee862765230d3",
+        "decoded_sha256": "e1632a9b303bc961cae76d42dbc86b51850c633311033e3fe5cee862765230d3",
+        "bytes": 8997
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "evt_repair_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 45,
+      "versioned_rows": 45,
+      "changed_rows": 45,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.42736305520990836,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "57d7e2a23e97715a4674edb63dce9360ab754f8b98e2babeb20931f3ac8242b1",
+        "decoded_sha256": "57d7e2a23e97715a4674edb63dce9360ab754f8b98e2babeb20931f3ac8242b1",
+        "bytes": 8988
+      },
+      "versioned_identity": {
+        "compressed_sha256": "d8ebb65d76c9105358d289af0b411b712c5d95597c2346c9a06ccd75c92d6ea7",
+        "decoded_sha256": "d8ebb65d76c9105358d289af0b411b712c5d95597c2346c9a06ccd75c92d6ea7",
+        "bytes": 8998
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "home_longer.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 14,
+      "versioned_rows": 14,
+      "changed_rows": 14,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.014035226807270984,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "f017d3509408822515beb7491d803dbe39ff92df484c31272bda63b50243eacf",
+        "decoded_sha256": "f017d3509408822515beb7491d803dbe39ff92df484c31272bda63b50243eacf",
+        "bytes": 2649
+      },
+      "versioned_identity": {
+        "compressed_sha256": "898ddd09456e7911d6ca0314026fecab0202cabbcc18d0d1316cc5ae6b93e064",
+        "decoded_sha256": "898ddd09456e7911d6ca0314026fecab0202cabbcc18d0d1316cc5ae6b93e064",
+        "bytes": 2652
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "home_onegame.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 14,
+      "versioned_rows": 14,
+      "changed_rows": 14,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.08443484142548252,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "69f1ab64783b4af8ac7684597bd3ea7c6de512aad13f2ce1db7fe2744acd6c5b",
+        "decoded_sha256": "69f1ab64783b4af8ac7684597bd3ea7c6de512aad13f2ce1db7fe2744acd6c5b",
+        "bytes": 2647
+      },
+      "versioned_identity": {
+        "compressed_sha256": "1e6ca015c17fbb9ce97973ee5596da2a7a55aaa523189be999d98b4b7eed1ad1",
+        "decoded_sha256": "1e6ca015c17fbb9ce97973ee5596da2a7a55aaa523189be999d98b4b7eed1ad1",
+        "bytes": 2664
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "home_onegame_allstar_only.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 14,
+      "versioned_rows": 14,
+      "changed_rows": 0,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.0,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "bytes": 2847
+      },
+      "versioned_identity": {
+        "compressed_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "decoded_sha256": "28090495a089ad9c128afc8926c38d70f56327121494a734bab40223018e3800",
+        "bytes": 2847
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "home_onegame_no_cup.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 14,
+      "versioned_rows": 14,
+      "changed_rows": 14,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.08595692832459356,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "ba31670b5c4936a6b7427659b43ccb378361504fc9f27c61a582cff144568d66",
+        "decoded_sha256": "ba31670b5c4936a6b7427659b43ccb378361504fc9f27c61a582cff144568d66",
+        "bytes": 2761
+      },
+      "versioned_identity": {
+        "compressed_sha256": "41c4db28bfd60160f3d1735d567a170880cccc88de02065de8607bf1fcfe9751",
+        "decoded_sha256": "41c4db28bfd60160f3d1735d567a170880cccc88de02065de8607bf1fcfe9751",
+        "bytes": 2757
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "home_onegame_post_covid_sample.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 14,
+      "versioned_rows": 14,
+      "changed_rows": 14,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.07647847231700622,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "54d34aaa93240d1b36c8e8eff60116e021b921c0a3c26ea618eb57c529e31d14",
+        "decoded_sha256": "54d34aaa93240d1b36c8e8eff60116e021b921c0a3c26ea618eb57c529e31d14",
+        "bytes": 2915
+      },
+      "versioned_identity": {
+        "compressed_sha256": "a8394c52e809ca0913899236ec275049da2b6bbf2fd795237c4aedae21ecdbd8",
+        "decoded_sha256": "a8394c52e809ca0913899236ec275049da2b6bbf2fd795237c4aedae21ecdbd8",
+        "bytes": 2912
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "joint_pretrend.csv": {
+      "key_columns": [
+        "tv"
+      ],
+      "legacy_rows": 2,
+      "versioned_rows": 2,
+      "changed_rows": 2,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.8503356215480127,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "a9cb6673db6893b5abcf8bd920b17fd2bc8b5a2a65a34bc30bb0545a3e79b305",
+        "decoded_sha256": "a9cb6673db6893b5abcf8bd920b17fd2bc8b5a2a65a34bc30bb0545a3e79b305",
+        "bytes": 151
+      },
+      "versioned_identity": {
+        "compressed_sha256": "b604e31ba1b49d1580b2864dece38053c400fca32a457c81b1cca19c0f8efe38",
+        "decoded_sha256": "b604e31ba1b49d1580b2864dece38053c400fca32a457c81b1cca19c0f8efe38",
+        "bytes": 150
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "next_tv_one_game_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.09277739351324854,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "4f2586224190a6d2ac3e714440279c016f9d971bcec99e7fa688bc89a5130058",
+        "decoded_sha256": "4f2586224190a6d2ac3e714440279c016f9d971bcec99e7fa688bc89a5130058",
+        "bytes": 4500
+      },
+      "versioned_identity": {
+        "compressed_sha256": "7175849fea0384b7623a25125bbccf52dc60f6ba092e10b3ee80e788aa8c1681",
+        "decoded_sha256": "7175849fea0384b7623a25125bbccf52dc60f6ba092e10b3ee80e788aa8c1681",
+        "bytes": 4516
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "next_tv_one_game_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.09284680068583206,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "5483bd2bf8920e1e893a902921edc2ccaf85e5411656ffec783000291cb98257",
+        "decoded_sha256": "5483bd2bf8920e1e893a902921edc2ccaf85e5411656ffec783000291cb98257",
+        "bytes": 4507
+      },
+      "versioned_identity": {
+        "compressed_sha256": "6db338eb4cbcdb2a35dbee2259b227986a8071b4910ba7c7026db873988ef107",
+        "decoded_sha256": "6db338eb4cbcdb2a35dbee2259b227986a8071b4910ba7c7026db873988ef107",
+        "bytes": 4514
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "placebo_announced_tv_primary_2021-22.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 20,
+      "versioned_rows": 20,
+      "changed_rows": 20,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.3523361754764727,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "d8c993127ec76cbb2128464507b77c2d37862a99725e80dee07cfdd29eaa18f3",
+        "decoded_sha256": "d8c993127ec76cbb2128464507b77c2d37862a99725e80dee07cfdd29eaa18f3",
+        "bytes": 4261
+      },
+      "versioned_identity": {
+        "compressed_sha256": "93c8d7e0d6947d3abf1794c4c241454e3d53a1905ede0872f16415af9180d4c3",
+        "decoded_sha256": "93c8d7e0d6947d3abf1794c4c241454e3d53a1905ede0872f16415af9180d4c3",
+        "bytes": 4272
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "placebo_announced_tv_primary_2022-23.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 20,
+      "versioned_rows": 20,
+      "changed_rows": 20,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.9698846838170354,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "0dd10255786e78d286ce8f7e80cf9beef63b7680525eade5cb427f3cec6b5b71",
+        "decoded_sha256": "0dd10255786e78d286ce8f7e80cf9beef63b7680525eade5cb427f3cec6b5b71",
+        "bytes": 4258
+      },
+      "versioned_identity": {
+        "compressed_sha256": "0b9f7f5ea39f8fce2f44c518c9ef0a56c9dc0206ecae564f98fdb09262f1c402",
+        "decoded_sha256": "0b9f7f5ea39f8fce2f44c518c9ef0a56c9dc0206ecae564f98fdb09262f1c402",
+        "bytes": 4256
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "placebo_tv_harmonized_linear_2021-22.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 20,
+      "versioned_rows": 20,
+      "changed_rows": 20,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 1.3523361754764727,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "e9ef51fd029821ef3f608871303dbcbe087b159855411de235eb161d6ced8626",
+        "decoded_sha256": "e9ef51fd029821ef3f608871303dbcbe087b159855411de235eb161d6ced8626",
+        "bytes": 4261
+      },
+      "versioned_identity": {
+        "compressed_sha256": "ee7a925990f4876bf63b9c43b1d961be8601b9a4ad59d36a4507132c5eda5ba9",
+        "decoded_sha256": "ee7a925990f4876bf63b9c43b1d961be8601b9a4ad59d36a4507132c5eda5ba9",
+        "bytes": 4272
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "placebo_tv_harmonized_linear_2022-23.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 20,
+      "versioned_rows": 20,
+      "changed_rows": 20,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.9698846838170354,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "b0fb0bb8d94cb08f8095e0f1b24ee179ec569f349812c31063f8e5423dec3927",
+        "decoded_sha256": "b0fb0bb8d94cb08f8095e0f1b24ee179ec569f349812c31063f8e5423dec3927",
+        "bytes": 4258
+      },
+      "versioned_identity": {
+        "compressed_sha256": "1227c1855d32c24f1970d94129a5d5b03d2145b96430d16be2c0180d21ac09ff",
+        "decoded_sha256": "1227c1855d32c24f1970d94129a5d5b03d2145b96430d16be2c0180d21ac09ff",
+        "bytes": 4256
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "repair_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 28,
+      "versioned_rows": 28,
+      "changed_rows": 28,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.39537466716492453,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "915eacef2d510d53c54d85f20528f3c94b58cb964ab4d0b381d8ecf4a0334463",
+        "decoded_sha256": "915eacef2d510d53c54d85f20528f3c94b58cb964ab4d0b381d8ecf4a0334463",
+        "bytes": 5570
+      },
+      "versioned_identity": {
+        "compressed_sha256": "733149aa9fedc65342c3e253743ca2ca7a479b444fbc85d9de370967c92c3562",
+        "decoded_sha256": "733149aa9fedc65342c3e253743ca2ca7a479b444fbc85d9de370967c92c3562",
+        "bytes": 5568
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "repair_rates_cadence.csv": {
+      "key_columns": [
+        "season",
+        "star_PPP_it",
+        "tv_harmonized_linear",
+        "postPPP"
+      ],
+      "legacy_rows": 24,
+      "versioned_rows": 24,
+      "changed_rows": 18,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 5.0,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "765bda6a194198c0109f980e8071225b3e6e1abe0c0776f26b2b51911db984dc",
+        "decoded_sha256": "765bda6a194198c0109f980e8071225b3e6e1abe0c0776f26b2b51911db984dc",
+        "bytes": 1213
+      },
+      "versioned_identity": {
+        "compressed_sha256": "46e9c55cef57956f2c2a8b0a5d224f1112a60cdea7cf2324e65fefbea809e626",
+        "decoded_sha256": "46e9c55cef57956f2c2a8b0a5d224f1112a60cdea7cf2324e65fefbea809e626",
+        "bytes": 1236
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "repair_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 28,
+      "versioned_rows": 28,
+      "changed_rows": 28,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.39764445743225485,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "d19e2a1a64a895d9269a7f6114484361145a28e17daa20b4a75a5bd76208a275",
+        "decoded_sha256": "d19e2a1a64a895d9269a7f6114484361145a28e17daa20b4a75a5bd76208a275",
+        "bytes": 5578
+      },
+      "versioned_identity": {
+        "compressed_sha256": "37420878750f6b41b9f21ce0290dac79d93d96563998e1af9e256a9ac2016a69",
+        "decoded_sha256": "37420878750f6b41b9f21ce0290dac79d93d96563998e1af9e256a9ac2016a69",
+        "bytes": 5575
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "within2_tv_short_announced_tv_primary.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.04816562834965765,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "ff0bd2da30d3da89e5308d310badb915a11d80d95f66892cd0d5c9ddf8c33442",
+        "decoded_sha256": "ff0bd2da30d3da89e5308d310badb915a11d80d95f66892cd0d5c9ddf8c33442",
+        "bytes": 4508
+      },
+      "versioned_identity": {
+        "compressed_sha256": "e475487748e3e3f1482e2597e1c4be445c7ad2542961a21b16f5c87cb8dca8c5",
+        "decoded_sha256": "e475487748e3e3f1482e2597e1c4be445c7ad2542961a21b16f5c87cb8dca8c5",
+        "bytes": 4511
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    },
+    "within2_tv_short_tv_harmonized_linear.csv": {
+      "key_columns": [
+        "model",
+        "term"
+      ],
+      "legacy_rows": 21,
+      "versioned_rows": 21,
+      "changed_rows": 21,
+      "added_keys": [],
+      "removed_keys": [],
+      "collinear_label_swaps": [],
+      "maximum_absolute_numeric_change": 0.04818912748442283,
+      "nonconverged_versioned_rows": [],
+      "legacy_identity": {
+        "compressed_sha256": "54a16084e860851acaed56641746d18149dbe2ee7167f39df94a2b169fd67328",
+        "decoded_sha256": "54a16084e860851acaed56641746d18149dbe2ee7167f39df94a2b169fd67328",
+        "bytes": 4513
+      },
+      "versioned_identity": {
+        "compressed_sha256": "cc44bbf8411d0590861392ee8bcc57a14e407e05ada32e5afa6a241f47063be7",
+        "decoded_sha256": "cc44bbf8411d0590861392ee8bcc57a14e407e05ada32e5afa6a241f47063be7",
+        "bytes": 4507
+      },
+      "comparison": "complete literal cells by keys; only runtime seconds excluded; numeric changes descriptive, not equality gates"
+    }
+  },
+  "nonconverged_models": [],
+  "coefficient_comparison_rows": 702,
+  "sample_change_rows_excluding_collinear_label_swaps": 0,
+  "historical_artifact_verdict": "retained_legacy_intermediates_inherited_not_six_season_raw_reexecution",
+  "manuscript_modified": false
+}

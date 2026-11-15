@@ -1,10 +1,15 @@
 # Separate October scientific version: SCI-001 and bounded SCI-002
 
-**Current verdict: implementation tested; authentic scientific acceptance pending.**
-No new October panel hash or revised regression estimate is accepted by this
-change. The retained authentic six-season source tree is not available in the
-current execution workspace. The task explicitly permits completing code,
-tests and execution instructions under that condition. PR #4 remains draft;
+**Updated verdict:** authentic localized SCI-001 execution and downstream
+calculations have passed using the owner's separately authenticated earlier
+intermediate bundle. [Actual results, scope and all 12 updated answers](AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md).
+The earlier missing-input account below is retained as the implementation history;
+it does not describe the later explicit intermediate-profile execution.
+The first implementation could not execute because the November 15 retained
+source tree was unavailable. The owner subsequently supplied an earlier
+authenticated intermediate bundle, and its explicitly scoped execution now
+has new observed hashes and original model results. The original missing-source
+restriction remains applicable to a fresh complete-candidate reconstruction. PR #4 remains draft;
 Issue #5 remains open. No manuscript, historical dataset, original executed
 script, historical acceptance target, release tag or Git history is modified.
 
@@ -71,7 +76,7 @@ Use the complete accepted November 15 six-season private run, including:
 - the original evidence ZIP and all 26 archives pinned by the accepted public
   manifest, including `nba_player_game_at_risk_star_v1.zip`.
 
-The source manifest is authenticated through the previously reviewed evidence
+In the original six-season raw-source mode, the source manifest is authenticated through the previously reviewed evidence
 ZIP, not merely trusted because it says `pass`. Source/candidate counts and all
 recorded tree hashes are revalidated. Relocated run roots are supported by
 mapping original absolute path references relative to the recorded run root;
@@ -114,8 +119,9 @@ original uploaded ZIP. The remaining command and scientific gates are identical.
 The archive directory needs the original pinned covariates, star calendar,
 2020 corrected rows, canonical selector and player-crosswalk ZIPs. The two
 original 2025 ZIPs and historical parse receipts are already inside this bundle.
-All eight actual builder cases and their models must still pass before this
-scope can produce a primary acceptance manifest. It cannot assert recovery of
+The primary builders, legacy controls and their models must still pass before this
+scope can produce a primary acceptance manifest; blocked optional sensitivities
+are reported independently. It cannot assert recovery of
 the lost November 15 source trees or fresh full-candidate execution.
 
 Use a clean committed checkout on Python 3.12 / Linux amd64. Keep originals
@@ -230,7 +236,11 @@ six-season PDF execution, independent classification/award-source review and
 publication/privacy decisions remain outside this localized acceptance.
 Release A is not ready for a revised scientific freeze or manuscript approval.
 
-## Required acceptance questions
+## Initial implementation acceptance questions (historical)
+
+These were the answers before the owner supplied retained inputs. The
+[actual execution report](AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md) contains
+the current answers and supersedes this historical pending-execution table.
 
 | Question | Evidence-based answer for this implementation |
 | --- | --- |
