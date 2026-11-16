@@ -97,6 +97,35 @@ class PlatformGuardTests(unittest.TestCase):
         run.assert_not_called()
 
 
+class EarlyRefusalTests(unittest.TestCase):
+    MAC = PlatformGuardTests.MAC
+
+    def test_platform_status_reports_without_raising(self):
+        with mock.patch.object(numerics, "platform_identity", return_value=self.MAC):
+            status = numerics.platform_status(environ={})
+        self.assertFalse(status["supported_platform"])
+        self.assertFalse(status["unsupported_platform_override"])
+
+    def test_final_dataset_build_refuses_before_stages_but_finalize_may_run_anywhere(self):
+        import importlib
+        final = importlib.import_module("scripts.data_rebuild.reproduce_final_datasets")
+        shared = importlib.import_module("scripts.data_rebuild.stage6_numerics")
+        reached = RuntimeError("reached first builder stage")
+        with mock.patch.object(shared, "platform_identity", return_value=self.MAC), \
+             mock.patch.dict("os.environ", {}, clear=False) as env, \
+             mock.patch.object(final, "preflight", return_value=[]), \
+             mock.patch.object(final, "preflight_original_boxscores", return_value=None), \
+             mock.patch.object(final, "stage_commands", side_effect=reached), \
+             mock.patch.object(final, "completed_stage_logs", side_effect=reached), \
+             mock.patch("importlib.metadata.version", return_value="2.2.3"):
+            env.pop(numerics.OVERRIDE_ENV, None)
+            with self.assertRaises(shared.UnsupportedStage6Platform):
+                final.build(Path("/archives"), Path("/new-output"))
+            with self.assertRaises(RuntimeError) as finalize:
+                final.build(Path("/archives"), Path("/new-output"), finalize_existing=True)
+            self.assertNotIsInstance(finalize.exception, shared.UnsupportedStage6Platform)
+
+
 class CallerWiringTests(unittest.TestCase):
     """Every caller of the historical estimator must apply both guards."""
 

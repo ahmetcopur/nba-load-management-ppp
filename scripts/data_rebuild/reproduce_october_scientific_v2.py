@@ -31,7 +31,7 @@ from scripts.data_rebuild.private_source_paths import under_git
 from scripts.data_rebuild import fixture_date_chronology_sensitivity as chronology
 from scripts.data_rebuild import run_historical_cadence_builder as legacy
 from scripts.data_rebuild import october_scientific_v2_rules as rules
-from scripts.data_rebuild.stage6_numerics import require_supported_platform, validate_model_rows
+from scripts.data_rebuild.stage6_numerics import platform_status, require_supported_platform, validate_model_rows
 from scripts.data_rebuild.october_scientific_v2_compare import compare, summary, identities
 from scripts.data_rebuild.audit_star_status_against_calendar import evaluate as semantic_check
 from scripts.data_rebuild.restore_historical_layout import build_plan
@@ -481,7 +481,7 @@ def main():
                 from scripts.data_rebuild.retained_scientific_inputs import preflight as older_preflight
                 older_preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
             else:preflight(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root)
-            print(json.dumps({'status':'preflight_pass','no_builder_executed':True,'output_root_untouched':True}));return
+            print(json.dumps({'status':'preflight_pass','no_builder_executed':True,'output_root_untouched':True,'stage6_platform':platform_status()}));return
         m=build(a.retained_run,a.retained_evidence,a.archive_dir,a.output_root,workload_sensitivities=a.include_workload_sensitivities,retained_intermediates=a.retained_intermediates,reuse_from=a.reuse_completed_cases_from.absolute() if a.reuse_completed_cases_from else None,reuse_commit=a.reuse_code_commit)
         print(json.dumps({'status':m['status'],'manifest':str(a.output_root/'scientific_version_manifest.json')}))
     except (ValueError,FileNotFoundError,RuntimeError) as e:

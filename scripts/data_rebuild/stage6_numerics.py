@@ -65,18 +65,26 @@ def is_supported(identity: dict) -> bool:
             and "openblas" in identity["blas"].lower())
 
 
-def require_supported_platform(environ=None) -> dict:
+def platform_status(environ=None) -> dict:
+    """Report (never raise) whether the estimator may run here; for preflight output."""
     environ = os.environ if environ is None else environ
     identity = platform_identity()
     supported = is_supported(identity)
     override = (not supported) and environ.get(OVERRIDE_ENV) == "1"
+    return {**identity, "supported_platform": supported, "unsupported_platform_override": override}
+
+
+def require_supported_platform(environ=None) -> dict:
+    status = platform_status(environ)
+    identity = {k: status[k] for k in ("system", "machine", "blas")}
+    supported, override = status["supported_platform"], status["unsupported_platform_override"]
     if not supported and not override:
         raise UnsupportedStage6Platform(
             f"The historical Stage-6 estimator is validated only on {SUPPORTED_DESCRIPTION}; "
             f"this machine is {identity}. Its rank-deficient full-control covariance is not "
             f"reliable here (see scripts/data_rebuild/stage6_numerics.py). Run in a linux/amd64 "
             f"container, or set {OVERRIDE_ENV}=1 for an explicitly unsupported diagnostic run.")
-    return {**identity, "supported_platform": supported, "unsupported_platform_override": override}
+    return status
 
 
 def _number(row: dict, field: str) -> float:

@@ -44,7 +44,10 @@ class SixSeasonTests(unittest.TestCase):
             with patch.object(final, 'preflight', return_value=[]), \
                  patch.object(final, 'preflight_original_boxscores', return_value=True), \
                  patch('importlib.metadata.version', return_value='2.2.3'), \
+                 patch.dict('os.environ', {'NBA_STAGE6_ALLOW_UNSUPPORTED_PLATFORM': '1'}), \
                  patch.object(final, 'run_stage', side_effect=stage):
+                # Stage ordering is under test here, not the platform; the override
+                # keeps it runnable off Linux (the real guard is tested separately).
                 with self.assertRaisesRegex(RuntimeError, 'no archived fallback'):
                     final.build(Path('/sources'), output, verify_original_pdfs=True,
                         six_season_sources=True, boxscore_v1=Path('/v1'),

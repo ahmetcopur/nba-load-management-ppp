@@ -558,6 +558,10 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
     pandas_version = version("pandas")
     if int(pandas_version.split(".")[0]) != 2:
         raise RuntimeError(f"Source builder must run with pandas 2.x (got {pandas_version})")
+    from scripts.data_rebuild.stage6_numerics import platform_status, require_supported_platform
+    # Fail before hours of builder stages, not at the late Stage-6 stage.
+    # --finalize-existing only re-verifies completed outputs, so it may run elsewhere.
+    stage6_platform = platform_status() if finalize_existing else require_supported_platform()
     commands = stage_commands(archives, output, verify_original_pdfs=verify_original_pdfs,
                               october_shared_repo=october_shared_repo,
                               october_python=october_python,
@@ -644,6 +648,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
             "status": "pass",
             "scientific_version": SCIENTIFIC_VERSION,
             "scientific_version_note": SCIENTIFIC_VERSION_NOTE,
+            "stage6_platform": stage6_platform,
             "scientific_output_verdict":"pass",
             "historical_artifact_verdict":("2025_metadata_exception_unresolved" if six_season_sources else "inherited_source_artifacts"),
             "six_original_PDF_season_inputs_consumed":six_season_sources,
@@ -773,6 +778,7 @@ def main() -> None:
     raw_options = dict(boxscore_v1=args.boxscore_v1, boxscore_discovery=args.boxscore_discovery,
                        boxscore_repair_zip=args.boxscore_repair_zip, boxscore_python=args.boxscore_python)
     if args.check_only:
+        from scripts.data_rebuild.stage6_numerics import platform_status
         required = preflight(archives, output, args.verify_original_pdfs,
                              rebuild_2020_2024_selectors=args.rebuild_2020_2024_selectors_from_historical_rows,
                              six_season_sources=args.rebuild_six_season_october_sources)
@@ -780,6 +786,7 @@ def main() -> None:
                                                 output=output)
         print(json.dumps({"status": "preflight-only", "required_zips_present_and_sha256_verified": required,
                           "original_boxscore_cache_paths_and_repair_zip_verified": boxscore,
+                          "stage6_platform": platform_status(),
                           "output_root_untouched": True}, indent=2))
         return
     manifest = build(

@@ -25,5 +25,6 @@ Audit finding SCI-003 (`validation/scientific_integrity_audit_2026-11-15/finding
 
 1. **Platform guard.** It refuses to run the estimator except on Linux x86-64 with numpy linked to OpenBLAS (GitHub Actions `ubuntu-latest`, or a `linux/amd64` container). `NBA_STAGE6_ALLOW_UNSUPPORTED_PLATFORM=1` permits an explicitly labelled diagnostic run elsewhere.
 2. **Output check on every platform.** Each full-control SE must be within 0.5–2× its full-rank no-control SE. Observed ratios are 0.995 on the real panel and 1.03–1.05 on the synthetic test panel; a kept null direction inflates the SE by orders of magnitude. A finite but exploded SE is therefore rejected rather than accepted.
+3. **Fail early, report in preflight.** `reproduce_final_datasets.py` checks the platform before its first builder stage, rather than at the late Stage-6 stage. `--finalize-existing` only re-verifies completed outputs, so it is still allowed on other platforms. Both `--check-only` preflights (`reproduce_final_datasets.py` and `reproduce_october_scientific_v2.py`) report `stage6_platform` without failing.
 
 No accepted estimate, hash, tolerance or historical target changed. Tests: `tests/test_stage6_numerics.py`.
