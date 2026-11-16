@@ -23,6 +23,11 @@ import sys
 import tempfile
 import zipfile
 
+try:
+    from .stage6_numerics import require_supported_platform, validate_model_rows
+except ImportError:  # executed as a script from scripts/data_rebuild
+    from stage6_numerics import require_supported_platform, validate_model_rows
+
 import pandas as pd
 if __package__:
     from . import audit_fixture_date_swap_covariates as cov
@@ -263,6 +268,7 @@ def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path):
             f"ROOT=Path({str(root)!r}); OUT=ROOT/'cadence_harmonized_results'")
         runner = root / "run_cadence_models_fast.py"
         runner.write_text(runnable, encoding="utf-8")
+        require_supported_platform()
         environment = {**os.environ, "OPENBLAS_NUM_THREADS": "1",
                        "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
         result = subprocess.run([sys.executable, str(runner)],
@@ -277,6 +283,7 @@ def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path):
         (dest / "stdout.txt").write_text(result.stdout)
         (dest / "stderr.txt").write_text(result.stderr)
     rebuilt = pd.read_csv(output / "stage6_models/cadence_harmonized_model_results.csv")
+    validate_model_rows(rebuilt.to_dict("records"))
     key = ["definition", "controls"]
     if archived_rows.duplicated(key).any() or rebuilt.duplicated(key).any():
         raise RuntimeError("Duplicate model specification keys")

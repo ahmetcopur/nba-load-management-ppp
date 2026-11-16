@@ -43,6 +43,7 @@ import pandas as pd
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from scripts.data_rebuild.stage6_numerics import require_supported_platform, validate_model_rows
 from scripts.data_rebuild.rebuild_2025_selected_from_pdfs import (
     SOURCE_ZIPS as RAW_2025_ZIPS, init_parser, parse_selected_pdf,
     stage_pdfs,
@@ -279,6 +280,7 @@ def run(archives: Path, generated_reviewed_panel: Path, output_dir: Path,
     env = dict(os.environ, OPENBLAS_NUM_THREADS="1",
                OMP_NUM_THREADS="1", MKL_NUM_THREADS="1",
                NUMEXPR_NUM_THREADS="1", PYTHONDONTWRITEBYTECODE="1")
+    stage6_platform = require_supported_platform()
     stage_results = []
     for name, executable in (("historical_panel", panel_script),
                              ("historical_models", model_script)):
@@ -303,6 +305,7 @@ def run(archives: Path, generated_reviewed_panel: Path, output_dir: Path,
         stage_results.append(name)
     result_csv = (output_dir /
         "cadence_harmonized_results/cadence_harmonized_model_results.csv")
+    numerics = validate_model_rows(candidate_rows(result_csv))
     verdict = compare(archived_rows(STAGE6_ZIP), candidate_rows(result_csv),
                       pp_tol=1e-10, p_tol=1e-10)
     if not verdict["matched"] or verdict["model_specifications"] != 4:
@@ -319,6 +322,8 @@ def run(archives: Path, generated_reviewed_panel: Path, output_dir: Path,
         "original_source_stages_executed": stage_results,
         "full_decoded_harmonized_panel_exact": panel_comparison,
         "four_original_October_model_results": verdict,
+        "stage6_platform": stage6_platform,
+        "stage6_numerical_validation": numerics,
         "all_four_model_specifications_reproduced": True,
         "old_2020_21_reason_rows_inherited": True,
         "historical_2021_2024_parser_output_intermediates_inherited": True,

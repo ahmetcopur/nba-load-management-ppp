@@ -31,6 +31,7 @@ from scripts.data_rebuild.private_source_paths import under_git
 from scripts.data_rebuild import fixture_date_chronology_sensitivity as chronology
 from scripts.data_rebuild import run_historical_cadence_builder as legacy
 from scripts.data_rebuild import october_scientific_v2_rules as rules
+from scripts.data_rebuild.stage6_numerics import require_supported_platform, validate_model_rows
 from scripts.data_rebuild.october_scientific_v2_compare import compare, summary, identities
 from scripts.data_rebuild.audit_star_status_against_calendar import evaluate as semantic_check
 from scripts.data_rebuild.restore_historical_layout import build_plan
@@ -42,6 +43,9 @@ STAR_ARCHIVE='nba_player_game_at_risk_star_v1.zip'
 STAR_SHA='6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70'
 FROZEN_SHA='3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac'
 CORRECTED_SHA='2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67'
+# Accepted SCI-001 primary panel (chronology phase) from the Nov 15 authentic run.
+# Recorded for identification only; a mismatch is reported, never silently accepted as this identity.
+ACCEPTED_SCIENTIFIC_V2_SHA='9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f'
 BASE_SHA='5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77'
 PUBLIC=REPO/'validation/six_season_end_to_end_2026-11-15/final_dataset_manifest.json'
 EVIDENCE_REF=REPO/'validation/scientific_integrity_audit_2026-11-15/execution_evidence_check.json'
@@ -346,6 +350,7 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
         from scripts.data_rebuild.retained_scientific_inputs import preflight as older_preflight
         auth=older_preflight(retained,evidence,archives,output)
     else:auth=preflight(retained,evidence,archives,output)
+    stage6_platform=require_supported_platform()
     environment=runtime();code=code_identity()
     output.mkdir(parents=True,exist_ok=False)
     events=output/'stages.jsonl'
@@ -395,6 +400,7 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
                     from scripts.data_rebuild.scientific_case_checkpoint import reuse_case
                     reused=reuse_case(reuse_from,reuse_commit,phase,version,required,case)
                     if reused:
+                        reused['four_models_numerical_validation']=validate_model_rows(reused['four_models']['models'])
                         cases[name]=reused;event({'stage':name,'event':'finish','exit_code':0,'completed_case_reused':True});continue
                 receipt=execute(source,root,case,required,allow_legacy_crash=(version=='legacy'))
                 (case/'scientific_patch.diff').write_text(''.join(difflib.unified_diff(original.decode().splitlines(True),source.decode().splitlines(True),fromfile='immutable_original',tofile=version)))
@@ -402,8 +408,9 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
                 verify_panel_identity(stats,phase,version)
                 sem=require_semantics(panel,root/CALENDAR,star)
                 models=run_models(panel,case/'models')
+                numerics=validate_model_rows(models['models'])
                 if version=='legacy':verify_legacy_models(models['models'],phase)
-                result={'scientific_version':version,'phase':phase,'panel':stats,'builder':receipt,'semantic_star_check':sem,'four_models':models,
+                result={'scientific_version':version,'phase':phase,'panel':stats,'builder':receipt,'semantic_star_check':sem,'four_models':models,'four_models_numerical_validation':numerics,
                         'workload_rule':'prior_10_distinct_observed_physical_games_SENSITIVITY_NOT_ADOPTED' if work else 'original_roster_row_history'}
                 if version!='legacy':
                     allowed=({'star_PPP_it'} if star else set())|(set(rules.WORKLOAD_COLUMNS) if work else set())
@@ -440,13 +447,14 @@ def build(retained,evidence,archives,output,*,workload_sensitivities=False,retai
         if any(sha(p)!=h for p,h in auth['source_snapshot'].items()):raise ValueError('Retained source changed during scientific reconstruction')
         if code_identity()!=code:raise ValueError('Scientific code changed during execution')
         manifest={'status':'primary_verified_secondary_pending','scientific_version':PRIMARY,'parent_legacy_version':'October corrected chronology',
-                  'code':code,'environment':environment,'original_builder_sha256':rules.ORIGINAL_SHA256,'original_model_sha256':chronology.FAST_SOURCE_SHA,
+                  'code':code,'environment':environment,'stage6_platform':stage6_platform,'original_builder_sha256':rules.ORIGINAL_SHA256,'original_model_sha256':chronology.FAST_SOURCE_SHA,
                   'source_manifest_sha256':auth['source_manifest_sha256'],'original_archives_sha256':auth['original_archives'],
                   'input_files_unchanged':True,'all_cases':cases,'within_version_chronology_comparisons':comparisons,
                   'blocked_optional_sensitivities':blocked,
                   'legacy_chronology_check':legacy_chron,'chronology_base_changes':base_changes,'adjusted_generated_hashes':adjusted,
                   'historical_artifact_verdict':auth.get('historical_artifact_verdict','not_exact_2025_metadata_only_exception_preserved'),'metadata_only_exception':auth['metadata_only_exception'],
                   'source_profile':{k:auth[k] for k in ('source_scope','source_profile_sha256','bundle_sha256','verified_original_archives_in_this_execution','November15_input_comparison','selected_2025_PDF_hash_audit') if k in auth},
+                  'accepted_reference':(lambda h:{'case':'chronology__'+PRIMARY,'accepted_decoded_sha256':ACCEPTED_SCIENTIFIC_V2_SHA,'observed_decoded_sha256':h,'matches_accepted_scientific_v2':h==ACCEPTED_SCIENTIFIC_V2_SHA})(cases.get('chronology__'+PRIMARY,{}).get('panel',{}).get('decoded_sha256')),
                   'workload_definition_adopted':False,'secondary_results_status':'not_yet_verified','human_approval':'pending',
                   'limitations':['Original JSON+PDF combination not established','Versioned reviewed/clock inputs inherited','SCI-002 physical-game rule is a sensitivity, not an inferred historical intention']}
         save(output/'scientific_version_manifest.json',manifest)

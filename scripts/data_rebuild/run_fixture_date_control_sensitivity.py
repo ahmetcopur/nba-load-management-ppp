@@ -22,6 +22,11 @@ import sys
 import tempfile
 import zipfile
 
+try:
+    from .stage6_numerics import require_supported_platform, validate_model_rows
+except ImportError:  # executed as a script from scripts/data_rebuild
+    from stage6_numerics import require_supported_platform, validate_model_rows
+
 import numpy as np
 import pandas as pd
 
@@ -153,6 +158,7 @@ def main():
         raise RuntimeError("Original historical Stage-6 model input root changed")
     adjusted_source = source.replace(historic_root,
         "ROOT=Path(" + repr(str(output_root)) + "); OUT=ROOT/'cadence_harmonized_results'")
+    require_supported_platform()
     runner = output_root / "original_stage6_models_corrected_controls.py"
     runner.write_text(adjusted_source)
     env = {**os.environ, "OPENBLAS_NUM_THREADS": "1",
@@ -164,6 +170,7 @@ def main():
     (output_root / "stage6_stdout.txt").write_text(result.stdout)
     (output_root / "stage6_stderr.txt").write_text(result.stderr)
     rebuilt_models = pd.read_csv(output_dir / "cadence_harmonized_model_results.csv")
+    validate_model_rows(rebuilt_models.to_dict("records"))
     comparison = rebuilt_models.merge(
         original_models, on=["definition", "controls"], suffixes=["_corrected", "_frozen"],
         how="outer", validate="one_to_one", indicator=True

@@ -9,7 +9,24 @@ Freeze date: **2026-08-12**
 
 This package freezes the completed empirical analysis for the six-season NBA Player Participation Policy project.
 
-## Rebuild the final corrected analysis datasets
+## Which October dataset version? Read this first
+
+Three October cadence panels exist. They are different data versions, not competing reproductions of one result. Each has exactly one entry point.
+
+| Version | What it is | Entry point | Decoded SHA-256 | Primary full-control estimate (N = 180,530) |
+| --- | --- | --- | --- | --- |
+| Frozen (Aug 12) | Published freeze; original chronology; contains the SCI-001 star error | `data_intermediate/player_team_game_harmonized_cadence.csv.gz` (no rebuild needed); models via `scripts/data_rebuild/replay_stage6_from_frozen.py` | `3c161f95…` | +2.630 pp, p = .046 |
+| Legacy corrected chronology | Frozen builder plus the February 2022 Toronto chronology correction; **still contains the SCI-001 star error** | `scripts/data_rebuild/reproduce_final_datasets.py` (this section) | `2409b501…` | +2.674 pp, p = .043 |
+| Scientific-v2 (SCI-001) | Legacy corrected chronology with the 49 report-only star flags corrected; proposed primary, pending human scientific review | `scripts/data_rebuild/reproduce_october_scientific_v2.py` ([setup and command](documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md)) | `9dde4578…` | +3.064 pp, p = .019 |
+
+The same SCI-001 correction applied to the *frozen* chronology gives +3.019 pp (p = .020); that is a diagnostic of the frozen phase, not a fourth release. August panels are not affected by SCI-001.
+
+**Platform:** the historical Stage-6 estimator is validated only on Linux x86-64 with OpenBLAS (CI, or a `linux/amd64` container). On macOS arm64 its rank-deficient full-control covariance breaks down, so every Stage-6 caller now refuses unsupported platforms and rejects exploded standard errors. See [STAGE6_NUMERICAL_SUPPORT_2026-11-16.md](documentation/STAGE6_NUMERICAL_SUPPORT_2026-11-16.md).
+
+## Rebuild the legacy corrected datasets (historical pipeline, pre-SCI-001)
+
+This pipeline deliberately reproduces the historical builders and keeps their strict hashes. Its October output is the **legacy corrected-chronology panel (`2409b501…`), which contains the SCI-001 star error**. It is not the scientific-v2 dataset; the runner records `"scientific_version": "legacy_corrected_chronology_pre_SCI001"` in its manifest.
+
 
 For the connected **six-season original-PDF** workflow, use [the cumulative October gate and fresh final-run instructions](documentation/SIX_SEASON_CONNECTED_REPRODUCTION.md). It requires 26 pinned private ZIPs and adds `--rebuild-six-season-october-sources` alongside `--verify-original-pdfs`. Scientific-output acceptance is separate from the documented 2025 team-metadata artifact exception. The default 22-ZIP historical mode below remains available and does not establish six-season selector consumption.
 
@@ -35,7 +52,7 @@ An [authentic Linux amd64 PDF plus original NBA JSON run](documentation/AUTHENTI
 
 An optional subsequent [fresh 2020–21 PDF-to-selector path](documentation/REPRODUCE_FINAL_DATASETS.md#optional-regenerate-and-feed-202021202425-selectors-from-historical-parsed-rows) now connects all 617 reparsed original PDFs to the 2020 selector and guarded October input handoff. Its isolated authentic source/selector checks passed, but its complete final-panel run remains outstanding. See the [machine-readable dependency inventory](documentation/FINAL_DATASET_DEPENDENCY_GRAPH_2026-11-14.json) for each remaining source family.
 
-From the **original private historical source archives**, regenerate the November 2026 accepted **corrected August latest-pre-tip full/at-risk panels** and the **corrected October cadence-harmonized player-game panel** with the original scientific builders. The command refuses changed frozen baselines, wrong corrected dataset hashes, incorrect risk/onset counts or Stage-6 estimates. Use a **fresh private directory outside Git**. With --verify-original-pdfs, six-season PDF-derived player rows feed the corrected August finalizer and the PDF-derived original reviewed base feeds corrected October after exact hash verification; October report selections remain inherited. The original ten-script October regressions are separately available.
+From the **original private historical source archives**, regenerate the November 2026 accepted **corrected August latest-pre-tip full/at-risk panels** and the **legacy corrected (pre-SCI-001) October cadence-harmonized player-game panel** with the original scientific builders. The command refuses changed frozen baselines, wrong corrected dataset hashes, incorrect risk/onset counts or Stage-6 estimates. Use a **fresh private directory outside Git**. With --verify-original-pdfs, six-season PDF-derived player rows feed the corrected August finalizer and the PDF-derived original reviewed base feeds corrected October after exact hash verification; October report selections remain inherited. The original ten-script October regressions are separately available.
 
 This is an executable reproducibility route to the **datasets used in analysis**, not merely a repository of historical model estimates. The user-owned NBA PDFs, raw box-score data, manually adjudicated source mappings, and generated private player-game rows are not committed. Read the documentation's explicit intermediate-source versus raw-PDF lineage boundary before asserting full raw-to-corrected source acceptance.
 
@@ -61,6 +78,7 @@ No additional specification should replace the frozen suite merely because it gi
 - `documentation/FROZEN_SPECIFICATION.md` — exact analytical choices.
 - `documentation/MANUSCRIPT_READY_RESULTS.md` — suggested results wording.
 - `documentation/TAXONOMY_VALIDATION_PROVENANCE.md` — correct description of the 300-spell validation.
+- `documentation/TAXONOMY_VALIDATION_PROVENANCE_ADDENDUM_2026-11-15.md` — later addendum separating the 260/300 human double-coding archive from the frozen 300-spell exercise (kept outside the frozen file so `MANIFEST_SHA256.csv` stays valid).
 - `documentation/RAW_DATA_AND_REPRODUCIBILITY_SCOPE.md` — what is and is not bundled.
 - `data_final/` — final analysis-ready panels and frozen spell taxonomy.
 - `packages/` — exact milestone packages in execution order.

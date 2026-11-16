@@ -1,4 +1,7 @@
-# Six original-PDF seasons connected to corrected datasets
+# Six original-PDF seasons connected to the legacy corrected datasets (pre-SCI-001)
+
+> **Scope: legacy corrected datasets (pre-SCI-001).** The October panel this runner accepts (decoded SHA-256 `2409b501…`, primary +2.674 pp) reproduces the historical builder **including the known SCI-001 star_PPP_it error in 49 report-only rows**. It is not the scientific-v2 dataset (`9dde4578…`, +3.064 pp). For scientific-v2, use `scripts/data_rebuild/reproduce_october_scientific_v2.py` as described in [OCTOBER_SCIENTIFIC_V2_2026-11-15.md](OCTOBER_SCIENTIFIC_V2_2026-11-15.md). See the version table in the [README](../README.md#which-october-dataset-version-read-this-first).
+
 
 The canonical CLI option `--rebuild-six-season-october-sources` connects the six previously tested source reconstructions to the actual October builder. It requires `--verify-original-pdfs` and replaces the older partial selector switches. It does not claim recovery of the original 2025 S4 team-join program.
 

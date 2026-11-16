@@ -19,6 +19,7 @@ import tempfile
 from importlib.metadata import version
 
 from compare_stage6_models import archived_rows, candidate_rows, compare
+from stage6_numerics import require_supported_platform, validate_model_rows
 
 REPO = Path(__file__).resolve().parents[2]
 ORIGINAL = REPO / "scripts/executed/06_cadence_harmonized_identification/run_cadence_models_fast.py"
@@ -48,6 +49,7 @@ def main():
     line = "ROOT=Path('/mnt/data/nba_continue'); OUT=ROOT/'cadence_harmonized_results'"
     if src.count(line) != 1:
         raise RuntimeError("Historical Stage-6 runner root path has changed; inspect before replay")
+    platform_check = require_supported_platform()
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="nba_stage6_model_replay_") as temp:
@@ -82,6 +84,7 @@ def main():
             raise RuntimeError("Original Stage-6 script finished without model result CSV")
         target = output / "cadence_harmonized_model_results.csv"
         shutil.copy2(produced, target)
+    numerics = validate_model_rows(candidate_rows(target))
     verdict = compare(archived_rows(args.reference_zip), candidate_rows(target),
                       pp_tol=0.001, p_tol=0.001)
     provenance = {
@@ -96,6 +99,8 @@ def main():
         "statsmodels_version": version("statsmodels"),
         "scipy_version": version("scipy"),
         "environment_threads": "1",
+        "platform": platform_check,
+        "numerical_validation": numerics,
         "acceptance": verdict,
     }
     (output / "replay_verification.json").write_text(json.dumps(provenance, indent=2) + "\n")

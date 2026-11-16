@@ -1,5 +1,7 @@
 # Separate October scientific version: SCI-001 and bounded SCI-002
 
+> **Entry point for scientific-v2.** `scripts/data_rebuild/reproduce_october_scientific_v2.py` is the only command that builds the SCI-001-corrected October panel. The accepted primary case `chronology__october_scientific_v2` has decoded SHA-256 `9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f` (primary +3.064 pp); the runner's `scientific_version_manifest.json` records whether a new run matches it (`accepted_reference`). The runner refuses to accept either legacy hash as scientific-v2. `reproduce_final_datasets.py` builds the **legacy** pre-SCI-001 panel (`2409b501…`) and must not be used to obtain scientific-v2. The authentic Nov 15 run used the retained-intermediate profile (`--retained-intermediates`); see [the execution record](AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md).
+
 **Updated verdict:** authentic localized SCI-001 execution and downstream
 calculations have passed using the owner's separately authenticated earlier
 intermediate bundle. [Actual results, scope and all 12 updated answers](AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md).

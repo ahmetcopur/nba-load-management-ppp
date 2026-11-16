@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Rebuild the two final corrected NBA analysis panels from pinned private archives.
+"""Rebuild the LEGACY corrected NBA analysis panels (pre-SCI-001) from pinned private archives.
+
+SCOPE: the October panel accepted here (decoded SHA-256 2409b501...) is the
+legacy corrected-chronology panel. It deliberately reproduces the historical
+builder, including the known SCI-001 star_PPP_it error in 49 report-only rows
+(primary Stage-6 estimate +2.674 pp). It is NOT the scientific-v2 panel
+(decoded SHA-256 9dde4578..., +3.064 pp). For scientific-v2 use
+scripts/data_rebuild/reproduce_october_scientific_v2.py; see
+documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md.
 
 This is an ORCHESTRATOR for original scientific builders already versioned in
 scripts/data_rebuild/. The public repository contains the code and frozen
@@ -98,6 +106,17 @@ EXPECTED = {
         "onset_field": "absence_onset_harm",
     },
 }
+# Scientific identity of what this runner accepts. Strict hashes above are
+# unchanged; this label only states their scope so it cannot be mistaken
+# for the SCI-001-corrected scientific version.
+SCIENTIFIC_VERSION = "legacy_corrected_chronology_pre_SCI001"
+SCIENTIFIC_VERSION_NOTE = (
+    "Legacy corrected-chronology datasets. The October panel reproduces the known "
+    "SCI-001 star_PPP_it error (49 report-only rows). It is not the scientific-v2 "
+    "panel (decoded SHA-256 9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f); "
+    "use scripts/data_rebuild/reproduce_october_scientific_v2.py for scientific-v2."
+)
+
 EXPECTED_MODELS = {
     ("legacy_primary", "full"): (2.6742317292365767, 0.0426339657858416),
     ("harmonized_linear", "full"): (1.2823694527266445, 0.3308675408175164),
@@ -524,6 +543,7 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
           finalize_existing: bool = False) -> dict:
     if raw_2020_selector and (not verify_original_pdfs or not rebuild_2020_2024_selectors):
         raise ValueError("Fresh 2020 selector requires original-PDF and selector replay stages")
+    print(f"SCOPE {SCIENTIFIC_VERSION}: {SCIENTIFIC_VERSION_NOTE}", file=sys.stderr, flush=True)
     archives, output = archives.resolve(), output.resolve()
     original_zips = preflight(archives, output, verify_original_pdfs,
                               finalize_existing=finalize_existing,
@@ -622,6 +642,8 @@ def build(archives: Path, output: Path, *, verify_original_pdfs: bool = False,
         shutil.copy2(spells, final / "corrected_august_provisional_spells.csv.gz")
         manifest = {
             "status": "pass",
+            "scientific_version": SCIENTIFIC_VERSION,
+            "scientific_version_note": SCIENTIFIC_VERSION_NOTE,
             "scientific_output_verdict":"pass",
             "historical_artifact_verdict":("2025_metadata_exception_unresolved" if six_season_sources else "inherited_source_artifacts"),
             "six_original_PDF_season_inputs_consumed":six_season_sources,
@@ -726,6 +748,8 @@ def main() -> None:
     if args.list_inputs:
         from scripts.data_rebuild.rebuild_six_season_october_sources import EXTRA_ZIPS
         print(json.dumps({
+            "scientific_version": SCIENTIFIC_VERSION,
+            "scientific_version_note": SCIENTIFIC_VERSION_NOTE,
             "required_historical_source_ZIPs": REQUIRED_ZIPS,
             "additional_if_verify_original_pdfs": RAW_PDF_EXTRA_ZIPS,
             "additional_if_rebuilding_2020_2024_selectors_from_historical_rows": SELECTOR_SCHEDULE_EXTRA_ZIPS,
@@ -770,6 +794,8 @@ def main() -> None:
     )
     print(json.dumps({
         "status": manifest["status"],
+        "scientific_version": manifest.get("scientific_version", SCIENTIFIC_VERSION),
+        "scientific_version_note": SCIENTIFIC_VERSION_NOTE,
         "final_dataset_dir": str(output / "final"),
         "outputs": {name: {key: value[key] for key in ("rows", "risk", "onsets", "decoded_sha256")}
                     for name, value in manifest["outputs"].items()},

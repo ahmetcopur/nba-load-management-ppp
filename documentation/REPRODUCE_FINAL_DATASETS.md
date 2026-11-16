@@ -1,8 +1,10 @@
+> **Scope: legacy corrected datasets (pre-SCI-001).** The October panel this runner accepts (decoded SHA-256 `2409b501…`, primary +2.674 pp) reproduces the historical builder **including the known SCI-001 star_PPP_it error in 49 report-only rows**. It is not the scientific-v2 dataset (`9dde4578…`, +3.064 pp). For scientific-v2, use `scripts/data_rebuild/reproduce_october_scientific_v2.py` as described in [OCTOBER_SCIENTIFIC_V2_2026-11-15.md](OCTOBER_SCIENTIFIC_V2_2026-11-15.md). See the version table in the [README](../README.md#which-october-dataset-version-read-this-first).
+
 **Scientific validity gate (November 15):** the historical runner reproduces a known report-only star-classification error. A matching legacy hash is not acceptance of the stated eligibility definition. Read [the scientific audit](SCIENTIFIC_INTEGRITY_AUDIT_2026-11-15.md) and run the new read-only star semantic check before considering a scientific freeze. No historical targets were altered.
 
 Current combined-mode command, remaining acceptance gate, and release checklist: [final reproducibility review](FINAL_REPRODUCIBILITY_RELEASE_REVIEW_2026-11-15.md). Older execution sections below retain the scope of their dated runs.
 
-# Reproduce the final corrected NBA analysis datasets
+# Reproduce the legacy corrected NBA analysis datasets (pre-SCI-001)
 
 **Connected six-season mode:** follow [SIX_SEASON_CONNECTED_REPRODUCTION.md](SIX_SEASON_CONNECTED_REPRODUCTION.md). First run one cumulative original October builder gate with all six newly generated season inputs; then run a fresh canonical reconstruction with `--verify-original-pdfs --rebuild-six-season-october-sources`. This mode requires 26 pinned ZIPs, traces 18 actual input opens in both builders, and preserves a separate unresolved 2025 historical-artifact verdict. The older default and partial-selector modes below retain their narrower scopes.
 
