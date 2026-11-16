@@ -86,6 +86,7 @@ No additional specification should replace the frozen suite merely because it gi
 - `packages/` — exact milestone packages in execution order.
 - `validation/` — taxonomy scoring artifacts.
 - `MANIFEST_SHA256.csv` — hashes for every file in this freeze.
+- `DATA_STATEMENT.md` — what player-level data is published, its sources, the terms it is shared on (code: MIT; data: verification only, no licence granted) and how to request corrections or removal.
 
 ### Independent first-party national-TV source audit — November 11
 
