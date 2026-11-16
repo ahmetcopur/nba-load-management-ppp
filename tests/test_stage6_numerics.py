@@ -140,6 +140,47 @@ class CallerWiringTests(unittest.TestCase):
                 self.assertIn("require_supported_platform()", text)
                 self.assertIn("validate_model_rows(", text)
 
+    def test_callers_keep_guard_results_for_their_reports(self):
+        # A bare call would drop an explicit unsupported-platform override from the report.
+        for name in self.CALLERS:
+            lines = (TOOLS / name).read_text(encoding="utf-8").splitlines()
+            with self.subTest(name=name):
+                bare = [line.strip() for line in lines
+                        if line.strip().startswith(("require_supported_platform(", "validate_model_rows("))]
+                self.assertEqual(bare, [])
+
+    def test_chronology_rerun_records_override_and_validation(self):
+        import importlib.util
+        import io
+        import subprocess
+        import tempfile
+        import zipfile
+        spec = importlib.util.spec_from_file_location(
+            "chronology_for_guard_test", TOOLS / "fixture_date_chronology_sensitivity.py")
+        chron = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(chron)
+        guard_module = sys.modules[chron.require_supported_platform.__module__]
+        with zipfile.ZipFile(ARCHIVE) as archive:
+            archived = archive.read("results/cadence_harmonized_model_results.csv")
+
+        def fake_run(command, cwd, **kwargs):
+            (Path(cwd) / "cadence_harmonized_results/cadence_harmonized_model_results.csv").write_bytes(archived)
+            return subprocess.CompletedProcess(command, 0, "", "")
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "panel.csv.gz").write_bytes(b"placeholder")
+            checks = {}
+            with mock.patch.object(guard_module, "platform_identity", return_value=PlatformGuardTests.MAC), \
+                 mock.patch.dict("os.environ", {numerics.OVERRIDE_ENV: "1"}), \
+                 mock.patch.object(chron.subprocess, "run", side_effect=fake_run):
+                rows = chron.rerun_original_models(root / "panel.csv.gz", ARCHIVE, root, checks)
+        self.assertEqual(len(rows), 4)
+        self.assertTrue(checks["stage6_platform"]["unsupported_platform_override"])
+        self.assertFalse(checks["stage6_platform"]["supported_platform"])
+        self.assertEqual(set(checks["stage6_numerical_validation"]["se_ratio_full_to_none"]),
+                         {"legacy_primary", "harmonized_linear"})
+
     def test_no_unguarded_caller_of_historical_estimator(self):
         callers = {path.name for path in TOOLS.glob("*.py")
                    if "run_cadence_models_fast" in path.read_text(encoding="utf-8")}

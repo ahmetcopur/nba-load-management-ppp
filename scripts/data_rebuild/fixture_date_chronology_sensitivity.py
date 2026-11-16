@@ -248,7 +248,13 @@ def compare_panels(frozen_path: Path, candidate_path: Path, output: Path):
     return report
 
 
-def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path):
+def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path,
+                          checks: dict | None = None):
+    """Rerun the four historical Stage-6 models; return the comparison rows.
+
+    If `checks` is given, it receives the platform status (including any explicit
+    unsupported-platform override) and the standard-error validation, for the report.
+    """
     with zipfile.ZipFile(stage6_zip) as archive:
         source = archive.read("scripts/run_cadence_models_fast.py")
         archived_rows = pd.read_csv(io.BytesIO(
@@ -268,7 +274,7 @@ def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path):
             f"ROOT=Path({str(root)!r}); OUT=ROOT/'cadence_harmonized_results'")
         runner = root / "run_cadence_models_fast.py"
         runner.write_text(runnable, encoding="utf-8")
-        require_supported_platform()
+        platform_check = require_supported_platform()
         environment = {**os.environ, "OPENBLAS_NUM_THREADS": "1",
                        "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
         result = subprocess.run([sys.executable, str(runner)],
@@ -283,7 +289,10 @@ def rerun_original_models(panel_path: Path, stage6_zip: Path, output: Path):
         (dest / "stdout.txt").write_text(result.stdout)
         (dest / "stderr.txt").write_text(result.stderr)
     rebuilt = pd.read_csv(output / "stage6_models/cadence_harmonized_model_results.csv")
-    validate_model_rows(rebuilt.to_dict("records"))
+    numerics = validate_model_rows(rebuilt.to_dict("records"))
+    if checks is not None:
+        checks["stage6_platform"] = platform_check
+        checks["stage6_numerical_validation"] = numerics
     key = ["definition", "controls"]
     if archived_rows.duplicated(key).any() or rebuilt.duplicated(key).any():
         raise RuntimeError("Duplicate model specification keys")
@@ -364,7 +373,8 @@ def main():
     if not candidate.is_file():
         raise RuntimeError("Historical builder did not produce corrected cadence panel")
     panel_changes = compare_panels(a.reference.resolve(), candidate, output)
-    models = rerun_original_models(candidate, a.stage6_zip.resolve(), output)
+    stage6_checks = {}
+    models = rerun_original_models(candidate, a.stage6_zip.resolve(), output, stage6_checks)
     report = {
         "scope": "Separate SENSITIVITY: corrected two 2021-22 fixture dates, report links and histories; historical frozen inputs unchanged",
         "source_covariates_zip_sha256": cov.EXPECTED_ZIP_SHA,
@@ -373,6 +383,7 @@ def main():
         "base_panel_cells_changed": base_changes,
         "panel_vs_frozen": panel_changes,
         "stage6_models": models,
+        **stage6_checks,
         "chronology_adjusted_generated_inputs":chronology_inputs,
         "not_rebuilt": "Other frozen analyses outside cadence Stage-6; all-six-season raw-source-to-paper Level C",
     }
