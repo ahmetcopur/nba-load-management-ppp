@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-10",
+  "scope": "Archived 2021-24 canonical selector rows are checked against actual source-reparsed PDFs/logs, NOT an independent rebuild of the original selector algorithm",
+  "archived_selector_zip": "nba_canonical_snapshot_selector_v1.zip",
+  "canonical_selection_records_checked": 7380,
+  "unexplained_pdf_identity_links": 0,
+  "unexplained_matchup_links": 0,
+  "non_pre_tip_selected_reports": 0,
+  "selected_report_age_disagreements": 0,
+  "documented_inferred_clean_exception": "FD2023_5 BOS@NYK, both teams inferred clean and zero listed teams on 2023-10-25 05PM and 06PM PDFs",
+  "results": [
+    {
+      "season": "2021-22",
+      "panel": "full",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1230,
+      "inferred_both_teams_clean": 0,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 30,
+      "latest_selected_minutes_before_tip": 120
+    },
+    {
+      "season": "2021-22",
+      "panel": "harmonized",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1230,
+      "inferred_both_teams_clean": 0,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 30,
+      "latest_selected_minutes_before_tip": 990
+    },
+    {
+      "season": "2022-23",
+      "panel": "full",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1230,
+      "inferred_both_teams_clean": 0,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 15,
+      "latest_selected_minutes_before_tip": 60
+    },
+    {
+      "season": "2022-23",
+      "panel": "harmonized",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1230,
+      "inferred_both_teams_clean": 0,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 15,
+      "latest_selected_minutes_before_tip": 990
+    },
+    {
+      "season": "2023-24",
+      "panel": "full",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1229,
+      "inferred_both_teams_clean": 1,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 30,
+      "latest_selected_minutes_before_tip": 60
+    },
+    {
+      "season": "2023-24",
+      "panel": "harmonized",
+      "games": 1230,
+      "unique_game_ids": 1230,
+      "selected_pdf_log_matches": 1230,
+      "matchup_rows_found": 1229,
+      "inferred_both_teams_clean": 1,
+      "unexplained_missing_matchups": 0,
+      "earliest_selected_minutes_before_tip": 30,
+      "latest_selected_minutes_before_tip": 990
+    }
+  ]
+}

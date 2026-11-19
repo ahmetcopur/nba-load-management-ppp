@@ -1,0 +1,62 @@
+{
+  "execution_date": "2026-11-11",
+  "result": "PASS_ALL_SIX_SOURCE_SEASONS_REVIEWED_ANALYSIS_READY",
+  "data_lineage": {
+    "original_pdf_reports_reparsed": 3637,
+    "original_2020_21_pdfs_newly_reparsed": 617,
+    "original_2021_22_through_2025_26_pdfs_reparsed": 3020,
+    "all_15_field_original_2020_source_rows_exact": true,
+    "all_22_field_six_season_selected_rows_exact": true,
+    "six_season_selected_report_rows": 73547,
+    "original_resolved_report_player_rows": 73438,
+    "original_core_player_game_rows": 248730,
+    "original_decoded_core_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+    "original_core_finalizer_exited_normally": true,
+    "original_core_10_of_10_exact": true,
+    "original_star_12_of_12_exact": true,
+    "original_Cup_3_of_3_exact": true
+  },
+  "reviewed_archive_source": {
+    "historical_zip": "nba_player_game_analysis_ready_v1.zip",
+    "historical_sha256": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+    "packaging": "Identical original package bytes extracted from the immutable August 12 final-frozen original archive, packages/01_analysis_ready_panel.zip",
+    "number_of_unique_reviewed_official_reason_labels": 2182,
+    "label_contents_independently_medically_adjudicated": false,
+    "derived_designation_classes_and_onset_indicators_recomputed_from_six_season_new_core": true,
+    "core_fields_checked_against_original_reviewed_release": true,
+    "original_annotation_metadata_inherited_from_historical_reviewed_source": true
+  },
+  "actual_private_execution": {
+    "status": "success",
+    "original_input": "Freshly generated six-original-PDF-season source-derived player_game_panel_core.csv.gz",
+    "rows_processed_chunks": 13,
+    "full_analysis_ready_rows": 248730,
+    "at_risk_model_rows": 180829,
+    "comparison_method": "Complete decompressed CSV SHA-256 and decoded byte lengths; every generated core field semantically compared and reviewed injury classes recomputed for each of 13 chunks",
+    "generated_outputs": [
+      {
+        "name": "player_game_panel_analysis_ready.csv.gz",
+        "rows": 248730,
+        "decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+        "decoded_bytes": 313710704,
+        "full_decoded_contents_exact": true
+      },
+      {
+        "name": "player_game_panel_model_at_risk_analysis_ready.csv.gz",
+        "rows": 180829,
+        "decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+        "decoded_bytes": 150056294,
+        "full_decoded_contents_exact": true
+      }
+    ]
+  },
+  "scientific_limits": {
+    "original_2020_game_selection_report_metadata_inherited": true,
+    "reviewed_human_injury_taxonomy_labels_independently_validated": false,
+    "reviewed_player_alias_and_award_inputs_independently_verified": false,
+    "official_NBA_Cup_TV_original_schedule_announcements_independently_verified": false,
+    "separate_new_six_season_GitHub_master_umbrella_CLI_accepted_from_clean_checkout": false,
+    "original_manuscript_or_frozen_data_modified": false,
+    "no_private_PDFs_or_individual_player_rows_uploaded": true
+  }
+}

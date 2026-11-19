@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-08",
+  "verification_type": "Independent public frozen October analysis replay in GitHub Actions",
+  "github_actions_run": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42516634023",
+  "workflow_head_sha": "2c8304e0682509606683a2d826cf4047270899a6",
+  "pinned_shared_repository": "OEKundakcioglu/nba-ppp-star-availability",
+  "pinned_shared_source_sha": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "scripts_executed": 10,
+  "archived_executable_csvs_compared": 33,
+  "reproduction_passed": true,
+  "maximum_abs_numeric_difference": 1.1457501614131615e-13,
+  "missing_archive_outputs": 0,
+  "text_or_shape_discrepancies": 0,
+  "excluded": "summary_estimates.csv is manually authored and not one of the ten executed scripts",
+  "scope_limit": "Verifies frozen October panel to ten released analysis scripts and 33 archived output tables. Corrected chronology October pass still relies on supplied external execution and independent Stage-6 corrections, not a public CI full corrected-panel replay.",
+  "rationale": "Archives and original source release were fetched from immutable shared commit; all executable output comparisons passed a fail-closed tolerance of 1e-9."
+}

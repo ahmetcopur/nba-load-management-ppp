@@ -1,0 +1,233 @@
+file,row,column,frozen,corrected,delta,identified_combination
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,tv_col,tv_primary_plus_nbatv,tv_primary_plus_nbatv,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,n,123269.0,123271.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,games,4857.0,4857.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,estimate_pp,1.078253025946965,1.1055972324568526,0.02734420650988767,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,se_pp,1.136790356739769,1.1368165872635334,2.6230523764381175e-05,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,low_pp,-1.1498560732629823,-1.1225632785796729,0.027292794683309474,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,high_pp,3.306362125156912,3.333757743493378,0.027395618336465866,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,p,0.3428716727574484,0.3307830125930633,-0.01208866016438509,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Broad primary+NBA TV 2021-22 to 2024-25,iterations,21.0,21.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,n,153896.0,153898.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,games,6071.0,6071.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,estimate_pp,2.7435287710941494,2.808191063426568,0.06466229233241849,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,se_pp,1.3896756604590472,1.4017826721199227,0.012107011660875466,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,low_pp,0.0197644765944169,0.0606970260715194,0.0409325494771025,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,high_pp,5.467293065593883,5.555685100781617,0.08839203518773431,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,p,0.0483564638387442,0.045145110023255,-0.003211353815489204,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2020-21,iterations,21.0,21.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,n,150402.0,150402.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,estimate_pp,4.391712777435817,4.391716067256319,3.289820502239138e-06,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,se_pp,1.4569866176561272,1.4569859990203509,-6.186357763837691e-07,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,low_pp,1.5360190068298074,1.5360235091764312,4.502346623747044e-06,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,high_pp,7.247406548041827,7.247408625336208,2.0772943809532762e-06,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,p,0.0025762075271323,0.0025761774840079,-3.0043124400139926e-08,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2021-22,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,n,150000.0,150002.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,estimate_pp,3.153850764304246,3.2213531976491607,0.06750243334491479,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,se_pp,1.5152196232149842,1.5112414277852415,-0.003978195429742648,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,low_pp,0.1840203028028772,0.2593199991900874,0.07529969638721021,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,high_pp,6.123681225805615,6.183386396108234,0.05970517030261924,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,p,0.0373929244769297,0.0330402353824046,-0.004352689094525096,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2022-23,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,n,149289.0,149291.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,games,5898.0,5898.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,estimate_pp,3.4853141437402133,3.532576475470623,0.04726233173040972,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,se_pp,1.5179111030825478,1.518589692182223,0.0006785890996752197,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,low_pp,0.5102083816984195,0.556140678793466,0.045932297095046426,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,high_pp,6.460419905782007,6.509012272147779,0.04859236636577258,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,p,0.0216687159591704,0.0200067202798243,-0.0016619956793460997,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2023-24,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,n,149820.0,149822.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,estimate_pp,3.639742045856393,3.685426206023412,0.04568416016701926,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,se_pp,1.4268721785470433,1.4278584627447288,0.0009862841976855385,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,low_pp,0.8430725759041882,0.8868236190437438,0.04375104313955569,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,high_pp,6.436411515808597,6.48402879300308,0.047617277194483165,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,p,0.0107459452007464,0.0098489899690206,-0.0008969552317257996,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2024-25,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,n,150068.0,150070.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,estimate_pp,2.918667457516489,2.958856668934964,0.04018921141847498,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,se_pp,1.3412298574952717,1.340703772250465,-0.0005260852448065734,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,low_pp,0.289856936825757,0.3310772753240512,0.04122033849829421,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,high_pp,5.54747797820722,5.586636062545876,0.03915808433865653,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,p,0.0295468272120208,0.0273180489004154,-0.002228778311605402,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy leave out 2025-26,iterations,21.0,21.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,games,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,estimate_pp,3.4109753284519475,3.455258074495232,0.044282746043284416,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,se_pp,1.3005067064378846,1.3013230833963123,0.0008163769584277336,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,low_pp,0.8619821838336937,0.90466483103846,0.04268264720476622,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,high_pp,5.959968473070202,6.005851317952004,0.0458828448818025,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,p,0.0087209202967716,0.0079264104179519,-0.0007945098788196998,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary benchmark,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,n,150068.0,150070.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,estimate_pp,2.918667457516489,2.958856668934964,0.04018921141847498,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,se_pp,1.3412298574952717,1.340703772250465,-0.0005260852448065734,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,low_pp,0.289856936825757,0.3310772753240512,0.04122033849829421,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,high_pp,5.54747797820722,5.586636062545876,0.03915808433865653,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,p,0.0295468272120208,0.0273180489004154,-0.002228778311605402,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26,iterations,21.0,21.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,tv_col,announced_tv_primary,announced_tv_primary,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,fe2,teamseason,teamseason,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,n,150068.0,150070.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,games,5899.0,5899.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,estimate_pp,2.727585891696241,2.770792222907306,0.043206331211064875,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,se_pp,1.3667720241424863,1.3663163710808124,-0.00045565306167394404,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,low_pp,0.0487127243769678,0.0928121355889138,0.044099411211945994,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,high_pp,5.406459059015514,5.448772310225698,0.042313251210184255,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,p,0.0459730450354133,0.0425675224474795,-0.0034055225879338,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Legacy primary exclude 2025-26 team-season FE,iterations,100.0,100.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,tv_col,tv_narrow_disney,tv_narrow_disney,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,fe2,season,season,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,games,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,estimate_pp,1.7240718963468786,1.7134895060607551,-0.01058239028612351,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,se_pp,1.1575281873443355,1.156203854211414,-0.0013243331329215735,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,low_pp,-0.544683350848019,-0.5526700481936163,-0.007986697345597316,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,high_pp,3.992827143541776,3.979649060315127,-0.01317808322664904,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,p,0.1363708342989756,0.1383413549348787,0.0019705206359031113,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney full six seasons,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,tv_col,tv_narrow_disney,tv_narrow_disney,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,fe2,teamseason,teamseason,,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,games,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,estimate_pp,1.4289695782736005,1.4203967672965032,-0.008572810977097278,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,se_pp,1.1638737084848363,1.1627349160343434,-0.0011387924504928648,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,low_pp,-0.8522228903566784,-0.8585636681308098,-0.006340777774131334,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,high_pp,3.71016204690388,3.699357202723816,-0.010804844180063888,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,p,0.2195332058275906,0.2218589957181292,0.00232578989053861,False
+mnt_data/nba_continue/tv_audit_results/tv_model_results.csv,Narrow Disney team-season FE,iterations,100.0,100.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2020-21,games,1080.0,1080.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2020-21,legacy_primary,156.0,156.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2020-21,disney_narrow,93.0,93.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2020-21,nba_tv,61.0,61.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2021-22,games,1230.0,1230.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2021-22,legacy_primary,162.0,162.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2021-22,disney_narrow,99.0,99.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2021-22,nba_tv,107.0,107.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2022-23,games,1230.0,1230.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2022-23,legacy_primary,163.0,163.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2022-23,disney_narrow,98.0,98.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2022-23,nba_tv,107.0,107.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2023-24,games,1230.0,1230.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2023-24,legacy_primary,160.0,160.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2023-24,disney_narrow,95.0,95.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2023-24,nba_tv,106.0,106.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2024-25,games,1230.0,1230.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2024-25,legacy_primary,163.0,163.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2024-25,disney_narrow,98.0,98.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2024-25,nba_tv,103.0,103.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2025-26,games,1230.0,1230.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2025-26,legacy_primary,237.0,237.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2025-26,disney_narrow,78.0,78.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv,2025-26,nba_tv,0.0,0.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2020-21,estimate_pp,-0.7288341727701096,-0.728419780621856,0.00041439214825367277,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2020-21,se_pp,1.984435261196035,1.9843683007370247,-6.696045901022352e-05,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2020-21,low_pp,-4.618327284714338,-4.6177816500664255,0.000545634647912685,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2020-21,high_pp,3.1606589391741187,3.160942088822713,0.0002831496485944385,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2020-21,p,0.7134136324541259,0.7135601478160527,0.00014651536192678005,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2021-22,estimate_pp,2.122650107309523,1.9888559418336,-0.13379416547592315,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2021-22,se_pp,2.23037359002452,2.227014963827952,-0.0033586261965679043,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2021-22,low_pp,-2.248882129138537,-2.376093387269187,-0.12721125813065015,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2021-22,high_pp,6.494182343757584,6.353805270936386,-0.14037707282119793,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2021-22,p,0.3412483392817599,0.3718255332366356,0.03057719395487568,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2023-24,estimate_pp,2.900157794127062,2.8992344661921474,-0.000923327934914564,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2023-24,se_pp,2.0754806272781208,2.075800540800739,0.00031991352261817596,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2023-24,low_pp,-1.1677842353380548,-1.169334593777301,-0.0015503584392462244,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2023-24,high_pp,6.968099823592178,6.967803526161596,-0.0002962974305820154,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2023-24,p,0.1623105279995351,0.1625090432636056,0.0001985152640704979,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2024-25,estimate_pp,3.619556742427029,3.62038376088952,0.0008270184624912247,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2024-25,se_pp,1.9226839054435296,1.923209212249708,0.0005253068061783495,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2024-25,low_pp,-0.148903712242289,-0.1491062951199072,-0.00020258287761820704,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2024-25,high_pp,7.388017197096347,7.389873816898948,0.0018566198026013225,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2024-25,p,0.0597608024399462,0.0597722213051945,1.1418865248302712e-05,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2025-26,estimate_pp,0.2002263468444686,0.2031388130826327,0.002912466238164102,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2025-26,se_pp,2.0569523110697983,2.057387037564138,0.0004347264943396212,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2025-26,low_pp,-3.8314001828523367,-3.829339780543077,0.0020604023092598567,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2025-26,high_pp,4.231852876541273,4.235617406708342,0.0037645301670687914,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,harmonized_linear | 2025-26,p,0.9224553842060362,0.921347635123318,-0.0011077490827182679,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2020-21,estimate_pp,-0.728403281233396,-0.7279882910144738,0.00041499021892221766,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2020-21,se_pp,1.9846168685352368,1.9845493328993424,-6.753563589434464e-05,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2020-21,low_pp,-4.618252343562461,-4.617704983497185,0.0005473600652763366,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2020-21,high_pp,3.161445781095669,3.161728401468237,0.00028262037256787664,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2020-21,p,0.7136006425373356,0.7137473097831918,0.0001466672458562135,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2021-22,estimate_pp,2.122199298940576,1.9884007324928985,-0.1337985664476775,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2021-22,se_pp,2.230540217755618,2.2272028933854435,-0.0033373243701744215,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2021-22,low_pp,-2.249659527860435,-2.3769169385425704,-0.12725741068213514,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2021-22,high_pp,6.494058125741587,6.353718403528368,-0.140339722213219,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2021-22,p,0.3413869518066532,0.3719753515010385,0.030588399694385315,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2023-24,estimate_pp,2.903265826860545,2.902340690641063,-0.0009251362194819812,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2023-24,se_pp,2.074167280379099,2.0744870280663115,0.00031974768721232394,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2023-24,low_pp,-1.162102042682489,-1.1636538843689077,-0.0015518416864186424,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2023-24,high_pp,6.96863369640358,6.968335265651033,-0.00029843075254643026,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2023-24,p,0.1615953911881076,0.1617937094058991,0.00019831821779150993,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2024-25,estimate_pp,3.630358158781182,3.631182630859406,0.0008244720782237813,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2024-25,se_pp,1.922255182058738,1.92278029668692,0.0005251146281821661,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2024-25,low_pp,-0.1372619980539439,-0.137466750646957,-0.00020475259301308557,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2024-25,high_pp,7.3979783156163075,7.399832012365769,0.001853696749461342,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2024-25,p,0.0589463523632889,0.0589580180422007,1.1665678911802757e-05,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2025-26,estimate_pp,4.347156864972669,4.350046688558718,0.0028898235860497223,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2025-26,se_pp,2.014670394125236,2.015253132751212,0.0005827386259760203,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2025-26,low_pp,0.3984028924872062,0.4001505483663431,0.0017476558791369445,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2025-26,high_pp,8.29591083745813,8.299942828751092,0.004031991292961834,False
+mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv,legacy_primary | 2025-26,p,0.0309472038659253,0.0308842461351527,-6.295773077260106e-05,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,harmonized_linear,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,harmonized_linear,joint_pretrend_chi2,1.6763378035977106,1.473845516546893,-0.20249228705081745,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,harmonized_linear,df,2.0,2.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,harmonized_linear,p,0.4325017519794564,0.4785843716843631,0.04608261970490668,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,harmonized_linear,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,legacy_primary,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,legacy_primary,joint_pretrend_chi2,1.6752272267268031,1.4727956842399677,-0.20243154248683548,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,legacy_primary,df,2.0,2.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,legacy_primary,p,0.4327419818929174,0.4788356542972365,0.04609367240431911,False
+mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv,legacy_primary,iterations,26.0,26.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,n,87787.0,87789.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,estimate_pp,2.0834007141881496,2.019678683779198,-0.06372203040895164,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,se_pp,1.7977517109301295,1.819021262773996,0.021269551843866363,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,low_pp,-1.4401926392349045,-1.5456029912578346,-0.10541035202293014,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,high_pp,5.606994067611203,5.584960358816231,-0.022033708794972462,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,p,0.2465000654675166,0.2668651846639811,0.020365119196464526,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2021-22,iterations,16.0,16.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,n,87787.0,87789.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,estimate_pp,0.1556232093870827,0.2227327094169154,0.06710950002983268,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,se_pp,1.8300096352807491,1.817315168875397,-0.0126944664053521,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,low_pp,-3.4311956757631856,-3.3392050215788625,0.09199065418432317,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,high_pp,3.742442094537351,3.7846704404126927,0.042228345875341855,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,p,0.9322299423529576,0.9024544143891956,-0.02977552796376204,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,harmonized_linear | 2022-23,iterations,16.0,16.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,n,87787.0,87789.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,estimate_pp,2.0834007141881496,2.019678683779198,-0.06372203040895164,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,se_pp,1.7977517109301295,1.819021262773996,0.021269551843866363,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,low_pp,-1.4401926392349045,-1.5456029912578346,-0.10541035202293014,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,high_pp,5.606994067611203,5.584960358816231,-0.022033708794972462,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,p,0.2465000654675166,0.2668651846639811,0.020365119196464526,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2021-22,iterations,16.0,16.0,0.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,n,87787.0,87789.0,2.0,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,estimate_pp,0.1556232093870827,0.2227327094169154,0.06710950002983268,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,se_pp,1.8300096352807491,1.817315168875397,-0.0126944664053521,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,low_pp,-3.4311956757631856,-3.3392050215788625,0.09199065418432317,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,high_pp,3.742442094537351,3.7846704404126927,0.042228345875341855,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,p,0.9322299423529576,0.9024544143891956,-0.02977552796376204,False
+mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv,legacy_primary | 2022-23,iterations,16.0,16.0,0.0,False

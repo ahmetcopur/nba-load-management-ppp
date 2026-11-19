@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "season": "2025-26",
+  "fresh_original_PDF_execution": true,
+  "pdfs": 5023,
+  "rows": 599225,
+  "rows_by_source": {
+    "initial": 133512,
+    "targeted": 465713
+  },
+  "source_archive_sha256": {
+    "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+    "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea"
+  },
+  "original_parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06",
+  "full_candidate_rows_sha256": "38d5ba587ac1109585014190841d8d7a495c8ae3fb87871e351342c6ada375ac",
+  "full_candidate_log_sha256": "200711efe1b1836c37f07c2648c4a4111c77c79ae0f24eac5d63c1ec69269579",
+  "candidate_inventory_sha256": "51f544e7aaf0859d50100a2cb2cc98e999fc66dbc5ded0761a6d07ddd7bb7e82",
+  "original_publication_metadata_inherited": true,
+  "targeted_archive_is_not_complete_quarter_hour_inventory": true,
+  "full_historical_row_reference_available": false,
+  "known_21_printed_clock_exceptions_not_silently_corrected": true
+}

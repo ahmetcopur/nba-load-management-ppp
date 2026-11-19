@@ -1,0 +1,29 @@
+{
+  "archive_sha256": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70",
+  "calendar_sha256": "7b581e327abc64c736d24c732c107481156f6dae6dd4b04a8f7204495164915f",
+  "player_seasons": 6750,
+  "seasons": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25",
+    "2025-26"
+  ],
+  "strict_calendar_loading": "pass",
+  "primary_builder_executed": false,
+  "code": {
+    "commit": "de8827c86271ea45524a585aa97e1d0355449d55",
+    "file_sha256": {
+      "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "scripts/data_rebuild/reproduce_october_scientific_v2.py": "239c675f5f49f5ec0c9fc67963ebf84afb8de42d221c2c63fd0c9e69d6140f1b",
+      "scripts/data_rebuild/october_scientific_v2_rules.py": "ca21a8c9bc590ae2848167c42fe0042d9787485bedca770a278af112511975f4",
+      "scripts/data_rebuild/october_scientific_v2_compare.py": "73f6fdde238b5cf4389ea35962248e169edd98fdde1fc948c56b20d47588a2a9",
+      "scripts/data_rebuild/audit_star_status_against_calendar.py": "26e729e1512d9fb755f0d7289883d305120acf7d95d328f51f99917eecd1125f",
+      "scripts/data_rebuild/fixture_date_chronology_sensitivity.py": "d7c51777ecee82899ac3a83695de64a9e7c017336d95994b07ee19e02deb80d6",
+      "scripts/data_rebuild/audit_fixture_date_swap_covariates.py": "69724b73b90531798240b437812aa02feba995f4d6741b59c6cf6ebce19463c4"
+    }
+  },
+  "scope": "Authentic star archive/calendar identity and strict decoding only; no newly generated October panel or regressions",
+  "scientific_acceptance": false
+}

@@ -1,0 +1,171 @@
+{
+  "all_six_original_injury_PDF_baseline_rebuilt": true,
+  "fresh_original_PDF_2020_parsed_rows_fed_to_october": false,
+  "fresh_original_PDF_2020_selector_rows_fed_to_october": false,
+  "historical_artifact_verdict": "2025_metadata_exception_unresolved",
+  "historical_parser_derived_2020_2024_selectors_fed_to_october": false,
+  "historical_parser_selector_handoff": null,
+  "input_archives_sha256": {
+    "audit_2020_21_corrected_outputs.zip": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8",
+    "audit_2020_21_s4_join_results_rechecked.zip": "c6dbf2fb5d28c3d5b715ec39fee47930c67b1880d54128ebbc7ae71a565fe962",
+    "audit_2020_21_upload.zip": "e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c",
+    "audit_2021_22_cadence_outputs.zip": "861ccc5ea82834632b6fc9c477be318aaa09ea9a243d4a990f93051af148b420",
+    "audit_2021_22_s4_join_results.zip": "63d1c60a16a016dd6618813eb88a6d5f47f9d8a2093026166c715b6b9098cec9",
+    "audit_2021_22_upload.zip": "1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339",
+    "audit_2022_23_pre_s4_outputs.zip": "dd750f6f95e907ed55cf673ce08ee321062aac03b09ec79aa4abffadae94513b",
+    "audit_2022_23_s4_join_results.zip": "fbbdcca334f0c904ae48f76551dc50319db346f487e90a77eacacd5839df97c6",
+    "audit_2022_23_upload.zip": "bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0",
+    "audit_2023_24_pre_s4_outputs.zip": "edd411a4dd1ad113f32492d2e9fd96a842727628566d56b9b797c3913d19abbf",
+    "audit_2023_24_s4_join_results.zip": "9d59f4f0dde7aed9b8dacfd3706b55f24c1aa9a17cf1e6bdc093eb498570d5e7",
+    "audit_2023_24_upload.zip": "9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba",
+    "audit_2024_25_pre_s4_outputs_corrected.zip": "6b569b2f39b9f2e73087dffd3e83f11d32c5ac09fb92661d4c4b467d5b3bdcb8",
+    "audit_2024_25_s4_join_results.zip": "11e865b7f7ca6d0674a55aa55ff720b00308631fa7e0890ddc12ccabef5e32b3",
+    "audit_2024_25_upload.zip": "a10cc660a45f0c3fa6ac279d540a29eae04804dc03eb16a86a1d0c6a7f363e3b",
+    "audit_2025_26_s4_join_results.zip": "6ad1013984693abc852b4a8cf2fcf3aad6dc1a9eb555ef35d121f95ca4c9989c",
+    "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea",
+    "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+    "nba_canonical_snapshot_selector_v1.zip": "fa724ee6cd341b0322c311258f472f0ad7dfeeea4683cf2e406a48fe0d1f94a7",
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+    "nba_player_game_analysis_ready_v1.zip": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "nba_player_game_at_risk_star_cup_v1.zip": "65c4756b86dfb5757bb84b6be13eafb952375aaa6ce49fc1ddddc6224a4faf70",
+    "nba_player_game_at_risk_star_v1.zip": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70"
+  },
+  "original_NBA_JSON_roster_2020_2025_verification": null,
+  "original_NBA_JSON_roster_fed_to_corrected_August": false,
+  "original_PDF_data_fed_directly_into_corrected_augmentation": false,
+  "original_archives_and_frozen_panels_unmodified": true,
+  "original_manual_taxonomy_awards_cup_tv_decisions_inherited": true,
+  "outputs": {
+    "august_latest_pre_tip_at_risk": {
+      "compressed_bytes": 8614271,
+      "compressed_sha256": "63e5b0c83a1711b1110ed4223879ccdb4e576719cc5bc2441abc576c7b728f10",
+      "decoded_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+      "onsets": 12707,
+      "risk": 180831,
+      "rows": 180831
+    },
+    "august_latest_pre_tip_full": {
+      "compressed_bytes": 18874726,
+      "compressed_sha256": "f5c0451aab063c3beb8ce7d152671b8527f58598a61e6acd4280231446b49ee7",
+      "decoded_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+      "onsets": 12707,
+      "risk": 180831,
+      "rows": 248728
+    },
+    "october_cadence_player_games": {
+      "compressed_bytes": 18279451,
+      "compressed_sha256": "9ebbb75afd35154eb582bb4206f36857cff8b3122086dc40d916b0a3e06a8d33",
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+      "onsets": 12729,
+      "risk": 180664,
+      "rows": 248778
+    }
+  },
+  "pdf_to_october_base_handoff": {
+    "october_season_report_rows_still_inherited": true,
+    "pdf_derived_original_base_directly_fed_to_corrected_october": true,
+    "restored_baseline_decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+    "source_decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+    "substituted_input_decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77"
+  },
+  "provisional_spells": {
+    "compressed_sha256": "b4181a47695446e623db0a499043e40091af201cde1a6e804c8c0eec546bb2f4",
+    "filename": "corrected_august_provisional_spells.csv.gz",
+    "not_a_reviewed_final_taxonomy": true
+  },
+  "raw_NBA_JSON_and_PDF_original_reviewed_base_report": null,
+  "raw_NBA_JSON_and_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": false,
+  "raw_PDF_rebuilt_cadence_report_selection_fed_to_corrected_October": true,
+  "raw_PDF_rebuilt_original_analysis_base_fed_to_corrected_October": true,
+  "raw_PDF_rebuilt_selected_player_reports_fed_to_corrected_August_core": true,
+  "raw_pdf_baseline_exact_compatibility": {
+    "august_full_core": {
+      "correction_source_baseline_decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+      "exact_full_csv_equal_via_sha256": true,
+      "raw_pdf_rebuilt_decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3"
+    },
+    "october_frozen_cadence": {
+      "correction_source_baseline_decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
+      "exact_full_csv_equal_via_sha256": true,
+      "raw_pdf_rebuilt_decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac"
+    }
+  },
+  "scientific_output_verdict": "pass",
+  "scope": "Pinned original historical source ZIP intermediates -> source-corrected August/latest-pre-tip and October/cadence final analysis panels",
+  "six_original_PDF_season_inputs_consumed": true,
+  "six_season_generated_input_consumption": {
+    "original_builder_opened_paths": [
+      "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv",
+      "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv",
+      "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv",
+      "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv",
+      "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv",
+      "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv",
+      "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv",
+      "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv"
+    ],
+    "pre_and_post_execution_hashes_match": true,
+    "required_sha256": {
+      "cadence_work/s4/2022-23/team_game_final_pre_tip_status_harmonized.csv": "4ffdbe4c4b7c0205405702e23c831d1cf6d87e3ec56c6a1b3b4ba56576238110",
+      "cadence_work/s4/2023-24/team_game_final_pre_tip_status_harmonized.csv": "ab5df0f94dfb7dfcdd1f5a4b584d7beb6841042f507321fd58825071fd8d2296",
+      "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv": "d8f27697d0fc03d6f199855f71b8706409a5e6058cd19414ddc11d450410b028",
+      "cadence_work/season_parsed/2021-22/s1_snapshot_rows_harmonized.csv": "d88ca6be27612515b97f1417b590b30b0d769ea07cdb22fbf3cd49a1a275661f",
+      "cadence_work/season_parsed/2022-23/s1_snapshot_rows_regular_season.csv": "c71832d9935a774625638d5c9987ca1bd005553bdecaf2ef60143cf61e1c734e",
+      "cadence_work/season_parsed/2023-24/audit_2023_24_pre_s4_outputs/s1_snapshot_rows_regular_season.csv": "e8e5af4e55118e3ec9ac4fd1146f12f6cf8ec0fbf7f90d25ca5fa576ed9c2e37",
+      "cadence_work/season_parsed/2024-25/s1_snapshot_rows_regular_season_real.csv": "4c7b9fb396163b6491f1d49ba67be46c70f9b167f9561425fe8ab12f3a0e4165",
+      "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_game_snapshot_join_harmonized_canonical.csv": "c7b6dbfe09e1bb125187a1d659c51ce8c0e626ccfe28969b5f32653cb0902392",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2020-21_team_game_status_harmonized_canonical.csv": "163cf8526d5c36a932eba0d975a90580512ad08d69d5ef0fca2d9165b3a8708f",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_game_snapshot_join_harmonized_canonical.csv": "dd1e7b5f4ade4c4f6aa1a0802f40dad9c531ef2d3ecce932d5d807eeb6f72a74",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2021-22_team_game_status_harmonized_canonical.csv": "d8dc24a0effbbcc02592d7fe704c7adfc2b08d78090786fa3523d4f4cb9caf61",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2022-23_game_snapshot_join_harmonized_canonical.csv": "f7322d22edcdf96b74448d2849a2b29ccaa6453b9968ced65427e55461751af4",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2023-24_game_snapshot_join_harmonized_canonical.csv": "b14508fd5f5ca446cbcd657435523a503afbdb6cf1354656a630455132776171",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_game_snapshot_join_harmonized_canonical.csv": "1849e96a96ce0ac0353ee6e695dde0c61fefdccf16c4c0eb08edd22ff51dbdf6",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2024-25_team_game_status_harmonized_canonical.csv": "80625b8351ede91229fca4cd7044c5da44438ec7c112820a8851c266535cdd66",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_game_snapshot_join_harmonized_canonical.csv": "13b59ec276875c4bcf158da91a78cc7cb22d924d61c2dc00eab5ae9a05a67761",
+      "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58"
+    }
+  },
+  "six_season_metadata_only_exception": {
+    "archived_values_substituted_for_generated_values": false,
+    "controlled_experiment_evidence_sha256": "9b7aaa38fd70ecad43d0056884a2f777ebd5a5e549161b763428ad55b056fc4e",
+    "differing_rows_per_panel": 1598,
+    "fields": [
+      "team_final_status",
+      "inferred_no_listed_players"
+    ],
+    "historical_artifact_equivalence": false,
+    "original_S4_team_join_recovered": false
+  },
+  "source_level": "six-season source-PDF-derived player report rows feed corrected August; the PDF-derived original reviewed base feeds corrected October after exact hash validation; all six original-PDF season rows/selectors feed October; explicit 2025 metadata-only exception; clocks, roster, maps and reviewed decisions remain inherited",
+  "stage6_corrected_models": {
+    "linear_beta_pp": 1.2823694527266445,
+    "models": 4,
+    "primary_beta_pp": 2.6742317292365767
+  },
+  "stage_logs": {
+    "00_independent_original_six_pdf_baseline": "logs/00_independent_original_six_pdf_baseline.log",
+    "00c_six_season_original_PDF_sources": "logs/00c_six_season_original_PDF_sources.log",
+    "01_august_source_correction": "logs/01_august_source_correction.log",
+    "02_august_analysis_ready": "logs/02_august_analysis_ready.log",
+    "03_frozen_cadence": "logs/03_frozen_cadence.log",
+    "03b_pdf_derived_october_base_handoff": "logs/03b_pdf_derived_october_base_handoff.log",
+    "04_corrected_cadence": "logs/04_corrected_cadence.log"
+  },
+  "stages_reused_from_completed_private_run": false,
+  "status": "pass",
+  "structured_stage_log": "logs/stages.jsonl"
+}

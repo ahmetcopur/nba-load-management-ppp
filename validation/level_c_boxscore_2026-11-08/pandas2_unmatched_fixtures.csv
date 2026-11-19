@@ -1,0 +1,3 @@
+game_id,season,home_team,away_team,source_match_number,game_date_et,tip_utc,fixture_tip_utc,home_team_id,away_team_id,fixture_id
+2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors,2021-22,Toronto Raptors,Chicago Bulls,430,2022-02-01,2022-02-02 00:30:00+00:00,2022-02-02 00:30:00+00:00,1610612761,1610612741,1839
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,2021-22,Toronto Raptors,Miami Heat,784,2022-02-03,2022-02-04 00:30:00+00:00,2022-02-04 00:30:00+00:00,1610612761,1610612748,1856

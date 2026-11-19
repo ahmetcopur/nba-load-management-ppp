@@ -1,0 +1,354 @@
+{
+  "inputs": {
+    "august_frozen": "SHARED_REPO/data_final/player_game_panel_analysis_ready.csv.gz",
+    "august_corrected": "data_rebuild/output/august_reviewed_fresh_venv312/player_game_panel_analysis_ready.csv.gz",
+    "cadence_frozen": "SHARED_REPO/data_intermediate/player_team_game_harmonized_cadence.csv.gz",
+    "cadence_corrected": "data_rebuild/output/date_fix_sensitivity_v2/player_team_game_harmonized_cadence.csv.gz"
+  },
+  "panels": {
+    "august_frozen": {
+      "team_games": 14460,
+      "games": 7230,
+      "duplicate_player_team_game_ids": 0,
+      "team_game_rows_with_conflicting_dates": 0,
+      "duplicate_team_dates": 2,
+      "games_without_exactly_two_teams": 0,
+      "unmirrored_team_games": 0,
+      "games_with_inconsistent_date_or_tip": 0,
+      "et_date_not_equal_tip_date": 0,
+      "team_game_number_out_of_tip_order": 0,
+      "rest_days_arithmetic_mismatches": 2,
+      "back_to_back_not_rest_zero": 0
+    },
+    "august_corrected": {
+      "team_games": 14460,
+      "games": 7230,
+      "duplicate_player_team_game_ids": 0,
+      "team_game_rows_with_conflicting_dates": 0,
+      "duplicate_team_dates": 0,
+      "games_without_exactly_two_teams": 0,
+      "unmirrored_team_games": 0,
+      "games_with_inconsistent_date_or_tip": 0,
+      "et_date_not_equal_tip_date": 0,
+      "team_game_number_out_of_tip_order": 0,
+      "rest_days_arithmetic_mismatches": 0,
+      "back_to_back_not_rest_zero": 0
+    },
+    "cadence_frozen": {
+      "team_games": 14460,
+      "games": 7230,
+      "duplicate_player_team_game_ids": 0,
+      "team_game_rows_with_conflicting_dates": 0,
+      "duplicate_team_dates": 2,
+      "games_without_exactly_two_teams": 0,
+      "unmirrored_team_games": 0,
+      "games_with_inconsistent_date_or_tip": 0,
+      "et_date_not_equal_tip_date": 0,
+      "team_game_number_out_of_tip_order": 0
+    },
+    "cadence_corrected": {
+      "team_games": 14460,
+      "games": 7230,
+      "duplicate_player_team_game_ids": 0,
+      "team_game_rows_with_conflicting_dates": 0,
+      "duplicate_team_dates": 0,
+      "games_without_exactly_two_teams": 0,
+      "unmirrored_team_games": 0,
+      "games_with_inconsistent_date_or_tip": 0,
+      "et_date_not_equal_tip_date": 0,
+      "team_game_number_out_of_tip_order": 0
+    }
+  },
+  "august_frozen_vs_corrected": {
+    "games_only_in_frozen": [],
+    "games_only_in_corrected": [],
+    "games_with_moved_date_or_tip": {
+      "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": {
+        "frozen": [
+          "2022-02-01",
+          "2022-02-02 00:30:00+00:00"
+        ],
+        "corrected": [
+          "2022-02-03",
+          "2022-02-04 00:30:00+00:00"
+        ]
+      },
+      "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": {
+        "frozen": [
+          "2022-02-03",
+          "2022-02-04 00:30:00+00:00"
+        ],
+        "corrected": [
+          "2022-02-01",
+          "2022-02-02 00:30:00+00:00"
+        ]
+      }
+    },
+    "only_expected_two_games_moved": true,
+    "covariate_changes": {
+      "rest_days_between_games": {
+        "changed_team_games": 5,
+        "by_season": {
+          "2021-22": 5
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat",
+          "Toronto Raptors"
+        ]
+      },
+      "back_to_back": {
+        "changed_team_games": 4,
+        "by_season": {
+          "2021-22": 4
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat",
+          "Toronto Raptors"
+        ]
+      },
+      "travel_km_since_previous_game": {
+        "changed_team_games": 7,
+        "by_season": {
+          "2021-22": 7
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat",
+          "Toronto Raptors"
+        ]
+      },
+      "absolute_timezone_shift_hours": {
+        "changed_team_games": 4,
+        "by_season": {
+          "2021-22": 4
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat"
+        ]
+      },
+      "three_games_in_four_days": {
+        "changed_team_games": 4,
+        "by_season": {
+          "2021-22": 4
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat"
+        ]
+      },
+      "opponent_rest_days_between_games": {
+        "changed_team_games": 5,
+        "by_season": {
+          "2021-22": 5
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Indiana Pacers",
+          "Miami Heat",
+          "Orlando Magic",
+          "San Antonio Spurs"
+        ]
+      },
+      "signed_elo_advantage": {
+        "changed_team_games": 10702,
+        "by_season": {
+          "2021-22": 868,
+          "2022-23": 2460,
+          "2023-24": 2460,
+          "2024-25": 2460,
+          "2025-26": 2454
+        },
+        "teams": "30 teams"
+      }
+    }
+  },
+  "cadence_frozen_vs_corrected": {
+    "games_only_in_frozen": [],
+    "games_only_in_corrected": [],
+    "games_with_moved_date_or_tip": {
+      "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": {
+        "frozen": [
+          "2022-02-01",
+          "2022-02-02 00:30:00+00:00"
+        ],
+        "corrected": [
+          "2022-02-03",
+          "2022-02-04 00:30:00+00:00"
+        ]
+      },
+      "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": {
+        "frozen": [
+          "2022-02-03",
+          "2022-02-04 00:30:00+00:00"
+        ],
+        "corrected": [
+          "2022-02-01",
+          "2022-02-02 00:30:00+00:00"
+        ]
+      }
+    },
+    "only_expected_two_games_moved": true,
+    "covariate_changes": {
+      "back_to_back": {
+        "changed_team_games": 4,
+        "by_season": {
+          "2021-22": 4
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat",
+          "Toronto Raptors"
+        ]
+      },
+      "travel_km_since_previous_game": {
+        "changed_team_games": 7,
+        "by_season": {
+          "2021-22": 7
+        },
+        "teams": [
+          "Chicago Bulls",
+          "Miami Heat",
+          "Toronto Raptors"
+        ]
+      },
+      "signed_elo_advantage": {
+        "changed_team_games": 10702,
+        "by_season": {
+          "2021-22": 868,
+          "2022-23": 2460,
+          "2023-24": 2460,
+          "2024-25": 2460,
+          "2025-26": 2454
+        },
+        "teams": "30 teams"
+      },
+      "announced_tv_primary": {
+        "changed_team_games": 0,
+        "by_season": {},
+        "teams": []
+      },
+      "tv_harmonized_linear": {
+        "changed_team_games": 0,
+        "by_season": {},
+        "teams": []
+      }
+    }
+  },
+  "corrected_august_vs_corrected_cadence": {
+    "common_games": 7230,
+    "august_only_games": 0,
+    "cadence_only_games": 0,
+    "date_or_tip_disagreements": []
+  },
+  "date_dependent_inherited_flags": {
+    "august_frozen": {
+      "post_all_star_rule_mismatches": 0,
+      "added_star_rule_mismatches": 0,
+      "ppp_star_rule_mismatches": 0,
+      "post_ppp_season_rule_mismatches": 0,
+      "cup_games_in_2021_22": 0,
+      "all_star_effective_dates_2021_22": [
+        "2022-02-21"
+      ]
+    },
+    "august_corrected": {
+      "post_all_star_rule_mismatches": 0,
+      "added_star_rule_mismatches": 0,
+      "ppp_star_rule_mismatches": 0,
+      "post_ppp_season_rule_mismatches": 0,
+      "cup_games_in_2021_22": 0,
+      "all_star_effective_dates_2021_22": [
+        "2022-02-21"
+      ]
+    }
+  },
+  "august_corrected_vs_raw_boxscore_json": {
+    "raw_json_files": 7230,
+    "panel_games_with_nba_id": 7230,
+    "panel_games_missing_from_raw_json": 0,
+    "exact_tip_and_date": 7226,
+    "differences": [
+      {
+        "game_id": "2022-23|20221108T0013Z|Houston Rockets@Orlando Magic",
+        "nba_game_id": "0022200145",
+        "panel_tip": "2022-11-08 00:13:00+00:00",
+        "json_tip": "2022-11-08T00:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0113Z|Milwaukee Bucks@Atlanta Hawks",
+        "nba_game_id": "0022200149",
+        "panel_tip": "2022-11-08 01:13:00+00:00",
+        "json_tip": "2022-11-08T01:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0213Z|New York Knicks@Minnesota Timberwolves",
+        "nba_game_id": "0022200153",
+        "panel_tip": "2022-11-08 02:13:00+00:00",
+        "json_tip": "2022-11-08T02:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0313Z|Los Angeles Lakers@Utah Jazz",
+        "nba_game_id": "0022200157",
+        "panel_tip": "2022-11-08 03:13:00+00:00",
+        "json_tip": "2022-11-08T03:15:00Z",
+        "minutes": 2.0
+      }
+    ]
+  },
+  "august_frozen_vs_raw_boxscore_json": {
+    "raw_json_files": 7230,
+    "panel_games_with_nba_id": 7230,
+    "panel_games_missing_from_raw_json": 0,
+    "exact_tip_and_date": 7224,
+    "differences": [
+      {
+        "game_id": "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors",
+        "nba_game_id": "0022100430",
+        "panel_tip": "2022-02-02 00:30:00+00:00",
+        "json_tip": "2022-02-04T00:30:00Z",
+        "minutes": 2880.0
+      },
+      {
+        "game_id": "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors",
+        "nba_game_id": "0022100784",
+        "panel_tip": "2022-02-04 00:30:00+00:00",
+        "json_tip": "2022-02-02T00:30:00Z",
+        "minutes": 2880.0
+      },
+      {
+        "game_id": "2022-23|20221108T0013Z|Houston Rockets@Orlando Magic",
+        "nba_game_id": "0022200145",
+        "panel_tip": "2022-11-08 00:13:00+00:00",
+        "json_tip": "2022-11-08T00:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0113Z|Milwaukee Bucks@Atlanta Hawks",
+        "nba_game_id": "0022200149",
+        "panel_tip": "2022-11-08 01:13:00+00:00",
+        "json_tip": "2022-11-08T01:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0213Z|New York Knicks@Minnesota Timberwolves",
+        "nba_game_id": "0022200153",
+        "panel_tip": "2022-11-08 02:13:00+00:00",
+        "json_tip": "2022-11-08T02:15:00Z",
+        "minutes": 2.0
+      },
+      {
+        "game_id": "2022-23|20221108T0313Z|Los Angeles Lakers@Utah Jazz",
+        "nba_game_id": "0022200157",
+        "panel_tip": "2022-11-08 03:13:00+00:00",
+        "json_tip": "2022-11-08T03:15:00Z",
+        "minutes": 2.0
+      }
+    ]
+  }
+}

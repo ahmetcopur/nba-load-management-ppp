@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-10",
+  "scope": "Independently replay selected-report player-ID resolution from original reviewed crosswalk, alias list, official boxscore rosters and archived selected report rows; NOT a raw-PDF-to-selected-rows or player-game model rebuild.",
+  "original_unchanged_identity_builder_sha256": "738b78fa9fd9f3cdd9f4b4eb6756b424680959cacb85cfc354a6d6affa915fef",
+  "original_source_package_sha256": {
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+    "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
+  },
+  "actual_executed_source_replay": {
+    "selected_report_input_rows_after_historical_key_dedup": 73547,
+    "player_named_report_rows_before_resolution": 73440,
+    "crosswalk_directly_matched_rows": 72819,
+    "reviewed_alias_fallback_rows": 606,
+    "unique_official_boxscore_name_fallback_rows": 15,
+    "unresolved_report_player_rows_before_final_status_dedup": 0,
+    "final_player_report_rows_after_original_status_priority_dedup": 73438,
+    "frozen_reference_rows": 73438,
+    "all_final_player_game_team_ids_unique": true,
+    "identical_output_schema_columns": 33,
+    "identical_full_output_field_values": 33,
+    "columns_with_any_difference": {},
+    "complete_output_rows_exact_multiset_match": true
+  },
+  "source_keys_preflight": {
+    "game_covariates_unique_games": 7230,
+    "boxscore_roster_unique_player_games": 248571,
+    "reviewed_crosswalk_unique_name_keys": 3712,
+    "crosswalk_duplicate_season_team_player_name_keys": 0,
+    "unmatched_original_frozen_final_player_names": 0
+  },
+  "scientific_limitations": {
+    "archived_selected_pdf_rows_not_freshly_regenerated_as_part_of_this_identity_only_test": true,
+    "crosswalk_and_alias_reference_files_preexisting_not_independently_reviewed_against_every_original_source": true,
+    "report_only_roster_additions_rebuilt": false,
+    "full_player_game_core_finalized_in_this_execution": false,
+    "age_star_cup_tv_labels_independently_rebuilt": false,
+    "frozen_source_or_manuscript_modified": false,
+    "private_raw_pdfs_committed": false
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-11",
+  "status": "PASS_ACTUAL_FRESH_617_ORIGINAL_NBA_PDF_REPARSE",
+  "scope": "Complete independent original 2020–21 official NBA injury PDF source reparse using unchanged historical SHA-pinned layout parser, original x_density=5 rendering, deterministic printed row-wrap reason correction, and full 15-column archived raw source acceptance",
+  "original_raw_PDF_archive": {
+    "filename": "audit_2020_21_upload.zip",
+    "sha256": "e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c"
+  },
+  "original_reference_archive": {
+    "filename": "audit_2020_21_corrected_outputs.zip",
+    "sha256": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8"
+  },
+  "historical_original_parser_sha256": "77fb85d6e0634c01d0ddb0739294c0ed044671b5b93b0affbbf9ec943a7ef6ee",
+  "pdfplumber_x_density": 5,
+  "current_executed_environment": {
+    "python": "3.13.5",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "pdfplumber": "0.11.9"
+  },
+  "actual_new_private_execution": {
+    "fresh_original_PDFs_extracted_and_parsed": 617,
+    "complete_fresh_raw_source_rows": 41780,
+    "all_source_columns_compared": 15,
+    "complete_source_record_missing_rows": 0,
+    "complete_source_record_extra_rows": 0,
+    "all_41780_full_records_identical_to_archived_corrected_source": true,
+    "nonfatal_original_parser_warning_PDFs": 30,
+    "printed_reason_overflow_fragments_transferred_back": 44,
+    "preceding_injury_reason_records_completed": 49,
+    "prior_unrepaired_reason_text_field_differences": 93,
+    "remaining_reason_field_differences_after_source_correction": 0,
+    "reparsed_source_private_CSV_SHA256": "d8f27697d0fc03d6f199855f71b8706409a5e6058cd19414ddc11d450410b028",
+    "published_or_frozen_reason_values_read_during_reconstruction": false,
+    "archived_source_used_for_original_PDF_identity_date_UTC_and_acceptance_only": true
+  },
+  "downstream_in_same_private_working_session": {
+    "fresh_2020_selected_reports_reconstructed_using_original_canonical_choice_metadata": 8591,
+    "all_fresh_2020_complete_22_column_selected_rows_identical": true,
+    "full_six_season_source_report_rows_staged": 73547,
+    "all_six_season_complete_22_column_selected_rows_identical": true,
+    "independent_six_season_new_core_and_award_Cup_analysis_models_completed_at_time_of_record": false
+  },
+  "distinctions": {
+    "unmodified_historical_PDF_parser_invoked_directly_from_original_source_archive": true,
+    "line_wrap_repair_is_deterministic_original_printed_text_transformation": true,
+    "separately_packaged_new_GitHub_2020_replay_CLI_direct_execution_not_proven_by_this_run": true,
+    "original_report_choice_is_archived_metadata_not_independently_resolved_in_this_reparse": true,
+    "complete_official_NBA_PDF_archive_collection_completeness_independently_proven": false,
+    "original_manual_reviewed_crosswalk_awards_Cup_TV_taxonomy_verified": false,
+    "private_PDFs_or_player_level_rows_uploaded_to_GitHub": false,
+    "frozen_original_results_or_manuscript_modified": false
+  },
+  "reusable_git_source": "scripts/data_rebuild/rebuild_2020_selected_from_pdfs.py",
+  "source_privacy": "All newly regenerated raw 41,780 player report records remain solely in a private scratch CSV; this public JSON records only source hashes, aggregates and acceptance status."
+}

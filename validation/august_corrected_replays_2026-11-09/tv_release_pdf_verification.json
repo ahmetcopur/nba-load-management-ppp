@@ -1,0 +1,133 @@
+{
+  "package_sha256": "13c6a13bace590e4116046f3258d666c1c62e0768a910051bca7883429078867",
+  "seasons": {
+    "2021-22": {
+      "pdf_sha256": "bbfb82f61ccd23714b61c78ce0dcabdf2b64d67655590fcfaeffb176b9b2e027",
+      "pdf_rows": 1230,
+      "duplicate_page_lines_in_pdf": 0,
+      "archived_parsed_rows": 1230,
+      "rows_matched_exactly": 1230,
+      "rows_only_in_pdf": 0,
+      "rows_only_in_archived_parse": 0,
+      "network_mismatches": 0,
+      "network_counts_pdf": {
+        "none": 961,
+        "NBA TV": 107,
+        "ESPN": 80,
+        "TNT": 63,
+        "ABC": 18,
+        "ABC/ESPN": 1
+      },
+      "nba_tv_center_court_rows_recorded_as_nba_tv": 0,
+      "network_mismatch_examples": [],
+      "fixtures_with_source_line": 1230,
+      "fixtures_not_found_on_stated_page": 0,
+      "fixture_network_mismatches": 0,
+      "fixtures_without_source_line": 0,
+      "unmatched_examples": []
+    },
+    "2022-23": {
+      "pdf_sha256": "f98d5b6273d3c7793a74b356f1fceba1f1a47656572b2825645bf5794ac9ef81",
+      "pdf_rows": 1230,
+      "duplicate_page_lines_in_pdf": 0,
+      "archived_parsed_rows": 1230,
+      "rows_matched_exactly": 1230,
+      "rows_only_in_pdf": 0,
+      "rows_only_in_archived_parse": 0,
+      "network_mismatches": 0,
+      "network_counts_pdf": {
+        "none": 960,
+        "NBA TV": 107,
+        "ESPN": 80,
+        "TNT": 65,
+        "ABC": 15,
+        "ABC/ESPN": 3
+      },
+      "nba_tv_center_court_rows_recorded_as_nba_tv": 0,
+      "network_mismatch_examples": [],
+      "fixtures_with_source_line": 1230,
+      "fixtures_not_found_on_stated_page": 0,
+      "fixture_network_mismatches": 0,
+      "fixtures_without_source_line": 0,
+      "unmatched_examples": []
+    },
+    "2023-24": {
+      "pdf_sha256": "7e31cf6d8ca00f92fab8b28bd973b90d0f2c4f6beead11bcf4e487f9e63ed29a",
+      "pdf_rows": 1200,
+      "duplicate_page_lines_in_pdf": 0,
+      "archived_parsed_rows": 1200,
+      "rows_matched_exactly": 1200,
+      "rows_only_in_pdf": 0,
+      "rows_only_in_archived_parse": 0,
+      "network_mismatches": 0,
+      "network_counts_pdf": {
+        "none": 934,
+        "NBA TV": 106,
+        "ESPN": 77,
+        "TNT": 65,
+        "ABC": 16,
+        "ABC/ESPN": 2
+      },
+      "nba_tv_center_court_rows_recorded_as_nba_tv": 0,
+      "network_mismatch_examples": [],
+      "fixtures_with_source_line": 1200,
+      "fixtures_not_found_on_stated_page": 0,
+      "fixture_network_mismatches": 0,
+      "fixtures_without_source_line": 30,
+      "unmatched_examples": []
+    },
+    "2024-25": {
+      "pdf_sha256": "a6ad5d18e773d24d885c5b376df6d7fc44578590996e679f611049fc3b9687f0",
+      "pdf_rows": 1200,
+      "duplicate_page_lines_in_pdf": 0,
+      "archived_parsed_rows": 1200,
+      "rows_matched_exactly": 1200,
+      "rows_only_in_pdf": 0,
+      "rows_only_in_archived_parse": 0,
+      "network_mismatches": 0,
+      "network_counts_pdf": {
+        "none": 934,
+        "NBA TV": 103,
+        "ESPN": 78,
+        "TNT": 65,
+        "ABC": 17,
+        "ABC/ESPN": 3
+      },
+      "nba_tv_center_court_rows_recorded_as_nba_tv": 16,
+      "network_mismatch_examples": [],
+      "fixtures_with_source_line": 1200,
+      "fixtures_not_found_on_stated_page": 0,
+      "fixture_network_mismatches": 0,
+      "fixtures_without_source_line": 30,
+      "unmatched_examples": []
+    },
+    "2025-26": {
+      "pdf_sha256": "98a06493d0a107cc410853ad230e67d48858777a2baf76ac77d089cbeaf2435d",
+      "pdf_rows": 1200,
+      "duplicate_page_lines_in_pdf": 0,
+      "archived_parsed_rows": 1200,
+      "rows_matched_exactly": 1200,
+      "rows_only_in_pdf": 0,
+      "rows_only_in_archived_parse": 0,
+      "network_mismatches": 0,
+      "network_counts_pdf": {
+        "none": 963,
+        "Prime": 60,
+        "NBC/Peacock": 58,
+        "ESPN": 55,
+        "Peacock": 41,
+        "ABC": 18,
+        "ABC/ESPN": 5
+      },
+      "nba_tv_center_court_rows_recorded_as_nba_tv": 0,
+      "network_mismatch_examples": [],
+      "fixtures_with_source_line": 1200,
+      "fixtures_not_found_on_stated_page": 0,
+      "fixture_network_mismatches": 0,
+      "fixtures_without_source_line": 30,
+      "unmatched_examples": []
+    }
+  },
+  "outside_check": "2020-21 advance TV came from archived ESPN/TNT/NBA TV web pages, not a release PDF",
+  "all_release_rows_and_networks_match": true
+}

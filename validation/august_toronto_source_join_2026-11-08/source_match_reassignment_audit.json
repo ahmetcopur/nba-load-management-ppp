@@ -1,0 +1,41 @@
+{
+  "scope": "Original August upstream selected-report mapping audit only; no corrected taxonomy/model",
+  "source_zip_sha256": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+  "historical_builder_sha256": "738b78fa9fd9f3cdd9f4b4eb6756b424680959cacb85cfc354a6d6affa915fef",
+  "total_historical_selected_report_rows": 73547,
+  "four_source_match_rows": 36,
+  "unrelated_october_april_rows_misassigned_to_february": 17,
+  "source_rows": [
+    {
+      "source_match_number": 46,
+      "source_report": "Injury-Report_2021-10-25_06PM.pdf",
+      "rows": 7,
+      "historical_destination": "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors",
+      "correct_destination": "2021-22|20211025T2330Z|Chicago Bulls@Toronto Raptors"
+    },
+    {
+      "source_match_number": 430,
+      "source_report": "Injury-Report_2022-02-01_06PM.pdf",
+      "rows": 10,
+      "historical_destination": "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors",
+      "correct_destination": "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors"
+    },
+    {
+      "source_match_number": 784,
+      "source_report": "Injury-Report_2022-02-03_06PM.pdf",
+      "rows": 9,
+      "historical_destination": "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors",
+      "correct_destination": "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors"
+    },
+    {
+      "source_match_number": 1172,
+      "source_report": "Injury-Report_2022-04-03_06PM.pdf",
+      "rows": 10,
+      "historical_destination": "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors",
+      "correct_destination": "2021-22|20220403T2300Z|Miami Heat@Toronto Raptors"
+    }
+  ],
+  "source_cause": "Original build_selected_report_and_identity_stage.py uses 2021-22 season-wide matchup_norm CHI@TOR/MIA@TOR override; it reassigns all games sharing a matchup rather than only 430/784.",
+  "correct_rule": "Source season and match number identify physical fixture; override only the two wrong February source match numbers, not matching all season matchups.",
+  "boundary": "This verifies 17 erroneous upstream player-report rows among four match-number groups; the 34 August final-panel report-to-tip anomalies were independently established separately. Full 248730-row August panel and taxonomy not yet rebuilt."
+}

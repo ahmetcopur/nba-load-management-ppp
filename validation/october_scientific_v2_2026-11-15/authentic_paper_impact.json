@@ -1,0 +1,514 @@
+{
+  "status": "computed_pending_human_review",
+  "scientific_version": "october_scientific_v2",
+  "primary_manifest_sha256": "e8adfb2ab5348013d184de4788d36fc7aabc5aed33cb467f0c5e7ba6164b5461",
+  "input_panels": {
+    "legacy": {
+      "compressed_sha256": "8c8355b2b1e9e5cba16a50adb74490b475dd1cb441702ca5c17d51e74b0a2d13",
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+      "bytes": 18279451
+    },
+    "october_scientific_v2": {
+      "compressed_sha256": "89a809d607bc368b47464cb637c25688716efe8479e7bc82c1b90a583f245eca",
+      "decoded_sha256": "9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f",
+      "bytes": 18279317
+    }
+  },
+  "statistics": {
+    "legacy": {
+      "onset_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "announced_tv_primary": false,
+          "at_risk": 69711,
+          "onsets": 4244,
+          "onset_rate_pct": 6.087991852074995
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "announced_tv_primary": true,
+          "at_risk": 10365,
+          "onsets": 546,
+          "onset_rate_pct": 5.267727930535456
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "announced_tv_primary": false,
+          "at_risk": 71683,
+          "onsets": 5418,
+          "onset_rate_pct": 7.558277415844761
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "announced_tv_primary": true,
+          "at_risk": 12323,
+          "onsets": 887,
+          "onset_rate_pct": 7.197922583786416
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "announced_tv_primary": false,
+          "at_risk": 6345,
+          "onsets": 722,
+          "onset_rate_pct": 11.379038613081166
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "announced_tv_primary": true,
+          "at_risk": 1445,
+          "onsets": 103,
+          "onset_rate_pct": 7.1280276816609
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "announced_tv_primary": false,
+          "at_risk": 7159,
+          "onsets": 683,
+          "onset_rate_pct": 9.540438608744237
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "announced_tv_primary": true,
+          "at_risk": 1633,
+          "onsets": 126,
+          "onset_rate_pct": 7.71586037966932
+        }
+      ],
+      "prevalence_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "observed": 106888,
+          "absent": 25522,
+          "absent_share_pct": 23.877329541202005
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "observed": 117660,
+          "absent": 32437,
+          "absent_share_pct": 27.56841747407785
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "observed": 10925,
+          "absent": 3093,
+          "absent_share_pct": 28.31121281464531
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "observed": 12194,
+          "absent": 3350,
+          "absent_share_pct": 27.47252747252747
+        }
+      ],
+      "home_onegame_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "is_home": false,
+          "at_risk": 39993,
+          "onegame_onsets": 887,
+          "onegame_rate_pct": 2.217888130422824
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "is_home": true,
+          "at_risk": 39831,
+          "onegame_onsets": 860,
+          "onegame_rate_pct": 2.159122291682358
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "is_home": false,
+          "at_risk": 41828,
+          "onegame_onsets": 1312,
+          "onegame_rate_pct": 3.1366548723343217
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "is_home": true,
+          "at_risk": 41942,
+          "onegame_onsets": 1294,
+          "onegame_rate_pct": 3.0852129130704307
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "is_home": false,
+          "at_risk": 3896,
+          "onegame_onsets": 279,
+          "onegame_rate_pct": 7.161190965092403
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "is_home": true,
+          "at_risk": 3844,
+          "onegame_onsets": 173,
+          "onegame_rate_pct": 4.500520291363164
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "is_home": false,
+          "at_risk": 4405,
+          "onegame_onsets": 257,
+          "onegame_rate_pct": 5.83427922814983
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "is_home": true,
+          "at_risk": 4348,
+          "onegame_onsets": 197,
+          "onegame_rate_pct": 4.53081876724931
+        }
+      ],
+      "duration": [
+        {
+          "star": false,
+          "post": false,
+          "onsets": 4790,
+          "completed": 4118,
+          "right_censored": 672,
+          "completed_mean_games": 3.7433220009713453,
+          "completed_median_games": 2.0,
+          "completed_onegame_pct": 42.42350655658086,
+          "censored_observed_mean_lower_bound": 7.107142857142857
+        },
+        {
+          "star": false,
+          "post": true,
+          "onsets": 6305,
+          "completed": 5590,
+          "right_censored": 715,
+          "completed_mean_games": 3.616994633273703,
+          "completed_median_games": 2.0,
+          "completed_onegame_pct": 46.61896243291592,
+          "censored_observed_mean_lower_bound": 8.932867132867132
+        },
+        {
+          "star": true,
+          "post": false,
+          "onsets": 825,
+          "completed": 712,
+          "right_censored": 113,
+          "completed_mean_games": 2.633426966292135,
+          "completed_median_games": 1.0,
+          "completed_onegame_pct": 63.48314606741573,
+          "censored_observed_mean_lower_bound": 5.380530973451328
+        },
+        {
+          "star": true,
+          "post": true,
+          "onsets": 809,
+          "completed": 702,
+          "right_censored": 107,
+          "completed_mean_games": 2.7037037037037037,
+          "completed_median_games": 1.0,
+          "completed_onegame_pct": 64.67236467236467,
+          "censored_observed_mean_lower_bound": 7.4672897196261685
+        }
+      ],
+      "raw_triple_difference_pp": 1.9665236128641546,
+      "paired_home_onegame_minus_longer": {
+        "n": 180087,
+        "estimate_pp": 1.6378139042000948,
+        "se_pp": 1.1662354115158557,
+        "low_pp": -0.6480075023709824,
+        "high_pp": 3.9236353107711714,
+        "p": 0.1602117927173925,
+        "iterations": 81,
+        "converged": true,
+        "rank": 14
+      },
+      "totals": {
+        "rows": 248778,
+        "risk_rows": 180664,
+        "onsets": 12729,
+        "observed_rows": 247667,
+        "completed_spells": 11122
+      }
+    },
+    "october_scientific_v2": {
+      "onset_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "announced_tv_primary": false,
+          "at_risk": 69715,
+          "onsets": 4248,
+          "onset_rate_pct": 6.093380190776734
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "announced_tv_primary": true,
+          "at_risk": 10370,
+          "onsets": 551,
+          "onset_rate_pct": 5.313404050144648
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "announced_tv_primary": false,
+          "at_risk": 71686,
+          "onsets": 5421,
+          "onset_rate_pct": 7.562146025723293
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "announced_tv_primary": true,
+          "at_risk": 12323,
+          "onsets": 887,
+          "onset_rate_pct": 7.197922583786416
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "announced_tv_primary": false,
+          "at_risk": 6341,
+          "onsets": 718,
+          "onset_rate_pct": 11.323135152184198
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "announced_tv_primary": true,
+          "at_risk": 1440,
+          "onsets": 98,
+          "onset_rate_pct": 6.805555555555555
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "announced_tv_primary": false,
+          "at_risk": 7156,
+          "onsets": 680,
+          "onset_rate_pct": 9.502515371716042
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "announced_tv_primary": true,
+          "at_risk": 1633,
+          "onsets": 126,
+          "onset_rate_pct": 7.71586037966932
+        }
+      ],
+      "prevalence_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "observed": 106914,
+          "absent": 25547,
+          "absent_share_pct": 23.89490618628056
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "observed": 117683,
+          "absent": 32460,
+          "absent_share_pct": 27.582573523788483
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "observed": 10899,
+          "absent": 3068,
+          "absent_share_pct": 28.14937150197266
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "observed": 12171,
+          "absent": 3327,
+          "absent_share_pct": 27.33546955878728
+        }
+      ],
+      "home_onegame_cells": [
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "is_home": false,
+          "at_risk": 39994,
+          "onegame_onsets": 888,
+          "onegame_rate_pct": 2.220333049957494
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": false,
+          "is_home": true,
+          "at_risk": 39832,
+          "onegame_onsets": 861,
+          "onegame_rate_pct": 2.1615786302470377
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "is_home": false,
+          "at_risk": 41828,
+          "onegame_onsets": 1312,
+          "onegame_rate_pct": 3.1366548723343217
+        },
+        {
+          "star_PPP_it": false,
+          "postPPP": true,
+          "is_home": true,
+          "at_risk": 41942,
+          "onegame_onsets": 1294,
+          "onegame_rate_pct": 3.0852129130704307
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "is_home": false,
+          "at_risk": 3895,
+          "onegame_onsets": 278,
+          "onegame_rate_pct": 7.137355584082156
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": false,
+          "is_home": true,
+          "at_risk": 3843,
+          "onegame_onsets": 172,
+          "onegame_rate_pct": 4.4756700494405415
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "is_home": false,
+          "at_risk": 4405,
+          "onegame_onsets": 257,
+          "onegame_rate_pct": 5.83427922814983
+        },
+        {
+          "star_PPP_it": true,
+          "postPPP": true,
+          "is_home": true,
+          "at_risk": 4348,
+          "onegame_onsets": 197,
+          "onegame_rate_pct": 4.53081876724931
+        }
+      ],
+      "duration": [
+        {
+          "star": false,
+          "post": false,
+          "onsets": 4799,
+          "completed": 4120,
+          "right_censored": 679,
+          "completed_mean_games": 3.741990291262136,
+          "completed_median_games": 2.0,
+          "completed_onegame_pct": 42.45145631067962,
+          "censored_observed_mean_lower_bound": 7.044182621502209
+        },
+        {
+          "star": false,
+          "post": true,
+          "onsets": 6308,
+          "completed": 5590,
+          "right_censored": 718,
+          "completed_mean_games": 3.616994633273703,
+          "completed_median_games": 2.0,
+          "completed_onegame_pct": 46.61896243291592,
+          "censored_observed_mean_lower_bound": 8.899721448467966
+        },
+        {
+          "star": true,
+          "post": false,
+          "onsets": 816,
+          "completed": 710,
+          "right_censored": 106,
+          "completed_mean_games": 2.6380281690140843,
+          "completed_median_games": 1.0,
+          "completed_onegame_pct": 63.38028169014085,
+          "censored_observed_mean_lower_bound": 5.669811320754717
+        },
+        {
+          "star": true,
+          "post": true,
+          "onsets": 806,
+          "completed": 702,
+          "right_censored": 104,
+          "completed_mean_games": 2.7037037037037037,
+          "completed_median_games": 1.0,
+          "completed_onegame_pct": 64.67236467236467,
+          "censored_observed_mean_lower_bound": 7.653846153846154
+        }
+      ],
+      "raw_triple_difference_pp": 2.3151719058867126,
+      "paired_home_onegame_minus_longer": {
+        "n": 180087,
+        "estimate_pp": 1.6418725768927365,
+        "se_pp": 1.165679460560164,
+        "low_pp": -0.642859165805185,
+        "high_pp": 3.926604319590658,
+        "p": 0.1589797526164981,
+        "iterations": 81,
+        "converged": true,
+        "rank": 14
+      },
+      "totals": {
+        "rows": 248778,
+        "risk_rows": 180664,
+        "onsets": 12729,
+        "observed_rows": 247667,
+        "completed_spells": 11122
+      }
+    }
+  },
+  "original_statistics_source_sha256": "543aaaa5c0ae32b43e00a9c3809455c0486085e0fe43b87cd18383d5ee838942",
+  "executed_entrypoint_sha256": "d9c62a41b3d6cc9373817124a5a8489f1ccbf9831bde62ff920797f8a8b9967e",
+  "figures": {
+    "scientific_v2_home_road_onegame_rates.pdf": {
+      "compressed_sha256": "eb48d188c866e9fc17b63dffadbd9104f318f23b8608293f86b9145f0673007f",
+      "decoded_sha256": "eb48d188c866e9fc17b63dffadbd9104f318f23b8608293f86b9145f0673007f",
+      "bytes": 19726
+    },
+    "scientific_v2_home_road_onegame_rates.png": {
+      "compressed_sha256": "b76698fbdd4d1ee299ffe37cbdea01a866776b7edd3b40bc3720e67ee05c207b",
+      "decoded_sha256": "b76698fbdd4d1ee299ffe37cbdea01a866776b7edd3b40bc3720e67ee05c207b",
+      "bytes": 99433
+    },
+    "scientific_v2_home_road_onegame_rates.svg": {
+      "compressed_sha256": "cb6c3a6b6e4c53fb3402e18c8b717117465afd84722fb51fc7aa322ea13a7d48",
+      "decoded_sha256": "cb6c3a6b6e4c53fb3402e18c8b717117465afd84722fb51fc7aa322ea13a7d48",
+      "bytes": 58790
+    },
+    "scientific_v2_raw_TV_onset_rates.pdf": {
+      "compressed_sha256": "67275a3903d0567ae813c8cb531026690599d149a8327470c7b9c4a08be903cc",
+      "decoded_sha256": "67275a3903d0567ae813c8cb531026690599d149a8327470c7b9c4a08be903cc",
+      "bytes": 19694
+    },
+    "scientific_v2_raw_TV_onset_rates.png": {
+      "compressed_sha256": "5d76fc0f20c1da5f3723f6c34ce3f9db9e89355211410ff73b99167c9d633763",
+      "decoded_sha256": "5d76fc0f20c1da5f3723f6c34ce3f9db9e89355211410ff73b99167c9d633763",
+      "bytes": 101202
+    },
+    "scientific_v2_raw_TV_onset_rates.svg": {
+      "compressed_sha256": "367d32b894f71509b790359bd543d191e3f8fe5ff4e98237801e191cbc9de656",
+      "decoded_sha256": "367d32b894f71509b790359bd543d191e3f8fe5ff4e98237801e191cbc9de656",
+      "bytes": 57277
+    }
+  },
+  "historical_artifact_verdict": "retained_legacy_intermediates_inherited_not_six_season_raw_reexecution",
+  "manuscript_modified": false,
+  "plot_scope": "New descriptive review figures computed from newly built panel; not a replacement of manuscript figures without approval"
+}

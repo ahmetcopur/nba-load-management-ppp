@@ -1,0 +1,168 @@
+{
+  "date": "2026-11-10",
+  "type": "independent original-source canonical report selection and historical team-submission reconstruction 2021–24",
+  "source_of_code": "Source-hash pinned original build_season function from nba_canonical_snapshot_selector_v1.zip, originally written for 2020–21 and 2024–25; re-used for 2021–23 with explicitly documented legacy submitted-row precedence. Not claiming the original published builder itself reran these three seasons.",
+  "original_selector_script_sha256": "3e2c3f975a9d6f0828655cfade2a11a8418c0a3b3af3789a307949780666031f",
+  "source_archives_sha256": {
+    "nba_canonical_snapshot_selector_v1.zip": "fa724ee6cd341b0322c311258f472f0ad7dfeeea4683cf2e406a48fe0d1f94a7",
+    "audit_2021_22_upload.zip": "1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339",
+    "audit_2021_22_cadence_outputs.zip": "861ccc5ea82834632b6fc9c477be318aaa09ea9a243d4a990f93051af148b420",
+    "audit_2021_22_s4_join_results.zip": "63d1c60a16a016dd6618813eb88a6d5f47f9d8a2093026166c715b6b9098cec9",
+    "audit_2022_23_pre_s4_outputs.zip": "dd750f6f95e907ed55cf673ce08ee321062aac03b09ec79aa4abffadae94513b",
+    "audit_2022_23_s4_join_results.zip": "fbbdcca334f0c904ae48f76551dc50319db346f487e90a77eacacd5839df97c6",
+    "audit_2023_24_pre_s4_outputs.zip": "edd411a4dd1ad113f32492d2e9fd96a842727628566d56b9b797c3913d19abbf",
+    "audit_2023_24_s4_join_results.zip": "9d59f4f0dde7aed9b8dacfd3706b55f24c1aa9a17cf1e6bdc093eb498570d5e7"
+  },
+  "fresh_2021_original_pdf_reparse": {
+    "actual_original_source_pdfs": 5567,
+    "original_parser_sha256": "321d9c8d807325209fbcb6174ec6d82df4ba845c156d7d52158f0ea44714ab3e",
+    "original_parser_changed": false,
+    "source_rows_produced": 398715,
+    "parser_logs_all_ok": 5567,
+    "archived_harmonized_pdf_reference": 696,
+    "archived_harmonized_rows_exact": 58631,
+    "archived_harmonized_parser_logs_exact": 696,
+    "full_hourly_398715_row_archived_reference_available": false,
+    "generated_full_csv_sha256": "03fc955660212cee12b00ac87f5b49e5c47e53934da07c1bcd2c58ca79cc706c",
+    "generated_full_parser_log_sha256": "500a94ce953b6d2bafa750a7ffc6f4ac7e8ba0b6284d967602c0806a975cadd4"
+  },
+  "legacy_submission_rule": "When a selected PDF/matchup/team contains both 'submitted' player rows and a 'not_yet_submitted' placeholder, actual submitted rows take precedence. Confirmed against historical 2021–23 team statuses across every game; never blindly replace missing team data.",
+  "source_snapshot_count_rule": "Match game date plus matchup and distinct original report file; restrict 01PM/05PM/08PM for harmonized. Never mix repeat matchups later in the season. One source-empty October 2023 clean-team game requires a source-manifest preceding-day/current-day timestamp count.",
+  "clean_team_exception": {
+    "game_id": "FD2023_5",
+    "matchup": "BOS@NYK",
+    "scheduled_date": "2023-10-25",
+    "no_report_rows_for_matchup_on_selected_pdf": true,
+    "two_day_original_manifest_full": {
+      "all_available_reports": 31,
+      "pre_tip": 26
+    },
+    "two_day_original_manifest_harmonized": {
+      "all_available_reports": 5,
+      "pre_tip": 4
+    },
+    "interpretation_caveat": "Reproduces archived metadata using a documented source-derived special-case fallback; does not by itself prove the original S4 implementation used this exact fallback formula."
+  },
+  "results": [
+    {
+      "season": "2021-22",
+      "panel": "full",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 6,
+      "source_affected_games": 3,
+      "no_matchup_source_fallback_game_ids": [],
+      "accepted_as_exact_archived_stage_replay": true
+    },
+    {
+      "season": "2021-22",
+      "panel": "harmonized",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 6,
+      "source_affected_games": 3,
+      "no_matchup_source_fallback_game_ids": [],
+      "accepted_as_exact_archived_stage_replay": true
+    },
+    {
+      "season": "2022-23",
+      "panel": "full",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 10,
+      "source_affected_games": 5,
+      "no_matchup_source_fallback_game_ids": [],
+      "accepted_as_exact_archived_stage_replay": true
+    },
+    {
+      "season": "2022-23",
+      "panel": "harmonized",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 10,
+      "source_affected_games": 5,
+      "no_matchup_source_fallback_game_ids": [],
+      "accepted_as_exact_archived_stage_replay": true
+    },
+    {
+      "season": "2023-24",
+      "panel": "full",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 4,
+      "source_affected_games": 2,
+      "no_matchup_source_fallback_game_ids": [
+        "FD2023_5"
+      ],
+      "accepted_as_exact_archived_stage_replay": true
+    },
+    {
+      "season": "2023-24",
+      "panel": "harmonized",
+      "reconstructed_game_rows": 1230,
+      "reconstructed_team_rows": 2460,
+      "game_fields_compared": 25,
+      "historical_team_fields_compared": 15,
+      "canonical_season_metrics_compared": 13,
+      "original_game_field_mismatches": 0,
+      "original_team_field_mismatches": 0,
+      "season_metric_mismatches": 0,
+      "submitted_status_overrode_mixed_placeholder_in_team_rows": 4,
+      "source_affected_games": 2,
+      "no_matchup_source_fallback_game_ids": [
+        "FD2023_5"
+      ],
+      "accepted_as_exact_archived_stage_replay": true
+    }
+  ],
+  "totals": {
+    "game_report_choices_exact": 7380,
+    "team_rows_with_all_15_historical_fields_exact": 14760,
+    "game_fields_checked_per_panel": 25,
+    "team_fields_checked_per_panel": 15,
+    "metrics_compared": 78,
+    "unique_mixed_placeholder_games": 10,
+    "source_team_status_placeholder_rows_per_all_six_panels": 40,
+    "source_empty_clean_game_exception": "FD2023_5 (once in each 2023–24 panel)",
+    "unexplained_discrepancies": 0
+  },
+  "scientific_boundaries": {
+    "exact_2020_21_reason_pdf_text_reparse": false,
+    "remaining_2020_21_reason_mismatches": 93,
+    "original_2022_23_2023_24_regular_season_parser_outputs_exact_from_prior_private_reparse": true,
+    "complete_source_to_player_game_panel_rebuilt": false,
+    "historical_awards_cup_tv_independently_rebuilt": false,
+    "frozen_original_outputs_modified": false,
+    "original_private_source_zips_committed": false
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "date": "2026-11-08",
+  "scope": "Conditional, frozen-outcome Stage-6 control-only sensitivity; all player-game IDs, outcomes, exposures, stars, report selections, and playing histories fixed. NOT a complete corrected chronological source reconstruction.",
+  "source_game_covariates_zip_sha256": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+  "original_game_covariate_builder_sha256": "268140c52c68a1f19ed1ab756f772519c460dc552938281e6ee62a1cbe087862",
+  "original_stage6_regression_source_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
+  "scientific_baseline": "All 11 original model control columns in the published player-game panel match original archived team-game covariates across 248778 rows; original team-game builder also matches all 76 archived columns across 14460 rows after documented empty/missing and datetime normalization and numeric tolerance.",
+  "substituted_control_columns": [
+    "back_to_back",
+    "three_games_in_four_days",
+    "four_games_in_six_days",
+    "travel_km_since_previous_game",
+    "absolute_timezone_shift_hours",
+    "road_trip_game_number",
+    "signed_elo_advantage",
+    "opponent_bottom_quartile_pre",
+    "opponent_back_to_back",
+    "rest_advantage_days",
+    "travel_disadvantage_km"
+  ],
+  "corrected_fixture_utc": {
+    "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": "2022-02-04T00:30:00Z",
+    "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": "2022-02-02T00:30:00Z"
+  },
+  "model_results": [
+    {
+      "definition": "legacy_primary",
+      "controls": "full",
+      "n_frozen": 180530,
+      "n_corrected": 180530,
+      "estimate_pp_frozen": 2.6304485901569383,
+      "estimate_pp_corrected": 2.633180455645152,
+      "se_pp_frozen": 1.3187240875355293,
+      "se_pp_corrected": 1.3182504682484388,
+      "p_frozen": 0.0460764656930466,
+      "p_corrected": 0.0457729406202559,
+      "estimate_pp_delta": 0.0027318654882138027,
+      "se_pp_delta": -0.0004736192870904432,
+      "p_delta": -0.00030352507279070295,
+      "n_delta": 0
+    },
+    {
+      "definition": "legacy_primary",
+      "controls": "none",
+      "n_frozen": 180664,
+      "n_corrected": 180664,
+      "estimate_pp_frozen": 2.6327687803815247,
+      "estimate_pp_corrected": 2.632768780381513,
+      "se_pp_frozen": 1.3257085858885675,
+      "se_pp_corrected": 1.3257085858885675,
+      "p_frozen": 0.0470407344780248,
+      "p_corrected": 0.0470407344780258,
+      "estimate_pp_delta": -1.1546319456101628e-14,
+      "se_pp_delta": 0,
+      "p_delta": 9.992007221626409e-16,
+      "n_delta": 0
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "full",
+      "n_frozen": 180530,
+      "n_corrected": 180530,
+      "estimate_pp_frozen": 1.2389703651133357,
+      "estimate_pp_corrected": 1.2416727726434602,
+      "se_pp_frozen": 1.3186981358830614,
+      "se_pp_corrected": 1.318259955476845,
+      "p_frozen": 0.3474532856699015,
+      "p_corrected": 0.3462423950244641,
+      "estimate_pp_delta": 0.0027024075301245176,
+      "se_pp_delta": -0.00043818040621634857,
+      "p_delta": -0.0012108906454374457,
+      "n_delta": 0
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "none",
+      "n_frozen": 180664,
+      "n_corrected": 180664,
+      "estimate_pp_frozen": 1.251112606497564,
+      "estimate_pp_corrected": 1.2511126064975588,
+      "se_pp_frozen": 1.3267717277896436,
+      "se_pp_corrected": 1.3267717277896396,
+      "p_frozen": 0.3456936764034376,
+      "p_corrected": 0.345693676403438,
+      "estimate_pp_delta": -5.10702591327572e-15,
+      "se_pp_delta": -3.9968028886505635e-15,
+      "p_delta": 3.885780586188048e-16,
+      "n_delta": 0
+    }
+  ],
+  "acceptance_boundary": "Only tests covariate changes conditional on frozen outcomes/exposures/playing histories. Not yet full corrected-source game chronology, six-season reports, or exact policy analysis."
+}

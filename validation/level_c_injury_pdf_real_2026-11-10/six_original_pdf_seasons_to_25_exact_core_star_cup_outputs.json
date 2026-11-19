@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-10",
+  "scope": "Authentic original NBA injury PDFs 2020-21 to 2025-26 -> six-season selected reports -> original identities/core -> unchanged source-coded historical All-Star/All-NBA -> original Cup game-lookup enrichments.",
+  "original_PDF_reports_reparsed_in_source": 3637,
+  "raw_PDF_seasons": 6,
+  "source_2020_original_PDFs_from_earlier_complete_diagnostic": 617,
+  "source_2021_2025_original_PDFs_reparsed": 3020,
+  "source_2020_reason_wrap_printed_overflow_fragments_fixed": 44,
+  "source_2020_historical_reason_field_differences_before_repair": 93,
+  "source_2020_reason_field_differences_after_repair": 0,
+  "six_season_selected_report_rows_exact_full_field": 73547,
+  "resolved_player_report_rows_exact": 73438,
+  "original_core_finalizer_completed_exit_code": 0,
+  "core_output_files_full_decoded_byte_exact": 10,
+  "original_star_builder_completed_exit_code": 0,
+  "star_output_files_full_decoded_byte_exact": 12,
+  "cup_original_lookup_enrichment_subprocess_exit_codes": {
+    "full": 0,
+    "risk": 0,
+    "spells": 0
+  },
+  "cup_output_files_full_decoded_byte_exact": 3,
+  "all_25_frozen_output_files_exact": true,
+  "headline_counts": {
+    "full_player_game_rows": 248730,
+    "at_risk_rows": 180829,
+    "absence_onsets": 12710,
+    "absence_spells": 13723,
+    "report_only_roster_additions": 159,
+    "star_designated_player_game_rows": 23166
+  },
+  "full_original_decoded_output_digests": {
+    "player_IDs": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a",
+    "core": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+    "star_full": "abbfc5e7dc91f7637fa99c3c15f381c54f79aef83c978e7a61a171646108608b",
+    "cup_full": "1e78983ec73b4206bc851c50d8853973966e2116a7a1b61c61e3412c64cd4ba5",
+    "cup_at_risk": "a1d843daa9f54366d9ee998e05ef904ff5d10695b18b0dd968a4a098b9e587c5",
+    "cup_spells": "0a5bfa6d71a8209b100f3b5f314917071a8f7704a5d283e1834e1cea9f1a3a35"
+  },
+  "run_source": "The original 2020–21 617 raw PDFs were already completely re-parsed in an earlier private original-PDF diagnostic, then their 93 reason mismatches were repaired solely using printed reason continuations; 2021–25 original PDF-selected records were independently parsed, concatenated, and all 73,547 source rows checked. The unchanged original identity resolver, historical original finalizer and historical original star builder were re-executed in a new private workspace with exit code 0; the Cup-lookup reimplementation was rerun on the new source-derived star panels. Every original output compared over its entire uncompressed bytes.",
+  "limitations": {
+    "newly_committed_all_six_season_master_umbrella_direct_private_run_completed": false,
+    "fresh_second_complete_617_PDF_parser_invocation_pending_acceptance_at_time_of_record": true,
+    "original_2020_game_report_choice_metadata_inherited": true,
+    "historical_human_reviewed_player_crosswalk_star_awards_taxonomy_inherited": true,
+    "original_Cup_and_TV_source_releases_independently_verified": false,
+    "historical_official_NBA_PDF_archive_completeness_proven": false,
+    "original_frozen_research_data_or_manuscript_modified": false,
+    "private_player_records_committed_to_github": false
+  },
+  "source_documents": [
+    "validation/level_c_injury_pdf_real_2026-11-10/2020_original_pdf_reason_wrap_repaired_six_season_identity_exact.json",
+    "validation/level_c_injury_pdf_real_2026-11-10/six_original_pdf_seasons_to_ten_exact_core_outputs.json",
+    "scripts/data_rebuild/rebuild_2020_selected_from_pdfs.py",
+    "scripts/data_rebuild/reproduce_core_and_stars.py"
+  ]
+}

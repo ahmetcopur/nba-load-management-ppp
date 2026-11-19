@@ -1,0 +1,3 @@
+# Original October model environment plus the actually executed plotting version.
+-r requirements-october-lock.txt
+matplotlib==3.10.8

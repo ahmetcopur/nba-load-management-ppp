@@ -1,0 +1,20 @@
+{
+  "reviewed_code_commit": "31fcef0d32bf88233c7dd994307c64ee2b4d3777",
+  "manuscript_filename": "NBA_PPP_Manuscript.pdf",
+  "manuscript_sha256": "49fc65224072ef3ff63f2e84058b237469dcddf5e874c57cb0779f6dc922d0bd",
+  "manuscript_source": "Library current item libfile_caa8c58a8310819181f0b226217eec0e, modified November 13",
+  "new_full_source_pipeline_executions": 0,
+  "new_semantic_guard_exit_code": 1,
+  "semantic_guard_exit_is_expected_finding": true,
+  "accepted_frozen_data_changed": false,
+  "scientific_semantic_verdict": "FAIL_REPORT_ONLY_STAR_ELIGIBILITY",
+  "conditional_legacy_numerical_reproduction": "pass",
+  "historical_artifact_verdict": "2025_metadata_exception_unresolved",
+  "release_A": "Blocked by material classification issue",
+  "release_B": "Not yet demonstrated; also inherits release_A scientific issue",
+  "local_tests": 657,
+  "first_test_attempt": "Three missing-bs4 dependency errors; installed test extra, then all 657 passed",
+  "reviewer_type": "AI-assisted computational/scientific audit, not external independent human sign-off",
+  "final_independent_specifications_reported": 8,
+  "diagnostic_execution_note": "Eight distinct audit specifications are reported (four legacy, four star-rule variants); the same calculations were rerun during verification-script packaging, not an exploratory model search."
+}

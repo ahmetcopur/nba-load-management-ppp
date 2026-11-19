@@ -1,0 +1,383 @@
+{
+  "shared_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "original_risk_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+  "stages": {
+    "first_pass": {
+      "package": "packages/02_first_pass_models.zip",
+      "package_sha256": "79682a44dab8f00e448a40772f11c2ed6d29f95ab893b1492068d8853a184ac2",
+      "executed_scripts": [
+        {
+          "script": "scripts/executed/02_first_pass_models/run_baseline_and_robustness_models.py",
+          "sha256": "d74bf130c67dbbc1c8578a16ecea0ba7984aecd19ca4d11b2b70692b275b8096",
+          "root_substitutions": 2
+        },
+        {
+          "script": "scripts/executed/02_first_pass_models/run_category_decomposition.py",
+          "sha256": "1be6f337eace658367b778db88bb6501fadd7d9f73f5f8f9bc825744b55da36a",
+          "root_substitutions": 2
+        },
+        {
+          "script": "scripts/executed/02_first_pass_models/run_season_event_study.py",
+          "sha256": "78fccf3fb7303006aa2d94d13117044ea3203e6799c3976bf9d3260b3e77950f",
+          "root_substitutions": 2
+        },
+        {
+          "script": "scripts/executed/02_first_pass_models/run_teamseason_fixed_effects.py",
+          "sha256": "7fd6983fb1ce58469ae175a6702cf7ef667c57afa4583a32073bb7f7469d65d3",
+          "root_substitutions": 2
+        }
+      ],
+      "frozen_gate": {
+        "mnt_data/_model_run/all_model_coefficients.csv": {
+          "rows": 184,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": 1.0061396160665481e-16,
+          "max_coefficient_difference": 1.0699774399824946e-14,
+          "max_inference_difference": 1.3233858453531866e-13,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/all_model_coefficients.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/focal_triple_interaction_results.csv": {
+          "rows": 10,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 1.0699774399824946e-14,
+          "max_inference_difference": 5.10702591327572e-15,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/focal_triple_interaction_results.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/raw_policy_cells.csv": {
+          "rows": 8,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.0,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/raw_policy_cells.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/raw_ddd.json": {
+          "rows": 3,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.0,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/raw_ddd.json",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/category_models_coefficients.csv": {
+          "rows": 100,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": 0.0,
+          "max_coefficient_difference": 1.0408340855860843e-16,
+          "max_inference_difference": 1.7541523789077473e-14,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/category_models_coefficients.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/category_models_focal.csv": {
+          "rows": 5,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 8.399964751548694e-15,
+          "max_inference_difference": 5.10702591327572e-15,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/category_models_focal.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/season_event_study_absence.csv": {
+          "rows": 6,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 1.97758476261356e-16,
+          "max_inference_difference": 3.802513859341161e-15,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/season_event_study_absence.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/season_event_study_all_coefficients.csv": {
+          "rows": 32,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": 8.673617379884035e-19,
+          "max_coefficient_difference": 1.97758476261356e-16,
+          "max_inference_difference": 1.3405943022348765e-14,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/season_event_study_all_coefficients.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/teamseason_fe_coefficients.csv": {
+          "rows": 40,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": 9.974659986866641e-17,
+          "max_coefficient_difference": 1.9992688060632702e-16,
+          "max_inference_difference": 1.199040866595169e-14,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/teamseason_fe_coefficients.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/_model_run/teamseason_fe_focal.csv": {
+          "rows": 2,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 7.997075224253081e-16,
+          "max_inference_difference": 3.0531133177191805e-16,
+          "differing_text_cells": 0,
+          "archived_member": "nba_policy_models_first_pass_v1/teamseason_fe_focal.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        }
+      },
+      "frozen_reproduced": true,
+      "tv_rekeys": [
+        {
+          "away_team": "Chicago Bulls",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-01",
+          "new_date": "2022-02-03",
+          "original_network": null,
+          "original_primary_tv": false,
+          "historical_fixture_row": 759
+        },
+        {
+          "away_team": "Miami Heat",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-03",
+          "new_date": "2022-02-01",
+          "original_network": "TNT",
+          "original_primary_tv": true,
+          "historical_fixture_row": 777
+        }
+      ],
+      "corrected_risk_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+      "corrected_vs_frozen": "data_rebuild/output/august_suite_exec/first_pass_corrected_vs_frozen.csv",
+      "identified_slope_rows": 17
+    },
+    "tv_audit": {
+      "package": "packages/04_tv_audit_continuation.zip",
+      "package_sha256": "beb6e4ad50622a4d434d1714c71988d4479c990af5400a4ef3fbb80a91cd172e",
+      "executed_scripts": [
+        {
+          "script": "scripts/executed/04_tv_audit_continuation/run_tv_audit_fast.py",
+          "sha256": "055372c7770677f98a017956301d4c528c349530bd0ddfebfb8796777171b7ec",
+          "root_substitutions": 3
+        },
+        {
+          "script": "scripts/executed/04_tv_audit_continuation/run_identification_checks.py",
+          "sha256": "9c4e4c761eca6b1f41730d8cf4a648f967deb33d62c0818c2c1baa59c3d34bbb",
+          "root_substitutions": 3
+        }
+      ],
+      "frozen_gate": {
+        "mnt_data/nba_continue/tv_audit_results/tv_model_results.csv": {
+          "rows": 12,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 1.687538997430238e-14,
+          "max_inference_difference": 4.085620730620576e-14,
+          "differing_text_cells": 0,
+          "archived_member": "tv_audit_results/tv_model_results.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/tv_audit_results/tv_source_counts.csv": {
+          "rows": 6,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.0,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "tv_audit_results/tv_source_counts.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/tv_audit_results/event_study_tv_definitions.csv": {
+          "rows": 10,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 2.398081733190338e-14,
+          "max_inference_difference": 3.4611202792689255e-14,
+          "differing_text_cells": 0,
+          "archived_member": "tv_audit_results/event_study_tv_definitions.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/tv_audit_results/joint_pretrend_tests.csv": {
+          "rows": 2,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.0,
+          "max_inference_difference": 1.3322676295501878e-15,
+          "differing_text_cells": 0,
+          "archived_member": "tv_audit_results/joint_pretrend_tests.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/tv_audit_results/preperiod_placebo_policy_dates.csv": {
+          "rows": 4,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 4.440892098500626e-15,
+          "max_inference_difference": 1.7763568394002505e-14,
+          "differing_text_cells": 0,
+          "archived_member": "tv_audit_results/preperiod_placebo_policy_dates.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        }
+      },
+      "frozen_reproduced": true,
+      "tv_rekeys": [
+        {
+          "away_team": "Chicago Bulls",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-01",
+          "new_date": "2022-02-03",
+          "original_network": null,
+          "original_primary_tv": false,
+          "historical_fixture_row": 759
+        },
+        {
+          "away_team": "Miami Heat",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-03",
+          "new_date": "2022-02-01",
+          "original_network": "TNT",
+          "original_primary_tv": true,
+          "historical_fixture_row": 777
+        }
+      ],
+      "corrected_risk_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+      "corrected_vs_frozen": "data_rebuild/output/august_suite_exec/tv_audit_corrected_vs_frozen.csv",
+      "identified_slope_rows": 0
+    },
+    "stage2": {
+      "package": "packages/05_identification_falsification_stage2.zip",
+      "package_sha256": "54cd44753ef7836fba77dceafe655fff1666cbaa0b0fa413b40c516a22b8d86a",
+      "executed_scripts": [
+        {
+          "script": "scripts/executed/05_identification_falsification_stage2/run_standard_clustering_and_iterative_trends.py",
+          "sha256": "a9ca65db6371208d4cb71bc8f206768736744a45c5bf4174a93393b2fa20511d",
+          "root_substitutions": 1
+        },
+        {
+          "script": "scripts/executed/05_identification_falsification_stage2/run_player_trends_sparse_exact.py",
+          "sha256": "35cc9e56eb844dfc2488f159525f79ccc6787520a85ef0936576076d91a0f6ad",
+          "root_substitutions": 1
+        },
+        {
+          "script": "scripts/executed/05_identification_falsification_stage2/run_permutation_legacy_99.py",
+          "sha256": "e3a18d704228eaf64dda4f4ebc8dbfb9c021c9f50553e7e5d14121ae66469f04",
+          "root_substitutions": 1
+        },
+        {
+          "script": "scripts/executed/05_identification_falsification_stage2/run_permutation_harmonized_99.py",
+          "sha256": "dd3da0f4fa9784883bcbb2a6760e410bd8a64046a64e0a5b70a978b6d6b8e532",
+          "root_substitutions": 1
+        }
+      ],
+      "frozen_gate": {
+        "mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv": {
+          "rows": 4,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 3.9968028886505635e-15,
+          "max_inference_difference": 2.398081733190338e-14,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/standard_and_covid_sensitivity.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv": {
+          "rows": 12,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 3.9968028886505635e-15,
+          "max_inference_difference": 1.2434497875801753e-14,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/clustering_sensitivity.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv": {
+          "rows": 2,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 8.326672684688674e-13,
+          "max_inference_difference": 6.551576225977129e-08,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/player_linear_trends.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 1e-07
+        },
+        "mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv": {
+          "rows": 2,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.00160066356472921,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/stratified_tv_permutation_placebo.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 0.01
+        },
+        "mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv": {
+          "rows": 99,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.004817392725284808,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/permutation_draws_legacy_primary.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 0.01
+        },
+        "mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv": {
+          "rows": 99,
+          "unmatched_rows": 0,
+          "identified_slope_max_difference": null,
+          "max_coefficient_difference": 0.004339615590672752,
+          "max_inference_difference": 0.0,
+          "differing_text_cells": 0,
+          "archived_member": "nba_identification_falsification_stage2_v1/results/permutation_draws_harmonized_linear.csv",
+          "reproduced": true,
+          "coefficient_tolerance": 0.01
+        }
+      },
+      "frozen_reproduced": true,
+      "tv_rekeys": [
+        {
+          "away_team": "Chicago Bulls",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-01",
+          "new_date": "2022-02-03",
+          "original_network": null,
+          "original_primary_tv": false,
+          "historical_fixture_row": 759
+        },
+        {
+          "away_team": "Miami Heat",
+          "home_team": "Toronto Raptors",
+          "old_date": "2022-02-03",
+          "new_date": "2022-02-01",
+          "original_network": "TNT",
+          "original_primary_tv": true,
+          "historical_fixture_row": 777
+        }
+      ],
+      "corrected_risk_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+      "corrected_vs_frozen": "data_rebuild/output/august_suite_exec/stage2_corrected_vs_frozen.csv",
+      "identified_slope_rows": 0
+    }
+  }
+}

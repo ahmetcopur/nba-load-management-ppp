@@ -1,0 +1,26 @@
+{
+  "corrected_model_risk_panel": {
+    "decoded_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+    "same_under_pandas_2_2_3": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+    "rows": 180831,
+    "columns": 72,
+    "unique_player_team_game_ids": 180831
+  },
+  "corrected_full_panel": {
+    "decoded_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+    "rows": 248728
+  },
+  "baseline_core_decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+  "attached_file_checked": {
+    "name": "player_game_panel_analysis_ready.csv.gz",
+    "decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+    "rows": 248730,
+    "finding": "byte-identical to the frozen full panel in data_final, not the corrected risk ZIP"
+  },
+  "environments": {
+    "models": "Python 3.12.3, pandas 3.0.5, numpy 2.5.2, scipy 1.18.0, statsmodels 0.14.6 (requirements-october-lock.txt)",
+    "nonlinear": "Python 3.12.3, pandas 2.2.3, numpy 2.3.5, scipy 1.17.0, scikit-learn 1.8.0, statsmodels 0.14.6",
+    "taxonomy_transfer": "run under both"
+  },
+  "shared_repository_commit": "0bd713d97e8d519df5700ef473da34aba4495223"
+}

@@ -1,0 +1,9 @@
+file,tv,outcome,n_frozen,wald_chi2_6_frozen,p_frozen,n_corrected,wald_chi2_6_corrected,p_corrected,Wald_chi2_2_frozen,Wald_chi2_2_corrected
+event_window_joint_tests_linear.csv,tv_harmonized_linear,absence_onset_harm,85031,3.03588038302574,0.8043301803012335,85008,3.053761862221428,0.8020695402648218,,
+event_window_joint_tests_linear.csv,tv_harmonized_linear,absence_now_harm,114767,3.641674933991853,0.7250349252422373,114735,3.685420129680426,0.7191599532597444,,
+event_window_joint_tests_linear.csv,tv_harmonized_linear,repair,22151,15.644484058305096,0.015794858834989,22142,14.81098466719356,0.0217788875210477,,
+event_window_joint_tests_national_partner.csv,announced_tv_primary,absence_onset_harm,89875,3.5026889355178183,0.7436119098670941,89852,3.732475980464059,0.7128260690356054,,
+event_window_joint_tests_national_partner.csv,announced_tv_primary,absence_now_harm,121573,3.737751670802435,0.712115351120779,121541,3.878644789612109,0.6930949425251927,,
+event_window_joint_tests_national_partner.csv,announced_tv_primary,repair,23713,12.26421721937124,0.056327435314436,23704,11.42474219591466,0.0761034375867022,,
+joint_pretrend.csv,tv_harmonized_linear,,180530,,0.6158420747488329,180530,,0.6588099549875113,0.969529440957126,0.8346403400084931
+joint_pretrend.csv,announced_tv_primary,,180530,,0.6161491776409891,180530,,0.6591368021344046,0.9685323465445766,0.8336483510625734

@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-08",
+  "status": "source-corrected August latest-pre-tip sensitivity, NOT full Level C source-to-paper",
+  "source_archives": {
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+    "nba_player_game_analysis_ready_v1.zip": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155"
+  },
+  "historical_finalizer_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "original_core_decompressed_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+  "original_core_byte_identical_to_archive": true,
+  "corrected_core_decompressed_sha256": "cc530624b1c62c449a764da1c17a5e721226b45037b24933264472e344637d1b",
+  "original_reviewed_full_decompressed_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+  "corrected_reviewed_full_decompressed_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+  "corrected_model_input_decompressed_sha256": "5a5d286b18029c1ba9ea1447f6237c3e7cc671df710d68b2a2bad34d4d65e1f3",
+  "counts": {
+    "frozen": {
+      "core_rows": 248730,
+      "report_only_rows": 159,
+      "risk_rows": 180829,
+      "onsets": 12710,
+      "observed_spells": 13723
+    },
+    "corrected": {
+      "core_rows": 248728,
+      "report_only_rows": 157,
+      "risk_rows": 180831,
+      "onsets": 12707,
+      "observed_spells": 13718
+    },
+    "removed_report_only_players": [
+      "Devon Dotson",
+      "Javonte Smart"
+    ],
+    "changed_core_columns": {
+      "absence_now": 2,
+      "absence_onset": 3,
+      "at_risk_for_new_onset": 12,
+      "designation_status": 32,
+      "team_game_number": 100
+    },
+    "reviewed_taxonomy_changed_class_cells": 18,
+    "reviewed_taxonomy_changed_onset_type_cells": 18,
+    "all_original_taxonomy_reviewed_baseline_reproduces": true,
+    "unknown_corrected_official_report_reasons": 0,
+    "different_historical_reviewed_classes_per_reason": 0,
+    "historical_reason_lookup_count": 2182
+  },
+  "sensitivity_corrections": {
+    "2021-22|20220202T0030Z|Chicago Bulls@Toronto Raptors": {
+      "real_tip_utc": "2022-02-04T00:30:00Z",
+      "source_match": 784
+    },
+    "2021-22|20220204T0030Z|Miami Heat@Toronto Raptors": {
+      "real_tip_utc": "2022-02-02T00:30:00Z",
+      "source_match": 430
+    }
+  },
+  "relevant_source_other_games": [
+    {
+      "source_match": 46,
+      "date": "2021-10-25",
+      "matchup": "Chicago Bulls@Toronto Raptors"
+    },
+    {
+      "source_match": 1172,
+      "date": "2022-04-03",
+      "matchup": "Miami Heat@Toronto Raptors"
+    }
+  ],
+  "inherited_not_independently_rebuilt": [
+    "star/award flags",
+    "NBA Cup flags",
+    "existing game_id strings carrying former incorrect dates"
+  ],
+  "frozen_datasets_or_manuscript_overwritten": false,
+  "outstanding": [
+    "independently run newly committed production CLI end-to-end from private archives",
+    "rebuild award and Cup source flags instead of inheriting",
+    "regenerate physical-game IDs and independently test TV chronology",
+    "rerun remaining August models, taxonomy sensitivity and manuscript figures",
+    "full six-season injury PDF Level C"
+  ]
+}

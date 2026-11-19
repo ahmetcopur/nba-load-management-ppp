@@ -1,0 +1,77 @@
+{
+  "scope": "full 7,230-game cache",
+  "matched": true,
+  "cache": {
+    "json_files": 7230,
+    "v1_files": 7185,
+    "discovery_files": 45,
+    "distinct_payload_game_ids": 7230,
+    "name_payload_mismatches": 0,
+    "season_payload_mismatches": 0,
+    "v1_files_missing_from_log": 0,
+    "v1_size_differs_from_log": 0,
+    "logged_endpoints": {
+      "nba_mediaops_s3": 7180,
+      "cache": 5
+    }
+  },
+  "original_repair_script_sha256": "d825588e760482d7720f572cc2b66da48f7e3ce25c2866ecfbee709983cbcf39",
+  "reference_zip_sha256": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+  "fixtures_sha256": "b54e4cbdc0701a80edbb5e35ea81b5e00c94a91ee3167204cdb6a0026c50806f",
+  "rebuilt_qa_summary": {
+    "requested_fixture_games": 7230,
+    "valid_unique_official_boxscores_available": 7230,
+    "matched_fixture_games": 7230,
+    "unmatched_fixture_games": 0,
+    "unused_official_boxscores": 0,
+    "player_rows": 248571,
+    "unique_player_ids": 1124,
+    "team_game_rows": 14460,
+    "missing_player_id_rows": 0,
+    "duplicate_player_team_game_rows": 0,
+    "maximum_absolute_tip_difference_minutes": 2.880000000000109,
+    "mapping_method_counts": {
+      "exact_ordered_teams_nearest_tip": 7230
+    },
+    "complete": true,
+    "repair_principle": "Official game IDs come from each JSON payload and are mapped to realized fixtures by ordered teams and tip time; source_match_number is retained only as a source field."
+  },
+  "vs_archived_v2_output": {
+    "game_roster_players.csv": {
+      "reference_rows": 248571,
+      "rebuilt_rows": 248571,
+      "only_reference": 0,
+      "only_rebuilt": 0,
+      "differing_cells": {}
+    },
+    "canonical_game_id_crosswalk.csv": {
+      "reference_rows": 7230,
+      "rebuilt_rows": 7230,
+      "only_reference": 0,
+      "only_rebuilt": 0,
+      "differing_cells": {}
+    },
+    "game_boxscore_manifest.csv": {
+      "reference_rows": 7230,
+      "rebuilt_rows": 7230,
+      "only_reference": 0,
+      "only_rebuilt": 0,
+      "differing_cells": {}
+    },
+    "team_game_roster_counts.csv": {
+      "reference_rows": 14460,
+      "rebuilt_rows": 14460,
+      "only_reference": 0,
+      "only_rebuilt": 0,
+      "differing_cells": {}
+    }
+  },
+  "vs_base_panel_boxscore_rows": {
+    "rebuilt_rows": 248571,
+    "base_boxscore_rows": 248571,
+    "only_rebuilt": 0,
+    "only_base": 0,
+    "differing_fields": {}
+  },
+  "verification_note": "New SHA-256 manifest records present bytes. It cannot certify the original download hashes, which were not preserved."
+}

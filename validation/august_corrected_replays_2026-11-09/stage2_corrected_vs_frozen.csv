@@ -1,0 +1,365 @@
+file,row,column,frozen,corrected,delta,identified_combination
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,se_pp,1.3134166212121707,1.3136381776582775,0.00022155644610677427,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,low_pp,-0.7996399603637409,-0.7543290856072141,0.04531087475652673,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,high_pp,4.348953194787969,4.395132570813234,0.04617937602526556,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,p,0.1766391580366461,0.165816828268291,-0.010822329768355093,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,fe,player+teamseason,player+teamseason,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,clusters,player+game,player+game,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | all_six,iterations,101.0,101.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,n,123603.0,123603.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,estimate_pp,2.4141982337016192,2.4142017931045348,3.559402915520593e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,se_pp,1.7279464879269926,1.727945766207437,-7.217195556741274e-07,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,low_pp,-0.9725768826352864,-0.9725719086620412,4.973973245170349e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,high_pp,5.800973350038525,5.800975494871111,2.144832586203904e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,p,0.1623688518723971,0.1623680571142921,-7.947581049938535e-07,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,fe,player+teamseason,player+teamseason,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,clusters,player+game,player+game,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,harmonized_linear | exclude_2020_21_and_2021_22,iterations,141.0,141.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,se_pp,1.3156427255517913,1.316152296073834,0.0005095705220428126,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,low_pp,0.5705965135968077,0.6158523064481062,0.04525579285129844,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,high_pp,5.727915997759829,5.775169307057536,0.04725330929770699,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,p,0.0166793068180633,0.0151857458538261,-0.0014935609642371984,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,fe,player+teamseason,player+teamseason,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,clusters,player+game,player+game,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | all_six,iterations,101.0,101.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,n,123603.0,123603.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,estimate_pp,3.8394368701075487,3.8394404252421994,3.5551346506679238e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,se_pp,1.657299794709337,1.6572991255060798,-6.692032572530593e-07,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,low_pp,0.5911292724772477,0.5911341392502822,4.8667730345730575e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,high_pp,7.08774446773785,7.087746711234115,2.2434962652084778e-06,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,p,0.0205210520250871,0.0205208840904723,-1.6793461480105187e-07,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,fe,player+teamseason,player+teamseason,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,clusters,player+game,player+game,,False
+mnt_data/nba_continue/identification_stage2_results/standard_and_covid_sensitivity.csv,legacy_primary | exclude_2020_21_and_2021_22,iterations,141.0,141.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,n_clusters,940.0,940.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,se_pp,1.213781989352811,1.2132405133782598,-0.000541475974551231,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,low_pp,-0.6073827312919999,-0.5605749627831759,0.046807768508824066,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,high_pp,4.156695965716228,4.201378447989196,0.044682482272968116,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,p,0.1440515580611946,0.1338350898077919,-0.010216468253402694,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | date,reference_df,939.0,939.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,n_clusters,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,se_pp,1.1821090583670018,1.1813866448036412,-0.0007224135633605577,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,low_pp,-0.5422771371872095,-0.4951160812121266,0.04716105597508291,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,high_pp,4.091590371611438,4.1359195664181465,0.04432919480670883,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,p,0.1332875452167069,0.1233404950188452,-0.009947050197861712,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | game,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,n_clusters,1114.0,1114.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,se_pp,1.288400281643055,1.2880934112072135,-0.00030687043584154416,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,low_pp,-0.7506079348082746,-0.7042613433631286,0.04634659144514597,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,high_pp,4.299921169232503,4.345064828569148,0.045143659336645214,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,p,0.1683852386226149,0.1575813788034356,-0.010803859819179307,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,n_clusters,1114+7113,1114+7113,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,se_pp,1.3134166212121707,1.3136381776582775,0.00022155644610677427,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,low_pp,-0.7996399603637409,-0.7543290856072141,0.04531087475652673,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,high_pp,4.348953194787969,4.395132570813234,0.04617937602526556,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,p,0.1766391580366461,0.165816828268291,-0.010822329768355093,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | player+game,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,n_clusters,30.0,30.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,se_pp,1.2918946148661827,1.2897259514690675,-0.002168663397115189,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,low_pp,-0.8675645436238153,-0.8173840035693307,0.05018054005448458,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,high_pp,4.416877778048043,4.458187488775351,0.04130971072730816,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,p,0.1800659797594156,0.1687474636248908,-0.011318516134524809,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team,reference_df,29.0,29.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,n_clusters,30+940,30+940,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,estimate_pp,1.774656617212114,1.82040174260301,0.04574512539089581,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,se_pp,1.3027845564213112,1.3011125978089335,-0.0016719586123776775,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,low_pp,-0.8898369748934567,-0.8406723101881067,0.04916466470534997,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,high_pp,4.439150209317684,4.481475795394127,0.04232558607644332,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,p,0.1836214056176084,0.1723848180022631,-0.011236587615345295,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,harmonized_linear | team+date,reference_df,29.0,29.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,n_clusters,940.0,940.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,se_pp,1.2263318826680172,1.225683732866783,-0.0006481498012342879,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,low_pp,0.7425878222490863,0.7901143631403827,0.04752654089129649,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,high_pp,5.555924689107551,5.600907250365259,0.04498256125770794,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,p,0.0103815262116176,0.0092754004397708,-0.0011061257718468012,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | date,reference_df,939.0,939.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,n_clusters,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,se_pp,1.1889601436221675,1.188232007389873,-0.0007281362322946183,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,low_pp,0.8188943741788693,0.8665760722686701,0.04768169808980072,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,high_pp,5.479618137177768,5.524445541236972,0.0448274040592036,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,p,0.0080790457615495,0.0071602314947926,-0.0009188142667569009,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | game,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,n_clusters,1114.0,1114.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,se_pp,1.2758360096832022,1.2758203541214912,-1.5655561711014343e-05,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,low_pp,0.6486176766992421,0.694902912674698,0.04628523597545586,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,high_pp,5.6498948346573945,5.696118700830944,0.04622386617354923,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,p,0.0135723723774712,0.0122565189066252,-0.0013158534708459999,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,n_clusters,1114+7113,1114+7113,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,se_pp,1.3156427255517913,1.316152296073834,0.0005095705220428126,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,low_pp,0.5705965135968077,0.6158523064481062,0.04525579285129844,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,high_pp,5.727915997759829,5.775169307057536,0.04725330929770699,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,p,0.0166793068180633,0.0151857458538261,-0.0014935609642371984,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | player+game,reference_df,,,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,n_clusters,30.0,30.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,se_pp,1.390074201210031,1.3886443893528813,-0.001429811857149632,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,low_pp,0.306235294599624,0.3554141392670413,0.04917884466741729,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,high_pp,5.992277216757012,6.0356074742386,0.04333025748158814,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,p,0.0311237680866895,0.028762174731396,-0.002361593355293498,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team,reference_df,29.0,29.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,n_clusters,30+940,30+940,,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,estimate_pp,3.1492562556783184,3.1955108067528206,0.04625455107450227,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,se_pp,1.4153696954392083,1.414324924625345,-0.0010447708138632272,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,low_pp,0.2545001999897128,0.3028915473019637,0.04839134731225092,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,high_pp,6.044012311366924,6.088130066203678,0.04411775483675395,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,p,0.0340178702155876,0.0315479560938514,-0.002469914121736201,False
+mnt_data/nba_continue/identification_stage2_results/clustering_sensitivity.csv,legacy_primary | team+date,reference_df,29.0,29.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,estimate_pp,2.1505047533629376,2.196491916404925,0.045987163041987245,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,se_pp,1.3206352089782327,1.3196870688049165,-0.0009481401733162365,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,low_pp,-0.4379402562343985,-0.3900947384527106,0.047845517781687885,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,high_pp,4.7389497629602735,4.783078571262561,0.044128808302287936,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,p,0.1034429250198724,0.0960317998952132,-0.007411125124659204,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,fe_columns,2407.0,2407.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,harmonized_linear,ridge,1e-10,1e-10,0.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,estimate_pp,3.2581970855026725,3.304513418039113,0.04631633253644063,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,se_pp,1.320194183697907,1.3197499156234258,-0.0004442680744811689,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,low_pp,0.6706164854547749,0.7178035834171984,0.047187097962423485,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,high_pp,5.84577768555057,5.891223252661028,0.04544556711045811,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,p,0.0135882441501654,0.0122834954559952,-0.0013047486941702002,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,fe_columns,2407.0,2407.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/player_linear_trends_sparse_exact.csv,legacy_primary,ridge,1e-10,1e-10,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,B,99.0,99.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,seed,20260811.0,20260811.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,games,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,strata,41.0,41.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,observed_pp,1.7803615230939234,1.8199366734800075,0.03957515038608417,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,perm_mean_pp,0.1236058271000366,0.1238242056205583,0.00021837852052170037,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,perm_sd_pp,1.7303293910015975,1.7147496019180888,-0.015579789083508766,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,perm_q025_pp,-3.7574389908677945,-3.736424203050796,0.021014787816998393,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,perm_q975_pp,3.225442511713924,3.1826762452781856,-0.04276626643573822,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,p_two_sided,0.26,0.26,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,p_upper,0.13,0.14,0.010000000000000009,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,permutation_unit,game,game,,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,stratification,season x calendar month,season x calendar month,,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,harmonized_linear,interpretation,"randomization-style placebo; national-TV assignment is observational, so not an exact Fisher test","randomization-style placebo; national-TV assignment is observational, so not an exact Fisher test",,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,B,99.0,99.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,seed,20260811.0,20260811.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,n,180695.0,180697.0,2.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,games,7113.0,7113.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,strata,41.0,41.0,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,observed_pp,3.1537981674231284,3.195065283429148,0.041267116006019844,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,perm_mean_pp,0.2663838166869948,0.2673980936787964,0.0010142769918016215,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,perm_sd_pp,1.671644148622582,1.6562928887576898,-0.015351259864892164,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,perm_q025_pp,-3.371158045947704,-3.3462899678412623,0.02486807810644187,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,perm_q975_pp,3.488805019696592,3.5301074910120933,0.041302471315501244,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,p_two_sided,0.09,0.09,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,p_upper,0.06,0.06,0.0,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,permutation_unit,game,game,,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,stratification,season x calendar month,season x calendar month,,False
+mnt_data/nba_continue/identification_stage2_results/stratified_tv_permutation_placebo.csv,legacy_primary,interpretation,"randomization-style placebo; national-TV assignment is observational, so not an exact Fisher test","randomization-style placebo; national-TV assignment is observational, so not an exact Fisher test",,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,0,permuted_estimate_pp,-3.741230749985923,-3.6849098435262015,0.05632090645972143,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,1,permuted_estimate_pp,2.0211800695424014,2.039189595796609,0.018009526254207486,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,2,permuted_estimate_pp,-0.6302294618417162,-0.7588493475992601,-0.1286198857575439,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,3,permuted_estimate_pp,2.467041742795389,2.5312007419439477,0.06415899914855894,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,4,permuted_estimate_pp,-0.5836135554560035,-0.4558183195886072,0.12779523586739627,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,5,permuted_estimate_pp,1.3927579452297605,1.4050679773839565,0.012310032154196016,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,6,permuted_estimate_pp,0.6760393390020699,0.5974172628415905,-0.07862207616047945,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,7,permuted_estimate_pp,0.474389292732335,0.3701228642722373,-0.1042664284600977,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,8,permuted_estimate_pp,-0.3439860652057217,-0.3636082762864624,-0.019622211080740692,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,9,permuted_estimate_pp,1.2656271724700292,1.3121667487415043,0.04653957627147509,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,10,permuted_estimate_pp,2.194074310547148,2.159752437743834,-0.03432187280331389,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,11,permuted_estimate_pp,0.0268500324950978,0.0658013827234881,0.038951350228390295,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,12,permuted_estimate_pp,1.0427326916853443,1.060387274912419,0.017654583227074694,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,13,permuted_estimate_pp,-0.3538691632777662,-0.3215264739104414,0.03234268936732476,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,14,permuted_estimate_pp,-1.5287633069064257,-1.4693316170531636,0.05943168985326208,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,15,permuted_estimate_pp,-0.3043216384096518,-0.3185641453130833,-0.014242506903431484,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,16,permuted_estimate_pp,-1.2966349947241598,-1.284040856566148,0.012594138158011692,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,17,permuted_estimate_pp,-0.6380842108022095,-0.599635895017483,0.038448315784726406,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,18,permuted_estimate_pp,-0.2457220261085216,-0.2727291859726923,-0.02700715986417071,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,19,permuted_estimate_pp,0.8465120722451569,0.789750207890574,-0.05676186435458286,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,20,permuted_estimate_pp,1.5037197755962068,1.547157329670926,0.043437554074719165,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,21,permuted_estimate_pp,-0.8974233998809105,-0.8801743233730998,0.017249076507810712,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,22,permuted_estimate_pp,-1.8800267374382584,-1.8296345651589745,0.05039217227928394,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,23,permuted_estimate_pp,3.504509876345495,3.4722587366309856,-0.032251139714509325,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,24,permuted_estimate_pp,1.019309146994757,0.8853614063592212,-0.13394774063553583,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,25,permuted_estimate_pp,3.780066696275124,3.614538998256996,-0.16552769801812772,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,26,permuted_estimate_pp,0.0702324154995199,-0.0191962392419825,-0.08942865474150241,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,27,permuted_estimate_pp,1.0053473024546498,0.9468921682748308,-0.05845513417981896,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,28,permuted_estimate_pp,3.868575627813097,3.75975976444769,-0.10881586336540705,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,29,permuted_estimate_pp,-1.5375368156376552,-1.4455497660940182,0.09198704954363701,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,30,permuted_estimate_pp,-1.7323866136110568,-1.749247775893204,-0.01686116228214707,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,31,permuted_estimate_pp,1.3690065962653528,1.365114529283387,-0.0038920669819657583,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,32,permuted_estimate_pp,0.4830052257827681,0.5336009028655931,0.05059567708282503,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,33,permuted_estimate_pp,1.509154850211836,1.4799914596514585,-0.029163390560377422,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,34,permuted_estimate_pp,1.8735612496331848,1.8779364279480264,0.004375178314841577,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,35,permuted_estimate_pp,0.6789158371147905,0.5807763624278786,-0.09813947468691198,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,36,permuted_estimate_pp,1.8195747203506627,1.804702365109372,-0.014872355241290602,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,37,permuted_estimate_pp,0.2707386214772699,0.342224342310895,0.07148572083362509,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,38,permuted_estimate_pp,1.2049952477753776,1.1937987161054788,-0.011196531669898757,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,39,permuted_estimate_pp,0.0280136781197312,0.0276307625097422,-0.0003829156099890013,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,40,permuted_estimate_pp,-2.204683405914914,-2.166854153251159,0.0378292526637547,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,41,permuted_estimate_pp,-2.10859269136126,-2.168080697014655,-0.05948800565339507,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,42,permuted_estimate_pp,2.4744181188191074,2.537296584338045,0.06287846551893761,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,43,permuted_estimate_pp,0.4731689268578661,0.347584474062947,-0.1255844527949191,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,44,permuted_estimate_pp,0.1387665389490377,0.1735488590682912,0.0347823201192535,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,45,permuted_estimate_pp,0.281351149670905,0.3282940640874888,0.04694291441658377,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,46,permuted_estimate_pp,-3.630174044911881,-3.487912886127996,0.14226115878388512,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,47,permuted_estimate_pp,-2.550409813242634,-2.477199331639793,0.07321048160284072,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,48,permuted_estimate_pp,1.840336106546232,1.7605483808607163,-0.07978772568551573,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,49,permuted_estimate_pp,-2.8749958673258718,-2.8496703723299075,0.02532549499596426,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,50,permuted_estimate_pp,0.9170705130043242,0.925668777615982,0.008598264611657802,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,51,permuted_estimate_pp,-1.3003438771550917,-1.3234181882418126,-0.023074311086720867,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,52,permuted_estimate_pp,1.098086341408238,0.9513298318026024,-0.14675650960563558,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,53,permuted_estimate_pp,0.4210064884482422,0.3321525456443039,-0.08885394280393827,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,54,permuted_estimate_pp,1.5692735586634838,1.594943225823802,0.025669667160318266,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,55,permuted_estimate_pp,-2.016965939170945,-1.8996835986260263,0.1172823405449186,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,56,permuted_estimate_pp,2.195584274585054,2.236627810805803,0.041043536220748855,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,57,permuted_estimate_pp,1.692359436474347,1.72331786815057,0.03095843167622303,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,58,permuted_estimate_pp,-3.0545829361025985,-3.173195289935254,-0.11861235383265534,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,59,permuted_estimate_pp,1.568083224798592,1.4387964367192565,-0.12928678807933558,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,60,permuted_estimate_pp,-4.731613404046088,-4.766403840079839,-0.03479043603375054,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,61,permuted_estimate_pp,0.9813381320741984,1.1461830043139611,0.16484487223976274,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,62,permuted_estimate_pp,-2.1422291595345766,-2.0970040264955325,0.045225133039044074,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,63,permuted_estimate_pp,-1.5599132593880625,-1.5357285875409687,0.02418467184709372,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,64,permuted_estimate_pp,0.1316266201772352,0.1900426129190661,0.0584159927418309,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,65,permuted_estimate_pp,-0.0764347066434409,-0.1519403742373792,-0.07550566759393829,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,66,permuted_estimate_pp,0.0200445693097735,0.0350373136125249,0.0149927443027514,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,67,permuted_estimate_pp,-0.9717476926880756,-1.0692987130993947,-0.09755102041131913,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,68,permuted_estimate_pp,0.8678762550726096,0.9207241984038412,0.05284794333123166,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,69,permuted_estimate_pp,0.8607056277526284,0.8325791848421533,-0.028126442910475058,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,70,permuted_estimate_pp,1.2665258041408511,1.4150566960507027,0.14853089190985158,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,71,permuted_estimate_pp,-1.5393842691174204,-1.536804199367121,0.002580069750299341,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,72,permuted_estimate_pp,1.281225045687305,1.2997342530986973,0.01850920741139217,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,73,permuted_estimate_pp,-0.4329926965107758,-0.3392816070518759,0.09371108945889994,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,74,permuted_estimate_pp,1.104352862862254,1.0744968614214452,-0.02985600144080891,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,75,permuted_estimate_pp,1.689297664475679,1.6538181760261148,-0.03547948844956417,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,76,permuted_estimate_pp,1.177795674320406,1.0919815385165643,-0.08581413580384178,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,77,permuted_estimate_pp,-0.6164675550125361,-0.621447418051422,-0.004979863038885868,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,78,permuted_estimate_pp,-0.133860212195672,-0.1306423752571016,0.0032178369385704175,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,79,permuted_estimate_pp,-0.8838123036042315,-0.7831814672350168,0.10063083636921466,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,80,permuted_estimate_pp,0.7361366954216542,0.6567717025199762,-0.07936499290167798,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,81,permuted_estimate_pp,-0.6465374897274064,-0.5463623384326579,0.10017515129474852,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,82,permuted_estimate_pp,3.469610194903489,3.577438290051181,0.10782809514769198,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,83,permuted_estimate_pp,-0.1397599351386604,-0.2204968272780606,-0.08073689213940022,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,84,permuted_estimate_pp,-0.1611278149793967,-0.1432757755110044,0.01785203946839231,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,85,permuted_estimate_pp,0.910563134325754,0.9359036967290928,0.025340562403338818,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,86,permuted_estimate_pp,3.219897135382378,3.23199260498362,0.01209546960124186,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,87,permuted_estimate_pp,1.3572797945651196,1.3391135491496489,-0.01816624541547074,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,88,permuted_estimate_pp,1.4250942943324951,1.4287814457183177,0.00368715138582254,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,89,permuted_estimate_pp,0.1818627615855323,0.2361808793699766,0.054318117784444286,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,90,permuted_estimate_pp,1.7423640405062804,1.828746413890576,0.08638237338429566,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,91,permuted_estimate_pp,0.8093178115988235,0.5704047334822978,-0.23891307811652573,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,92,permuted_estimate_pp,1.9447529227344331,1.9245205149231628,-0.020232407811270336,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,93,permuted_estimate_pp,-0.0017227876925427,0.1149598833328438,0.1166826710253865,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,94,permuted_estimate_pp,-0.561793747267698,-0.5450356005013041,0.016758146766393978,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,95,permuted_estimate_pp,0.8806894415704697,0.8941750081359784,0.0134855665655087,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,96,permuted_estimate_pp,-1.4223703448737035,-1.3557760681668318,0.06659427670687168,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,97,permuted_estimate_pp,-1.9042024323756184,-1.7721937701067143,0.13200866226890406,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_legacy_primary.csv,98,permuted_estimate_pp,2.6287522798002185,2.574763223800317,-0.05398905599990167,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,0,permuted_estimate_pp,-4.1347165214719,-4.0800576466023895,0.05465887486951093,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,1,permuted_estimate_pp,1.5319571963821552,1.5500121515181051,0.0180549551359499,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,2,permuted_estimate_pp,-0.2622170960947107,-0.3925388951341482,-0.13032179903943747,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,3,permuted_estimate_pp,2.453831632518737,2.5184788283606983,0.06464719584196121,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,4,permuted_estimate_pp,-1.004049028918238,-0.8774523015309744,0.12659672738726357,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,5,permuted_estimate_pp,1.1641125345337475,1.1758919903207323,0.011779455786984805,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,6,permuted_estimate_pp,0.961308539535288,0.8824706194677986,-0.07883792006748946,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,7,permuted_estimate_pp,0.5598753171226916,0.4563277579123952,-0.10354755921029635,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,8,permuted_estimate_pp,-0.3251961120804829,-0.3484502587841229,-0.02325414670364001,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,9,permuted_estimate_pp,0.7583103118935979,0.8052582115995034,0.046947899705905516,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,10,permuted_estimate_pp,2.498188484777769,2.462677651276474,-0.035510833501295025,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,11,permuted_estimate_pp,0.2798879737736989,0.3186159205823096,0.03872794680861069,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,12,permuted_estimate_pp,0.4430440682718872,0.458085715612159,0.015041647340271802,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,13,permuted_estimate_pp,-0.8736426962807872,-0.842262027467549,0.0313806688132382,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,14,permuted_estimate_pp,-1.3999911260240836,-1.342320678070389,0.05767044795369469,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,15,permuted_estimate_pp,-0.5267500081475252,-0.5408870026929966,-0.01413699454547146,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,16,permuted_estimate_pp,-1.2179849443286688,-1.206923959769881,0.011060984558787679,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,17,permuted_estimate_pp,-1.116154222238429,-1.0784351856319938,0.037719036606435274,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,18,permuted_estimate_pp,-0.6846558946724443,-0.7115202782033836,-0.02686438353093934,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,19,permuted_estimate_pp,1.421983350241152,1.3657183475635033,-0.05626500267764878,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,20,permuted_estimate_pp,0.9169916427876998,0.9622581111299616,0.04526646834226178,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,21,permuted_estimate_pp,-1.0321850902367218,-1.015656483585246,0.01652860665147582,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,22,permuted_estimate_pp,-1.9281581910898435,-1.8777538424576845,0.050404348632159035,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,23,permuted_estimate_pp,2.489942116097387,2.456459233526086,-0.03348288257130072,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,24,permuted_estimate_pp,0.7395146542300016,0.6039364371245163,-0.13557821710548534,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,25,permuted_estimate_pp,4.400910862542242,4.2339521292132805,-0.16695873332896127,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,26,permuted_estimate_pp,-0.2205400645291761,-0.3094718205101346,-0.08893175598095851,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,27,permuted_estimate_pp,0.9223448752795962,0.861826408749195,-0.06051846653040116,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,28,permuted_estimate_pp,3.04428907305415,2.9351673969097374,-0.10912167614441248,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,29,permuted_estimate_pp,-1.5261081769667926,-1.4361208393869944,0.08998733757979815,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,30,permuted_estimate_pp,-2.5114762512211395,-2.528664586727127,-0.017188335505987418,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,31,permuted_estimate_pp,1.4582707944777222,1.4525465462586713,-0.005724248219050931,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,32,permuted_estimate_pp,0.1189813650963526,0.1675998206999159,0.048618455603563315,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,33,permuted_estimate_pp,2.051516737175183,2.021929583366703,-0.029587153808479982,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,34,permuted_estimate_pp,1.3251621851788509,1.3292627045093943,0.004100519330543451,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,35,permuted_estimate_pp,0.9788635340945344,0.8793401716774717,-0.09952336241706272,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,36,permuted_estimate_pp,0.8371221336735171,0.822792687110303,-0.01432944656321411,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,37,permuted_estimate_pp,-0.2712356388263018,-0.1999006533327456,0.07133498549355621,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,38,permuted_estimate_pp,0.7259153724745866,0.7147857641787285,-0.011129608295858073,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,39,permuted_estimate_pp,-0.0969467736695003,-0.0969640326033162,-1.725893381589183e-05,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,40,permuted_estimate_pp,-2.1898924426380697,-2.1529191967539334,0.03697324588413631,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,41,permuted_estimate_pp,-2.7468426771429755,-2.807644993219708,-0.06080231607673259,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,42,permuted_estimate_pp,1.5655498044969338,1.6259166849937927,0.0603668804968589,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,43,permuted_estimate_pp,-0.0371784293508993,-0.1647841002370559,-0.1276056708861566,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,44,permuted_estimate_pp,-0.0080112792514795,0.0260776411675674,0.0340889204190469,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,45,permuted_estimate_pp,-0.8736757836432348,-0.8300047553366859,0.0436710283065489,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,46,permuted_estimate_pp,-3.867179680551883,-3.727009930029486,0.14016975052239689,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,47,permuted_estimate_pp,-2.51328849294876,-2.4422583074582254,0.07103018549053441,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,48,permuted_estimate_pp,1.3983301235805323,1.318326619490073,-0.08000350409045942,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,49,permuted_estimate_pp,-2.715354025853276,-2.6907465827853123,0.024607443067963697,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,50,permuted_estimate_pp,0.967828046160054,0.9751800804692629,0.0073520343092088325,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,51,permuted_estimate_pp,-1.120059745131148,-1.1450210363130429,-0.02496129118189483,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,52,permuted_estimate_pp,1.195552102911796,1.0454438099969754,-0.15010829291482053,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,53,permuted_estimate_pp,0.3603056254221,0.2692980283985131,-0.0910075970235869,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,54,permuted_estimate_pp,1.7334883154041631,1.7595216567717855,0.026033341367622365,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,55,permuted_estimate_pp,-2.383515904512605,-2.2666918535343274,0.11682405097827742,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,56,permuted_estimate_pp,1.8156035593553776,1.8585207164516373,0.04291715709625965,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,57,permuted_estimate_pp,2.128720765717911,2.159046277372097,0.030325511654186066,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,58,permuted_estimate_pp,-3.623311481253909,-3.7441267900682313,-0.12081530881432245,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,59,permuted_estimate_pp,1.1619481562144829,1.0309156529104744,-0.1310325033040085,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,60,permuted_estimate_pp,-5.103761298524075,-5.137948778193423,-0.03418747966934799,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,61,permuted_estimate_pp,0.908985964370191,1.0711924372642587,0.16220647289406775,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,62,permuted_estimate_pp,-2.9577857796007043,-2.912066748610643,0.04571903099006125,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,63,permuted_estimate_pp,-1.6277791023840134,-1.605380345411117,0.022398756972896283,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,64,permuted_estimate_pp,1.1819112736726545,1.24062070851533,0.058709434842675545,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,65,permuted_estimate_pp,-0.1176841670077326,-0.1942154469585157,-0.0765312799507831,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,66,permuted_estimate_pp,-0.2408500722976721,-0.2271061355761391,0.013743936721533012,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,67,permuted_estimate_pp,-0.4954246185872732,-0.5947863955020513,-0.09936177691477804,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,68,permuted_estimate_pp,1.1728836906603706,1.2268215812121284,0.053937890551757794,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,69,permuted_estimate_pp,0.7065400862339388,0.6783498338315281,-0.028190252402410687,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,70,permuted_estimate_pp,1.4818317528085,1.6312419692359286,0.14941021642742847,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,71,permuted_estimate_pp,-1.5498910064530205,-1.5475671313957806,0.0023238750572398548,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,72,permuted_estimate_pp,1.3035166326091032,1.319950691690922,0.01643405908181883,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,73,permuted_estimate_pp,-0.7125798205922517,-0.6190384940502055,0.09354132654204617,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,74,permuted_estimate_pp,1.2124890190633415,1.1791623471393424,-0.033326671923999074,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,75,permuted_estimate_pp,1.0711403741563057,1.035059062346265,-0.036081311810040706,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,76,permuted_estimate_pp,1.1410986751687522,1.0548419291903393,-0.08625674597841293,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,77,permuted_estimate_pp,-0.8999206073893355,-0.9046271232005384,-0.004706515811202849,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,78,permuted_estimate_pp,-0.448248989342309,-0.4433271470732335,0.004921842269075494,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,79,permuted_estimate_pp,-0.6728639850520657,-0.574110290443378,0.09875369460868766,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,80,permuted_estimate_pp,0.1284793620328952,0.0505345978511263,-0.0779447641817689,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,81,permuted_estimate_pp,-0.3469800489640346,-0.2461326290961951,0.10084741986783952,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,82,permuted_estimate_pp,4.207692645072336,4.31334132713792,0.10564868206558398,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,83,permuted_estimate_pp,0.82934507808019,0.7481012812384817,-0.08124379684170824,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,84,permuted_estimate_pp,-0.476320182784512,-0.4607569201661777,0.015563262618334295,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,85,permuted_estimate_pp,0.7994639340769268,0.8243386987215675,0.024874764644640668,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,86,permuted_estimate_pp,3.3736589615264685,3.385183484852373,0.011524523325904479,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,87,permuted_estimate_pp,1.2679553309880602,1.248785195225704,-0.019170135762356155,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,88,permuted_estimate_pp,1.6098923143074646,1.6130711605166512,0.0031788462091866254,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,89,permuted_estimate_pp,-0.5263013395473878,-0.4749674388049378,0.05133390074244998,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,90,permuted_estimate_pp,1.765876782962534,1.8521439087720648,0.08626712580953089,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,91,permuted_estimate_pp,1.0795441361816482,0.8409317425713585,-0.23861239361028974,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,92,permuted_estimate_pp,2.0510419538730416,2.0307110134204773,-0.020330940452564228,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,93,permuted_estimate_pp,-0.1299335606865697,-0.0131559647448178,0.1167775959417519,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,94,permuted_estimate_pp,-1.3417279679224456,-1.324066364195811,0.01766160372663461,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,95,permuted_estimate_pp,0.4542975140027272,0.4663389167522919,0.012041402749564667,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,96,permuted_estimate_pp,-1.2631715948914073,-1.1961547873535272,0.06701680753788009,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,97,permuted_estimate_pp,-1.7872728339787702,-1.6557914794289676,0.1314813545498026,False
+mnt_data/nba_continue/identification_stage2_results/permutation_draws_harmonized_linear.csv,98,permuted_estimate_pp,1.9884949016608429,1.9320207706919328,-0.056474130968910075,False

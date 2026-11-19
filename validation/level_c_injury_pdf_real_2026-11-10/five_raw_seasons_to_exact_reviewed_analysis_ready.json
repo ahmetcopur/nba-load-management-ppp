@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-10",
+  "scope": "Original 2021–25 PDFs -> exact 64,956 selected source rows (plus archived 2020–21) -> original identities/finalizer -> reviewed reason-taxonomy reconstruction -> full and risk analysis-ready CSVs",
+  "historical_reviewed_analysis_zip": "nba_player_game_analysis_ready_v1.zip",
+  "historical_reviewed_source_sha256": "a3d991bdaf41cbdba734abbd43853b495b27fbb96576743259413fcd50eb9155",
+  "fresh_source_PDFs_reparsed": 3020,
+  "fresh_2021_2025_selected_player_report_rows": 64956,
+  "archived_2020_21_selected_source_rows_inherited": 8591,
+  "generated_original_core_full_rows": 248730,
+  "generated_original_at_risk_rows": 180829,
+  "historically_reviewed_reason_mapping_unique_values": 2182,
+  "reason_taxonomy_method": "Recompute original official injury-reason class and onset flags from the newly generated core's original reason/status data using the immutable reviewed reason-to-class dictionary extracted from archived human-reviewed analysis-ready release. Validate every original core field (aside from explicitly documented enriched fields) and require every newly computed taxonomy value to equal the frozen reviewed release.",
+  "generated_outputs": [
+    {
+      "filename": "player_game_panel_analysis_ready.csv.gz",
+      "rows": 248730,
+      "decoded_bytes": 313710704,
+      "decoded_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+      "exact_full_csv_match": true
+    },
+    {
+      "filename": "player_game_panel_model_at_risk_analysis_ready.csv.gz",
+      "rows": 180829,
+      "decoded_bytes": 150056294,
+      "decoded_sha256": "d6e82ba61d99fb27ec4877b1c0b05fed76c5cb8fa4bf5b6322742b7049ae9635",
+      "exact_full_csv_match": true
+    }
+  ],
+  "all_2_analysis_ready_decoded_CSVs_exact": true,
+  "validation": "Original private local reviewed-taxonomy bridge was run against freshly generated five-season source-derived original core player-game data and compared complete decoded gzip outputs; 13 chunks, no field differences.",
+  "boundary": {
+    "reason_to_class_dictionary_preexisting_reviewed_human_labels": true,
+    "unseen_new_official_reason_would_fail_closed": true,
+    "full_player_taxonomy_reason_source_independent_for_five_seasons": true,
+    "original_2020_21_reason_mismatches_remain_unresolved": 93,
+    "manual_reason_label_adjudications_independently_validated": false,
+    "independently_rebuilt_award_Cup_TV_source_releases": false,
+    "final_PPP_manuscript_models_rerun_from_fresh_generated_analysis_panel_in_this_execution": false,
+    "original_frozen_data_modified": false,
+    "private_player_level_rows_committed": false
+  }
+}

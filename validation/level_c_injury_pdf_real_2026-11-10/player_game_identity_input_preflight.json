@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-10",
+  "phase": "preflight for independent source-report-to-player-game identity and crosswalk rebuild",
+  "scope": "Actual archived private package bytes and frozen core selected-report records. This is an input-integrity preflight, NOT independent re-execution of player crosswalk and identity matching.",
+  "source_packages": {
+    "nba_game_covariates_v1.zip": {
+      "bytes": 4394310,
+      "sha256": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224"
+    },
+    "nba_boxscore_roster_frame_v2_output_upload.zip": {
+      "bytes": 9727277,
+      "sha256": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561"
+    },
+    "nba_player_crosswalk_final_v1.zip": {
+      "bytes": 162722,
+      "sha256": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def"
+    },
+    "nba_player_game_at_risk_core_v1.zip": {
+      "bytes": 94527101,
+      "sha256": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6"
+    }
+  },
+  "key_checks": {
+    "game_covariates": {
+      "rows": 7230,
+      "columns": 88,
+      "unique_game_ids": 7230,
+      "duplicate_game_ids": 0,
+      "season_game_counts": {
+        "2020-21": 1080,
+        "2021-22": 1230,
+        "2022-23": 1230,
+        "2023-24": 1230,
+        "2024-25": 1230,
+        "2025-26": 1230
+      }
+    },
+    "official_boxscore_roster": {
+      "rows": 248571,
+      "columns": 27,
+      "unique_player_game_ids": 248571,
+      "duplicate_player_game_ids": 0,
+      "roster_rows_without_game_covariate_match": 0
+    },
+    "reviewed_player_crosswalk": {
+      "rows": 3712,
+      "columns": 23,
+      "duplicate_season_team_player_name_keys": 0,
+      "resolved_nba_player_ids": 3712,
+      "automatically_accepted": 3560,
+      "manually_resolved": 152
+    },
+    "reviewed_alias_table": {
+      "rows": 1108,
+      "columns": 3
+    },
+    "original_frozen_core_selected_player_report_records": {
+      "rows": 73438,
+      "columns": 33,
+      "rows_with_nba_player_id": 73438,
+      "rows_without_nba_player_id": 0,
+      "rows_without_game_covariate_match": 0
+    }
+  },
+  "execution_reconstruction_readiness": {
+    "all_three_required_independent_noncore_source_packages_found": true,
+    "original_core_script_available": "nba_player_game_at_risk_core_v1/build_selected_report_and_identity_stage.py",
+    "original_core_finalizer_available": "nba_player_game_at_risk_core_v1/finalize_player_game_panel.py",
+    "full_independent_reconstruction_of_73438_report_player_id_assignments_complete": false,
+    "critical_next_work": "Regenerate selected cache reports from source PDFs, then replay crosswalk, alias and official boxscore-name fallback logic, compare all source-row-to-NBA-player-ID mappings and report-only roster additions before rerunning finalized player-game panel.",
+    "preflight_can_not_prove_original_player_identity_algorithm_correctness": true,
+    "frozen_dataset_or_private_source_mutated": false
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-10",
+  "type": "Executed actual source-derived private October cadence-harmonized panel reconstruction and original four-model replay",
+  "source_flow": [
+    "Five original 2021–25 NBA PDF seasons -> 64,956 complete selected rows, plus archived 2020–21 source -> source-derived core and reviewed full 248,730-row panel",
+    "Freshly reparse 355 original selected 2025–26 harmonized NBA PDFs (13,762 original raw report rows, 1 nonfatal warning)",
+    "Stage immutable verified 2020–24 historical parser CSVs and original S4 team status, six-season report selectors and reviewed player aliases",
+    "Execute the unchanged original October historical panel/QA section with its ROOT path redirected, excluding its known broken all-in-one model section",
+    "Execute separately archived unchanged original October run_cadence_models_fast.py with ROOT redirected on the freshly rebuilt cadence panel"
+  ],
+  "original_stage6_zip_sha256": "821b50373d0ab6f27237d05f2d1d2b32f669f2ebbcd25e7fe0cdd5cd8292b221",
+  "original_panel_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+  "original_separate_model_script_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
+  "original_2025_harmonized_pdf_reparse": {
+    "actual_selected_original_pdfs": 355,
+    "parsed_report_rows": 13762,
+    "original_harmonized_games": 1230,
+    "nonfatal_parser_warning_pdfs": 1
+  },
+  "original_2020_2024_inputs": "Original verified historical parsed-report reference CSVs; 2020–21 free-text reasons not independently exact",
+  "generated_harmonized_selected_report_rows": 72695,
+  "unmatched_original_report_players": 0,
+  "harmonized_report_only_roster_additions": 207,
+  "generated_full_harmonized_player_game_rows": 248778,
+  "generated_harmonized_at_risk_rows": 180664,
+  "generated_harmonized_absence_onsets": 12731,
+  "full_harmonized_panel_exact": {
+    "decoded_bytes": 122661378,
+    "all_original_and_rebuilt_decoded_CSV_bytes_equal": true,
+    "sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac"
+  },
+  "original_stage6_four_models": [
+    {
+      "definition": "legacy_primary",
+      "controls": "full",
+      "n": 180530,
+      "estimate_pp": 2.63044859015694,
+      "se_pp": 1.3187240875355235,
+      "p": 0.0460764656930456
+    },
+    {
+      "definition": "legacy_primary",
+      "controls": "none",
+      "n": 180664,
+      "estimate_pp": 2.632768780381513,
+      "se_pp": 1.3257085858885675,
+      "p": 0.0470407344780258
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "full",
+      "n": 180530,
+      "estimate_pp": 1.2389703651133448,
+      "se_pp": 1.3186981358830567,
+      "p": 0.3474532856698962
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "none",
+      "n": 180664,
+      "estimate_pp": 1.2511126064975588,
+      "se_pp": 1.3267717277896396,
+      "p": 0.345693676403438
+    }
+  ],
+  "original_model_comparison": {
+    "all_four_models_match": true,
+    "max_coefficient_pp_absolute_difference": 1.1546319456101628e-14,
+    "max_standard_error_pp_absolute_difference": 5.773159728050814e-15,
+    "max_CI_pp_absolute_difference": 1.865174681370263e-14,
+    "max_p_absolute_difference": 5.329070518200751e-15,
+    "model_sample_sizes_exact": true,
+    "fixed_effect_iterations_exact": true
+  },
+  "historical_combined_builder_bug": "Historical original norm(v) string-normalization function shadows scipy.stats.norm, so its model routine calling norm.sf crashes with AttributeError. Historical panel/QA generation completed exactly. A separate immutable archived and independently verified October model script was executed without estimator modifications.",
+  "reproduction_source_code": "scripts/data_rebuild/rebuild_october_cadence_from_generated_core.py",
+  "master_command": "scripts/data_rebuild/reproduce_core_and_stars.py --from-original-2021-2025-pdfs --with-analysis-ready --with-october-cadence",
+  "limitations": {
+    "raw_2020_21_reason_differences_unresolved": 93,
+    "archived_2020_2024_historical_parser_intermediates_inherited_in_this_october_builder_run": true,
+    "original_harmonized_report_choice_metadata_inherited": true,
+    "source_reviewed_crosswalk_awards_Cup_TV_taxonomy_decisions_inherited": true,
+    "only_four_Stage6_models_not_all_October_manuscript_models": true,
+    "new_GitHub_script_not_independently_rerun_from_clean_checkout_with_all_private_zips": true,
+    "original_frozen_data_or_manuscript_modified": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "audit_type": "public_source_inventory_identity_and_index_counts",
+  "as_of_date": "2026-11-09",
+  "source_repository": "OEKundakcioglu/nba-ppp-star-availability",
+  "source_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "pinned_inventory_git_blob_sha1": {
+    "injury_archive_summary.csv": "ca5188baf047e8154003b0daad1cb319af1ff3d4",
+    "injury_report_inventory.csv.gz": "a3273b97035c63f9e34b68bac0dddf863588adc4"
+  },
+  "expected_raw_archives": [
+    {
+      "season": "2020-21",
+      "filename": "audit_2020_21_upload.zip",
+      "sha256": "e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c",
+      "indexed_pdf_count": 617,
+      "private_zip_verified": false
+    },
+    {
+      "season": "2021-22",
+      "filename": "audit_2021_22_upload.zip",
+      "sha256": "1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339",
+      "indexed_pdf_count": 5567,
+      "private_zip_verified": false
+    },
+    {
+      "season": "2022-23",
+      "filename": "audit_2022_23_upload.zip",
+      "sha256": "bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0",
+      "indexed_pdf_count": 5541,
+      "private_zip_verified": false
+    },
+    {
+      "season": "2023-24",
+      "filename": "audit_2023_24_upload.zip",
+      "sha256": "9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba",
+      "indexed_pdf_count": 5441,
+      "private_zip_verified": false
+    }
+  ],
+  "expected_total_indexed_pdfs": 17166,
+  "independent_public_source_inventory_verification": {
+    "github_actions_run": "https://github.com/ahmetcopur/nba-load-management-ppp/actions/runs/42587846467",
+    "job_name": "offline-tooling-tests",
+    "step": "Verify pinned original public injury inventory blob identities and season PDF counts",
+    "step_conclusion": "success"
+  },
+  "boundaries": {
+    "original_raw_zip_bytes_inspected_in_this_continuation": false,
+    "per_pdf_sha256_validated_against_private_zip": false,
+    "source_pdfs_reparsed": false,
+    "reconstructed_panels_compared": false,
+    "public_ci_cannot_access_private_raw_zip_files": true
+  }
+}

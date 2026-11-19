@@ -1,0 +1,521 @@
+{
+  "scope": "Authentic localized SCI-001 reconstruction from the owner-supplied, separately authenticated November14 intermediate bundle. Not a fresh six-season candidate-PDF+JSON reconstruction.",
+  "status": "computational_pass_human_review_pending",
+  "scientific_version": "october_scientific_v2",
+  "executed_commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
+  "frozen_cases_executed_under_commit": "21b6f617f08d4403b3a6f24f19dccdfacdf2a4e9",
+  "frozen_cases_revalidated_and_reused": true,
+  "historical_artifact_verdict": "retained_legacy_intermediates_inherited_not_six_season_raw_reexecution",
+  "source_profile": {
+    "source_scope": "Localized scientific correction from authenticated earlier retained intermediates. Not a new complete candidate-PDF reconstruction.",
+    "source_profile_sha256": "4c0556b15a711011ab48c763aa7c865c6ef5bd39409812179f3c28127ad4ed17",
+    "bundle_sha256": "a4bb8930c90009080f715cf3c5efca4910bae42f961bd34a90917283cce8c746",
+    "verified_original_archives_in_this_execution": {
+      "audit_2020_21_corrected_outputs.zip": "295e854897027949f4e4246016c36cb53aa1cb4c55aa2331b3b3aef8bb6f3ad8",
+      "nba_canonical_snapshot_selector_v1.zip": "fa724ee6cd341b0322c311258f472f0ad7dfeeea4683cf2e406a48fe0d1f94a7",
+      "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+      "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+      "nba_player_game_at_risk_star_v1.zip": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70",
+      "audit_2025_26_upload.zip": "a0cdcb4b9e594a1b1fb63489aa43087f6c13f5b34ab3661b596c2941089c9f70",
+      "audit_2025_26_targeted_upload.zip": "8a9c08e3aa92f5400cc866201051653e13b89cc6a56b5aae7deb2ad9e0f718ea"
+    },
+    "November15_input_comparison": {
+      "identical": 15,
+      "different": {
+        "cadence_work/season_parsed/2020-21/s1_snapshot_rows_corrected.csv": {
+          "retained_sha256": "0c9556a521433686952b9632cb216863d1145b88fdb88f56a841e32b523b1e37",
+          "November15_sha256": "d8f27697d0fc03d6f199855f71b8706409a5e6058cd19414ddc11d450410b028"
+        },
+        "cadence_work/season_parsed/2025-26/s1_snapshot_rows_harmonized_selected.csv": {
+          "retained_sha256": "c055444e6f8fca07ed4bda73af3d88ba1f516d68e9660b43a3532c48c134b710",
+          "November15_sha256": "b6be28221362cd0f1be6e1b9f5869d3b0bdbfad7a3124bd7d9a540bf43ea3175"
+        },
+        "cadence_work/selector/nba_canonical_snapshot_selector_v1/2025-26_team_game_status_harmonized_canonical.csv": {
+          "retained_sha256": "da368b27fa62a8d7be4b1cea20e6df2a6f4f13f7fdd8c5634aae3d48a505b0d4",
+          "November15_sha256": "cc146ba8b9a86ef525f75b25e0b8731e3644b1fb3877a16abb035b294cb28d58"
+        }
+      }
+    },
+    "selected_2025_PDF_hash_audit": {
+      "pdfs": 355,
+      "all_archived_PDF_digests_equal": true,
+      "parse_receipt": {
+        "selected_game_records": 1230,
+        "distinct_snapshot_timestamp_pairs": 355,
+        "successful_pdf_parses": 355,
+        "zero_row_parses": 0,
+        "parse_errors": 0,
+        "parsed_player_rows": 47187,
+        "zero_rows_manual_review_required": false,
+        "zero_rows_explicitly_allowed": false
+      },
+      "fresh_candidate_parse_executed": false
+    }
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "packages": {
+      "pandas": "2.2.3",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "panels": {
+    "frozen__legacy": {
+      "decoded_sha256": "3c161f954a217fe6996934bd86dc027a9b6968a868097052af21ac11a6d07eac",
+      "compressed_sha256": "e79c0e858e6cc13dd1c169ccf44fd9f9f17a366bf1362150b7220893bfb35ee7",
+      "rows": 248778,
+      "risk": 180664,
+      "onsets": 12731,
+      "games": 7230,
+      "players": 1125,
+      "star_risk": 16582,
+      "nonstar_risk": 164082,
+      "star_onsets": 1635,
+      "nonstar_onsets": 11096
+    },
+    "frozen__october_scientific_v2": {
+      "decoded_sha256": "a7ad7f1579a224eb5e2b03eb15c77fb488036af03c41ec1019b2a79204ec891f",
+      "compressed_sha256": "3626d8e7ab6ab5e2a225baa0478667cfa1f375040cc9765822d6c3a5e78aaf8c",
+      "rows": 248778,
+      "risk": 180664,
+      "onsets": 12731,
+      "games": 7230,
+      "players": 1125,
+      "star_risk": 16570,
+      "nonstar_risk": 164094,
+      "star_onsets": 1623,
+      "nonstar_onsets": 11108
+    },
+    "chronology__legacy": {
+      "decoded_sha256": "2409b501cd89f9b7d6a92d5cacad7c602de67aa903e5b05bd2c481618745cd67",
+      "compressed_sha256": "8c8355b2b1e9e5cba16a50adb74490b475dd1cb441702ca5c17d51e74b0a2d13",
+      "rows": 248778,
+      "risk": 180664,
+      "onsets": 12729,
+      "games": 7230,
+      "players": 1125,
+      "star_risk": 16582,
+      "nonstar_risk": 164082,
+      "star_onsets": 1634,
+      "nonstar_onsets": 11095
+    },
+    "chronology__october_scientific_v2": {
+      "decoded_sha256": "9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f",
+      "compressed_sha256": "89a809d607bc368b47464cb637c25688716efe8479e7bc82c1b90a583f245eca",
+      "rows": 248778,
+      "risk": 180664,
+      "onsets": 12729,
+      "games": 7230,
+      "players": 1125,
+      "star_risk": 16570,
+      "nonstar_risk": 164094,
+      "star_onsets": 1622,
+      "nonstar_onsets": 11107
+    }
+  },
+  "complete_keyed_panel_comparison": {
+    "rows": 248778,
+    "unique_keys": 248778,
+    "same_schema": true,
+    "changed_rows": 49,
+    "changed_cells": 49,
+    "changed_columns": {
+      "star_PPP_it": 49
+    },
+    "affected_seasons": {
+      "2020-21": 13,
+      "2024-25": 9,
+      "2022-23": 8,
+      "2023-24": 8,
+      "2025-26": 6,
+      "2021-22": 5
+    },
+    "comparison": "exact decoded CSV cells by stable key; output hashes separately retain row order"
+  },
+  "all_row_star_semantics": {
+    "status": "pass",
+    "rows": 248778,
+    "mismatched_rows": 0,
+    "mismatched_report_only_rows": 0,
+    "mismatched_at_risk_rows": 0,
+    "mismatched_onsets": 0,
+    "by_season": [
+      {
+        "season": "2020-21",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2021-22",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2022-23",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2023-24",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2024-25",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2025-26",
+        "mismatched_rows": 0,
+        "at_risk": 0,
+        "onsets": 0
+      }
+    ],
+    "rule": "opening star OR (selected current-season All-Star AND date >= effective date)",
+    "scope": "Semantic comparison against versioned calendar; not primary-source award verification",
+    "analysis_panel_modified": false
+  },
+  "legacy_negative_control": {
+    "status": "FAIL_DECLARED_STAR_DEFINITION",
+    "rows": 248778,
+    "mismatched_rows": 49,
+    "mismatched_report_only_rows": 49,
+    "mismatched_at_risk_rows": 12,
+    "mismatched_onsets": 12,
+    "by_season": [
+      {
+        "season": "2020-21",
+        "mismatched_rows": 13,
+        "at_risk": 7,
+        "onsets": 7
+      },
+      {
+        "season": "2021-22",
+        "mismatched_rows": 5,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2022-23",
+        "mismatched_rows": 8,
+        "at_risk": 2,
+        "onsets": 2
+      },
+      {
+        "season": "2023-24",
+        "mismatched_rows": 8,
+        "at_risk": 3,
+        "onsets": 3
+      },
+      {
+        "season": "2024-25",
+        "mismatched_rows": 9,
+        "at_risk": 0,
+        "onsets": 0
+      },
+      {
+        "season": "2025-26",
+        "mismatched_rows": 6,
+        "at_risk": 0,
+        "onsets": 0
+      }
+    ],
+    "rule": "opening star OR (selected current-season All-Star AND date >= effective date)",
+    "scope": "Semantic comparison against versioned calendar; not primary-source award verification",
+    "analysis_panel_modified": false
+  },
+  "same_complete_case_keys": true,
+  "four_model_comparison": [
+    {
+      "definition": "legacy_primary",
+      "controls": "full",
+      "legacy": {
+        "definition": "legacy_primary",
+        "controls": "full",
+        "n": 180530,
+        "estimate_pp": 2.6742317292365767,
+        "se_pp": 1.3191241730815737,
+        "low_pp": 0.0887483499966923,
+        "high_pp": 5.2597151084764615,
+        "p": 0.0426339657858416,
+        "iterations": 81,
+        "seconds": 8.335396528244019
+      },
+      "versioned": {
+        "definition": "legacy_primary",
+        "controls": "full",
+        "n": 180530,
+        "estimate_pp": 3.063532484315057,
+        "se_pp": 1.3023996151675794,
+        "low_pp": 0.5108292385866017,
+        "high_pp": 5.616235730043512,
+        "p": 0.0186616544100525,
+        "iterations": 81,
+        "seconds": 8.754568576812744
+      },
+      "differences": {
+        "estimate_pp": 0.38930075507848017,
+        "se_pp": -0.016724557913994298,
+        "low_pp": 0.4220808885899094,
+        "high_pp": 0.3565206215670509,
+        "p": -0.023972311375789104,
+        "n": 0
+      },
+      "same_complete_case_keys": true
+    },
+    {
+      "definition": "legacy_primary",
+      "controls": "none",
+      "legacy": {
+        "definition": "legacy_primary",
+        "controls": "none",
+        "n": 180664,
+        "estimate_pp": 2.676885495644326,
+        "se_pp": 1.3261286428452468,
+        "low_pp": 0.0776733556676425,
+        "high_pp": 5.276097635621009,
+        "p": 0.0435317747821202,
+        "iterations": 71,
+        "seconds": 1.79311203956604
+      },
+      "versioned": {
+        "definition": "legacy_primary",
+        "controls": "none",
+        "n": 180664,
+        "estimate_pp": 3.064284437255612,
+        "se_pp": 1.309968510905655,
+        "low_pp": 0.4967461558805283,
+        "high_pp": 5.631822718630695,
+        "p": 0.0193248443464473,
+        "iterations": 71,
+        "seconds": 1.8433475494384768
+      },
+      "differences": {
+        "estimate_pp": 0.38739894161128596,
+        "se_pp": -0.01616013193959187,
+        "low_pp": 0.4190728002128858,
+        "high_pp": 0.35572508300968586,
+        "p": -0.0242069304356729,
+        "n": 0
+      },
+      "same_complete_case_keys": true
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "full",
+      "legacy": {
+        "definition": "harmonized_linear",
+        "controls": "full",
+        "n": 180530,
+        "estimate_pp": 1.2823694527266445,
+        "se_pp": 1.3188109296530377,
+        "low_pp": -1.3024999693933088,
+        "high_pp": 3.867238874846598,
+        "p": 0.3308675408175164,
+        "iterations": 81,
+        "seconds": 8.81829285621643
+      },
+      "versioned": {
+        "definition": "harmonized_linear",
+        "controls": "full",
+        "n": 180530,
+        "estimate_pp": 1.6612142002147503,
+        "se_pp": 1.3028846603238613,
+        "low_pp": -0.8924397340200174,
+        "high_pp": 4.214868134449518,
+        "p": 0.2022993920448905,
+        "iterations": 81,
+        "seconds": 8.368783712387085
+      },
+      "differences": {
+        "estimate_pp": 0.3788447474881058,
+        "se_pp": -0.0159262693291764,
+        "low_pp": 0.4100602353732914,
+        "high_pp": 0.34762925960292046,
+        "p": -0.1285681487726259,
+        "n": 0
+      },
+      "same_complete_case_keys": true
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "none",
+      "legacy": {
+        "definition": "harmonized_linear",
+        "controls": "none",
+        "n": 180664,
+        "estimate_pp": 1.2948513321879846,
+        "se_pp": 1.326850906341709,
+        "low_pp": -1.305776444241766,
+        "high_pp": 3.895479108617735,
+        "p": 0.3291224141374449,
+        "iterations": 71,
+        "seconds": 1.7661397457122805
+      },
+      "versioned": {
+        "definition": "harmonized_linear",
+        "controls": "none",
+        "n": 180664,
+        "estimate_pp": 1.6718696324488969,
+        "se_pp": 1.3115841904908558,
+        "low_pp": -0.8988353809131804,
+        "high_pp": 4.242574645810975,
+        "p": 0.202417265127088,
+        "iterations": 71,
+        "seconds": 1.7430012226104736
+      },
+      "differences": {
+        "estimate_pp": 0.3770183002609122,
+        "se_pp": -0.015266715850853263,
+        "low_pp": 0.4069410633285857,
+        "high_pp": 0.3470955371932396,
+        "p": -0.12670514901035693,
+        "n": 0
+      },
+      "same_complete_case_keys": true
+    }
+  ],
+  "blocked_optional_sensitivities": {
+    "frozen__october_workload_physical_sensitivity_v1": {
+      "status": "blocked_ambiguous_simultaneous_physical_games",
+      "reason": "Simultaneous distinct physical games require review",
+      "no_sensitivity_models_accepted": true,
+      "ambiguous_player_timestamp_groups": 6,
+      "distinct_player_game_rows": 12,
+      "rows_with_positive_minutes": 1
+    },
+    "frozen__october_scientific_v2_physical_sensitivity_v1": {
+      "status": "blocked_ambiguous_simultaneous_physical_games",
+      "reason": "Simultaneous distinct physical games require review",
+      "no_sensitivity_models_accepted": true,
+      "ambiguous_player_timestamp_groups": 6,
+      "distinct_player_game_rows": 12,
+      "rows_with_positive_minutes": 1
+    },
+    "chronology__october_workload_physical_sensitivity_v1": {
+      "status": "blocked_ambiguous_simultaneous_physical_games",
+      "reason": "Simultaneous distinct physical games require review",
+      "no_sensitivity_models_accepted": true,
+      "ambiguous_player_timestamp_groups": 6,
+      "distinct_player_game_rows": 12,
+      "rows_with_positive_minutes": 1
+    },
+    "chronology__october_scientific_v2_physical_sensitivity_v1": {
+      "status": "blocked_ambiguous_simultaneous_physical_games",
+      "reason": "Simultaneous distinct physical games require review",
+      "no_sensitivity_models_accepted": true,
+      "ambiguous_player_timestamp_groups": 6,
+      "distinct_player_game_rows": 12,
+      "rows_with_positive_minutes": 1
+    }
+  },
+  "chronology_legacy_verification": {
+    "reference_rows": 248778,
+    "rebuilt_rows": 248778,
+    "only_reference": 0,
+    "only_rebuilt": 0,
+    "changed_rows": 185547,
+    "changed_rows_in_the_two_games": 66,
+    "changed_games": 5351,
+    "changed_cells_by_column": {
+      "game_date_et": 66,
+      "tip_utc": 66,
+      "team_game_number": 100,
+      "back_to_back": 66,
+      "three_games_in_four_days": 68,
+      "four_games_in_six_days": 100,
+      "travel_km_since_previous_game": 117,
+      "absolute_timezone_shift_hours": 68,
+      "road_trip_game_number": 51,
+      "signed_elo_advantage": 185547,
+      "opponent_back_to_back": 68,
+      "rest_advantage_days": 169,
+      "travel_disadvantage_km": 203,
+      "designation_status": 20,
+      "designation_reason": 20,
+      "at_risk_for_new_onset_harm": 10,
+      "absence_onset_harm": 2,
+      "games_played_before_game_harm": 58,
+      "minutes_sum_prior_10_roster_games_harm": 136,
+      "dist_to_65_before_game_harm": 58,
+      "snapshot_basename": 20,
+      "snapshot_timestamp_utc": 20
+    },
+    "risk_rows": 180664,
+    "onsets": 12729
+  },
+  "source_inputs_unchanged": true,
+  "original_builder_sha256": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+  "original_model_sha256": "f33950c15302f281830bbb5f047ca84b744a77d9039c8a313f158c63374001d3",
+  "source_code_identities": {
+    "commit": "2513c0e72c18f3c4fe732b6a7ed8422eb61cf2bd",
+    "file_sha256": {
+      "scripts/executed/06_cadence_harmonized_identification/build_harmonized_panel_and_models.py": "81cab67185083572051b44cefbf836acfe6e1860ccf27dd812dc3729aa2a9272",
+      "scripts/data_rebuild/reproduce_october_scientific_v2.py": "f0b8bb7007ae3ab0f9763cd7349d66a405c7270b4b082fe4f36435f56a7fe8e8",
+      "scripts/data_rebuild/october_scientific_v2_rules.py": "ca21a8c9bc590ae2848167c42fe0042d9787485bedca770a278af112511975f4",
+      "scripts/data_rebuild/october_scientific_v2_compare.py": "73f6fdde238b5cf4389ea35962248e169edd98fdde1fc948c56b20d47588a2a9",
+      "scripts/data_rebuild/retained_scientific_inputs.py": "abbf6f17955550e66440d4f69788fbebd838d74d7739d3d83011c5200392c4ce",
+      "scripts/data_rebuild/audit_star_status_against_calendar.py": "26e729e1512d9fb755f0d7289883d305120acf7d95d328f51f99917eecd1125f",
+      "scripts/data_rebuild/fixture_date_chronology_sensitivity.py": "d7c51777ecee82899ac3a83695de64a9e7c017336d95994b07ee19e02deb80d6",
+      "scripts/data_rebuild/audit_fixture_date_swap_covariates.py": "69724b73b90531798240b437812aa02feba995f4d6741b59c6cf6ebce19463c4"
+    }
+  },
+  "manuscript_modified": false,
+  "PR_4": "draft_unmerged",
+  "Issue_5": "open",
+  "comparison_to_earlier_RAM_only_audit": [
+    {
+      "definition": "legacy_primary",
+      "controls": "full",
+      "n_equal": true,
+      "estimate_pp_difference": 9.325873406851315e-15,
+      "se_pp_difference": 1.5866419289523037e-11,
+      "p_difference": 1.4373814638535265e-12
+    },
+    {
+      "definition": "legacy_primary",
+      "controls": "none",
+      "n_equal": true,
+      "estimate_pp_difference": -9.325873406851315e-15,
+      "se_pp_difference": 1.3363710138492024e-10,
+      "p_difference": 1.2344805733199848e-11
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "full",
+      "n_equal": true,
+      "estimate_pp_difference": -7.327471962526033e-15,
+      "se_pp_difference": 1.2783996083953753e-11,
+      "p_difference": 4.429734357103143e-12
+    },
+    {
+      "definition": "harmonized_linear",
+      "controls": "none",
+      "n_equal": true,
+      "estimate_pp_difference": -6.661338147750939e-15,
+      "se_pp_difference": 1.117252956817083e-10,
+      "p_difference": 3.844943807784773e-11
+    }
+  ],
+  "secondary_original_script_executions_passed": 20,
+  "secondary_tables_per_version": 33,
+  "local_tests": {
+    "passed": 694,
+    "failed": 0,
+    "scientific_version_tests": 37
+  },
+  "finding_status_updates": {
+    "SCI-001": "actual_builder_and_all_row_semantics_passed_explicit_retained_intermediate_scope",
+    "SCI-002": "physical_game_sensitivities_blocked_on_simultaneous_traded_player_associations_primary_roster_rule_retained",
+    "SCI-003": "original_redundant_regressor_and_inference_specification_unchanged"
+  }
+}

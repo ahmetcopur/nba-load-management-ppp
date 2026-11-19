@@ -1,0 +1,89 @@
+{
+  "as_of_date": "2026-11-10",
+  "execution_type": "Actual original private archived-input → fresh player-ID resolution → original historical finalizer → new complete player-game core/model/spells CSV files",
+  "source_archive_fingerprints": {
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224"
+  },
+  "original_unchanged_source_finalizer_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "original_finalizer_adaptation": "One root-directory directive altered to stage files in a private temporary workspace; model and report classification code unchanged",
+  "tested_runtime": {
+    "python": "3.13.5",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5"
+  },
+  "identity_stage": {
+    "input_named_player_rows": 73440,
+    "crosswalk_matches": 72819,
+    "reviewed_alias_fallback": 606,
+    "unique_roster_name_fallback": 15,
+    "unresolved": 0,
+    "newly_built_final_player_id_rows": 73438,
+    "all_33_original_reference_columns_exact": true
+  },
+  "finalizer_summary": {
+    "fixture_games": 7230,
+    "boxscore_roster_rows": 248571,
+    "report_only_roster_additions": 159,
+    "generated_full_player_game_rows": 248730,
+    "generated_at_risk_model_rows": 180829,
+    "absence_onsets": 12710,
+    "observed_absence_spells": 13723,
+    "left_censored_spells": 992
+  },
+  "recomputed_output_files": {
+    "player_game_panel_core.csv.gz": {
+      "decoded_csv_bytes": 224984363,
+      "decoded_sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+      "matches_frozen_decoded_csv": true
+    },
+    "player_game_panel_model_at_risk.csv.gz": {
+      "decoded_csv_bytes": 80970694,
+      "decoded_sha256": "a1eb4a4b9cc85e9948a8d7207cdc437fc817b3d355a9b9da296147eb413a51de",
+      "matches_frozen_decoded_csv": true
+    },
+    "absence_spells_provisional.csv.gz": {
+      "decoded_csv_bytes": 4892818,
+      "decoded_sha256": "5cb6996b4ae726f545c9dd39f893c51e30d02fd1b8c8132f6e7f275b6cf4b0a1",
+      "matches_frozen_decoded_csv": true
+    },
+    "report_only_roster_additions.csv": {
+      "decoded_csv_bytes": 45904,
+      "decoded_sha256": "0a3551a176be78837168e7dab81d766ff8d33abdff0296aa9981b869682e3a6c",
+      "matches_frozen_decoded_csv": true
+    },
+    "summary_by_season.csv": {
+      "decoded_csv_bytes": 338,
+      "decoded_sha256": "7194d5ca2f1bdb8c26272836a8c3e3c1965095c444007a2572d461a49b8b1f89",
+      "matches_frozen_decoded_csv": true
+    },
+    "onset_type_by_season.csv": {
+      "decoded_csv_bytes": 916,
+      "decoded_sha256": "e225b70e441873ca0bd5e2fb5c2a459eabe6c6c092d3be1e5ba6a413d740ae46",
+      "matches_frozen_decoded_csv": true
+    },
+    "designation_status_by_season.csv": {
+      "decoded_csv_bytes": 830,
+      "decoded_sha256": "d6e901426d80dd3b6284bf0f08fdf13adbae981b426a0222148877697326f0a5",
+      "matches_frozen_decoded_csv": true
+    },
+    "taxonomy_validation_sample_300.csv": {
+      "decoded_csv_bytes": 108920,
+      "decoded_sha256": "a7dfad2e1aa2442b231a303939685bf71ff5b387a82662dec34b0ddd1c391a9a",
+      "matches_frozen_decoded_csv": true
+    }
+  },
+  "overall_all_eight_newly_written_outputs_match_frozen_bytes_after_decompression": true,
+  "important_exceptions": {
+    "raw_pdf_to_selected_rows_integrated_into_this_one_command": false,
+    "selected_report_rows_all_csv_inherited_from_original_core_archive": true,
+    "team_game_report_status_csv_inherited_from_original_core_archive": true,
+    "human_reviewed_crosswalk_and_awards_cup_covariates_inherited": true,
+    "awards_cup_star_tv_derived_from_raw_sources_in_this_run": false,
+    "paper_estimation_reproduced_from_newly_built_core_in_this_run": false,
+    "original_private_archive_or_frozen_outputs_modified": false,
+    "original_private_zip_or_player_records_uploaded_to_github": false
+  }
+}

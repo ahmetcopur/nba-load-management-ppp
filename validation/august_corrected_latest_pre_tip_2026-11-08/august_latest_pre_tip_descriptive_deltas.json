@@ -1,0 +1,246 @@
+{
+  "scope": "August latest-pre-tip, not October common-time cadence; frozen and source-corrected reviewed v2 panels independently grouped and benchmarked",
+  "source_original_uncompressed_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+  "source_corrected_uncompressed_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+  "frozen": {
+    "riskRows": 180829,
+    "onsets": 12710,
+    "rawTvTriplePp": 2.4279876494871626,
+    "eightOnsetCells": [
+      {
+        "star": false,
+        "postPPP": false,
+        "nationalPartnerTV": false,
+        "atRisk": 69714,
+        "onsets": 4226,
+        "ratePct": 6.06191008979545
+      },
+      {
+        "star": false,
+        "postPPP": false,
+        "nationalPartnerTV": true,
+        "atRisk": 10372,
+        "onsets": 555,
+        "ratePct": 5.350944851523332
+      },
+      {
+        "star": false,
+        "postPPP": true,
+        "nationalPartnerTV": false,
+        "atRisk": 71794,
+        "onsets": 5415,
+        "ratePct": 7.542413015015183
+      },
+      {
+        "star": false,
+        "postPPP": true,
+        "nationalPartnerTV": true,
+        "atRisk": 12363,
+        "onsets": 886,
+        "ratePct": 7.16654533689234
+      },
+      {
+        "star": true,
+        "postPPP": false,
+        "nationalPartnerTV": false,
+        "atRisk": 6338,
+        "onsets": 719,
+        "ratePct": 11.344272641211738
+      },
+      {
+        "star": true,
+        "postPPP": false,
+        "nationalPartnerTV": true,
+        "atRisk": 1441,
+        "onsets": 99,
+        "ratePct": 6.870229007633588
+      },
+      {
+        "star": true,
+        "postPPP": true,
+        "nationalPartnerTV": false,
+        "atRisk": 7167,
+        "onsets": 682,
+        "ratePct": 9.5158364727222
+      },
+      {
+        "star": true,
+        "postPPP": true,
+        "nationalPartnerTV": true,
+        "atRisk": 1640,
+        "onsets": 128,
+        "ratePct": 7.804878048780488
+      }
+    ],
+    "pooled": [
+      {
+        "star": true,
+        "post": false,
+        "atRisk": 7779,
+        "onsets": 818
+      },
+      {
+        "star": true,
+        "post": true,
+        "atRisk": 8807,
+        "onsets": 810
+      },
+      {
+        "star": false,
+        "post": false,
+        "atRisk": 80086,
+        "onsets": 4781
+      },
+      {
+        "star": false,
+        "post": true,
+        "atRisk": 84157,
+        "onsets": 6301
+      }
+    ]
+  },
+  "corrected": {
+    "riskRows": 180831,
+    "onsets": 12707,
+    "rawTvTriplePp": 2.4763200539979247,
+    "eightOnsetCells": [
+      {
+        "star": false,
+        "postPPP": false,
+        "nationalPartnerTV": false,
+        "atRisk": 69716,
+        "onsets": 4225,
+        "ratePct": 6.0603017958574785
+      },
+      {
+        "star": false,
+        "postPPP": false,
+        "nationalPartnerTV": true,
+        "atRisk": 10372,
+        "onsets": 554,
+        "ratePct": 5.341303509448515
+      },
+      {
+        "star": false,
+        "postPPP": true,
+        "nationalPartnerTV": false,
+        "atRisk": 71794,
+        "onsets": 5415,
+        "ratePct": 7.542413015015183
+      },
+      {
+        "star": false,
+        "postPPP": true,
+        "nationalPartnerTV": true,
+        "atRisk": 12363,
+        "onsets": 886,
+        "ratePct": 7.16654533689234
+      },
+      {
+        "star": true,
+        "postPPP": false,
+        "nationalPartnerTV": false,
+        "atRisk": 6340,
+        "onsets": 719,
+        "ratePct": 11.340694006309148
+      },
+      {
+        "star": true,
+        "postPPP": false,
+        "nationalPartnerTV": true,
+        "atRisk": 1439,
+        "onsets": 98,
+        "ratePct": 6.810284920083391
+      },
+      {
+        "star": true,
+        "postPPP": true,
+        "nationalPartnerTV": false,
+        "atRisk": 7167,
+        "onsets": 682,
+        "ratePct": 9.5158364727222
+      },
+      {
+        "star": true,
+        "postPPP": true,
+        "nationalPartnerTV": true,
+        "atRisk": 1640,
+        "onsets": 128,
+        "ratePct": 7.804878048780488
+      }
+    ],
+    "pooled": [
+      {
+        "star": true,
+        "post": false,
+        "atRisk": 7779,
+        "onsets": 817
+      },
+      {
+        "star": true,
+        "post": true,
+        "atRisk": 8807,
+        "onsets": 810
+      },
+      {
+        "star": false,
+        "post": false,
+        "atRisk": 80088,
+        "onsets": 4779
+      },
+      {
+        "star": false,
+        "post": true,
+        "atRisk": 84157,
+        "onsets": 6301
+      }
+    ]
+  },
+  "rawTvTripleDeltaPp": 0.04833240451076204,
+  "pooledObservedPrevalence": {
+    "starPre": {
+      "observed": 10899,
+      "absent": 3070,
+      "ratePct": 28.167721809340307
+    },
+    "starPost": {
+      "observed": 12195,
+      "absent": 3336,
+      "ratePct": 27.355473554735546
+    },
+    "nonstarPreFrozen": {
+      "observed": 106892,
+      "absent": 25515,
+      "ratePct": 23.86988736294578
+    },
+    "nonstarPreCorrected": {
+      "observed": 106890,
+      "absent": 25511,
+      "ratePct": 23.86659182336982
+    },
+    "nonstarPost": {
+      "observed": 117912,
+      "absent": 32533,
+      "ratePct": 27.5909152588371
+    }
+  },
+  "reviewedPreStarOnsetTypes": {
+    "frozen": {
+      "specific": 220,
+      "vague": 370,
+      "explicit_rest": 73,
+      "illness": 77,
+      "other_non_injury": 35,
+      "unknown": 43
+    },
+    "corrected": {
+      "specific": 220,
+      "vague": 371,
+      "explicit_rest": 73,
+      "illness": 77,
+      "other_non_injury": 34,
+      "unknown": 42
+    }
+  },
+  "notes": "Unadjusted eight-cell triple difference; not comparable as an adjusted model coefficient; source-corrected award and Cup flags inherited, game IDs retain frozen encoded tips."
+}

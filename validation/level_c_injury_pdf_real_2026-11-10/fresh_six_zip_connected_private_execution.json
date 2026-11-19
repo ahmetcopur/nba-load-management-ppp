@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-10",
+  "verification_type": "fresh single-process private six-ZIP integration execution",
+  "execution_environment": "Python 3.13.5, pandas 2.2.3, NumPy 2.3.5",
+  "input_archives": {
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561",
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "nba_player_game_at_risk_star_v1.zip": "6513069ffc81535edc2af04acbb7550f227fb074ea51241e0e800cebe9f1eb70",
+    "nba_player_game_at_risk_star_cup_v1.zip": "65c4756b86dfb5757bb84b6be13eafb952375aaa6ce49fc1ddddc6224a4faf70"
+  },
+  "execution_source": "fresh private container harness /mnt/data/run_six_zips_20261110.py with original immutable identity helper / historical core finalizer / star source code and transparent Cup lookup-to-panel implementation matching committed source staging",
+  "original_identity_helper_sha256": "738b78fa9fd9f3cdd9f4b4eb6756b424680959cacb85cfc354a6d6affa915fef",
+  "original_core_finalizer_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "original_star_builder_sha256": "90de4a115d5434c3616ca2f52e3457d846a2e079d58136653831b50aa054877b",
+  "consecutive_execution": true,
+  "fresh_output_directory_used": true,
+  "archived_selected_report_rows_inherited": true,
+  "independently_regenerated_identity_table": true,
+  "frozen_player_id_table_used_as_input": false,
+  "source_code_algo_patches": false,
+  "source_path_only_relocated_for_core_and_star": true,
+  "original_cup_builder_unavailable": "Historical Cup builder is a short documentation stub; newly implemented source lookup transformation was executed and compared.",
+  "stages": [
+    {
+      "stage": "original crosswalk/alias/roster identity resolution",
+      "rows": 73438,
+      "exact_full_csv": true,
+      "decoded_sha256": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a"
+    },
+    {
+      "stage": "original player-game core",
+      "core_player_game_rows": 248730,
+      "at_risk_rows": 180829,
+      "absence_onsets": 12710,
+      "absence_spells": 13723,
+      "report_only_roster_additions": 159,
+      "exact_frozen_output_count": 10
+    },
+    {
+      "stage": "original All-Star/All-NBA builder",
+      "star_player_game_rows": 23166,
+      "exact_frozen_output_count": 12
+    },
+    {
+      "stage": "original Cup lookup reimplementation",
+      "cup_games_source_lookup": 198,
+      "full_player_game_rows": 248730,
+      "at_risk_rows": 180829,
+      "absence_spells": 13723,
+      "exact_frozen_output_count": 3
+    }
+  ],
+  "decoded_byte_sha256_spotchecks": {
+    "player_game_panel_core": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+    "cup_at_risk": "a1d843daa9f54366d9ee998e05ef904ff5d10695b18b0dd968a4a098b9e587c5",
+    "cup_full": "1e78983ec73b4206bc851c50d8853973966e2116a7a1b61c61e3412c64cd4ba5",
+    "cup_spells": "0a5bfa6d71a8209b100f3b5f314917071a8f7704a5d283e1834e1cea9f1a3a35"
+  },
+  "assertions": {
+    "original_zip_sha256_passed": 6,
+    "core_file_decoded_byte_matches": 10,
+    "star_file_decoded_byte_matches": 12,
+    "cup_file_decoded_byte_matches": 3,
+    "unexplained_output_differences": 0,
+    "integration_result": "PASS"
+  },
+  "scientific_boundary": "This is a single fresh private execution of equivalent constituent algorithms, not a claim the committed GitHub umbrella CLI was itself invoked against all private ZIPs from clean checkout. Starts from archived selected-report rows. Historical crosswalk, award lists, Cup lookup and game covariates inherited; raw PDFs and full manuscript models not included.",
+  "privacy": "No private original ZIPs, raw PDFs, or player-level CSV data committed; only aggregate status and SHA256."
+}

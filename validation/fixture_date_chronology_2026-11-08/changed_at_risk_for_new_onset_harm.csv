@@ -1,0 +1,11 @@
+player_team_game_id,game_id,player,frozen,corrected
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors|Miami Heat|200768,2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,Kyle Lowry,True,False
+2021-22|20220206T0000Z|Miami Heat@Charlotte Hornets|Miami Heat|200768,2021-22|20220206T0000Z|Miami Heat@Charlotte Hornets,Kyle Lowry,False,True
+2021-22|20220204T0000Z|Miami Heat@San Antonio Spurs|Miami Heat|200782,2021-22|20220204T0000Z|Miami Heat@San Antonio Spurs,P.J. Tucker,False,True
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors|Miami Heat|200782,2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,P.J. Tucker,True,False
+2021-22|20220204T0000Z|Miami Heat@San Antonio Spurs|Miami Heat|202710,2021-22|20220204T0000Z|Miami Heat@San Antonio Spurs,Jimmy Butler,False,True
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors|Miami Heat|202710,2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,Jimmy Butler,True,False
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors|Toronto Raptors|203920,2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,Khem Birch,True,False
+2021-22|20220205T0030Z|Atlanta Hawks@Toronto Raptors|Toronto Raptors|203920,2021-22|20220205T0030Z|Atlanta Hawks@Toronto Raptors,Khem Birch,False,True
+2021-22|20220204T0030Z|Miami Heat@Toronto Raptors|Miami Heat|1628997,2021-22|20220204T0030Z|Miami Heat@Toronto Raptors,Caleb Martin,False,True
+2021-22|20220206T0000Z|Miami Heat@Charlotte Hornets|Miami Heat|1628997,2021-22|20220206T0000Z|Miami Heat@Charlotte Hornets,Caleb Martin,True,False

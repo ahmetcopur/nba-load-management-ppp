@@ -1,0 +1,18 @@
+{
+  "requested_fixture_games": 7230,
+  "valid_unique_official_boxscores_available": 7230,
+  "matched_fixture_games": 7228,
+  "unmatched_fixture_games": 2,
+  "unused_official_boxscores": 2,
+  "player_rows": 248505,
+  "unique_player_ids": 1124,
+  "team_game_rows": 14456,
+  "missing_player_id_rows": 0,
+  "duplicate_player_team_game_rows": 0,
+  "maximum_absolute_tip_difference_minutes": 1.9999999995343387,
+  "mapping_method_counts": {
+    "exact_ordered_teams_nearest_tip": 7228
+  },
+  "complete": false,
+  "repair_principle": "Official game IDs come from each JSON payload and are mapped to realized fixtures by ordered teams and tip time; source_match_number is retained only as a source field."
+}

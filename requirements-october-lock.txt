@@ -1,0 +1,15 @@
+# Exact October 2026 release analysis lock from shared repo commit
+# 0bd713d97e8d519df5700ef473da34aba4495223 (not the pandas-2 cadence builder lock).
+# Python 3.12.3 was used in the supplied full 33-output October replay.
+joblib==1.5.3
+narwhals==2.24.0
+numpy==2.5.2
+packaging==26.3
+pandas==3.0.5
+patsy==1.0.2
+python-dateutil==2.9.0.post0
+scikit-learn==1.9.0
+scipy==1.18.0
+six==1.17.0
+statsmodels==0.14.6
+threadpoolctl==3.6.0

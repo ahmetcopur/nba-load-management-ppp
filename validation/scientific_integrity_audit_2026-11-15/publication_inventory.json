@@ -1,0 +1,152 @@
+{
+  "tracked_individual_record_CSVs": [
+    {
+      "path": "data_final/absence_spells_taxonomy_frozen.csv.gz",
+      "rows": 13723,
+      "identifier_fields": [
+        "nba_player_id",
+        "nba_player_name",
+        "spell_id"
+      ],
+      "medical_text_fields": [
+        "initial_designation_raw",
+        "final_designation_raw",
+        "n_designation_changes",
+        "non_injury_flag"
+      ],
+      "present_in_PR_base": true
+    },
+    {
+      "path": "data_final/player_game_panel_analysis_ready.csv.gz",
+      "rows": 248730,
+      "identifier_fields": [
+        "nba_player_id",
+        "nba_player_name",
+        "player_team_game_id",
+        "spell_id"
+      ],
+      "medical_text_fields": [
+        "not_playing_reason",
+        "designation_status",
+        "designation_reason",
+        "designation_class_provisional",
+        "designation_class_provisional_v1",
+        "designation_class_frozen"
+      ],
+      "present_in_PR_base": true
+    },
+    {
+      "path": "data_final/player_game_panel_model_at_risk_analysis_ready.csv.gz",
+      "rows": 180829,
+      "identifier_fields": [
+        "nba_player_id",
+        "nba_player_name",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [
+        "designation_class_provisional",
+        "designation_class_provisional_v1",
+        "designation_class_frozen"
+      ],
+      "present_in_PR_base": true
+    },
+    {
+      "path": "data_intermediate/player_team_game_harmonized_cadence.csv.gz",
+      "rows": 248778,
+      "identifier_fields": [
+        "nba_player_id",
+        "nba_player_name",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [
+        "designation_status",
+        "designation_reason"
+      ],
+      "present_in_PR_base": true
+    },
+    {
+      "path": "validation/fixture_date_chronology_2026-11-08/changed_absence_now_harm.csv",
+      "rows": 0,
+      "identifier_fields": [
+        "player",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [],
+      "present_in_PR_base": false
+    },
+    {
+      "path": "validation/fixture_date_chronology_2026-11-08/changed_absence_onset_harm.csv",
+      "rows": 2,
+      "identifier_fields": [
+        "player",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [],
+      "present_in_PR_base": false
+    },
+    {
+      "path": "validation/fixture_date_chronology_2026-11-08/changed_at_risk_for_new_onset_harm.csv",
+      "rows": 10,
+      "identifier_fields": [
+        "player",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [],
+      "present_in_PR_base": false
+    },
+    {
+      "path": "validation/fixture_date_chronology_2026-11-08/changed_designation_status.csv",
+      "rows": 20,
+      "identifier_fields": [
+        "player",
+        "player_team_game_id"
+      ],
+      "medical_text_fields": [],
+      "present_in_PR_base": false
+    },
+    {
+      "path": "validation/taxonomy_validation_sample_300_original.csv",
+      "rows": 300,
+      "identifier_fields": [
+        "nba_player_id",
+        "nba_player_name",
+        "spell_id"
+      ],
+      "medical_text_fields": [
+        "initial_designation_raw",
+        "final_designation_raw",
+        "n_designation_changes",
+        "non_injury_flag"
+      ],
+      "present_in_PR_base": true
+    }
+  ],
+  "archive_members_named_PRIVATE": [
+    {
+      "path": "packages/07_taxonomy_validation_scored.zip",
+      "member": "coder1_coder2_scored_PRIVATE.csv",
+      "columns": [
+        "coding_id",
+        "spell_id",
+        "coder_1_class",
+        "coder_2_class",
+        "coder_2_notes",
+        "agree"
+      ],
+      "archive_present_in_PR_base": true
+    },
+    {
+      "path": "validation/taxonomy_scoring_package_mechanical_agreement.zip",
+      "member": "coder1_coder2_scored_PRIVATE.csv",
+      "columns": [
+        "coding_id",
+        "spell_id",
+        "coder_1_class",
+        "coder_2_class",
+        "coder_2_notes",
+        "agree"
+      ],
+      "archive_present_in_PR_base": true
+    }
+  ]
+}

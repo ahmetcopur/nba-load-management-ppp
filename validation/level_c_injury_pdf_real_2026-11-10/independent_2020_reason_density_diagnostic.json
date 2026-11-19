@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-10",
+  "method": "Actual 617 original PDF bytes reparsed in 6 bounded subprocess batches; historical parser loaded verbatim, explicit pdfplumber x_density=5.0 used only as diagnostic; no frozen source edits",
+  "original_archive": "audit_2020_21_upload.zip",
+  "original_pdf_count": 617,
+  "reference_archive": "audit_2020_21_corrected_outputs.zip",
+  "original_parser_sha256": "77fb85d6e0634c01d0ddb0739294c0ed044671b5b93b0affbbf9ec943a7ef6ee",
+  "reference_rows_csv_sha256": "0c9556a521433686952b9632cb216863d1145b88fdb88f56a841e32b523b1e37",
+  "reference_parse_log_csv_sha256": "ddfd072463d666de748000fffbdce1d54b68a028e3d7c3a92cc4362deb9b7d81",
+  "current_environment": {
+    "python": "3.13.5",
+    "pdfplumber": "0.11.9",
+    "pandas": "2.2.3"
+  },
+  "batch_pdf_counts": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    117
+  ],
+  "batch_reparsed_row_counts": [
+    7886,
+    10140,
+    8235,
+    9454,
+    5208,
+    857
+  ],
+  "total_reparsed_rows": 41780,
+  "archived_rows": 41780,
+  "parser_exceptions": 0,
+  "parse_log_differences": 0,
+  "nonreason_record_multiset_missing": 0,
+  "nonreason_record_multiset_extra": 0,
+  "reason_field_mismatching_records": 93,
+  "affected_original_pdfs": 44,
+  "sample_pdf_density_sweep": {
+    "sample": "Injury-Report_2021-01-05_05PM.pdf",
+    "density_4_8": {
+      "nonreason_identity_matches": true,
+      "reason_mismatches": 3
+    },
+    "density_5_0": {
+      "nonreason_identity_matches": true,
+      "reason_mismatches": 3
+    },
+    "other_tested_density_values": [
+      null,
+      4,
+      4.4,
+      4.6,
+      4.9,
+      5.1,
+      5.2,
+      5.4,
+      5.6,
+      6,
+      6.5,
+      7.25,
+      8,
+      10
+    ],
+    "finding": "No tested setting produced exact complete-record identity for this sample; most settings altered record counts and/or nonreason identities."
+  },
+  "accepted_as_exact_historical_replay": false,
+  "blocking_reason": "93 reason fields fail archived reference equality; original extraction environment/line-wrap semantics remain unresolved",
+  "privacy": "No individual player identifiers or original/candidate reason text included"
+}

@@ -1,0 +1,117 @@
+{
+  "audit_date": "2026-11-10",
+  "scope": "real private original NBA injury-report ZIPs and PDF bytes, historical PDF parser stages, not downstream panel or manuscript models",
+  "immutable_shared_source_commit": "0bd713d97e8d519df5700ef473da34aba4495223",
+  "provenance_inventory_git_blob_sha1": {
+    "injury_archive_summary.csv": "ca5188baf047e8154003b0daad1cb319af1ff3d4",
+    "injury_report_inventory.csv.gz": "a3273b97035c63f9e34b68bac0dddf863588adc4"
+  },
+  "raw_source": {
+    "all_archives_sha256_verified": true,
+    "all_indexed_pdf_member_sha256_verified": true,
+    "all_zip_crc_passed": true,
+    "original_zip_bytes_total": 616435080,
+    "indexed_pdf_total": 17166,
+    "zip_results": [
+      {
+        "season": "2020-21",
+        "archive": "audit_2020_21_upload.zip",
+        "zip_sha256": "e310c8149701fb16cda9b1a136fbfcf9af8af8de9ca2ed09080f364a493c272c",
+        "pdf_verified": 617,
+        "extra_pdf": 0,
+        "missing_indexed_pdf": 0,
+        "archive_candidate_urls": 5088
+      },
+      {
+        "season": "2021-22",
+        "archive": "audit_2021_22_upload.zip",
+        "zip_sha256": "1e027ce6aa2a44292c3d27ba7bbfb24fcab61ded922b7ca6ba1c4211f9984339",
+        "pdf_verified": 5567,
+        "extra_pdf": 0,
+        "missing_indexed_pdf": 0,
+        "archive_candidate_urls": 5784
+      },
+      {
+        "season": "2022-23",
+        "archive": "audit_2022_23_upload.zip",
+        "zip_sha256": "bea1adeac75384c75102b469a1daab43c76501caada2c3402b1e7cfa133732c0",
+        "pdf_verified": 5541,
+        "extra_pdf": 0,
+        "missing_indexed_pdf": 0,
+        "archive_candidate_urls": 5712
+      },
+      {
+        "season": "2023-24",
+        "archive": "audit_2023_24_upload.zip",
+        "zip_sha256": "9cca3e58d2a8e6babce58e54dea5aeb05fa043cb034bc9065d4074e5e171daba",
+        "pdf_verified": 5441,
+        "extra_pdf": 0,
+        "missing_indexed_pdf": 0,
+        "archive_candidate_urls": 5712
+      }
+    ]
+  },
+  "reparses": {
+    "2021-22": {
+      "full_hourly_pdfs_parsed": 5567,
+      "full_hourly_rows": 398715,
+      "full_parse_errors": 0,
+      "full_output_archived_reference_available": false,
+      "harmonized_reference_pdfs": 696,
+      "harmonized_reference_rows": 58631,
+      "harmonized_rows_exact_multiset_match": true,
+      "harmonized_logs_exact_multiset_match": true
+    },
+    "2022-23": {
+      "regular_season_pdfs_parsed": 4101,
+      "regular_season_rows": 354146,
+      "parse_errors": 0,
+      "parsed_rows_exact_multiset_match": true,
+      "parser_log_exact_multiset_match": true
+    },
+    "2023-24": {
+      "regular_season_pdfs_parsed": 4097,
+      "regular_season_rows": 388878,
+      "parse_errors": 0,
+      "parsed_rows_exact_multiset_match": true,
+      "parser_log_exact_multiset_match": true,
+      "original_parser_sha256": "197c29d46dfea221c381664b96a05453737df55d7b8dd5d5e6f44e49b69e0e06"
+    },
+    "2020-21": {
+      "raw_source_pdfs_parsed": 617,
+      "archived_rows": 41780,
+      "default_pdfplumber": {
+        "observed_rows": 41884,
+        "exact_match": false,
+        "parser_log_disagreeing_records": 50
+      },
+      "explicit_density5_diagnostic": {
+        "observed_rows": 41780,
+        "exact_match": false,
+        "archive_missing_records": 93,
+        "reparse_extra_records": 93,
+        "parser_logs_exact": true,
+        "affected_pdfs": 44,
+        "changed_column_names": [
+          "reason"
+        ],
+        "other_fields_equal": true
+      },
+      "interpretation": "2020 fixed-width source parser and current pdfplumber layout semantics differ. Density override is a diagnostic, not historical exact replay. Do not accept free-text reason drift."
+    }
+  },
+  "scientific_boundaries": {
+    "original_archives_mutated": false,
+    "original_published_frozen_panels_mutated": false,
+    "manuscript_modified": false,
+    "canonical_player_game_panels_rebuilt_in_this_execution": false,
+    "exact_2020_21_parser_reproduction_complete": false,
+    "complete_level_c_reproduction_complete": false
+  },
+  "execution_environment": {
+    "python": "3.13.5",
+    "pandas": "2.2.3",
+    "pymupdf": "1.26.7",
+    "pdfplumber": "0.11.9"
+  }
+}

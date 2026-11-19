@@ -1,0 +1,124 @@
+{
+  "scope": "August latest-pre-tip source-corrected sensitivity; three original released model specifications reimplemented",
+  "historical_frozen_uncompressed_sha256": "5154317fc52157716cf22f7c5a535259e9f073b3391fd52d78a01faaf8d96d77",
+  "published_benchmark_checked": true,
+  "frozen_anchors": {
+    "onset_national_partner": {
+      "released_n": 180695,
+      "released_estimate_pp": 3.14925625567831,
+      "released_se_pp": 1.31564272555179,
+      "coefficient_abs_difference_pp": 0.0,
+      "se_abs_difference_pp": 3.6409348485033632e-06
+    },
+    "onset_harmonized_linear": {
+      "released_n": 180695,
+      "released_estimate_pp": 1.7746566172121114,
+      "released_se_pp": 1.313416621212169,
+      "coefficient_abs_difference_pp": 3.552713678800501e-15,
+      "se_abs_difference_pp": 3.634774297545107e-06
+    },
+    "vague_conditional": {
+      "released_n": 6256,
+      "released_estimate_pp": -8.416720679962859,
+      "released_se_pp": 7.92847960295119,
+      "coefficient_abs_difference_pp": 1.4210854715202004e-14,
+      "se_abs_difference_pp": 0.0006358297939783597
+    }
+  },
+  "frozen_results": {
+    "onset_national_partner": {
+      "n": 180695,
+      "estimate_pp": 3.14925625567831,
+      "se_pp": 1.3156390846169415,
+      "low_pp": 0.5706036498291048,
+      "high_pp": 5.727908861527515,
+      "p": 0.01667900560707699,
+      "demean_iterations": 100,
+      "FE": "player+teamseason",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    },
+    "onset_harmonized_linear": {
+      "n": 180695,
+      "estimate_pp": 1.7746566172121079,
+      "se_pp": 1.3134129864378714,
+      "low_pp": -0.7996328362061201,
+      "high_pp": 4.348946070630336,
+      "p": 0.17663796050643976,
+      "demean_iterations": 100,
+      "FE": "player+teamseason",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    },
+    "vague_conditional": {
+      "n": 6256,
+      "estimate_pp": -8.416720679962845,
+      "se_pp": 7.927843773157211,
+      "low_pp": -23.95529447535098,
+      "high_pp": 7.121853115425288,
+      "p": 0.28838742604907197,
+      "demean_iterations": 31,
+      "FE": "player+season",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    }
+  },
+  "standard_error_replay_warning": "Independent numerical runtime can differ up to 0.001 percentage points from released SE; coefficients and N gate at 1e-8.",
+  "corrected_results": {
+    "onset_national_partner": {
+      "n": 180697,
+      "estimate_pp": 3.195510806752816,
+      "se_pp": 1.3161486537690998,
+      "low_pp": 0.6158594453653805,
+      "high_pp": 5.775162168140251,
+      "p": 0.015185464531139548,
+      "demean_iterations": 100,
+      "FE": "player+teamseason",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    },
+    "onset_harmonized_linear": {
+      "n": 180697,
+      "estimate_pp": 1.8204017426030124,
+      "se_pp": 1.3136345423110782,
+      "low_pp": -0.754321960326701,
+      "high_pp": 4.3951254455327255,
+      "p": 0.16581565688088562,
+      "demean_iterations": 100,
+      "FE": "player+teamseason",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    },
+    "vague_conditional": {
+      "n": 6259,
+      "estimate_pp": -7.906070944334943,
+      "se_pp": 7.910077500719849,
+      "low_pp": -23.409822845745847,
+      "high_pp": 7.59768095707596,
+      "p": 0.31755569253412763,
+      "demean_iterations": 31,
+      "FE": "player+season",
+      "clustered_by": [
+        "nba_player_id",
+        "game_id"
+      ]
+    }
+  },
+  "corrected_uncompressed_sha256": "2acd7448a357163951700c99df33a6949e20b19afc2219e6f8c3082b14d3619d",
+  "model_estimate_delta_pp": {
+    "onset_national_partner": 0.04625455107450627,
+    "onset_harmonized_linear": 0.04574512539090447,
+    "vague_conditional": 0.5106497356279016
+  },
+  "limitation": "The corrected panel carries forward archived star/award and Cup indicators and two frozen date-encoded game IDs; this is not an independently rebuilt complete source-to-paper Level C."
+}

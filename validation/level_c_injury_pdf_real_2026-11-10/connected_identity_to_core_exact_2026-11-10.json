@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-10",
+  "scope": "Executed connected pipeline archived selected-report rows -> independently rebuilt player IDs -> original 2026 historical finalizer -> frozen player-game core outputs. NOT raw PDFs -> manuscript.",
+  "execution_method": "Private local runner re-ran original immutable helper functions for player-ID resolution; its 73,438 independently resolved rows replaced the staged selected_report_player_rows.csv and were then consumed by the unmodified finalizer algorithm, with only its hard-coded ROOT path redirected to a new scratch directory.",
+  "original_identity_builder_sha256": "738b78fa9fd9f3cdd9f4b4eb6756b424680959cacb85cfc354a6d6affa915fef",
+  "original_finalizer_builder_sha256": "a0271f01f551dbbe1abedfac7ca8fefb9c865cd9b58a33185a3b7cbc991f8bfc",
+  "input_archive_sha256": {
+    "nba_player_game_at_risk_core_v1.zip": "a0f82ebcf6117554a4ce1064ab79db9cf93acc5a53fa25000343810843e659f6",
+    "nba_game_covariates_v1.zip": "4351756b74446577dabc8418b539c95dfb6e0ae6e3d8766bbee1c528d709c224",
+    "nba_player_crosswalk_final_v1.zip": "6ac400125d33a4e44e0f0a4a068f83762425da28bc1d86ce8fc3de8e6ccb3def",
+    "nba_boxscore_roster_frame_v2_output_upload.zip": "45eeade023037506d1b07ebc601c273ec442f6620adc3ab836a3d40b8774f561"
+  },
+  "resolved_identity": {
+    "direct_reviewed_crosswalk": 72819,
+    "reviewed_alias": 606,
+    "unique_boxscore_name": 15,
+    "unresolved": 0,
+    "final_rows": 73438,
+    "fields_matched": 33,
+    "output_exact": true
+  },
+  "finalizer_summary": {
+    "fixture_games": 7230,
+    "boxscore_roster_rows": 248571,
+    "report_only_roster_additions": 159,
+    "final_player_game_rows": 248730,
+    "unique_players": 1125,
+    "at_risk_rows": 180829,
+    "absence_onsets": 12710,
+    "observed_absence_spells": 13723,
+    "left_censored_spells": 992,
+    "missing_game_covariate_rows": 0,
+    "missing_player_id_rows": 0,
+    "duplicate_player_game_keys": 0
+  },
+  "exact_output_comparisons": [
+    {
+      "file": "selected_report_player_rows.csv",
+      "uncompressed_or_raw_bytes": 38422733,
+      "sha256": "535bfcefb7e29e0eba79e9733e5ab88a56eb869f68d7f2975d2d635360e57c3a",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "player_game_panel_core.csv.gz",
+      "uncompressed_or_raw_bytes": 224984363,
+      "sha256": "253bf017095a8be45f4c7bb4a0abcc9b942a8db6311f91131c9fd12c7ab46de3",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "player_game_panel_model_at_risk.csv.gz",
+      "uncompressed_or_raw_bytes": 80970694,
+      "sha256": "a1eb4a4b9cc85e9948a8d7207cdc437fc817b3d355a9b9da296147eb413a51de",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "absence_spells_provisional.csv.gz",
+      "uncompressed_or_raw_bytes": 4892818,
+      "sha256": "5cb6996b4ae726f545c9dd39f893c51e30d02fd1b8c8132f6e7f275b6cf4b0a1",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "report_only_roster_additions.csv",
+      "uncompressed_or_raw_bytes": 45904,
+      "sha256": "0a3551a176be78837168e7dab81d766ff8d33abdff0296aa9981b869682e3a6c",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "summary_by_season.csv",
+      "uncompressed_or_raw_bytes": 338,
+      "sha256": "7194d5ca2f1bdb8c26272836a8c3e3c1965095c444007a2572d461a49b8b1f89",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "onset_type_by_season.csv",
+      "uncompressed_or_raw_bytes": 916,
+      "sha256": "e225b70e441873ca0bd5e2fb5c2a459eabe6c6c092d3be1e5ba6a413d740ae46",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "designation_status_by_season.csv",
+      "uncompressed_or_raw_bytes": 830,
+      "sha256": "d6e901426d80dd3b6284bf0f08fdf13adbae981b426a0222148877697326f0a5",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "taxonomy_validation_sample_300.csv",
+      "uncompressed_or_raw_bytes": 108920,
+      "sha256": "a7dfad2e1aa2442b231a303939685bf71ff5b387a82662dec34b0ddd1c391a9a",
+      "exact_frozen_match": true
+    },
+    {
+      "file": "qa_summary.json",
+      "uncompressed_or_raw_bytes": 816,
+      "sha256": "b54ce9f6c347a3f680daa6ca3c139a4f167ca0aae2116aeffa3b2636798c31d5",
+      "exact_frozen_match": true
+    }
+  ],
+  "all_ten_outputs_verified_exact": true,
+  "compression_note": "For *.gz, compared decompressed bytes and SHA256, because gzip container timestamps may differ.",
+  "reusable_repository_command": "scripts/data_rebuild/run_connected_player_game_core.py",
+  "reusable_command_code_ci_status": "Synthetic CLI and fail-closed tests added; GitHub runner does not access private archives. The private executed connected chain preceded the hardened CLI packaging.",
+  "limitations": {
+    "archived_selected_source_report_rows_inherited": true,
+    "raw_pdf_to_selected_records_not_executed_in_this_chained_run": true,
+    "reviewed_crosswalk_and_alias_source_inherited": true,
+    "star_award_cup_enrichment_not_rebuilt": true,
+    "age_metadata_not_rebuilt": true,
+    "manuscript_regressions_not_executed_from_connected_core": true,
+    "original_frozen_sources_modified": false,
+    "private_original_data_pushed_to_github": false
+  }
+}

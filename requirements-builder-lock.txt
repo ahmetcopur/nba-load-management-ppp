@@ -1,0 +1,13 @@
+# Verified reconstruction environment for the historical Stage-6 cadence builder.
+# Python 3.13.5 / pandas 2.2.3 / PyMuPDF 1.26.7 were used in an
+# independent archive-to-panel and exact-clock sensitivity replay on 2026-11-08.
+# These are NOT documented as the original researchers' historical package versions.
+# pandas 3.x changes object.fillna(False) semantics in the original builder and
+# causes a scientifically incorrect onset risk set.
+numpy==2.3.5
+scipy==1.17.0
+scikit-learn==1.8.0
+pandas==2.2.3
+statsmodels==0.14.6
+PyMuPDF==1.26.7
+pdfplumber==0.11.9

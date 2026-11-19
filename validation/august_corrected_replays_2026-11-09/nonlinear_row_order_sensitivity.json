@@ -1,0 +1,22 @@
+{
+  "diagnostic": "Frozen August risk panel, rows shuffled with pandas sample(random_state=seed); released fit_binary unchanged; pinned nonlinear environment; two BLAS threads. Not a released analysis.",
+  "results_pp": {
+    "original_order": {
+      "legacy_primary": 2.44,
+      "harmonized_linear": 0.8271
+    },
+    "seed_1": {
+      "legacy_primary": 2.3329,
+      "harmonized_linear": 0.9426
+    },
+    "seed_2": {
+      "legacy_primary": 2.0865,
+      "harmonized_linear": 1.1759
+    },
+    "seed_3": {
+      "legacy_primary": 2.25,
+      "harmonized_linear": 1.2476
+    }
+  },
+  "solver": "sklearn LogisticRegression lbfgs, C=10, tol=1e-4, max_iter=500"
+}
