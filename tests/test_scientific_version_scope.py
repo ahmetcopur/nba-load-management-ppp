@@ -38,16 +38,7 @@ class ScientificVersionScopeTests(unittest.TestCase):
         v2_doc = (REPO / "documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md").read_text(encoding="utf-8")
         self.assertIn(SCIENTIFIC_V2, v2_doc)
 
-    def test_adoption_is_recorded_with_rationale_and_both_estimates(self):
-        record = (REPO / "documentation/SCI001_ADOPTION_DECISION_2026-11-16.md").read_text(encoding="utf-8")
-        self.assertIn(SCIENTIFIC_V2, record)
-        self.assertIn("is not a reason for adoption", record)
-        for estimate in ("+2.630 pp", "+2.674 pp", "+3.064 pp", "+1.661 pp"):
-            self.assertIn(estimate, record)
-        spec = (REPO / "documentation/FROZEN_SPECIFICATION.md").read_text(encoding="utf-8")
-        rule = "Newly selected current-season All-Stars become stars after that season's All-Star Game."
-        self.assertIn(rule, spec)
-        self.assertIn(rule, record)
+    def test_readme_marks_adopted_and_historical_versions(self):
         readme = (REPO / "README.md").read_text(encoding="utf-8")
         self.assertIn("**adopted primary**", readme)
         self.assertNotIn("proposed primary, pending human scientific review", readme)

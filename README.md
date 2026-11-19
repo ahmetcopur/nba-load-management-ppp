@@ -1,6 +1,6 @@
 # NBA Disguised Load Management Project — Final Analysis Freeze
 
-> **Adopted primary October analysis, November 16:** SCI-001 (scientific-v2, `9dde4578…`) is adopted because it makes the code follow the star rule stated in the August 12 frozen specification, not because of its statistical significance. The frozen and legacy results stay unchanged as historical references. [Decision record, rationale and both estimates](documentation/SCI001_ADOPTION_DECISION_2026-11-16.md).
+> **Adopted primary October analysis, November 16:** SCI-001 (scientific-v2, `9dde4578…`) is adopted because it makes the code follow the star rule stated in the August 12 frozen specification, not because of its statistical significance. The frozen and legacy results stay unchanged as historical references.
 
 > **Scientific correction, November 15:** the actual SCI-001 builder now passes on the authenticated retained-intermediate bundle: exactly 49 star flags corrected, zero other panel-cell changes, unchanged samples, all four original models executed. All ten downstream scripts ran for both versions. [Actual execution, new hash/results and remaining boundaries](documentation/AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md). Frozen data and original manuscript remain unchanged. A separate [revised manuscript/review candidate](documentation/SCI001_MANUSCRIPT_REVIEW_CANDIDATE_2026-11-15.md) now includes the actual results, five refreshed existing subset checks and explicit workload limitations. SCI-001 was adopted on November 16 (see the decision record above); manuscript approval and publication permissions remain separate decisions.
 
@@ -19,11 +19,11 @@ Three October cadence panels exist. They are different data versions, not compet
 | --- | --- | --- | --- | --- |
 | Frozen (Aug 12) | Historical reference. Published freeze; original chronology; contains the SCI-001 star error | `data_intermediate/player_team_game_harmonized_cadence.csv.gz` (no rebuild needed); models via `scripts/data_rebuild/replay_stage6_from_frozen.py` | `3c161f95…` | +2.630 pp, p = .046 |
 | Legacy corrected chronology | Historical reference. Frozen builder plus the February 2022 Toronto chronology correction; **still contains the SCI-001 star error** | `scripts/data_rebuild/reproduce_final_datasets.py` (this section) | `2409b501…` | +2.674 pp, p = .043 |
-| Scientific-v2 (SCI-001) | Legacy corrected chronology with the 49 report-only star flags corrected; **adopted primary** ([decision record](documentation/SCI001_ADOPTION_DECISION_2026-11-16.md)) | `scripts/data_rebuild/reproduce_october_scientific_v2.py` ([setup and command](documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md)) | `9dde4578…` | +3.064 pp, p = .019 |
+| Scientific-v2 (SCI-001) | Legacy corrected chronology with the 49 report-only star flags corrected; **adopted primary** | `scripts/data_rebuild/reproduce_october_scientific_v2.py` ([setup and command](documentation/OCTOBER_SCIENTIFIC_V2_2026-11-15.md)) | `9dde4578…` | +3.064 pp, p = .019 |
 
 The same SCI-001 correction applied to the *frozen* chronology gives +3.019 pp (p = .020); that is a diagnostic of the frozen phase, not a fourth release. August panels are not affected by SCI-001.
 
-**Platform:** the historical Stage-6 estimator is validated only on Linux x86-64 with OpenBLAS (CI, or a `linux/amd64` container). On macOS arm64 its rank-deficient full-control covariance breaks down, so every Stage-6 caller now refuses unsupported platforms and rejects exploded standard errors. See [STAGE6_NUMERICAL_SUPPORT_2026-11-16.md](documentation/STAGE6_NUMERICAL_SUPPORT_2026-11-16.md).
+**Platform:** the historical Stage-6 estimator is validated only on Linux x86-64 with OpenBLAS (CI, or a `linux/amd64` container). On macOS arm64 its rank-deficient full-control covariance breaks down, so every Stage-6 caller now refuses unsupported platforms and rejects exploded standard errors. The explanation is in `scripts/data_rebuild/stage6_numerics.py`.
 
 ## Rebuild the legacy corrected datasets (historical pipeline, pre-SCI-001)
 

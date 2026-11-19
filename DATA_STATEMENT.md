@@ -33,4 +33,4 @@ To report an error, or to ask for a record to be corrected or removed (for examp
 
 ## Versions
 
-The adopted primary October analysis is the SCI-001-corrected panel. Frozen and legacy versions are kept as historical references; see `README.md` and `documentation/SCI001_ADOPTION_DECISION_2026-11-16.md`.
+The adopted primary October analysis is the SCI-001-corrected panel. Frozen and legacy versions are kept as historical references; see `README.md`.

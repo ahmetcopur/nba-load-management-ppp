@@ -1,6 +1,6 @@
 # Separate October scientific version: SCI-001 and bounded SCI-002
 
-> **Status (November 16):** `october_scientific_v2` is the adopted primary October analysis; the legacy and frozen versions are historical references. See the [decision record](SCI001_ADOPTION_DECISION_2026-11-16.md). Sections below that say "proposed" or "pending" are the dated implementation history.
+> **Status (November 16):** `october_scientific_v2` is the adopted primary October analysis; the legacy and frozen versions are historical references. Sections below that say "proposed" or "pending" are the dated implementation history.
 
 > **Entry point for scientific-v2.** `scripts/data_rebuild/reproduce_october_scientific_v2.py` is the only command that builds the SCI-001-corrected October panel. The accepted primary case `chronology__october_scientific_v2` has decoded SHA-256 `9dde4578c852f15c317c1214718e1eabe9f60b740b5f2ddb4fed15b53185802f` (primary +3.064 pp); the runner's `scientific_version_manifest.json` records whether a new run matches it (`accepted_reference`). The runner refuses to accept either legacy hash as scientific-v2. `reproduce_final_datasets.py` builds the **legacy** pre-SCI-001 panel (`2409b501…`) and must not be used to obtain scientific-v2. The authentic Nov 15 run used the retained-intermediate profile (`--retained-intermediates`); see [the execution record](AUTHENTIC_SCI001_CORRECTED_BUILDER_2026-11-15.md).
 
@@ -25,7 +25,7 @@ or scientific approval is claimed.
 | Explicit version | Star predicate | Workload | Role |
 | --- | --- | --- | --- |
 | `legacy` | Immutable original | Original roster-row history | Numerical/hash control |
-| `october_scientific_v2` | Calendar opening star OR actual current All-Star AND effective date reached | Original roster-row history | Adopted primary (Nov 16 [decision record](SCI001_ADOPTION_DECISION_2026-11-16.md)) |
+| `october_scientific_v2` | Calendar opening star OR actual current All-Star AND effective date reached | Original roster-row history | Adopted primary (Nov 16) |
 | `october_workload_physical_sensitivity_v1` | Original | Distinct observed physical games | Unadopted SCI-002-only sensitivity |
 | `october_scientific_v2_physical_sensitivity_v1` | Corrected | Distinct observed physical games | Unadopted combined sensitivity |
 
